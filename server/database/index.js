@@ -1,7 +1,10 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const config = require("../config.js")
+console.log(config.DB_NAME)
+console.log(config.DB_USER)
+console.log(config.DB_PASSWORD)
 
-
-const connection = new Sequelize("medico", "root", "root", {
+const connection = new Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASSWORD, {
   dialect: "mysql",
   host: "localhost",
 });
@@ -10,7 +13,7 @@ const connection = new Sequelize("medico", "root", "root", {
 connection
   .authenticate()
   .then(() => console.log("connection established"))
-  .catch(() => console.log("connection rejected"));
+  .catch((error) => {throw error});
 
 
 

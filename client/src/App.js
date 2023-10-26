@@ -1,8 +1,13 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import db from './firebase-config'
 
 const App = () => {
+
+
   return (
-    <div>App</div>
+    <div>
+    hello world
+      </div>
   )
 }
 

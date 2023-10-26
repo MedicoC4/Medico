@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import db from './firebase-config';
+import ProductOverview from './pages/productOverview/ProductOverview';
 
 const App = () => {
   return (
-    <Router>
       <div>
-        <Switch>
-          <Route exact path="/"/>
-        </Switch>
+    <Routes>
+        <Route path="/"/>
+        <Route path="/productsOverview" element={<ProductOverview/>}/>
+    </Routes>
       </div>
-    </Router>
   );
 };
 

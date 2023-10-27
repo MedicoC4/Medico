@@ -16,12 +16,12 @@ const AddProduct = () => {
             <input type="text" placeholder='Enter a brief description' className='big_add_inputs' />
           </div>
           <div className='add_side_effects'>
-            <p className='input_title_add'>Key Features</p>
+            <p className='input_title_add'>Side Effects</p>
             <div className='side_effects_inputs'>
-              <input type="text" placeholder='Enter a side effects' className='sub_add_inputs' />
-              <input type="text" placeholder='Enter a side effects' className='sub_add_inputs' />
-              <input type="text" placeholder='Enter a side effects' className='sub_add_inputs' />
-              <input type="text" placeholder='Enter a side effects' className='sub_add_inputs' />
+              <input type="text" placeholder='Enter a side effect' className='sub_add_inputs' />
+              <input type="text" placeholder='Enter a side effect' className='sub_add_inputs' />
+              <input type="text" placeholder='Enter a side effect' className='sub_add_inputs' />
+              <input type="text" placeholder='Enter a side effect' className='sub_add_inputs' />
             </div>
           </div>
         </div>

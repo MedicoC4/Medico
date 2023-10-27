@@ -1,9 +1,11 @@
-import { View, Text, Pressable, Image } from 'react-native'
+import { View, Text, Pressable, Image, Dimensions } from 'react-native'
 import React from 'react'
 // import { LinearGradient } from "expo-linear-gradient";
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
-import LottieView from 'lottie-react-native';
+// import LottieView from 'lottie-react-native';
+const { width, height } = Dimensions.get("window");
+
 
 const Welcome = ({ navigation }) => {
 
@@ -14,7 +16,7 @@ const Welcome = ({ navigation }) => {
         //     }}
         //     colors={[COLORS.secondary, COLORS.primary]}
         // >
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}> 
                 <View>
                     {/* <Image
                         source={require("../assets/hero1.png")}
@@ -69,12 +71,12 @@ const Welcome = ({ navigation }) => {
                      <Image
                         source={require("../assets/hero2.png")}
                         style={{
-                            height: 150,
-                            width: 150,
+                            height: height*0.25,
+                            width: width*0.4,
                             borderRadius: 10,
                             transform: [
                                 { translateX: 120 },
-                                { translateY: 160 },
+                                { translateY: 120 },
                                 // { rotate: "12deg" }
                             ]
                         }}
@@ -85,9 +87,14 @@ const Welcome = ({ navigation }) => {
 
                 <View style={{
                     paddingHorizontal: 22,
-                    position: "absolute",
-                    top: 400,
-                    width: "100%"
+                    // position: "absolute",
+                    // top: 400,
+                    // width: "100%"
+                    transform: [
+                      { translateX: -5 },
+                      { translateY: 180 },
+                      // { rotate: "12deg" }
+                  ]
                 }}>
                     <Text style={{
                         fontSize: 50,
@@ -105,11 +112,11 @@ const Welcome = ({ navigation }) => {
                             fontSize: 16,
                             color: COLORS.black,
                             marginVertical: 4
-                        }}>Connect with each other with chatting</Text>
+                        }}>Connect with your pharmacy or doctor</Text>
                         <Text style={{
                             fontSize: 16,
                             color: COLORS.black,
-                        }}>Calling, Enjoy Safe and private texting</Text>
+                        }}>Call, Chat and book your medicines</Text>
                     </View>
 
                     <Button

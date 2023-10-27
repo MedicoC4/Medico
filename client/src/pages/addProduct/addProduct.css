@@ -1,0 +1,130 @@
+.biggest_container_ever{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    gap:20px;
+    padding: 1rem;
+    /* margin-left: 15px; */
+    /* width: 100%; */
+    height: auto;
+    overflow-x: hidden;
+    align-items: flex-start;
+    
+}
+.product_information_add{
+    background-color:#F0F0F0 ;
+    border-radius: 20px;
+    padding-top: 0.2rem;
+    padding-left: 1.5rem;
+    padding-bottom: 1rem;
+}
+.big_add_inputs{
+    width: 97.5%;
+    border-radius: 20px;
+    border-color:#F0F0F0 ;
+    border: none;
+    height: 2rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 0.5rem;
+}
+.addproduct_title{
+    font-weight: 620;
+    font-size: 20px;
+}
+.side_effects_inputs{
+    display: grid;
+    grid-area: auto;
+    grid-template-columns: auto auto;
+    gap: 0.5rem ;
+}
+.sub_add_inputs{
+    width: 95%;
+    height: 2rem;
+    border-radius: 20px;
+    border: none;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 0.5rem;
+
+}
+.left_div_add_details{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 90rem;
+}
+.white_image_holder{
+    background-color: white;
+    height: 8rem;
+    width:97%;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.button_uploader_add{
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    height: 2rem;
+    width: 8rem;
+    cursor: pointer;
+}
+.right_div_add_details{
+    width: 32rem;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+.top_preview_add_image{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 1rem;
+}
+.image_preview_holder{
+    border-radius: 20px;
+}
+.save_draft_image{
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-weight: 400;
+    font-size: 17px;
+    height: 2rem;
+    color: #6E6E6E;
+    cursor: pointer;
+}
+.bottom_preview_add_image{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 1rem;
+}
+.buttons_save_add_collection{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    padding-top: 1rem;
+    gap: 1rem;
+    align-items: center;
+}
+.saving_buttons_add{
+    color: #6E6E6E;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    width: 80%;
+    height: 2rem;
+}
+#belong_to_buttons{
+    cursor: pointer;
+}
+
+

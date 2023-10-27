@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import db from './firebase-config';
 import ProductOverview from './pages/productOverview/ProductOverview';
-import AddProduct from './pages/addProduct/AddProduct.jsx';import Overview from './pages/overview/Overview';
+import AddProduct from './pages/addProduct/AddProduct.jsx';
+import Overview from './pages/overview/Overview';
 
 const App = () => {
   return (

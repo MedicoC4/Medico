@@ -1,11 +1,8 @@
 .biggest_container_ever{
     display: flex;
     flex-direction: row;
-    /* justify-content: space-between; */
     gap:20px;
     padding: 1rem;
-    /* margin-left: 15px; */
-    /* width: 100%; */
     height: auto;
     overflow-x: hidden;
     align-items: flex-start;

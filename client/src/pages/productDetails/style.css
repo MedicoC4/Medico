@@ -1,0 +1,172 @@
+.bigDiv___flex___colmun {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  gap: 1rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  background-color: #EDEDED;
+
+}
+
+.images___top___container {
+  width: 100%;
+  padding-top: 5rem;
+  /* background-color: red;   */
+  display: flex;
+  height: vh;
+  gap: 1rem;
+  background-color: white;
+  /* flex-wrap: wrap; */
+}
+
+.image___top___one {
+  width: 50%;
+  height: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: grey;
+  border-radius: 1.5rem;
+}
+
+.image___top___two {
+  width: 50%;
+  height: inherit;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1rem 1rem;
+}
+.image___top___twoGrid {
+  height: 10.5rem;
+  background-color: rgb(88, 88, 88);
+  border-radius: 1.5rem;
+}
+.product___title___info {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+  background-color: white;
+}
+
+.product___name {
+  color: #030303;
+  font-size: 24px;
+  font-family: "Source Sans Pro";
+  font-weight: 600px;
+  line-height: 36px;
+}
+
+.prooduct___sousName {
+  color: #030303;
+  font-size: 14px;
+  font-family: "Source Sans Pro";
+  font-weight: 300px;
+  line-height: 22px;
+}
+
+.paragraph___rating {
+  color: #030303;
+  font-size: 16px;
+  font-family: "Source Sans Pro";
+  font-weight: 500px;
+  line-height: 24px;
+  text-align: right;
+}
+.info___rating___customer {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.rating___value {
+  top: 559px;
+  left: 1316px;
+  width: 60px;
+  height: 32px;
+  padding: 0px 8px;
+  border: 0;
+  box-sizing: border-box;
+  border-radius: 24px;
+  background-color: #86f30f;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: "Source Sans Pro";
+  line-height: 18px;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navBar___info___medcine {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 2rem;
+  width: 35%;
+  background-color: white;
+}
+.navBar___Link {
+  color: #030303;
+  font-size: 14px;
+  font-family: "Source Sans Pro";
+  font-weight: 500px;
+  line-height: 22px;
+  text-align: center;
+  text-decoration: none;
+}
+.title___product___information{
+    color: #030303;
+    font-size: 20px;
+    font-family: "Source Sans Pro";
+    font-weight: 500px;
+    line-height: 30px;
+    padding-top: 2rem;
+    padding-left: 1.5rem;
+}
+.description___info___image{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+.description___details{
+    display: flex;
+    /* flex-direction: column; */
+    gap: 2rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 350px;
+    height: 240px;
+    padding-top: 2rem;
+}
+.details___icon___para{
+    display: flex;
+    gap: 1rem;
+}
+
+.details___icon___para > p {
+    text-align: start;
+}
+.description___of___icon{
+    color: #030303;
+    font-size: 14px;
+    font-family: "Source Sans Pro";
+    font-weight: 300px;
+    line-height: 22px;
+}
+.description___image{
+    top: 687px;
+  left: 1044px;
+  width: 332px;
+  height: 174px;
+  border-radius: 24px;
+  background-color: grey;
+}
+
+

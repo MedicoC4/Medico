@@ -1,10 +1,12 @@
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Image, Pressable, TextInput, TouchableOpacity, Dimensions } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
+const { width, height } = Dimensions.get("window");
+
 
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -36,8 +38,8 @@ const Signup = ({ navigation }) => {
                     }}>Email address</Text>
 
                     <View style={{
-                        width: "100%",
-                        height: 48,
+                        width: width*0.89,
+                        height: height*0.06,
                         borderColor: COLORS.black,
                         borderWidth: 1,
                         borderRadius: 8,
@@ -64,8 +66,8 @@ const Signup = ({ navigation }) => {
                     }}>Mobile Number</Text>
 
                     <View style={{
-                        width: "100%",
-                        height: 48,
+                        width: width*0.89,
+                        height: height*0.06,
                         borderColor: COLORS.black,
                         borderWidth: 1,
                         borderRadius: 8,
@@ -79,10 +81,10 @@ const Signup = ({ navigation }) => {
                             placeholderTextColor={COLORS.black}
                             keyboardType='numeric'
                             style={{
-                                width: "12%",
+                                width: width*0.1,
                                 borderRightWidth: 1,
                                 borderLeftColor: COLORS.grey,
-                                height: "100%"
+                                height: height*0.06
                             }}
                         />
 
@@ -91,7 +93,7 @@ const Signup = ({ navigation }) => {
                             placeholderTextColor={COLORS.black}
                             keyboardType='numeric'
                             style={{
-                                width: "80%"
+                                width: width*0.7
                             }}
                         />
                     </View>
@@ -105,8 +107,8 @@ const Signup = ({ navigation }) => {
                     }}>Password</Text>
 
                     <View style={{
-                        width: "100%",
-                        height: 48,
+                        width: width*0.89,
+                        height: height*0.06,
                         borderColor: COLORS.black,
                         borderWidth: 1,
                         borderRadius: 8,
@@ -119,7 +121,7 @@ const Signup = ({ navigation }) => {
                             placeholderTextColor={COLORS.black}
                             secureTextEntry={isPasswordShown}
                             style={{
-                                width: "100%"
+                                width: width*0.85
                             }}
                         />
 
@@ -196,7 +198,7 @@ const Signup = ({ navigation }) => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexDirection: 'row',
-                            height: 52,
+                            height: height*0.065,
                             borderWidth: 1,
                             borderColor: COLORS.grey,
                             marginRight: 4,
@@ -206,8 +208,8 @@ const Signup = ({ navigation }) => {
                         <Image
                             source={require("../assets/facebook.png")}
                             style={{
-                                height: 36,
-                                width: 36,
+                                height: height*0.5,
+                                width: width*0.08,
                                 marginRight: 8
                             }}
                             resizeMode='contain'
@@ -223,7 +225,7 @@ const Signup = ({ navigation }) => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexDirection: 'row',
-                            height: 52,
+                            height: height*0.065   ,
                             borderWidth: 1,
                             borderColor: COLORS.grey,
                             marginRight: 4,
@@ -233,8 +235,8 @@ const Signup = ({ navigation }) => {
                         <Image
                             source={require("../assets/google.png")}
                             style={{
-                                height: 36,
-                                width: 36,
+                              height: height*0.5,
+                              width: width*0.08,
                                 marginRight: 8
                             }}
                             resizeMode='contain'

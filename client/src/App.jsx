@@ -4,7 +4,7 @@ import db from "./firebase-config";
 import ProductOverview from "./pages/productOverview/ProductOverview";
 import AddProduct from "./pages/addProduct/AddProduct.jsx";
 import Overview from "./pages/overview/Overview";
-import Home from "./pages/home/Home";
+import Home from "./pages/landingPage/LandingPage";
 
 
 const App = () => {

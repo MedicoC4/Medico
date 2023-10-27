@@ -1,0 +1,5 @@
+.dashboard_main_container {
+    width: 100%;
+    height: auto;
+    display: grid;
+}

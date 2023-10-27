@@ -1,5 +1,6 @@
 import React from "react";
 import "./home.css";
+import moneySVG from "../../assets/images/money.svg";
 
 const LandingPage = () => {
   return (
@@ -9,10 +10,24 @@ const LandingPage = () => {
         <h1>Dashboard</h1>
         <div class="grid">
           <div class="item-1">
-            <p>item-1</p>
+            <div>
+              <p>Overview</p>
+              <div>
+                <img src={moneySVG} alt="" />
+                <div>
+                  <p>income</p>
+                  <p>$9,876.33</p>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="item-2">
-            <p>item-2</p>
+            <div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
           <div class="item-3">
             <p>item-3</p>

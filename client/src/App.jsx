@@ -5,7 +5,7 @@ import ProductOverview from "./pages/productOverview/ProductOverview";
 import AddProduct from "./pages/addProduct/AddProduct.jsx";
 import Overview from "./pages/overview/Overview";
 import Home from "./pages/landingPage/LandingPage";
-
+import ProductDetails from "./pages/productDetails/ProductDetails";
 
 const App = () => {
   return (
@@ -16,6 +16,7 @@ const App = () => {
         <Route path="/add" element={<AddProduct />} />
         <Route path="/home" element={<Home />} />
         <Route path="/overview" element={<Overview />} />
+        <Route path="/productDetails" element={<ProductDetails />} />
       </Routes>
     </div>
   );

@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import "./home.css";
 
 const LandingPage = () => {
   return (
-    <div>LandingPage</div>
-  )
-}
+    <div className="dashboard_main_container">
+      
+    </div>
+  );
+};
 
-export default LandingPage
+export default LandingPage;

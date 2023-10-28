@@ -1,4 +1,129 @@
-.product___overview___parent{
-    height: 20rem;
-    background-color: #F0F0F0;
+.product___overview___parent {
+  width: 100%;
+  height: auto;
+  background-color: #f0f0f0;
+  border-radius: 24px;
+  padding: 2rem 0rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.one___product {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.___title {
+  color: #030303;
+  font-size: 20px;
+  font-family: "Roboto";
+  font-weight: 600;
+  line-height: 32px;
+}
+.title___filterBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  font-size: 2rem;
+}
+
+.category___select {
+  top: 130px;
+  left: 1258px;
+  width: 120px;
+  height: 36px;
+  padding: 0px 8px;
+  border: 0;
+  box-sizing: border-box;
+  border-radius: 24px;
+  box-shadow: 0px 2px 8px rgba(64, 60, 67, 0.24);
+  background-color: #ffffff;
+  color: #919191;
+  font-size: 13px;
+  font-family: "Roboto";
+  font-weight: 600;
+  line-height: 17px;
+  outline: none;
+}
+
+.product___name {
+  color: #030303;
+  font-size: 15px;
+  font-family: "Roboto";
+  font-weight: 600;
+  line-height: 24px;
+}
+.product___views {
+  top: 406px;
+  left: 542px;
+  width: 3.3rem;
+  height: 2rem;
+  padding: 0px 8px;
+  border: 0;
+  box-sizing: border-box;
+  border-radius: 24px;
+  box-shadow: 0px 2px 4px rgba(3, 3, 3, 0.1);
+  background-color: #ffffff;
+  color: #6e6e6e;
+  font-size: 15px;
+  font-family: "Roboto";
+  font-weight: 700;
+  line-height: 20px;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image___star {
+  font-size: 20px;
+  top: 436px;
+  left: 362px;
+  width: 20px;
+  height: 20px;
+  color: #1a1a1a;
+}
+.rating___star___evaluation {
+  color: #030303;
+  font-size: 15px;
+  font-family: "Roboto";
+  font-weight: 600;
+  line-height: 24px;
+  margin: 0;
+}
+.image___container {
+  top: 194px;
+  left: 362px;
+  width: 236px;
+  height: 200px;
+  border-radius: 24px;
+  background-color: red;
+}
+.product___info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+}
+
+.product___info > p {
+  margin: 0;
+}
+
+.product___cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.5rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.container___star___rating {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.25rem;
 }

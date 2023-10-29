@@ -10,6 +10,7 @@ import pp1 from "../../assets/images/pp1.png";
 import pp2 from "../../assets/images/pp2.png";
 import pp3 from "../../assets/images/pp3.png";
 
+
 const Overview = () => {
   return (
     <div className="container">
@@ -96,7 +97,9 @@ const Overview = () => {
         </div>
         <p className="title2">Last Year Comparison</p>
         <div className="card6">
-          
+          <div className="firststat">
+            <h4>Inventory tracking</h4>
+          </div>
         </div>
       </div>
     </div>

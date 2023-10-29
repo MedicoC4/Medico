@@ -289,6 +289,28 @@
   margin-top: 6px;
 } 
 
+
+
+
+.firststat {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+
+.firststat h4 {
+  word-spacing: 100vw;
+  color: #000000;
+  font-size: 14px;
+  font-family: "Roboto";
+  font-weight: 600;
+  line-height: 18px;
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
 @media screen and (min-width: 768px) {
   .container {
     flex-direction: row;
@@ -306,4 +328,6 @@
     max-width: none;
   }
 }
+
+
 

@@ -6,6 +6,7 @@ import AddProduct from "./pages/addProduct/AddProduct.jsx";
 import Overview from "./pages/overview/Overview";
 import Home from "./pages/landingPage/LandingPage";
 import ProductDetails from "./pages/productDetails/ProductDetails";
+import Statistics from "./pages/statistics/Statistics";
 
 const App = () => {
   return (
@@ -17,6 +18,8 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/overview" element={<Overview />} />
         <Route path="/productDetails" element={<ProductDetails />} />
+        <Route path="/statistics" element={<Statistics />} />
+        
       </Routes>
     </div>
   );

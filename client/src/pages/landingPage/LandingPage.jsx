@@ -1,6 +1,10 @@
 import React from "react";
 import "./home.css";
 import moneySVG from "../../assets/images/money.svg";
+import syncIcon from "../../assets/images/sync.svg";
+import arrowUp from "../../assets/images/arrow-up.svg";
+import arrowDown from "../../assets/images/arrow-down.svg";
+
 
 const LandingPage = () => {
   return (
@@ -23,10 +27,34 @@ const LandingPage = () => {
           </div>
           <div class="item-2">
             <div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
+              <div>
+                <div>
+                  <img src={syncIcon} alt="" />
+                  <p>Total Transactions</p>
+                  <p>$20,850</p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <img src={arrowDown} alt="" />
+                  <p>Total Income</p>
+                  <p>$20,850</p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <img src={arrowUp} alt="" />
+                  <p>Expenses</p>
+                  <p>$20,850</p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <img src={arrowDown} alt="" />
+                  <p>Total Income</p>
+                  <p>$20,850</p>
+                </div>
+              </div>
             </div>
           </div>
           <div class="item-3">

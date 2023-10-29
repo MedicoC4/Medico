@@ -57,21 +57,21 @@
 }
 
 .grid > div {
-  position: relative;
+  
   width: 100%;
   height: 100%;
   max-width: 100%;
-  background-color: rgba(240, 240, 240, 60%);
   border-radius: 1.5rem;
 }
 
 .item-1 {
+  position: relative;
   grid-column: 1 / span 8;
   grid-row: 1 / span 8;
   transition: transform 0.3s;
   transform: scaleY(1);
   transform-origin: top;
-  background-color: blueviolet;
+  background-color: rgba(240, 240, 240, 60%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -150,29 +150,68 @@
 .item-2 {
   grid-column: 9 / span 4;
   grid-row: 1 / span 10;
-  transition: transform 0.3s; /* Add a transition for the transform property */
+  transition: transform 0.2s; /* Add a transition for the transform property */
   transform: scaleY(1);
   transform-origin: top;
-  background-color: blueviolet;
+  width: 100%;
 }
 
 .item-2 > div {
-  position: absolute;
   display: grid;
   grid-template-columns: auto auto;
   gap: 1.2rem 1.2rem;
+  width: inherit;
+  height: 100%;
 }
 
 .item-2 > div > div {
-  width: 13.2vw;
-  height: 17.7vh;
-  background-color: #000000;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(240, 240, 240, 0.8);
   border-radius: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-2 > div > div > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5vw; /* Use a percentage for the gap */
+}
+
+.item-2 > div > div > div > img { 
+  width: 4vw; /* Increase the width on hover */
+  height: 4vw; /* Increase the height on hover */
+  max-width: 3vw; /* Increase the max width on hover */
+  max-height: 3vw;
+  border-radius: 24px;
+  box-shadow: 0px 2px 4px rgba(3, 3, 3, 0.1);
+}
+
+.item-2 > div > div > div > p:nth-child(2) {
+  color: #030303;
+  font-size: 1vw; /* Use a percentage for font size */
+  font-family: "Roboto";
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+}
+
+.item-2 > div > div > div > p:nth-child(3) {
+  color: #030303;
+  font-size: 1.6vw; /* Use a percentage for font size */
+  font-family: "Roboto";
+  font-weight: 600;
+  line-height: 32px;
+  text-align: center;
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-2 {
   grid-column: 9 / span 4;
-  grid-row: 1 / span 9;
+  grid-row: 1 / span 11;
   transform: scaleY(1.1);
 }
 
@@ -180,78 +219,78 @@
   grid-column: 1 / span 8;
   grid-row: 9 / span 15;
   transition: transform 0.3s;
-  background-color: blueviolet;
+  background-color: rgba(240, 240, 240, 60%);
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-3 {
   grid-column: 1 / span 8;
-  grid-row: 10 / span 15;
+  grid-row: 9 / span 15;
 }
 
 .item-4 {
   grid-column: 9 / span 4;
   grid-row: 11 / span 21;
-  background-color: blueviolet;
+  background-color: rgba(240, 240, 240, 60%);
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-4 {
   grid-column: 9 / span 4;
-  grid-row: 11 / span 21;
+  grid-row: 13 / span 21;
 }
 
 .item-5 {
   grid-column: 1 / span 8;
   grid-row: 24 / span 23;
-  background-color: blueviolet;
+  background-color: rgba(240, 240, 240, 60%);
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-5 {
   grid-column: 1 / span 8;
-  grid-row: 25 / span 23;
+  grid-row: 24 / span 23;
 }
 
 .item-6 {
   grid-column: 9 / span 4;
   grid-row: 32 / span 9;
-  background-color: blueviolet;
+  background-color: rgba(240, 240, 240, 60%);
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-6 {
   grid-column: 9 / span 4;
-  grid-row: 32 / span 9;
+  grid-row: 34 / span 9;
 }
 
 .item-7 {
   grid-column: 9 / span 4;
   grid-row: 41 / span 18;
-  background-color: blueviolet;
+  background-color: rgba(240, 240, 240, 60%);
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-7 {
   grid-column: 9 / span 4;
-  grid-row: 41 / span 18;
+  grid-row: 43 / span 18;
 }
 
 .item-8 {
   grid-column: 1 / span 8;
   grid-row: 47 / span 15;
-  background-color: blueviolet;
+  background-color: rgba(240, 240, 240, 60%);
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-8 {
   grid-column: 1 / span 8;
-  grid-row: 48 / span 15;
+  grid-row: 47 / span 15;
 }
 
 .item-9 {
   grid-column: 1 / span 8;
   grid-row: 62 / span 8;
-  background-color: blueviolet;
+  background-color: rgba(240, 240, 240, 60%);
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-9 {
   grid-column: 1 / span 8;
-  grid-row: 63 / span 8;
+  grid-row: 62 / span 8;
 }
 /* 1216 */
 

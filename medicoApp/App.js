@@ -1,8 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome } from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
 
 const Stack = createNativeStackNavigator();
+
+
 export default function App() {
   return (
     // <View style={styles.container}>
@@ -16,7 +18,7 @@ export default function App() {
     // </View>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Welcome'
+        initialRouteName='FirstStep'
       >
         <Stack.Screen
           name="Welcome"
@@ -35,6 +37,27 @@ export default function App() {
         <Stack.Screen
           name="Signup"
           component={Signup}
+          options={{
+            headerShown: false
+          }}
+        />
+          <Stack.Screen
+          name="FirstStep"
+          component={FirstStep}
+          options={{
+            headerShown: false
+          }}
+        />
+          <Stack.Screen
+          name="SecondStep"
+          component={SecondStep}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="ThirdStep"
+          component={ThirdStep}
           options={{
             headerShown: false
           }}

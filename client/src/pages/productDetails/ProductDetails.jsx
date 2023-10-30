@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
+import ProgressBar from "./ProgressBar.jsx";
 
 const ProductDetails = () => {
   return (
@@ -200,17 +201,15 @@ const ProductDetails = () => {
             <h1 className="rating___product___number">4.8/5</h1>
             <div className="all___informations___rating">
               <p className="title___one___productDetail">Side Effects</p>
-            <div className="titles___rat___product">
-              <p className="title___two___productDetail">Side Effects</p>
-            </div>
+              <div className="titles___rat___product">
+                <p className="title___two___productDetail">Side Effects</p>
+              </div>
             </div>
           </div>
-          <div className="reviews___information___two">
-
-          </div>
+          <div className="reviews___information___two"></div>
         </div>
         <div className="rating___reviews___prductDetails">
-
+          <ProgressBar />
         </div>
       </div>
     </div>

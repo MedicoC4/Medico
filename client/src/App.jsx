@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <div>
-      <SideNav />
+      {/* <SideNav /> */}
       <TransitionGroup className="transition-group">
         <CSSTransition
           key={location.key}
@@ -39,6 +39,7 @@ const App = () => {
             <Route path="product-details" element={<ProductDetails />} />
             <Route path="products" element={<Home />} />
             <Route path="statistics" element={<Statistics />} />
+            <Route path="product-overview" element={<ProductOverview />} />
             {/* </Route> */}
           </Routes>
         </CSSTransition>

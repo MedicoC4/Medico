@@ -203,7 +203,7 @@ const ProductDetails = () => {
               <p className="title___one___productDetail">Side Effects</p>
               <div className="titles___rat___product">
                 <div className="title___two___productDetail">
-                <ProgressBar />
+                  <ProgressBar />
                 </div>
               </div>
             </div>
@@ -211,7 +211,7 @@ const ProductDetails = () => {
               <p className="title___one___productDetail">Side Effects</p>
               <div className="titles___rat___product">
                 <div className="title___two___productDetail">
-                <ProgressBar />
+                  <ProgressBar />
                 </div>
               </div>
             </div>
@@ -219,7 +219,7 @@ const ProductDetails = () => {
               <p className="title___one___productDetail">Side Effects</p>
               <div className="titles___rat___product">
                 <div className="title___two___productDetail">
-                <ProgressBar />
+                  <ProgressBar />
                 </div>
               </div>
             </div>
@@ -227,7 +227,7 @@ const ProductDetails = () => {
               <p className="title___one___productDetail">Side Effects</p>
               <div className="titles___rat___product">
                 <div className="title___two___productDetail">
-                <ProgressBar />
+                  <ProgressBar />
                 </div>
               </div>
             </div>
@@ -235,18 +235,14 @@ const ProductDetails = () => {
               <p className="title___one___productDetail">Side Effects</p>
               <div className="titles___rat___product">
                 <div className="title___two___productDetail">
-                <ProgressBar />
+                  <ProgressBar />
                 </div>
               </div>
             </div>
           </div>
-          <div className="reviews___information___two">
-            
-          </div>
+          <div className="reviews___information___two"></div>
         </div>
-        <div className="rating___reviews___prductDetails">
-          
-        </div>
+        <div className="rating___reviews___prductDetails"></div>
       </div>
     </div>
   );

@@ -6,13 +6,11 @@
   font-family: "Roboto";
   font-weight: 500;
   line-height: 42px;
-  /* margin-top: 50px */
 }
 
 .card1 {
-  top: 114px;
-  left: 133px;
-  width: 574px;
+  width: 100%;
+  max-width: 574px;
   height: 332px;
   background-color: #ffffff;
   border-radius: 24px;
@@ -51,9 +49,9 @@
   flex-wrap: wrap;
 }
 
-
 .card2 {
-  width: 278.827714808365px;
+  width: 100%;
+  max-width: 278.827714808365px;
   height: 128px;
   background-color: #ffffff;
   border-radius: 24px;
@@ -63,10 +61,12 @@
   align-items: center;
   justify-content: center;
   margin-right: 24px;
+  margin-bottom: 24px;
 }
 
 .subcard2{
-  width: 246.96169025883754px;
+  width: 100%;
+  max-width: 246.96169025883754px;
   height: 72px;
   padding: 0px 8px;
   border: 0;
@@ -85,29 +85,9 @@
   justify-content: center;
 }
 
-/* .icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* .icon img {
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-}
-
-.icon span {
-  font-size: 20px;
-  font-family: "Roboto";
-  font-weight: 500;
-  line-height: 24px;
-  color: #6e6e6e;
-} */ 
-
 .card3 {
-  width: 278.82771480836504px;
+  width: 100%;
+  max-width: 278.82771480836504px;
   height: 128px;
   background-color: #ffffff;
   border-radius: 24px;
@@ -116,10 +96,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 24px;
 }
 
 .subcard3{
-  width: 246.96169025883754px;
+  width: 100%;
+  max-width: 246.96169025883754px;
   height: 72px;
   padding: 0px 8px;
   border: 0;
@@ -148,7 +130,8 @@
 }
 
 .card4 {
-  width: 181.23801462543724px;
+  width: 100%;
+  max-width: 181.23801462543724px;
   height: 150px;
   background-color: #ffffff;
   border-radius: 24px;
@@ -160,7 +143,8 @@
 .subcard4 {
   margin-top: 8px;
   margin-left: 8px;
-  width: 165.3050023506735px;
+  width: 100%;
+  max-width: 165.3050023506735px;
   height: 64px;
   background-color: #f0f0f0;
   border-radius: 24px;
@@ -169,10 +153,9 @@
   justify-content: center;
 }
 
-
-
 .card4-container {
   display: flex;
+  padding: 0 16px;
 }
 
 .card4 h3 {
@@ -186,10 +169,8 @@
 }
 
 .card5 {
-  
-  top: 112px;
-  right: 700px;
-  width: 525.7894050672026px;
+  width: 100%;
+  max-width: 525.7894050672026px;
   height: 339px;
   background-color: #ffffff;
   border-radius: 24px;
@@ -253,20 +234,28 @@
 
 .container{
   display: flex;
-  gap: 40px;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 94rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
+
 .card5-container {
-  width: 50rem;
+  width: 100%;
+  max-width: 50rem;
 }
+
 .first-div{
-  width:50rem;
-  margin-left: 100px
+  width: 100%;
+  max-width: 50rem;
+  margin-left: 100px;
 }
 
 .card6{
-  top: 557px;
-  left: 786px;
-  width: 525.7894050672026px;
+  width: 100%;
+  max-width: 525.7894050672026px;
   height: 279px;
   background-color: #ffffff;
   border-radius: 24px;
@@ -275,17 +264,13 @@
 }
 
 .seperate{
-
   width: 90%;
   height: 1px;
   background-color: #f0f0f0;
-transform: translate(30px,3px);
-
+  transform: translate(30px,3px);
 }
 
 .viewmore{
-  top: 400px;
-  left: 818.0766194823245px;
   width: 156.342682946119px;
   height: 40px;
   padding: 0px 8px;
@@ -302,4 +287,47 @@ transform: translate(30px,3px);
   outline: none;
   margin-left: 30PX;
   margin-top: 6px;
+} 
+
+
+
+
+.firststat {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 1rem;
+  margin-top: 1rem;
 }
+
+.firststat h4 {
+  word-spacing: 100vw;
+  color: #000000;
+  font-size: 14px;
+  font-family: "Roboto";
+  font-weight: 600;
+  line-height: 18px;
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .first-div {
+    width: 60rem;
+    max-width: none;
+    margin-right: 2rem;
+  }
+  
+  .card5-container {
+    width: 50%;
+    max-width: none;
+  }
+}
+
+
+

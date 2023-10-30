@@ -202,14 +202,50 @@ const ProductDetails = () => {
             <div className="all___informations___rating">
               <p className="title___one___productDetail">Side Effects</p>
               <div className="titles___rat___product">
-                <p className="title___two___productDetail">Side Effects</p>
+                <div className="title___two___productDetail">
+                <ProgressBar />
+                </div>
+              </div>
+            </div>
+            <div className="all___informations___rating">
+              <p className="title___one___productDetail">Side Effects</p>
+              <div className="titles___rat___product">
+                <div className="title___two___productDetail">
+                <ProgressBar />
+                </div>
+              </div>
+            </div>
+            <div className="all___informations___rating">
+              <p className="title___one___productDetail">Side Effects</p>
+              <div className="titles___rat___product">
+                <div className="title___two___productDetail">
+                <ProgressBar />
+                </div>
+              </div>
+            </div>
+            <div className="all___informations___rating">
+              <p className="title___one___productDetail">Side Effects</p>
+              <div className="titles___rat___product">
+                <div className="title___two___productDetail">
+                <ProgressBar />
+                </div>
+              </div>
+            </div>
+            <div className="all___informations___rating">
+              <p className="title___one___productDetail">Side Effects</p>
+              <div className="titles___rat___product">
+                <div className="title___two___productDetail">
+                <ProgressBar />
+                </div>
               </div>
             </div>
           </div>
-          <div className="reviews___information___two"></div>
+          <div className="reviews___information___two">
+            
+          </div>
         </div>
         <div className="rating___reviews___prductDetails">
-          <ProgressBar />
+          
         </div>
       </div>
     </div>

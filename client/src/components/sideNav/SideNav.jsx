@@ -22,7 +22,7 @@ function SideNav() {
         </div>
         <div className="list-item">
           <img className="icon" src={productIcon} alt="" />
-          <li><Link className="Links" to="/home">Home</Link></li>
+          <li><Link className="Links" to="/products">product overview</Link></li>
         </div>
         <div className="list-item">
           <img className="icon" src={productsIcon} alt="" />
@@ -30,7 +30,7 @@ function SideNav() {
         </div>
         <div className="list-item">
           <img className="icon" src={statisticsIcon} alt="" />
-          <li><Link className="Links" to="/home">Home</Link></li>
+          <li><Link className="Links" to="/statistics">statistics</Link></li>
         </div>
       </ul>
     </div>

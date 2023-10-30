@@ -240,9 +240,42 @@ const ProductDetails = () => {
               </div>
             </div>
           </div>
-          <div className="reviews___information___two"></div>
+          <div className="reviews___information___two">
+            <div className="container___two___info___up">
+              <div className="info___up___1">
+                <h1 className="title___up___1">Highly effective medication</h1>
+                <h1 className="title___up___2">John D.</h1>
+              </div>
+              <h1 className="title___up___3">
+                feel much better after laking this medication
+              </h1>
+              <div className="min___cont___up">
+                <p className="sign___plus"> + </p>
+                <p className="title___of___plus">Convenient and easy to use</p>
+              </div>
+              <div className="min___cont___up">
+                <p className="sign___plus"> + </p>
+                <p className="title___of___plus">Convenient and easy to use</p>
+              </div>
+              <div className="min___cont___up">
+                <p className="sign___plus"> + </p>
+                <p className="title___of___plus">Convenient and easy to use</p>
+              </div>
+            </div>
+            <div className="container___two___info___down">
+              <h1 className="title___down">Made in the USA</h1>
+              <h1 className="title___down___2">Sarah T.</h1>
+            </div>
+            <h1 className="title___info___down___3">Prompet delivery and good packaging</h1>
+            <div className="cont___mines___title">
+            <h1 className="mines___icon">-</h1>
+            <h1 className="down___title___mines">Refund Policy</h1>
+
+            </div>
+            <div className="container___two___info___two"></div>
+          </div>
+          <div className="rating___reviews___prductDetails">zzzzzzzzzzzzz</div>
         </div>
-        <div className="rating___reviews___prductDetails"></div>
       </div>
     </div>
   );

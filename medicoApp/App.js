@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
+import UserProfile from './screens/UserProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +59,13 @@ export default function App() {
         <Stack.Screen
           name="ThirdStep"
           component={ThirdStep}
+          options={{
+            headerShown: false
+          }}
+        />
+                <Stack.Screen
+          name="userProfile"
+          component={UserProfile}
           options={{
             headerShown: false
           }}

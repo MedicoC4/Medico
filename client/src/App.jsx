@@ -13,10 +13,11 @@ import AddProduct from "./pages/addProduct/AddProduct.jsx";
 import Overview from "./pages/overview/Overview";
 import Home from "./pages/landingPage/LandingPage";
 import ProductDetails from "./pages/productDetails/ProductDetails";
+import Statistics from "./pages/statistics/Statistics";
+import SideNav from "./components/sideNav/SideNav";
 import Login from './pages/login/Login'
-import SignUp from "./pages/signUp/SignUp";
-import ResetePassword from "./pages/resetePassword/ResetePassword";
-
+import SignUp from './pages/signUp/SignUp'
+import ResetePassword from './pages/resetePassword/ResetePassword'
 const App = () => {
   const location = useLocation();
 
@@ -26,19 +27,29 @@ const App = () => {
 
   return (
     <div>
-      <Routes>
-        <Route path="/" />
-        <Route path="/productsOverview" element={<ProductOverview />} />
-        <Route path="/add" element={<AddProduct />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/overview" element={<Overview />} />
-        <Route path="/productDetails" element={<ProductDetails />} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/create" element={<SignUp/>} />
-        <Route path="/resete" element={<ResetePassword/>} />
-        <Route path="/add-product" element={<AddProduct/>} />
-      
-      </Routes>
+      <SideNav />
+      <TransitionGroup className="transition-group">
+        <CSSTransition
+          key={location.key}
+          classNames="fade"
+          timeout={300}
+          appear
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="add-product" element={<AddProduct />} />
+            <Route path="product-details" element={<ProductDetails />} />
+            <Route path="products" element={<Home />} />
+            <Route path="statistics" element={<Statistics />} />
+            <Route path="overview" element={<Overview />} />
+            <Route path="product-overview" element={<ProductOverview />} /> 
+            <Route path="login" element={<Login />} />
+            <Route path="sign-up" element={<SignUp />} />
+            <Route path="reset-password" element={<ResetePassword />} />
+            {/* </Route> */}
+          </Routes>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   );
 };

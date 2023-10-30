@@ -1,12 +1,23 @@
+.holy-container {
+    display: flex;
+    width: 100%;
+}
+
+.side:hover + .biggest_container_ever {
+    margin-left: 20.9vw;
+    padding: 1.5rem;
+  }
 .biggest_container_ever{
     display: flex;
-    flex-direction: row;
+    margin-left: 8vw;
     gap:20px;
     padding: 1rem;
     height: auto;
     overflow-x: hidden;
+    justify-content: flex-end;
     align-items: flex-start;
-    
+    width: 91%;
+    transition: 0.2s;
 }
 .product_information_add{
     background-color:#F0F0F0 ;
@@ -20,7 +31,7 @@
     border-radius: 20px;
     border-color:#F0F0F0 ;
     border: none;
-    height: 2rem;
+    height: 2.5rem;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 0.5rem;
 }
@@ -36,7 +47,7 @@
 }
 .sub_add_inputs{
     width: 95%;
-    height: 2rem;
+    height: 2.5rem;
     border-radius: 20px;
     border: none;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

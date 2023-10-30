@@ -26,24 +26,19 @@ const App = () => {
 
   return (
     <div>
-      <SideNav />
-      <TransitionGroup className="transition-group">
-        <CSSTransition
-          key={location.key}
-          classNames="fade"
-          timeout={300}
-          appear
-        >
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="add-product" element={<AddProduct />} />
-            <Route path="product-details" element={<ProductDetails />} />
-            <Route path="products" element={<Home />} />
-            <Route path="statistics" element={<Statistics />} />
-            {/* </Route> */}
-          </Routes>
-        </CSSTransition>
-      </TransitionGroup>
+      <Routes>
+        <Route path="/" />
+        <Route path="/productsOverview" element={<ProductOverview />} />
+        <Route path="/add" element={<AddProduct />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/overview" element={<Overview />} />
+        <Route path="/productDetails" element={<ProductDetails />} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/create" element={<SignUp/>} />
+        <Route path="/resete" element={<ResetePassword/>} />
+        <Route path="/add-product" element={<AddProduct/>} />
+      
+      </Routes>
     </div>
   );
 };

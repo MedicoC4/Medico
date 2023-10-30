@@ -9,6 +9,7 @@ import icon5 from "../../assets/images/done.png";
 import pp1 from "../../assets/images/pp1.png";
 import pp2 from "../../assets/images/pp2.png";
 import pp3 from "../../assets/images/pp3.png";
+import Statistics from "./Statistics"
 
 
 const Overview = () => {
@@ -96,11 +97,7 @@ const Overview = () => {
           <button className="viewmore">View More</button>
         </div>
         <p className="title2">Last Year Comparison</p>
-        <div className="card6">
-          <div className="firststat">
-            <h4>Inventory tracking</h4>
-          </div>
-        </div>
+            <Statistics />
       </div>
     </div>
   );

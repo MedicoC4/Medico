@@ -1,5 +1,7 @@
 import React from "react";
 import "./style.css";
+import SideNav from "../../components/sideNav/SideNav";
+
 const ProductOverview = () => {
   return (
     <div>

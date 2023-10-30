@@ -1,75 +1,147 @@
-import React from "react";
 import "./home.css";
+import React from "react";
+import { Outlet } from "react-router-dom";
+import SideNav from "../../components/sideNav/SideNav.jsx";
 import moneySVG from "../../assets/images/money.svg";
 import syncIcon from "../../assets/images/sync.svg";
 import arrowUp from "../../assets/images/arrow-up.svg";
 import arrowDown from "../../assets/images/arrow-down.svg";
-
+import BarChar from "../../components/charts/barChart.jsx";
 
 const LandingPage = () => {
   return (
-    <div className="dashboard_main_container">
-      <div className="sideNav"></div>
-      <div className="dashboard_container">
-        <h1>Dashboard</h1>
-        <div class="grid">
-          <div class="item-1">
-            <div>
-              <p>Overview</p>
+    <>
+      <Outlet />
+      <div className="dashboard_main_container">
+        <SideNav />
+        <div className="dashboard_container">
+          <h1>Dashboard</h1>
+          <div class="grid">
+            <div class="item-1">
               <div>
-                <img src={moneySVG} alt="" />
+                <p>Overview</p>
                 <div>
-                  <p>income</p>
-                  <p>$9,876.33</p>
+                  <img src={moneySVG} alt="" />
+                  <div>
+                    <p>income</p>
+                    <p>$9,876.33</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="item-2">
-            <div>
+            <div class="item-2">
               <div>
                 <div>
-                  <img src={syncIcon} alt="" />
-                  <p>Total Transactions</p>
-                  <p>$20,850</p>
+                  <div>
+                    <img src={syncIcon} alt="" />
+                    <p>Total Transactions</p>
+                    <p>$20,850</p>
+                  </div>
                 </div>
-              </div>
-              <div>
                 <div>
-                  <img src={arrowDown} alt="" />
-                  <p>Total Income</p>
-                  <p>$20,850</p>
+                  <div>
+                    <img src={arrowDown} alt="" />
+                    <p>Total Income</p>
+                    <p>$20,850</p>
+                  </div>
                 </div>
-              </div>
-              <div>
                 <div>
-                  <img src={arrowUp} alt="" />
-                  <p>Expenses</p>
-                  <p>$20,850</p>
+                  <div>
+                    <img src={arrowUp} alt="" />
+                    <p>Expenses</p>
+                    <p>$20,850</p>
+                  </div>
                 </div>
-              </div>
-              <div>
                 <div>
-                  <img src={arrowDown} alt="" />
-                  <p>Total Income</p>
-                  <p>$20,850</p>
+                  <div>
+                    <img src={arrowDown} alt="" />
+                    <p>Total Income</p>
+                    <p>$20,850</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="item-3">
-            <p>item-3</p>
-          </div>
-          <div class="item-4">
-            <p>item-4</p>
-          </div>
-          <div class="item-5">
-            <p>item-5</p>
-          </div>
-          <div class="item-6">
-            <p>item-6</p>
-          </div>
-          <div class="item-7">
+            <div class="item-3">
+              <div className="barChart">
+                <BarChar />
+              </div>
+            </div>
+            <div class="item-4">
+              <div className="feedBacks">
+                <h1>Feedbacks</h1>
+                <div>
+                  <div className="avatar"></div>
+                  <div>
+                    <p>John Doe</p>
+                    <p>on Product -3600</p>
+                    <p>Great product, thank you!</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="avatar"></div>
+                  <div>
+                    <p>John Doe</p>
+                    <p>on Product -3600</p>
+                    <p>Great product, thank you!</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="avatar"></div>
+                  <div>
+                    <p>John Doe</p>
+                    <p>on Product -3600</p>
+                    <p>Great product, thank you!</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="avatar"></div>
+                  <div>
+                    <p>John Doe</p>
+                    <p>on Product -3600</p>
+                    <p>Great product, thank you!</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="avatar"></div>
+                  <div>
+                    <p>John Doe</p>
+                    <p>on Product -3600</p>
+                    <p>Great product, thank you!</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="avatar"></div>
+                  <div>
+                    <p>John Doe</p>
+                    <p>on Product -3600</p>
+                    <p>Great product, thank you!</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="avatar"></div>
+                  <div>
+                    <p>John Doe</p>
+                    <p>on Product -3600</p>
+                    <p>Great product, thank you!</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="avatar"></div>
+                  <div>
+                    <p>John Doe</p>
+                    <p>on Product -3600</p>
+                    <p>Great product, thank you!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-5">
+              <p>item-5</p>
+            </div>
+            <div class="item-6">
+              <p>item-6</p>
+            </div>
+            {/* <div class="item-7">
             <p>item-7</p>
           </div>
           <div class="item-8">
@@ -77,10 +149,11 @@ const LandingPage = () => {
           </div>
           <div class="item-9">
             <p>item-9</p>
+          </div> */}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

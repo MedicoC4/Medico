@@ -6,6 +6,9 @@ import AddProduct from "./pages/addProduct/AddProduct.jsx";
 import Overview from "./pages/overview/Overview";
 import Home from "./pages/landingPage/LandingPage";
 import ProductDetails from "./pages/productDetails/ProductDetails";
+import Login from './pages/login/Login'
+import SignUp from "./pages/signUp/SignUp";
+import ResetePassword from "./pages/resetePassword/ResetePassword";
 
 const App = () => {
   return (
@@ -17,6 +20,10 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/overview" element={<Overview />} />
         <Route path="/productDetails" element={<ProductDetails />} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/create" element={<SignUp/>} />
+        <Route path="/resete" element={<ResetePassword/>} />
+      
       </Routes>
     </div>
   );

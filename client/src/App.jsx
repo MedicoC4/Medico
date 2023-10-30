@@ -15,6 +15,10 @@ import Home from "./pages/landingPage/LandingPage";
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import Statistics from "./pages/statistics/Statistics";
 import SideNav from "./components/sideNav/SideNav";
+import Login from "./pages/login/Login"
+import SignUp from './pages/signUp/SignUp'
+import ResetePassword from './pages/resetePassword/ResetePassword'
+
 const App = () => {
   const location = useLocation();
 
@@ -33,11 +37,17 @@ const App = () => {
           appear
         >
           <Routes>
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
             <Route path="add-product" element={<AddProduct />} />
-            <Route path="product-details" element={<ProductDetails />} />
-            <Route path="products" element={<Home />} />
+            <Route path="products" element={<ProductOverview />} />
+            <Route path="overview" element={<Overview />} />
             <Route path="statistics" element={<Statistics />} />
+            <Route path="overview" element={<Overview />} />
+            <Route path="product-overview" element={<ProductOverview />} /> 
+            <Route path="login" element={<Login />} />
+            <Route path="sign-up" element={<SignUp />} />
+            <Route path="reset-password" element={<ResetePassword />} />
             {/* </Route> */}
           </Routes>
         </CSSTransition>

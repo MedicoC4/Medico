@@ -10,66 +10,17 @@ const { width, height } = Dimensions.get("window");
 const Welcome = ({ navigation }) => {
 
     return (
-        // <LinearGradient
-        //     style={{
-        //         flex: 1
-        //     }}
-        //     colors={[COLORS.secondary, COLORS.primary]}
-        // >
+
             <View style={{ flex: 1 }}> 
                 <View>
-                    {/* <Image
-                        source={require("../assets/hero1.png")}
-                        style={{
-                            height: 80,
-                            width: 80,
-                            borderRadius: 20,
-                            position: "absolute",
-                            top: 10,
-                            transform: [
-                                { translateX: 20 },
-                                { translateY: 50 },
-                                { rotate: "-15deg" }
-                            ]
-                        }}
-                    /> */}
-
-                    {/* <Image
-                        source={require("../assets/hero3.jpg")}
-                        style={{
-                            height: 100,
-                            width: 100,
-                            borderRadius: 20,
-                            position: "absolute",
-                            top: -30,
-                            left: 100,
-                            transform: [
-                                { translateX: 50 },
-                                { translateY: 50 },
-                                { rotate: "-5deg" }
-                            ]
-                        }}
-                    />
-
-                    <Image
-                        source={require("../assets/hero3.jpg")}
-                        style={{
-                            width: 100,
-                            height: 100,
-                            borderRadius: 20,
-                            position: "absolute",
-                            top: 130,
-                            left: -50,
-                            transform: [
-                                { translateX: 50 },
-                                { translateY: 50 },
-                                { rotate: "15deg" }
-                            ]
-                        }}
-                    /> */}
+                  {/* <LottieView
+                  source={require('../components/animatedlogo.json')}
+                  autoPlay
+                  loop
+                  /> */}
 
                      <Image
-                        source={require("../assets/hero2.png")}
+                        source={require("../assets/rocket.png")}
                         style={{
                             height: height*0.25,
                             width: width*0.4,
@@ -151,7 +102,7 @@ const Welcome = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-        // </LinearGradient>
+        
     )
 }
 

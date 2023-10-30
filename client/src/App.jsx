@@ -15,9 +15,10 @@ import Home from "./pages/landingPage/LandingPage";
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import Statistics from "./pages/statistics/Statistics";
 import SideNav from "./components/sideNav/SideNav";
-import Login from "./pages/login/Login";
-import SignUp from "./pages/signUp/SignUp";
-import ResetePassword from "./pages/resetePassword/ResetePassword";
+import Login from "./pages/login/Login"
+import SignUp from './pages/signUp/SignUp'
+import ResetePassword from './pages/resetePassword/ResetePassword'
+
 const App = () => {
   const location = useLocation();
 

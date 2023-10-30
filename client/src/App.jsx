@@ -15,7 +15,6 @@ import Home from "./pages/landingPage/LandingPage";
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import Statistics from "./pages/statistics/Statistics";
 import SideNav from "./components/sideNav/SideNav";
-
 const App = () => {
   const location = useLocation();
 

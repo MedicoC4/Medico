@@ -192,34 +192,6 @@ const ProductDetails = () => {
             </button>
           </div>
         </div>
-        <div className="card___suggested___container">
-          <div className="card___image___suggestion">
-            <img src="" alt="" />
-          </div>
-          <div className="text___product___suggestion">
-            <h1 className="product___title___suggestion">Product Name</h1>
-            <div className="keys___description___suggestion">
-              <div className="oneKey___description___suggestion">
-                <div className="icon___product___keySuggestion">AA</div>
-                <p className="text___product___keySuggestion">Quantity</p>
-              </div>
-              <div className="oneKey___description___suggestion">
-                <div className="icon___product___keySuggestion">AA</div>
-                <p className="text___product___keySuggestion">Quantity</p>
-              </div>
-              <div className="oneKey___description___suggestion">
-                <div className="icon___product___keySuggestion">AA</div>
-                <p className="text___product___keySuggestion">Quantity</p>
-              </div>
-              <p className="under___description___suggest">
-                Description of this products
-              </p>
-            </div>
-            <button className="show___product___suggestion___btn">
-              Show Product
-            </button>
-          </div>
-        </div>
       </div>
       <div className="custumer___Reviews___container">
         <h1 className="title___custum___reviews">Customer Reviews</h1>

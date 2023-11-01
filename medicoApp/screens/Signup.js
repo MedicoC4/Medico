@@ -6,11 +6,13 @@ import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
 const { width, height } = Dimensions.get("window");
-
+import {auth} from '../firebase-config'
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -158,7 +160,8 @@ const Signup = ({ navigation }) => {
                     <Text>I agree to the terms and conditions</Text>
                 </View>
 
-                <Button
+                <Button 
+                    
                     title="Sign Up"
                     filled
                     style={{

@@ -11,13 +11,14 @@ import db from "./firebase-config";
 import ProductOverview from "./pages/productOverview/ProductOverview";
 import AddProduct from "./pages/addProduct/AddProduct.jsx";
 import Overview from "./pages/overview/Overview";
-import Home from "./pages/landingPage/LandingPage";
+import Home from "./pages/dashboard/LandingPage";
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import Statistics from "./pages/statistics/Statistics";
 import SideNav from "./components/sideNav/SideNav";
 import Login from "./pages/login/Login"
 import SignUp from './pages/signUp/SignUp'
 import ResetePassword from './pages/resetePassword/ResetePassword'
+import Landing from "./pages/landingPage/landing"
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
           appear
         >
           <Routes>
+            <Route path="/home" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
             <Route path="add-product" element={<AddProduct />} />
@@ -46,11 +48,10 @@ const App = () => {
             <Route path="statistics" element={<Statistics />} />
             <Route path="product-overview" element={<ProductOverview />} />
             <Route path="overview" element={<Overview />} />
-            <Route path="product-details" element={<ProductDetails />} /> 
+            <Route path="product-overview" element={<ProductOverview />} />
             <Route path="login" element={<Login />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />
-            {/* </Route> */}
           </Routes>
         </CSSTransition>
       </TransitionGroup>
@@ -58,4 +59,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App

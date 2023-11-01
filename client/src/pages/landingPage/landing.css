@@ -1,0 +1,247 @@
+.landing_container {
+  height: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#logo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.section-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 14rem;
+}
+
+.top-nav {
+  width: 100%;
+  /* background-color: black; */
+  height: 20vh;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 2rem;
+  animation-name: fade;
+  animation-duration: 0.8s;
+  animation-delay: 2.4s;
+  animation-timing-function: cubic-bezier(0.66, 0, 0, 1);
+  animation-fill-mode: forwards;
+  opacity: 0;
+  transform: translateY(-70%);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(-70%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.top-nav > nav {
+  background-color: rgb(38, 38, 38);
+  width: 45%;
+  height: 8.5vh;
+  border-radius: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-nav > nav > ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0rem 0.4rem;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  gap: 0rem;
+  color: aliceblue;
+}
+
+.top-nav > nav > ul > li:nth-child(4) {
+  background-color: aliceblue;
+  color: rgb(45, 45, 45);
+  font-weight: 500;
+  font-size: 1.3rem;
+  padding: 0.7rem 2rem;
+}
+
+.top-nav > nav > ul > li {
+  color: aliceblue;
+  padding: 0.7rem 2rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.top-nav > div {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-nav > div > button {
+  font-size: 1.2rem;
+  padding: 1rem 2.5rem;
+  color: white;
+  border: none;
+  border-radius: 4rem;
+  background-color: rgb(57, 57, 57);
+}
+
+.landing_text_anim > img {
+    position: absolute;
+    transform: scale(0);
+    animation-name: scale-img;
+    animation-duration: 2s;
+    animation-delay: 1.5s;
+    animation-timing-function: cubic-bezier(0.85, -0.01, 0.09, 1);
+    animation-fill-mode: forwards;
+}
+
+@keyframes scale-img {
+    from {transform: scale(0);}
+    to {transform: scale(1);}
+}
+
+.landing_text_anim > img:nth-child(1) {
+    top: -4rem;
+    left: -15rem;
+    background-color: transparent;
+    filter: contrast(100%);
+} 
+
+.landing_text_anim > #aaa {
+    right: -16rem;
+    top: 13rem;
+    height: 50vh;
+
+} 
+.landing_text_anim {
+  position: relative;
+  padding-top: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  transform: scale(1.1);
+  animation-name: scale;
+  animation-duration: 2s;
+  animation-delay: 1.5s;
+  animation-timing-function: cubic-bezier(0.85, -0.01, 0.09, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes scale {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(0.9);
+  }
+}
+.landing_text_anim > h1 {
+  font-size: 3.6em;
+  font-weight: 700;
+  transform: translateX(-200%);
+  /* font-family: roboto; */
+  animation-name: text;
+  animation-duration: 2s;
+  animation-delay: 0s;
+  animation-timing-function: cubic-bezier(0.85, -0.01, 0.09, 1);
+  animation-fill-mode: both;
+}
+
+.text_container {
+  position: relative;
+}
+
+@keyframes text {
+  from {
+    transform: translateX(-200%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.section-2 {
+  background-color: black;
+  height: 100vh;
+  width: 100%;
+}
+
+.shape {
+  position: absolute;
+  height: 350px;
+  width: 350px;
+  transform: scale(0);
+  animation-name: svg-scale;
+  animation-duration: 1s;
+  animation-delay: 2.8s;
+  animation-timing-function: cubic-bezier(0.66, 0, 0, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes svg-scale {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+svg {
+  animation-name: fload;
+  animation-duration: 1s;
+  animation-delay: 2.8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.66, 0, 0, 1);
+  animation-fill-mode: both;
+}
+
+.spannn {
+  transition: transform 1s ease;
+  color: #00807e;
+}
+
+.get-started {
+  margin-top: 3rem;
+  font-size: 1.2rem;
+  padding: 1rem 2.5rem;
+  color: white;
+  border: none;
+  border-radius: 4rem;
+  background-color: rgb(38, 38, 38);
+  transform: translateX(-1000%);
+  /* font-family: roboto; */
+  animation-name: button;
+  animation-duration: 2s;
+  animation-delay: 0.4s;
+  animation-timing-function: cubic-bezier(0.85, -0.01, 0.09, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes button {
+  from {
+    transform: translateX(1000%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}

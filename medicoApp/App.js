@@ -12,15 +12,6 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Text>Hello Ya rojla</Text>
-    //   <Button
-    //   title="learn more"
-    //   color="#f194ff"
-    //   onPress={() => Alert.alert('Simple Button pressed')}
-    //   />
-    //   <StatusBar style="auto" />
-    // </View>
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='FirstStep'

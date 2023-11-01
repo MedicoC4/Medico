@@ -39,7 +39,7 @@ const ResetePassword = () => {
 
       <p class="signup-link">
         Don't have an account?
-        <a href="#" class="signup-link link"> Sign up now</a>
+        <a class="signup-link link"> Sign up now</a>
       </p>
     </div>
     </div>

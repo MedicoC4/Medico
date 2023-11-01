@@ -13,15 +13,28 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
+import { DB } from '../firebase-config';
+import { addDoc, collection, doc, serverTimestamp,setDoc } from "firebase/firestore";
+
+
+
 
 export default function Example() {
-  const [form, setForm] = useState({
-    username: '',
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-  });
+  const [yearOfEx , setYearOfEx]= useState('')
+  const [specialite , setSpecialite]= useState('')
+
+
+  const createDocs = async()=>{
+    const docRef = doc(DB , "doctors","HVsbHgcz3nrrxU8QioQQ")
+    const newData = {specialite : specialite , "Years Of Experiance" : yearOfEx} 
+    try {
+     setDoc(doc(DB , newData,"newnew"))
+      
+    } catch (error) {
+      throw error
+    }
+  }
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
       <View style={styles.container}>
@@ -33,72 +46,54 @@ export default function Example() {
         <KeyboardAwareScrollView>
           <View style={styles.form}>
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Username</Text>
+              <Text style={styles.inputLabel}>Certificat</Text>
 
               <TextInput
-                onChangeText={username => setForm({ ...form, username })}
-                placeholder="e.g. johndoe"
-                placeholderTextColor="#6b7280"
+                
                 style={styles.inputControl}
-                value={form.username}
+                
               />
             </View>
 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>First Name</Text>
+              <Text style={styles.inputLabel}>Year of experiance</Text>
 
               <TextInput
-                onChangeText={firstName => setForm({ ...form, firstName })}
-                placeholder="e.g. John"
-                placeholderTextColor="#6b7280"
+                value={yearOfEx}
+                onChangeText={(e)=>{setYearOfEx(e)}}
                 style={styles.inputControl}
-                value={form.firstName}
+                
+              />
+            </View>
+                
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>specialité</Text>
+
+              <TextInput
+                value={specialite}
+                onChangeText={(e)=>{setSpecialite(e)}}
+                style={styles.inputControl}
+                
               />
             </View>
 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Last Name</Text>
-
-              <TextInput
-                onChangeText={lastName => setForm({ ...form, lastName })}
-                placeholder="e.g. Doe"
-                placeholderTextColor="#6b7280"
-                style={styles.inputControl}
-                value={form.lastName}
-              />
-            </View>
-
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>Email address</Text>
+              <Text style={styles.inputLabel}>Localisation</Text>
 
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="email-address"
-                onChangeText={email => setForm({ ...form, email })}
-                placeholder="e.g. john@example.com"
-                placeholderTextColor="#6b7280"
                 style={styles.inputControl}
-                value={form.email}
+                
               />
             </View>
 
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>Password</Text>
-
-              <TextInput
-                autoCorrect={false}
-                onChangeText={password => setForm({ ...form, password })}
-                placeholder="********"
-                placeholderTextColor="#6b7280"
-                style={styles.inputControl}
-                secureTextEntry={true}
-                value={form.password}
-              />
-            </View>
+            
 
             <View style={styles.formAction}>
             <Button
+            onPress={createDocs}
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

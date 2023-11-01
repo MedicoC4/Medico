@@ -1,7 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,UserProfile,ProfileApp} from "./screens";
-import Landing from './screens/Landing';
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,UserProfile,ProfileApp,Landing} from "./screens";
 
 const Stack = createNativeStackNavigator();
 
@@ -10,7 +9,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='ProfileApp'
+        initialRouteName='FirstStep'
       >
         <Stack.Screen
           name="Welcome"

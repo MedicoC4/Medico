@@ -7,7 +7,7 @@ import ThirdStep from './ThirdStep';
 import Home from "./Home";
 import UserProfile from './UserProfile'
 import ProfileApp from "./ProfileApp";
-
+import Landing from "./Landing";
 export {
     Login,
     Welcome,
@@ -17,5 +17,6 @@ export {
     ThirdStep,
     Home,
     UserProfile,
-    ProfileApp
+    ProfileApp,
+    Landing
 }

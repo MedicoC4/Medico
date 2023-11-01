@@ -1,16 +1,79 @@
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity, Dimensions } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Image, Pressable, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native'
+import React, { useState,useEffect } from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
+import {auth , googleProvider} from '../firebase-config';
+import { createUserWithEmailAndPassword , signOut} from 'firebase/auth';
+import { GoogleSignin,statusCodes } from '@react-native-google-signin/google-signin';
 const { width, height } = Dimensions.get("window");
+
 
 
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [userInfo,setUserInfo]=useState(null)
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        GoogleSignin.configure({
+               webClientId: "468442720217-82eb2l2uo3vhmo7k42sn2a9htlnhrpk4.apps.googleusercontent.com",
+             });
+      }, []);
+    
+      FirstsignIn = async () => {
+        try {
+          await GoogleSignin.hasPlayServices();
+          const usrInfo = await GoogleSignin.signIn();
+          setUserInfo({ usrInfo });
+        } catch (error) {
+          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // user cancelled the login flow
+          } else if (error.code === statusCodes.IN_PROGRESS) {
+            // operation (e.g. sign in) is in progress already
+          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            // play services not available or outdated
+          } else {
+            // some other error happened
+          }
+        }
+      };
+
+
+
+
+    const handleSignin= async() => {
+        try {
+            console.log('hello done')
+          await createUserWithEmailAndPassword(auth , email , password)
+        } catch (error) {
+          console.log(error);
+        }
+    }
+
+    const handelSubmit = (e)=>{
+        e.preventDefault()
+    }
+
+    // const withGoogle = async()=>{
+    //     try {
+            
+    //      const logged= await signInWithPopup(auth , googleProvider)
+    //      console.log(logged);
+    //     } catch (error) {
+    //       alert(error);
+    //     }
+    //   }
+
+    const logOut = ()=>{
+        signOut(auth)
+      }
+
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -54,6 +117,7 @@ const Signup = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
+                            onChangeText={(text)=>{setEmail(text)}}
                         />
                     </View>
                 </View>
@@ -122,7 +186,9 @@ const Signup = ({ navigation }) => {
                             secureTextEntry={isPasswordShown}
                             style={{
                                 width: width*0.85
+                                
                             }}
+                            onChangeText={(text)=>{setPassword(text)}}
                         />
 
                         <TouchableOpacity
@@ -165,6 +231,7 @@ const Signup = ({ navigation }) => {
                         marginTop: 18,
                         marginBottom: 4,
                     }}
+                    onPress={handleSignin}
                 />
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
@@ -219,7 +286,7 @@ const Signup = ({ navigation }) => {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => console.log("Pressed")}
+                        onPress={()=>FirstsignIn()}
                         style={{
                             flex: 1,
                             alignItems: 'center',

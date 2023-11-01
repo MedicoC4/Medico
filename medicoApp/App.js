@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
+import DocFirstStep from './screens/docFirstStep';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +76,13 @@ export default function App() {
                 <Stack.Screen
           name="userProfile"
           component={UserProfile}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="DocFirstStep"
+          component={DocFirstStep}
           options={{
             headerShown: false
           }}

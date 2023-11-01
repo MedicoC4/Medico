@@ -20,6 +20,7 @@ import SignUp from './pages/signUp/SignUp'
 import ResetePassword from './pages/resetePassword/ResetePassword'
 import Landing from "./pages/landingPage/landing"
 
+
 const App = () => {
   const location = useLocation();
 
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="products" element={<ProductOverview />} />
             <Route path="overview" element={<Overview />} />
             <Route path="statistics" element={<Statistics />} />
+            <Route path="product-overview" element={<ProductOverview />} />
             <Route path="overview" element={<Overview />} />
             <Route path="product-overview" element={<ProductOverview />} />
             <Route path="login" element={<Login />} />

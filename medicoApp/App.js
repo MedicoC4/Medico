@@ -1,24 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
-import Landing from './screens/Landing';
-import UserProfile from './screens/UserProfile';
-import NavigationBar from './components/NavigationBar';
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,UserProfile,ProfileApp,Landing} from "./screens";
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Text>Hello Ya rojla</Text>
-    //   <Button
-    //   title="learn more"
-    //   color="#f194ff"
-    //   onPress={() => Alert.alert('Simple Button pressed')}
-    //   />
-    //   <StatusBar style="auto" />
-    // </View>
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='FirstStep'
@@ -75,6 +63,13 @@ export default function App() {
                 <Stack.Screen
           name="userProfile"
           component={UserProfile}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="ProfileApp"
+          component={ProfileApp}
           options={{
             headerShown: false
           }}

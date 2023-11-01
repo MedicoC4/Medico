@@ -1,21 +1,109 @@
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity, Dimensions } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Image, Pressable, TextInput, TouchableOpacity, Dimensions, Alert, KeyboardAvoidingView } from 'react-native'
+import React, { useState,useEffect } from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
+import {auth , googleProvider,signInWithCredential,GoogleAuthProvider } from '../firebase-config';
+import { createUserWithEmailAndPassword , signOut , signInWithPopup} from 'firebase/auth';
 const { width, height } = Dimensions.get("window");
-import {auth} from '../firebase-config'
-// import { createUserWithEmailAndPassword } from 'firebase/auth';
+// import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [userInfo,setUserInfo]=useState(null)
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+
+    // useEffect(() => {
+    //     GoogleSignin.configure({
+    //            webClientId: "468442720217-82eb2l2uo3vhmo7k42sn2a9htlnhrpk4.apps.googleusercontent.com",
+    //          });
+    //   }, []);
+    
+    //   FirstsignIn = async () => {
+    //     try {
+    //       await GoogleSignin.hasPlayServices();
+    //       const usrInfo = await GoogleSignin.signIn();
+    //       setUserInfo({ usrInfo });
+    //     } catch (error) {
+    //       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+    //         // user cancelled the login flow
+    //       } else if (error.code === statusCodes.IN_PROGRESS) {
+    //         // operation (e.g. sign in) is in progress already
+    //       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+    //         // play services not available or outdated
+    //       } else {
+    //         // some other error happened
+    //       }
+    //     }
+    //   };
+
+    // const signInWithGoogle = async () => {
+    //     try {
+    //       // Sign in with Google
+    //       await GoogleSignin.hasPlayServices();
+    //       const userInfo = await GoogleSignin.signIn();
+      
+    //       // Get Google OAuth ID token and access token
+    //       const googleCredential = GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
+      
+    //       // Sign in with Firebase
+    //       const userCredential = await signInWithCredential(auth(), googleCredential);
+      
+    //       // You can access user information from userCredential.user
+    //       const user = userCredential.user;
+    //       console.log('Successfully signed in with Google:', user.displayName);
+    //     } catch (error) {
+    //       console.error('Google sign-in error:', error);
+    //     }
+    //   };
+
+
+    const handleSignin= async() => {
+        try {
+            console.log('hello done')
+          await createUserWithEmailAndPassword(auth , email , password)
+          navigation.navigate('Landing')
+        } catch (error) {
+          console.log(error);
+        }
+    }
+
+    const handelSubmit = (e)=>{
+        e.preventDefault()
+    }
+
+    const withGoogle = async()=>{
+        try {
+            
+         const logged= await signInWithPopup(auth , googleProvider)
+         console.log(logged);
+        } catch (error) {
+          alert(error);
+        }
+      }
+    // const withGoogle = async()=>{
+    //   try {
+    //     signInWithPopup(auth , googleProvider)
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+
+    const logOut = ()=>{
+        console.log('logged out');
+        signOut(auth)
+      }
+
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-            <View style={{ flex: 1, marginHorizontal: 22 }}>
+
+            <KeyboardAvoidingView style={{ flex: 1, marginHorizontal: 22 }}
+            behavior='padding'>
                 <View style={{ marginVertical: 22 }}>
                     <Text style={{
                         fontSize: 22,
@@ -56,6 +144,7 @@ const Signup = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
+                            onChangeText={(text)=>{setEmail(text)}}
                         />
                     </View>
                 </View>
@@ -124,7 +213,9 @@ const Signup = ({ navigation }) => {
                             secureTextEntry={isPasswordShown}
                             style={{
                                 width: width*0.85
+                                
                             }}
+                            onChangeText={(text)=>{setPassword(text)}}
                         />
 
                         <TouchableOpacity
@@ -168,6 +259,8 @@ const Signup = ({ navigation }) => {
                         marginTop: 18,
                         marginBottom: 4,
                     }}
+                    onPress={handleSignin}
+                    
                 />
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
@@ -208,6 +301,8 @@ const Signup = ({ navigation }) => {
                             borderRadius: 10
                         }}
                     >
+
+                    
                         <Image
                             source={require("../assets/facebook.png")}
                             style={{
@@ -222,7 +317,8 @@ const Signup = ({ navigation }) => {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => console.log("Pressed")}
+                        // onPress={}
+                        // onPress={()=>signInWithGoogle()}
                         style={{
                             flex: 1,
                             alignItems: 'center',
@@ -266,8 +362,8 @@ const Signup = ({ navigation }) => {
                         }}>Login</Text>
                     </Pressable>
                 </View>
-            </View>
-        </SafeAreaView>
+            </KeyboardAvoidingView>
+        
     )
 }
 

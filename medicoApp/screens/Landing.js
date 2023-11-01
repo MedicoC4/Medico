@@ -1,14 +1,37 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PharmacyCard from './PharmacyCard';
 import NavigationBar from '../components/NavigationBar';
 
 const Landing = () => {
   const userName = "Ahmed"; // Replace with actual user name
-  const orders = 5; // Replace with actual number of orders
+  const orders = 1; // Replace with actual number of orders
   const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
   const numberOfDrugs = 3; // Replace with actual number of drugs
   const orderTotal = 100; // Replace with actual order total
+
+  const pharmacies = [
+    {
+      name: 'Pharmacy Masmoudi',
+      image: 'https://static1.lequotidiendupharmacien.fr/cdn/ff/zzKpsdTgDf4zJJAQLEKGfvN9SiuClrByPAJqIXxpBZg/1587729668/public/styles/gps_large/public/public/67237_img_34286_hr.png?itok=vrhqNYWQ', // Replace with actual image URL
+      rating: 4,
+      distance: 3,
+    },
+    {
+      name: 'Pharmacy Khlifi',
+      image: 'https://www.med.tn/uploads/pharmacy/8262_pharmacie-neira-smida-hamza_1590053166.jpg', // Replace with actual image URL
+      rating: 4.5,
+      distance: 2,
+    },
+    {
+      name: 'Pharmacy Yanes',
+      image: 'https://pharmacie.ma/uploads/0f369a47de133d19ce8d70469fc44d93_1503576291.jpeg', // Replace with actual image URL
+      rating: 4.5,
+      distance: 1.7,
+    },
+    // Add more pharmacies here...
+  ];
 
   return (
     <View style={styles.container}>
@@ -40,16 +63,28 @@ const Landing = () => {
         <View style={styles.separator} />
         <View style={styles.orderDetails}>
           <View style={styles.orderDetailItem}>
-            <Icon name="medkit" size={20} color="#000" />
+            <Icon name="medkit" size={20} color="#008000" />
             <Text style={styles.drugsText}>{numberOfDrugs} item(s)</Text>
           </View>
           <View style={styles.separatorVertical} />
           <View style={styles.orderDetailItem}>
-            <Icon name="money" size={20} color="#000" />
+            <Icon name="money" size={20} color="#008000" />
             <Text style={styles.totalText}>{orderTotal} tnd </Text>
           </View>
         </View>
       </View>
+      <View style={styles.secondOrdersContainer}>
+        <Text style={styles.ordersText}>Pharmacies near you</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>SEE ALL</Text>
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={pharmacies}
+        renderItem={({ item }) => <PharmacyCard pharmacy={item} />}
+        keyExtractor={(item, index) => index.toString()}
+        horizontal={true} // Make the list horizontal
+      />
       {/* <NavigationBar /> */}
     </View>
   );
@@ -90,6 +125,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 80,
+  },
+  secondOrdersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 40, // Adjust this value as needed
   },
   ordersText: {
     fontSize: 18,

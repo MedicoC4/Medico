@@ -1,11 +1,18 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
-import Landing from './screens/Landing';
-import UserProfile from './screens/UserProfile';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  Login,
+  Signup,
+  Welcome,
+  FirstStep,
+  SecondStep,
+  ThirdStep,
+  UserProfilePage,
+} from "./screens";
+import Landing from "./screens/Landing";
+import UserProfile from "./screens/UserProfile";
 
 const Stack = createNativeStackNavigator();
-
 
 export default function App() {
   return (
@@ -19,67 +26,71 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName='FirstStep'
-      >
+      <Stack.Navigator initialRouteName="FirstStep">
         <Stack.Screen
           name="Welcome"
           component={Welcome}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Login"
           component={Login}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Signup"
           component={Signup}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="FirstStep"
           component={FirstStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="SecondStep"
           component={SecondStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="ThirdStep"
           component={ThirdStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Landing"
           component={Landing}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-                <Stack.Screen
+        <Stack.Screen
           name="userProfile"
           component={UserProfile}
           options={{
-            headerShown: false
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="userProfilePage"
+          component={UserProfilePage}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
-      
     </NavigationContainer>
   );
 }

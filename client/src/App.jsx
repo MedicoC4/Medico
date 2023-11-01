@@ -19,6 +19,7 @@ import Login from "./pages/login/Login"
 import SignUp from './pages/signUp/SignUp'
 import ResetePassword from './pages/resetePassword/ResetePassword'
 
+
 const App = () => {
   const location = useLocation();
 

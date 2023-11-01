@@ -4,7 +4,8 @@ import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
-
+import DocSecondStep from './screens/docSecounStep';
+import UpgradeDocForm from './screens/UpgradeDocForm';
 
 const Stack = createNativeStackNavigator();
 
@@ -83,6 +84,20 @@ export default function App() {
         <Stack.Screen
           name="DocFirstStep"
           component={DocFirstStep}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="DocSecoundStep"
+          component={DocSecondStep}
+          options={{
+            headerShown: false
+          }}
+        />
+          <Stack.Screen
+          name="UpgradeToDoc"
+          component={UpgradeDocForm}
           options={{
             headerShown: false
           }}

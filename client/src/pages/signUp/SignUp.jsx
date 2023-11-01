@@ -7,11 +7,6 @@ import { createUserWithEmailAndPassword , signInWithPopup , signOut} from 'fireb
 
 
 
-
-
-
-
-
 const SignUp = () => {
 
 

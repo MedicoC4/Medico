@@ -61,7 +61,7 @@ const DocFirstStep = ( { navigation } ) =>{
                  }}
                 title="Continue"
                 filled
-                onPress={() => navigation.navigate("")}
+                onPress={() => navigation.navigate("DocSecoundStep")}
                 style={{
                                 width: width*0.85,
                                 backgroundColor: COLORS.primary,

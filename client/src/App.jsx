@@ -19,6 +19,7 @@ import Login from "./pages/login/Login"
 import SignUp from './pages/signUp/SignUp'
 import ResetePassword from './pages/resetePassword/ResetePassword'
 
+
 const App = () => {
   const location = useLocation();
 
@@ -28,7 +29,7 @@ const App = () => {
 
   return (
     <div>
-      <SideNav />
+      {/* <SideNav /> */}
       <TransitionGroup className="transition-group">
         <CSSTransition
           key={location.key}
@@ -43,8 +44,9 @@ const App = () => {
             <Route path="products" element={<ProductOverview />} />
             <Route path="overview" element={<Overview />} />
             <Route path="statistics" element={<Statistics />} />
+            <Route path="product-overview" element={<ProductOverview />} />
             <Route path="overview" element={<Overview />} />
-            <Route path="product-overview" element={<ProductOverview />} /> 
+            <Route path="product-details" element={<ProductDetails />} /> 
             <Route path="login" element={<Login />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />

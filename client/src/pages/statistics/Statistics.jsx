@@ -1,8 +1,16 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 import "./style.css";
-import LineChart_sales from "./LineChart_sales.jsx";
+import DoughnutChart from "./DoughnutChart";
+import SalesLineChart from "./SalesLineChart";
+import  LineChart  from "./LineChart";
+import  DaughnutChartGender  from "./DaughnutChartGender";
 
 const Statistics = () => {
+  const navigate = useNavigate()
   return (
     <div>
       <div className="big___container___statistics">
@@ -21,12 +29,42 @@ const Statistics = () => {
                 <div className="title___prod___stat">
                   <div className="title___img_prodStat">
                     <div className="title___prod">Total products</div>
+                    <div className="icon___prod___stat"><FontAwesomeIcon icon="fa-duotone fa-clock" /></div>
+                  </div>
+                </div>
+                <div className="products___number___stat">1,256</div>
+                <div className="container___btn___stat">
+                  <button onClick={()=>navigate("/add-product")} className="btn___addProd___stat">
+                    Show stocks
+                  </button>
+                </div>
+              </div>
+              <div className="stat___prod___container___all">
+                <div className="title___prod___stat">
+                  <div className="title___img_prodStat">
+                    <div className="title___prod">Peak hours</div>
+                    <div className="icon___prod___stat">a</div>
+                  </div>
+                </div>
+                <div className="products___number___stat">hh:mm:ss</div>
+                <div className="container___btn___stat">
+                  <button className="btn___addProd___stat">
+                    Details
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="two___container___prodSales">
+              <div className="stat___prod___container___all">
+                <div className="title___prod___stat">
+                  <div className="title___img_prodStat">
+                    <div className="title___prod">Total products</div>
                     <div className="icon___prod___stat">a</div>
                   </div>
                 </div>
                 <div className="products___number___stat">1,256</div>
                 <div className="container___btn___stat">
-                  <button className="btn___addProd___stat">
+                  <button  className="btn___addProd___stat">
                     Add new product
                   </button>
                 </div>
@@ -48,7 +86,7 @@ const Statistics = () => {
             </div>
             <div className="stat___graph1">
               <div className="container___title___filter">
-                <h1 className="title___graph">Total Sales By Week</h1>
+                <h1 className="title___graph">Total Sales </h1>
                 <div className="filter___btns">
                   <button className="filter___year">Year</button>
                   <button className="filter___year">Month</button>
@@ -60,6 +98,26 @@ const Statistics = () => {
                 <div className="container___onlyAvrg___graph">
                   <div className="avrg___graph">Avg. 2500 units/week</div>
                 </div>
+              </div>
+              <div>
+                <SalesLineChart/>
+              </div>
+            </div>
+            <div className="stat___graph1">
+              <div className="container___title___filter">
+                <h1 className="title___graph">Peak hours</h1>
+                <div className="filter___btns">
+                  <button className="filter___year">Calendar</button>
+                </div>
+              </div>
+              <div className="container___reslt___avrg">
+                <h1 className="rsl___title___graph">37 units</h1>
+                <div className="container___onlyAvrg___graph">
+                  <div className="avrg___graph">Avg. 2500 units/hour</div>
+                </div>
+              </div>
+              <div>
+                <LineChart/>
               </div>
             </div>
             <div className="stat___graph1">
@@ -75,7 +133,11 @@ const Statistics = () => {
                   <div className="avrg___graph">Avg. 2500 units/year</div>
                 </div>
               </div>
+              <div>
+                <SalesLineChart/>
+              </div>
             </div>
+            
           </div>
 
           <div className="container___right___stat">
@@ -115,7 +177,7 @@ const Statistics = () => {
                 <div className="line___between"></div>
               </div>
             </div>
-            <div className="stat___graph1">
+            <div className="stat___byGender">
               <div className="container___title___filter">
                 <h1 className="title___graph">Total Sales By Condition</h1>
                 <div className="filter___btns">
@@ -128,8 +190,11 @@ const Statistics = () => {
                   <div className="avrg___graph">Avg. 2500 units/condition</div>
                 </div>
               </div>
+              <div>
+                <DoughnutChart/>
+              </div>
             </div>
-            <div className="stat___graph1">
+            <div className="stat___byGender">
               <div className="container___title___filter">
                 <h1 className="title___graph">Total Sales By Gender</h1>
                 <div className="filter___btns">
@@ -141,6 +206,9 @@ const Statistics = () => {
                 <div className="container___onlyAvrg___graph">
                   <div className="avrg___graph">Avg. 2500 units/gender</div>
                 </div>
+              </div>
+              <div>
+                <DaughnutChartGender/>
               </div>
             </div>
           </div>

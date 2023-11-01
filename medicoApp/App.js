@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
+import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 
 const Stack = createNativeStackNavigator();
@@ -54,6 +55,13 @@ export default function App() {
             headerShown: false
           }}
         />
+        <Stack.Screen
+          name="Landing"
+          component={Landing}
+          options={{
+            headerShown: false
+          }}
+        />
                 <Stack.Screen
           name="userProfile"
           component={UserProfile}
@@ -62,6 +70,7 @@ export default function App() {
           }}
         />
       </Stack.Navigator>
+      
     </NavigationContainer>
   );
 }

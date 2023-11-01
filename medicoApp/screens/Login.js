@@ -222,6 +222,7 @@ const Login = ({ navigation }) => {
                         }}>Register</Text>
                     </Pressable>
                 </View>
+                
             </View>
         </SafeAreaView>
     )

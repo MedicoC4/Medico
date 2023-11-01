@@ -3,6 +3,7 @@ import React from 'react'
 // import { LinearGradient } from "expo-linear-gradient";
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
+import NavigationBar from '../components/NavigationBar';
 // import LottieView from 'lottie-react-native';
 const { width, height } = Dimensions.get("window");
 
@@ -101,6 +102,7 @@ const Welcome = ({ navigation }) => {
 
                     </View>
                 </View>
+                
             </View>
         
     )

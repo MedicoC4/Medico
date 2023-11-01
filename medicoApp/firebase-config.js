@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
+import { name as appName } from './app.json';
 import { getAuth, createUserWithEmailAndPassword , GoogleAuthProvider } from "firebase/auth";
+
 // import {GoogleSignin} from '@react-native-google-signin/google-signin'
 
 const firebaseConfig = {
@@ -14,14 +16,13 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 export default getFirestore(app);
 export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+
 
 
 // GoogleSignin.configure({
 //   webClientId: "468442720217-82eb2l2uo3vhmo7k42sn2a9htlnhrpk4.apps.googleusercontent.com",
 // });
 
-
-export const googleProvider = new GoogleAuthProvider();

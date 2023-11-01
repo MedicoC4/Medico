@@ -5,6 +5,8 @@ import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import ThirdStep from './ThirdStep';
 import Home from "./Home";
+import UserProfile from './UserProfile'
+import ProfileApp from "./ProfileApp";
 
 export {
     Login,
@@ -13,5 +15,7 @@ export {
     FirstStep,
     SecondStep,
     ThirdStep,
-    Home
+    Home,
+    UserProfile,
+    ProfileApp
 }

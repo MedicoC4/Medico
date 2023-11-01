@@ -6,8 +6,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
 const { width, height } = Dimensions.get("window");
-import {auth} from '../firebase-config'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+// import {auth} from '../firebase-config'
+// import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);

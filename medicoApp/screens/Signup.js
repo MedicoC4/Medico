@@ -9,7 +9,8 @@ import {auth , googleProvider} from '../firebase-config';
 import { createUserWithEmailAndPassword , signOut} from 'firebase/auth';
 import { GoogleSignin,statusCodes } from '@react-native-google-signin/google-signin';
 const { width, height } = Dimensions.get("window");
-
+import {auth} from '../firebase-config'
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 
 const Signup = ({ navigation }) => {
@@ -224,7 +225,8 @@ const Signup = ({ navigation }) => {
                     <Text>I agree to the terms and conditions</Text>
                 </View>
 
-                <Button
+                <Button 
+                    
                     title="Sign Up"
                     filled
                     style={{

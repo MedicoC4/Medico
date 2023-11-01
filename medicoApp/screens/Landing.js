@@ -1,10 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text,Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PharmacyCard from './PharmacyCard';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
+import { useNavigation } from '@react-navigation/native';
+
 
 const Landing = () => {
+  const navigation=useNavigation()
   const userName = "Ahmed"; // Replace with actual user name
   const orders = 1; // Replace with actual number of orders
   const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
@@ -34,19 +39,24 @@ const Landing = () => {
   ];
 
   return (
-    <View style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.greeting}>
           <Text style={styles.helloText}>Hello,</Text>
           <Text style={styles.userName}>{userName}</Text>
         </View>
         <View style={styles.icons}>
+            <TouchableOpacity>
           <View style={styles.iconContainer}>
-            <Icon name="bell" size={20} color="#000" style={styles.icon} />
+            <Icon name="bell-o" size={25} color="grey" style={styles.icon} />
           </View>
+          </TouchableOpacity>
+            <TouchableOpacity>
           <View style={styles.iconContainer}>
-            <Icon name="shopping-cart" size={20} color="#000" />
+          <MaterialCommunityIcons name="cart-outline" size={25} color="grey" />
           </View>
+            </TouchableOpacity>
         </View>
       </View>
       <View style={styles.ordersContainer}>
@@ -63,13 +73,13 @@ const Landing = () => {
         <View style={styles.separator} />
         <View style={styles.orderDetails}>
           <View style={styles.orderDetailItem}>
-            <Icon name="medkit" size={20} color="#008000" />
+          <MaterialCommunityIcons name="pill" size={20} color="#008000" />
             <Text style={styles.drugsText}>{numberOfDrugs} item(s)</Text>
           </View>
           <View style={styles.separatorVertical} />
           <View style={styles.orderDetailItem}>
-            <Icon name="money" size={20} color="#008000" />
-            <Text style={styles.totalText}>{orderTotal} tnd </Text>
+          <FontAwesome5 name="money-bill-wave" size={20} color="#008000" />
+            <Text style={styles.totalText}>{orderTotal} TND </Text>
           </View>
         </View>
       </View>
@@ -84,8 +94,9 @@ const Landing = () => {
         renderItem={({ item }) => <PharmacyCard pharmacy={item} />}
         keyExtractor={(item, index) => index.toString()}
         horizontal={true} // Make the list horizontal
-      />
-      {/* <NavigationBar /> */}
+        />
+    </ScrollView>
+    <NavigationBar/>
     </View>
   );
 }
@@ -117,14 +128,16 @@ const styles = StyleSheet.create({
   iconContainer: {
     borderWidth: 1,
     borderRadius: 50,
-    padding: 5,
+    padding: 7,
     marginRight: 10,
+    backgroundColor: '#E8E8E8',
+    borderColor: '#D3D3D3', // Add this line
   },
   ordersContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 80,
+    marginTop: 55,
   },
   secondOrdersContainer: {
     flexDirection: 'row',
@@ -134,17 +147,18 @@ const styles = StyleSheet.create({
   },
   ordersText: {
     fontSize: 18,
+    fontWeight: 'bold'
   },
   button: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ddf0ee',
     borderRadius: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: '#008000',
+    paddingVertical: 3.5,
+    paddingHorizontal: 13,
+  
+    
   },
   buttonText: {
-    color: '#008000',
+    color: '#2d958c',
     fontSize: 15,
   },
   card: {
@@ -204,6 +218,34 @@ const styles = StyleSheet.create({
   totalText: {
     marginLeft: 10,
   },
+  // this added 
+
+  bar:{
+    flexDirection: 'row',
+    flex: 1,
+    paddingHorizontal:7,
+    paddingLeft:20,
+    justifyContent: 'space-around',
+    backgroundColor:'#E5E5E5',
+    borderRadius:20,
+    height:500,
+    top:500
+    
+  },
+  item:{
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+ic:{
+  paddingLeft:25,
+  width:40,
+  height:40,
+}, 
+text:{
+fontSize:15,
+marginTop:10,
+//  marginRight:10,
+},
 });
 
 export default Landing;

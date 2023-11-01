@@ -1,49 +1,77 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import Landing from '../screens/Landing';
-
-
-const Tab = createBottomTabNavigator();
+import React, { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import home from '../assets/home.png'
+import lense from '../assets/lense.png'
+import store from '../assets/store.png'
+import account from '../assets/account.png'
 
 const NavigationBar = () => {
+  const navigation = useNavigation()
+  const [selectedTab, setSelectedTab] = useState('')
+
+  const handlePress = (route, tabName) => {
+    navigation.navigate(route)
+    setSelectedTab(tabName)
+  }
+
+  const renderIcon = (source, tabName) => (
+    <Image source={source} style={[styles.ic, { tintColor: selectedTab === tabName ? '#2d958c' : '#bdbdbd' }]} />
+  )
+
   return (
-    
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Discover') {
-              iconName = focused ? 'search' : 'search-outline';
-            } else if (route.name === 'Stores') {
-              iconName = focused ? 'storefront' : 'storefront-outline';
-            } else if (route.name === 'Map') {
-              iconName = focused ? 'map' : 'map-outline';
-            } else if (route.name === 'Account') {
-              iconName = focused ? 'person' : 'person-outline';
-            }
-
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: 'darkgreen',
-          inactiveTintColor: 'lightgreen',
-        }}
-      >
-        <Tab.Screen name="Home" component={Landing} />
-        <Tab.Screen name="Discover"  />
-        <Tab.Screen name="Stores"  />
-        <Tab.Screen name="Map"  />
-        <Tab.Screen name="Account"  />
-      </Tab.Navigator>
-    
+    <View style={styles.bar}>
+      <TouchableOpacity style={styles.item} onPress={() => handlePress("Landing", "home")}>
+        {renderIcon(home, "home")}
+        <Text style={selectedTab === "home" ? styles.selectedText : styles.text}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.item} onPress={() => handlePress("Discover", "discover")}>
+        {renderIcon(lense, "discover")}
+        <Text style={selectedTab === "discover" ? styles.selectedText : styles.text}>Discover</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.item} onPress={() => handlePress("Stores", "stores")}>
+        {renderIcon(store, "stores")}
+        <Text style={selectedTab === "stores" ? styles.selectedText : styles.text}>Stores</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.item} onPress={() => handlePress("Login", "account")}>
+        {renderIcon(account, "account")}
+        <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  bar:{
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor:'white',
+    borderRadius:5,
+    height:90, // Adjusted height
+    position: 'absolute', // Added position
+    bottom: 0, // Added bottom
+    width: 360, // Added width
+    paddingHorizontal:7,
+  },
+  item: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  ic: {
+    paddingLeft: 25,
+    width: 30,
+    height: 30,
+  },
+  text: {
+    fontSize: 15,
+    marginTop: 10,
+    color: '#bdbdbd' // Changed color
+  },
+  selectedText: {
+    fontSize: 15,
+    marginTop: 10,
+    color: '#2d958c'
+  }
+});
 
 export default NavigationBar;

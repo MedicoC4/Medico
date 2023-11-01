@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
+import NavigationBar from './components/NavigationBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +80,7 @@ export default function App() {
           }}
         />
       </Stack.Navigator>
+
       
     </NavigationContainer>
   );

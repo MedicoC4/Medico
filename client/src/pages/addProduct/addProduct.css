@@ -11,7 +11,7 @@
     display: flex;
     margin-left: 8vw;
     gap:20px;
-    padding: 1rem;
+    padding: 2rem 1.5rem;
     height: auto;
     overflow-x: hidden;
     justify-content: flex-end;
@@ -20,21 +20,28 @@
     transition: 0.2s;
 }
 .product_information_add{
-    background-color:#F0F0F0 ;
+    background-color: rgba(240, 240, 240, 60%);
     border-radius: 20px;
-    padding-top: 0.2rem;
+    padding-top: 1.5rem;
     padding-left: 1.5rem;
-    padding-bottom: 1rem;
+    padding-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 .big_add_inputs{
     width: 97.5%;
-    border-radius: 20px;
+    border-radius: 10px;
     border-color:#F0F0F0 ;
     border: none;
     height: 2.5rem;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
 }
+.big_add_inputs:focus {
+    outline: 2px solid rgb(192, 192, 192);
+}
+
 .addproduct_title{
     font-weight: 620;
     font-size: 20px;
@@ -43,12 +50,34 @@
     display: grid;
     grid-area: auto;
     grid-template-columns: auto auto;
-    gap: 0.5rem ;
+    gap: 0.8rem 0rem ;
 }
+
+.side_effects_inputs > input {
+    padding-left: 1rem;
+    transition: border 0.3s;
+    outline: none;
+    border: none;
+}
+
+.side_effects_inputs > input:focus {
+    outline: 2px solid rgb(192, 192, 192);
+}
+
+.add_side_effects {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.add_side_effects > p {
+    padding-left: 0.2rem;
+}
+
 .sub_add_inputs{
     width: 95%;
     height: 2.5rem;
-    border-radius: 20px;
+    border-radius: 10px;
     border: none;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 0.5rem;
@@ -60,11 +89,22 @@
     gap: 20px;
     width: 90rem;
 }
+
+.addproduct_input_div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.addproduct_input_div > p {
+    padding-left: 0.2rem;
+}
+
 .white_image_holder{
     background-color: white;
     height: 8rem;
     width:97%;
-    border-radius: 20px;
+    border-radius: 10px;
     align-items: center;
     justify-content: center;
     display: flex;

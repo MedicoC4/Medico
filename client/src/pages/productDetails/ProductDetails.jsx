@@ -39,12 +39,13 @@ const ProductDetails = () => {
           </div>
         </div>
         <ul className="navBar___info___medcine">
-          <Link className="navBar___Link">Overview</Link>
+          <Link className="navBar___Link" to="">Overview</Link>
           <Link className="navBar___Link">Dosage</Link>
           <Link className="navBar___Link">Warnings</Link>
           <Link className="navBar___Link">Side Effects</Link>
         </ul>
-        <div className="product___information___title___details">
+        <div></div>
+        {/* <div className="product___information___title___details">
           <h1 className="title___product___information">Product Information</h1>
           <div className="description___info___image">
             <div className="description___details">
@@ -77,7 +78,7 @@ const ProductDetails = () => {
               <img src="" alt="ggggggg" />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <h1 className="suggested___products">Suggest Products</h1>
       <div className="all___suggested___cards">

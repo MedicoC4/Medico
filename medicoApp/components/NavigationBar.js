@@ -47,11 +47,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     backgroundColor:'white',
     borderRadius:5,
-    height:90, // Adjusted height
-    position: 'absolute', // Added position
-    bottom: 0, // Added bottom
-    width: 360, // Added width
+    height:70,
     paddingHorizontal:7,
+    width: '100%', 
   },
   item: {
     justifyContent: 'center',
@@ -59,13 +57,13 @@ const styles = StyleSheet.create({
   },
   ic: {
     paddingLeft: 25,
-    width: 30,
-    height: 30,
+    width: 25, 
+    height: 25, 
   },
   text: {
     fontSize: 15,
     marginTop: 10,
-    color: '#bdbdbd' // Changed color
+    color: '#bdbdbd' 
   },
   selectedText: {
     fontSize: 15,

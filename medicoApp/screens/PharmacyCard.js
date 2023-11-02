@@ -36,9 +36,10 @@ const styles = StyleSheet.create({
     width: 300, // Default width
   },
   image: {
-    width: 260,
-    height: 160,
+    width: 280,
+    height: 165,
     borderRadius: 20,
+    // marginTop: 10,
   },
   infoContainer: {
     width: '100%', // Take up remaining space

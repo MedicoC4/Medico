@@ -3,37 +3,27 @@ import React from 'react'
 import Button from '../components/Button';
 import COLORS from '../constants/colors';
 // import DocumentPicker from 'react-native-document-picker';
-
+import * as DocumentPicker from 'expo-document-picker';
 
 const DoctorPdf = () => {
+  
+    pickDocument = async () => {
 
-    // const selectDoc = async () => {
-    //     try {
-    //       const doc = await DocumentPicker.pick({
-    //         type: [DocumentPicker.types.pdf],
-    //         allowMultiSelection: true
-    //       });
-    //       const doc = await DocumentPicker.pickSingle()
-    //       const doc = await DocumentPicker.pickMultiple({
-    //         type: [DocumentPicker.types.pdf, DocumentPicker.types.images]
-    //       })
-    //       console.log(doc)
-    //     } catch(err) {
-    //       if(DocumentPicker.isCancel(err)) 
-    //         console.log("User cancelled the upload", err);
-    //       else 
-    //         console.log(err)
-    //     }
-    //   }
+      let result = await DocumentPicker.getDocumentAsync({});
+      
+      // alert(result.uri);
+      
+      console.log(result);
+      
+      }
+
+
   return (
-    <View style={{flex:1,
-    justifyContent:'center',
-    alignItems:'center'}}>
-      <Text>DoctorPdf</Text>
-      <Button
-      title='Upload'
-      />
-    </View>
+    <Button
+    title="Select Document"
+    onPress={pickDocument}
+    style={{top:500,width:400}}
+    />
   )
 }
 

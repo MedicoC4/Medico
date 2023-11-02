@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./addProduct.css";
 import SideNav from "../../components/sideNav/SideNav";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { DB } from "../../firebase-config";
+import { DB, storage } from "../../firebase-config";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,47 @@ const AddProduct = () => {
     sideEffect3: "",
     sideEffect4: "",
   });
+
+  const [file, setFile] = useState("");
+  const [perc, setPerc] = useState(null)
+
+  useEffect(() => {
+    const uploadImg = () => {
+      const name = new Date().getTime() + file.name;
+      const storageRef = ref(storage, file.name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          setPerc(progress)
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setFormData((prev) => ({...prev, img: downloadURL}))
+          });
+        }
+      );
+    };
+    file && uploadImg();
+  }, [file]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -145,7 +187,7 @@ const AddProduct = () => {
                   className="button_uploader_add"
                   name="imgUrl"
                   value={formData.imgUrl}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
             </div>
@@ -194,7 +236,7 @@ const AddProduct = () => {
           </div>
           <div className="product_information_add">
             <div className="buttons_save_add_collection">
-              <button className="saving_buttons_add" onClick={handleSubmit}>
+              <button disabled={perc !== null && perc < 100} className="saving_buttons_add" onClick={handleSubmit}>
                 Publish
               </button>
               <button className="saving_buttons_add">Schedule</button>

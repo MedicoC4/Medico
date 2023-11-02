@@ -117,7 +117,7 @@ const Login = ({ navigation }) => {
                 </View>
 
                 <Button
-                    onPress={() => navigation.navigate("userProfile")}
+                    onPress={() => navigation.navigate("userProfilePage")}
                     title="Login"
                     filled
                     style={{

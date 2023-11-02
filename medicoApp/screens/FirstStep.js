@@ -61,7 +61,7 @@ const FirstStep = ( { navigation } ) =>{
              }}
             title="Continue"
             filled
-            onPress={() => navigation.navigate("SecondStep")}
+            onPress={() => navigation.navigate("Landing")}
             style={{
                             width: width*0.85,
                             backgroundColor: COLORS.primary,

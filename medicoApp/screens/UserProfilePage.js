@@ -9,8 +9,7 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import { AntDesign } from '@expo/vector-icons'; 
-
+import { AntDesign } from "@expo/vector-icons";
 
 const UserProfilePage = () => {
   return (
@@ -30,7 +29,7 @@ const UserProfilePage = () => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-        //   backgroundColor: "green",
+          //   backgroundColor: "green",
           height: 100,
         }}
       >
@@ -63,8 +62,8 @@ const UserProfilePage = () => {
               <Image
                 source={require("../assets/bell.png")}
                 style={{
-                  width: 35,
-                  height: 35,
+                  width: 30,
+                  height: 30,
                 }}
               />
             </View>
@@ -82,22 +81,26 @@ const UserProfilePage = () => {
               backgroundColor: "#EAEAEA",
             }}
           >
-         <View style={{
-              width: 60,
-              height: 60,
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 100,
-              shadowColor: "rgba(3, 3, 3, 0.1)",
-              shadowOffset: { width: 0, height: 2 },
-              shadowRadius: 4,
-              backgroundColor: "#EAEAEA",
-            }}>
-            <Image source={require("../assets/basket.png")}
-            style={{
-                width: 30,
-                height: 30,
-              }}/>
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#EAEAEA",
+              }}
+            >
+              <Image
+                source={require("../assets/basket.png")}
+                style={{
+                  width: 30,
+                  height: 30,
+                }}
+              />
             </View>
           </TouchableOpacity>
         </View>
@@ -109,7 +112,7 @@ const UserProfilePage = () => {
           alignItems: "center",
           margin: 3,
           gap: 8,
-        //   backgroundColor: "yellow",
+          //   backgroundColor: "yellow",
         }}
       >
         <View
@@ -123,39 +126,48 @@ const UserProfilePage = () => {
             shadowOffset: { width: 0, height: 2 },
             shadowRadius: 4,
             backgroundColor: "#EAEAEA",
-            position:"relative"
+            position: "relative",
           }}
         >
-          <Image style={{
-            width: 150,
-            height: 150,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 100,
-            shadowColor: "rgba(3, 3, 3, 0.1)",
-            shadowOffset: { width: 0, height: 2 },
-            shadowRadius: 4,
-            backgroundColor: "#EAEAEA",
-          }}
-          source={require('../assets/hero3.jpg')} 
+          <Image
+            style={{
+              width: 150,
+              height: 150,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 100,
+              shadowColor: "rgba(3, 3, 3, 0.1)",
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              backgroundColor: "#EAEAEA",
+            }}
+            source={require("../assets/hero3.jpg")}
           />
-          <TouchableOpacity style={{position:"absolute",width: 150,
-           top:15,
-           left:110,
-           width: 35,
-            height: 35,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 100,
-            shadowColor: "rgba(3, 3, 3, 0.1)",
-            shadowOffset: { width: 0, height: 2 },
-            shadowRadius: 4,
-            backgroundColor: "#1a998e",borderWidth: 3.5, 
-            borderColor: 'white', 
-            borderStyle: 'solid'}}>
-          <Image style={{width:20,height:20,}}
-           source={require("../assets/editPen.png")}/>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              width: 150,
+              top: 15,
+              left: 110,
+              width: 35,
+              height: 35,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 100,
+              shadowColor: "rgba(3, 3, 3, 0.1)",
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              backgroundColor: "#1a998e",
+              borderWidth: 3.5,
+              borderColor: "white",
+              borderStyle: "solid",
+            }}
+          >
+            <Image
+              style={{ width: 20, height: 20 }}
+              source={require("../assets/editPen.png")}
+            />
+          </TouchableOpacity>
         </View>
         <Text style={{ fontSize: 30, fontWeight: "bold" }}>Sanni Muiz</Text>
         <View
@@ -206,29 +218,35 @@ const UserProfilePage = () => {
                 backgroundColor: "#ddf0ee",
               }}
             >
-                <View style={{
-                width: 60,
-                height: 60,
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 100,
-                shadowColor: "rgba(3, 3, 3, 0.1)",
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                backgroundColor: "#ddf0ee",
-              }}>
-              <Image source={require("../assets/personalDetails.png")}
-              style={{
-                width: 30,
-                height: 30,
-              }}/>
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/personalDetails.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
               </View>
             </View>
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>
               Personal Details
             </Text>
           </View>
-          <View style={{
+          <View
+            style={
+              {
                 // width: 60,
                 // height: 60,
                 // justifyContent: "center",
@@ -237,7 +255,9 @@ const UserProfilePage = () => {
                 // shadowColor: "rgba(3, 3, 3, 0.1)",
                 // shadowOffset: { width: 0, height: 2 },
                 // shadowRadius: 4,
-              }}>
+              }
+            }
+          >
             {/* <Image source={require("../assets/flesh_right.png")}
             style={{
                 width: 35,
@@ -286,29 +306,32 @@ const UserProfilePage = () => {
                 backgroundColor: "#ddf0ee",
               }}
             >
-           <View style={{
-                width: 60,
-                height: 60,
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 100,
-                shadowColor: "rgba(3, 3, 3, 0.1)",
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                backgroundColor: "#ddf0ee",
-              }}>
-              <Image source={require("../assets/payment.png")}
-              style={{
-                width: 30,
-                height: 30,
-             
-              }}/>
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/payment.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
               </View>
             </View>
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>Payments</Text>
           </View>
           <View>
-          <AntDesign name="right" size={24} color="#1a998e" />
+            <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
         <View
@@ -350,28 +373,32 @@ const UserProfilePage = () => {
                 backgroundColor: "#ddf0ee",
               }}
             >
-           <View style={{
-                width: 60,
-                height: 60,
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 100,
-                shadowColor: "rgba(3, 3, 3, 0.1)",
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                backgroundColor: "#ddf0ee",
-              }}>
-              <Image source={require("../assets/settings.png")}
-              style={{
-                width: 30,
-                height: 30,
-              }}/>
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/settings.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
               </View>
             </View>
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>Settings</Text>
           </View>
           <View>
-          <AntDesign name="right" size={24} color="#1a998e" />
+            <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
         <View
@@ -413,29 +440,32 @@ const UserProfilePage = () => {
                 backgroundColor: "#ddf0ee",
               }}
             >
-            <View style={{
-                width: 60,
-                height: 60,
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 100,
-                shadowColor: "rgba(3, 3, 3, 0.1)",
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                backgroundColor: "#ddf0ee",
-              }}>    
-              <Image source={require("../assets/support.png")}
-              style={{
-                width: 27,
-                height: 27,
-                
-              }}/>
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/support.png")}
+                  style={{
+                    width: 27,
+                    height: 27,
+                  }}
+                />
               </View>
             </View>
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>Support</Text>
           </View>
           <View>
-          <AntDesign name="right" size={24} color="#1a998e" />
+            <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
       </View>

@@ -6,7 +6,7 @@ import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
 import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
-
+import MapLocation from './screens/MapLocation';
 const Stack = createNativeStackNavigator();
 
 
@@ -89,6 +89,13 @@ export default function App() {
           <Stack.Screen
           name="UpgradeToDoc"
           component={UpgradeDocForm}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="map"
+          component={MapLocation}
           options={{
             headerShown: false
           }}

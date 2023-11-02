@@ -19,7 +19,7 @@ import { addDoc, collection, doc, serverTimestamp,setDoc } from "firebase/firest
 
 
 
-export default function Example() {
+export default function Example({navigation}) {
   const [yearOfEx , setYearOfEx]= useState('')
   const [specialite , setSpecialite]= useState('')
 
@@ -78,15 +78,19 @@ export default function Example() {
             </View>
 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Localisation</Text>
-
-              <TextInput
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="email-address"
-                style={styles.inputControl}
-                
-              />
+            <Button
+            onPress={() => navigation.navigate("map")}
+                  titleStyle={{
+                    color: "#FFFFFF"
+                 }}
+                title="Continue"
+                filled
+                style={{
+                                width: width*0.85,
+                                backgroundColor: COLORS.primary,
+                                color: COLORS.white
+                            }}
+                        />
             </View>
 
             

@@ -175,4 +175,7 @@
     cursor: pointer;
 }
 
-
+.saving_buttons_add:disabled {
+    background-color: #6E6E6E;
+    cursor: not-allowed;
+}

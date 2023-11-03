@@ -19,6 +19,8 @@ import Login from "./pages/login/Login"
 import SignUp from './pages/signUp/SignUp'
 import ResetePassword from './pages/resetePassword/ResetePassword'
 import Landing from "./pages/landingPage/landing"
+import Prod_info from "./pages/productDetails/Prod_info.jsx";
+import Prod_det from "./pages/productDetails/Prod_det.jsx";
 
 
 const App = () => {
@@ -48,7 +50,10 @@ const App = () => {
             <Route path="statistics" element={<Statistics />} />
             <Route path="product-overview" element={<ProductOverview />} />
             <Route path="overview" element={<Overview />} />
-            <Route path="product-details" element={<ProductDetails />} />
+            <Route path="product-details" element={<ProductDetails />} >
+            <Route path="prod_info" element={<Prod_info />} />
+            <Route path="prod_det" element={<Prod_det />} />
+            </Route>
             <Route path="login" element={<Login />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />

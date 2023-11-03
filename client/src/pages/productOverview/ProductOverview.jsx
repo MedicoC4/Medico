@@ -5,9 +5,19 @@ import DataGrid from "../../components/dataGrid/dataGrid";
 import { collection, getDocs } from "firebase/firestore";
 import { DB } from "../../firebase-config";
 import { Timestamp } from "firebase/firestore";
+import { useNavigate } from 'react-router';
+import ProductDetails from "../productDetails/ProductDetails";
+import { useDispatch } from 'react-redux';
+import { save } from '../../redux/productSlicer';
 
 const ProductOverview = () => {
   const [data, setData] = useState([]);
+  const [prodId,setPredId]=useState("");
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const handleShowProductDetails = (e) => {
+    dispatch(save(e));
+  };
 
   function timestampToDate(timestamp) {
     if (timestamp instanceof Timestamp) {
@@ -40,14 +50,50 @@ const ProductOverview = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+    localStorage.setItem("prod_id",prodId )
+  }, [prodId]);
   console.log(data);
+  console.log(prodId,"this");
 
   return (
     <div className="all_product_container">
       <SideNav />
       <div className="body_cards_container">
-        <DataGrid data={data} />
+        {/* <DataGrid data={data} /> */}
+        {data.map((e)=>(
+          <div className="all___suggested___cards">
+          <div className="card___suggested___container">
+            <div className="card___image___suggestion">
+              <img src="" alt="" />
+            </div>
+            <div className="text___product___suggestion">
+              <h1 className="product___title___suggestion">{e.productName}</h1>
+              <div className="keys___description___suggestion">
+                <div className="oneKey___description___suggestion">
+                  <div className="icon___product___keySuggestion">AA</div>
+                  <p className="text___product___keySuggestion">Quantity</p>
+                </div>
+                <div className="oneKey___description___suggestion">
+                  <div className="icon___product___keySuggestion">AA</div>
+                  <p className="text___product___keySuggestion">Quantity</p>
+                </div>
+                <div className="oneKey___description___suggestion">
+                  <div className="icon___product___keySuggestion">AA</div>
+                  <p className="text___product___keySuggestion">Quantity</p>
+                </div>
+                <p className="under___description___suggest">
+                  Description of this products
+                </p>
+              </div>
+              <button className="show___product___suggestion___btn" onClick={()=>{navigate("/product-details");setPredId(e.id);console.log(e.id,"ffffff");handleShowProductDetails(e.id);    localStorage.setItem("prod_id",prodId )
+}}> 
+                Show Product
+              </button>
+            </div>
+          </div>
+       
+        </div>
+        ))}
       </div>
     </div>
   );

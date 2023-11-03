@@ -5,7 +5,6 @@ const Prod_info = () => {
   return (
     <div>
         <div className="product___information___title___details">
-          <h1 className="title___product___information">Product Information</h1>
           <div className="description___info___image">
             <div className="description___details">
               <div className="details___icon___para">

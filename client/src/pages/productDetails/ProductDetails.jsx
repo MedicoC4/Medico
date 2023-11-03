@@ -1,9 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
-import { Link } from "react-router-dom";
+import { Link, Outlet,NavLink, json } from "react-router-dom";
 import ProgressBar from "./ProgressBar.jsx";
+import {Box,Tab,Tabs} from "@mui/material"
+import {TabContext,TabList,TabPanel} from "@mui/lab"
+import Prod_info from "./Prod_info.jsx";
+import Prod_det from "./Prod_det.jsx";
+import { useSelector } from 'react-redux';
+import { collection, query, where, getDoc,doc,updateDoc } from "firebase/firestore";
+import { DB } from "../../firebase-config";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
+
+
+const prodId = localStorage.getItem("prod_id")
 
 const ProductDetails = () => {
+  const [name,setName] = useState ("")
+  const [prod,setProd]=useState([])
+  const [value,setValue] = useState(0)
+  const [refresh,setRefresh] = useState(false)
+  const productId = useSelector((state) => state.idProd.value);
+console.log(productId,"reduuuux");
+const docRef = doc(DB, "products", productId);
+const getProdById = async()=>{
+  try {
+    const docSnap = await getDoc(docRef);    
+    const result = docSnap.data()
+    setProd(result)
+  } catch (error) {
+    console.log("error fetching prod",error);
+  }
+}
+
+const taskDocRef = doc(DB,"products",productId)
+const handleCheckedChange = async ()=>{
+  try {
+    await updateDoc(taskDocRef,{
+      productName:name
+    })
+setRefresh(!refresh)
+  } catch (error) {
+    console.log("error update",error);
+  }
+}
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  useEffect(()=>{
+    getProdById()
+  },[refresh])
+  console.log(prod,"this is prod");
   return (
     <div className="bigDiv___flex___colmun">
       <div className="images___top___container">
@@ -28,7 +78,7 @@ const ProductDetails = () => {
       <div className="product___info___container">
         <div className="product___title___info">
           <div className="titles___container">
-            <h1 className="product___name">Medicine name</h1>
+            <h1 className="product___name">{prod.productName}</h1>
             <p className="product___sousName">Description of the medicine</p>
           </div>
           <div className="info___rating___customer">
@@ -38,13 +88,62 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
+        <div className="cont___title___update___prod">
+        <h1 className="title___product___information">Product Information</h1>
+        <div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Update
+</button>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <input placeholder="Write here" onChange={(e)=>setName(e.target.value)}/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={()=>handleCheckedChange()}>Confirme</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+        </div>
+        <div>
+      <Tabs value={value} onChange={handleChange}  >
+        <Tab label="Overview" />
+        <Tab label="Dosage" />
+        <Tab label="Warnings" />
+        <Tab label="Side Effects" />
+      </Tabs>
+      {value === 0 && <div><Prod_info/></div>}
+      {value === 1 && <div><Prod_det/></div>}
+      {value === 2 && <div><Prod_info/></div>}
+      {value === 3 && <div><Prod_det/></div>}
+    </div>
+    
+        {/* <div>
         <ul className="navBar___info___medcine">
-          <Link className="navBar___Link" to="">Overview</Link>
-          <Link className="navBar___Link">Dosage</Link>
+          
+          <NavLink className="navBar___Link" to="prod_info">Overview</NavLink>
+            
+          
+          <li>
+          <NavLink className="navBar___Link" to="prod_det">Dosage</NavLink>
+
+          </li>
           <Link className="navBar___Link">Warnings</Link>
           <Link className="navBar___Link">Side Effects</Link>
         </ul>
-        <div></div>
+        </div>
+        <div>
+        <Outlet/>
+        </div> */}
         {/* <div className="product___information___title___details">
           <h1 className="title___product___information">Product Information</h1>
           <div className="description___info___image">

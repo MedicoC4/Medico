@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,UserProfile,ProfileApp,Landing} from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,UserProfile,ProfileApp,Landing, AllPharmacies} from "./screens";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,13 @@ export default function App() {
         <Stack.Screen
           name="ProfileApp"
           component={ProfileApp}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="AllPharmacies"
+          component={AllPharmacies}
           options={{
             headerShown: false
           }}

@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf} from "./screens";
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
@@ -14,11 +14,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='FirstStep'
+        initialRouteName='DoctorPdf'
       >
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false
+          }}
+        />
+          <Stack.Screen
+          name="DoctorPdf"
+          component={DoctorPdf}
           options={{
             headerShown: false
           }}

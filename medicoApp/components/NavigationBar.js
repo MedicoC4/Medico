@@ -29,7 +29,7 @@ const NavigationBar = () => {
         {renderIcon(lense, "discover")}
         <Text style={selectedTab === "discover" ? styles.selectedText : styles.text}>Discover</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item} onPress={() => handlePress("Stores", "stores")}>
+      <TouchableOpacity style={styles.item} onPress={() => handlePress("AllPharmacies", "stores")}>
         {renderIcon(store, "stores")}
         <Text style={selectedTab === "stores" ? styles.selectedText : styles.text}>Stores</Text>
       </TouchableOpacity>

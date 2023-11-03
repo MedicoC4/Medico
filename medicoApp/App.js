@@ -1,5 +1,7 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
+<<<<<<< HEAD
 import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,23 +16,41 @@ import {
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
+=======
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf} from "./screens";
+>>>>>>> ad33688a8ac9bcfad5f5ac2241b83e066430f9fb
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
 import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
+import AllPharmacies from './screens/AllPharmacies';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
+<<<<<<< HEAD
       <Stack.Navigator initialRouteName="FirstStep">
+=======
+      <Stack.Navigator
+        initialRouteName='DoctorPdf'
+      >
+>>>>>>> ad33688a8ac9bcfad5f5ac2241b83e066430f9fb
         <Stack.Screen
           name="Welcome"
           component={Welcome}
           options={{
             headerShown: false,
+          }}
+        />
+          <Stack.Screen
+          name="DoctorPdf"
+          component={DoctorPdf}
+          options={{
+            headerShown: false
           }}
         />
         <Stack.Screen
@@ -120,6 +140,13 @@ export default function App() {
         <Stack.Screen
           name="map"
           component={MapLocation}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="AllPharmacies"
+          component={AllPharmacies}
           options={{
             headerShown: false
           }}

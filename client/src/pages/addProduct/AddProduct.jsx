@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./addProduct.css";
 import SideNav from "../../components/sideNav/SideNav";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  getDocs,
+  collection,
+  serverTimestamp,
+  doc,
+} from "firebase/firestore";
 import { DB, storage } from "../../firebase-config";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  DocumentReference,
+} from "firebase/storage";
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -11,8 +22,7 @@ const AddProduct = () => {
     productDescription: "",
     productPrice: "",
     imgUrl: "",
-    productCategory: "",
-    category: "",
+    productCategory: null, // Store category as a reference
     sideEffect1: "",
     sideEffect2: "",
     sideEffect3: "",
@@ -20,12 +30,14 @@ const AddProduct = () => {
   });
 
   const [file, setFile] = useState("");
-  const [perc, setPerc] = useState(null)
+  const [perc, setPerc] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     const uploadImg = () => {
       const name = new Date().getTime() + file.name;
-      const storageRef = ref(storage, file.name);
+      const storageRef = ref(storage, name);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
@@ -34,7 +46,7 @@ const AddProduct = () => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
-          setPerc(progress)
+          setPerc(progress);
           switch (snapshot.state) {
             case "paused":
               console.log("Upload is paused");
@@ -51,7 +63,7 @@ const AddProduct = () => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setFormData((prev) => ({...prev, img: downloadURL}))
+            setFormData((prev) => ({ ...prev, imgUrl: downloadURL }));
           });
         }
       );
@@ -59,6 +71,24 @@ const AddProduct = () => {
     file && uploadImg();
   }, [file]);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoriesCollection = collection(DB, "categories");
+        const categoriesSnapshot = await getDocs(categoriesCollection);
+        const categoriesData = [];
+        categoriesSnapshot.forEach((doc) => {
+          const category = doc.data();
+          categoriesData.push({ id: doc.id, ...category });
+        });
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -73,6 +103,9 @@ const AddProduct = () => {
         ...formData,
         [name]: value,
       });
+    } else if (name === "productCategory") {
+      const categoryRef = doc(DB, "categories", value);
+      setSelectedCategory(categoryRef);
     } else {
       setFormData({
         ...formData,
@@ -84,25 +117,30 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addDoc(collection(DB, "products"), {
-        ...formData,
-        timeStamp: serverTimestamp(),
-      });
+      if (selectedCategory) {
+        const productData = {
+          ...formData,
+          productCategory: selectedCategory,
+          timeStamp: serverTimestamp(),
+        };
+        await addDoc(collection(DB, "products"), productData);
 
-      setFormData({
-        productName: "",
-        productDescription: "",
-        productPrice: "",
-        imgUrl: "",
-        productCategory: "",
-        category: "",
-        sideEffect1: "",
-        sideEffect2: "",
-        sideEffect3: "",
-        sideEffect4: "",
-      });
+        setFormData({
+          productName: "",
+          productDescription: "",
+          productPrice: "",
+          imgUrl: "",
+          sideEffect1: "",
+          sideEffect2: "",
+          sideEffect3: "",
+          sideEffect4: "",
+          productCategory: null,
+        });
 
-      console.log("Product added successfully!");
+        console.log("Product added successfully!");
+      } else {
+        console.error("Please select a category before submitting.");
+      }
     } catch (error) {
       console.error("Error adding product:", error);
     }
@@ -185,8 +223,6 @@ const AddProduct = () => {
                 <input
                   type="file"
                   className="button_uploader_add"
-                  name="imgUrl"
-                  value={formData.imgUrl}
                   onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
@@ -213,10 +249,16 @@ const AddProduct = () => {
               <select
                 id=""
                 className="big_add_inputs"
-                name="category"
-                value={formData.category}
+                name="productCategory"
                 onChange={handleInputChange}
-              ></select>
+              >
+                <option value="">Select a category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
@@ -236,7 +278,11 @@ const AddProduct = () => {
           </div>
           <div className="product_information_add">
             <div className="buttons_save_add_collection">
-              <button disabled={perc !== null && perc < 100} className="saving_buttons_add" onClick={handleSubmit}>
+              <button
+                disabled={perc !== null && perc < 100}
+                className="saving_buttons_add"
+                onClick={handleSubmit}
+              >
                 Publish
               </button>
               <button className="saving_buttons_add">Schedule</button>

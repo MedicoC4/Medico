@@ -7,16 +7,16 @@ const PharmacyCard = ({ pharmacy }) => {
     <View style={styles.card}>
       <Image source={{ uri: pharmacy.image }} style={styles.image} />
       <View style={styles.infoContainer}>
-        <Text style={styles.name}>{pharmacy.name}</Text>
-        <View style={styles.ratingDistanceContainer}>
+        <View style={styles.nameRatingContainer}>
+          <Text style={styles.name}>{pharmacy.name}</Text>
           <View style={styles.ratingContainer}>
-            <Icon name="star" size={20} color="#FFD700" />
+            <Icon name="star" size={15} color="#FFD700" />
             <Text style={styles.rating}>{pharmacy.rating}</Text>
           </View>
-          <View style={styles.distanceContainer}>
-            <Icon name="map-marker" size={20} color="#000" />
-            <Text style={styles.distance}>{pharmacy.distance} km</Text>
-          </View>
+        </View>
+        <View style={styles.distanceContainer}>
+          <Icon name="map-marker" size={15} color="#2d958c" />
+          <Text style={[styles.distance, {color: '#2d958c'}]}>{pharmacy.distance} km</Text>
         </View>
       </View>
     </View>
@@ -24,52 +24,62 @@ const PharmacyCard = ({ pharmacy }) => {
 };
 
 const styles = StyleSheet.create({
-    card: {
-      flexDirection: 'column',
-      margin: 10,
-      padding: 10,
-      backgroundColor: '#fff',
-      borderRadius: 10,
-      elevation: 3,
-      alignItems: 'center',
-      height: 180, // Default height
-      width: 200, // Default width
-    },
-    image: {
-      width: 160,
-      height: 100,
-      borderRadius: 10,
-    },
-    infoContainer: {
-      marginLeft: 10,
-      flex: 1, // Take up remaining space
-    },
-    name: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      textAlign: 'center', // Center the text
-    },
-    ratingDistanceContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginTop: 5,
-    },
-    ratingContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    rating: {
-      marginLeft: 5,
-      textAlign: 'center', // Center the text
-    },
-    distanceContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    distance: {
-      marginLeft: 5,
-      textAlign: 'center', // Center the text
-    },
-  });
+  card: {
+    flexDirection: 'column',
+    margin: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    elevation: 3,
+    alignItems: 'center',
+    height: 255, // Default height
+    width: 300, // Default width
+  },
+  image: {
+    width: 280,
+    height: 165,
+    borderRadius: 20,
+    // marginTop: 10,
+  },
+  infoContainer: {
+    width: '100%', // Take up remaining space
+    padding: 10,
+  },
+  nameRatingContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 3,
+    borderColor: '#808080', // Grey border color
+    borderWidth: 1, // Border width
+  },
+  rating: {
+    marginLeft: 5,
+  },
+  distanceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 5,
+    backgroundColor: '#ddf0ee', // Light green background color
+    borderRadius: 5,
+    padding: 3,
+    alignSelf: 'flex-start', // Align self to the start of the parent container
+  },
+  distance: {
+    marginLeft: 5,
+    color: '#2d958c', // Changed color here
+  },
+});
 
 export default PharmacyCard;

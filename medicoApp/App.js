@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,UserProfile,ProfileApp,Landing} from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -14,7 +14,12 @@ import {
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
-
+import Landing from './screens/Landing';
+import UserProfile from './screens/UserProfile';
+import DocFirstStep from './screens/docFirstStep';
+import DocSecondStep from './screens/docSecounStep';
+import UpgradeDocForm from './screens/UpgradeDocForm';
+import MapLocation from './screens/MapLocation';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -85,13 +90,43 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="ProfileApp"
-          component={ProfileApp}
+          name="DocFirstStep"
+          component={DocFirstStep}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="DocSecoundStep"
+          component={DocSecondStep}
+          options={{
+            headerShown: false
+          }}
+        />
+          <Stack.Screen
+          name="UpgradeToDoc"
+          component={UpgradeDocForm}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="userProfilePage"
+          component={UserProfilePage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="map"
+          component={MapLocation}
           options={{
             headerShown: false
           }}
         />
       </Stack.Navigator>
+
+      
     </NavigationContainer>
   );
 }

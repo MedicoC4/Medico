@@ -71,7 +71,7 @@ const ProductOverview = () => {
               <div className="keys___description___suggestion">
                 <div className="oneKey___description___suggestion">
                   <div className="icon___product___keySuggestion">AA</div>
-                  <p className="text___product___keySuggestion">Quantity</p>
+                  <p className="text___product___keySuggestion">{e.productPrice}</p>
                 </div>
                 <div className="oneKey___description___suggestion">
                   <div className="icon___product___keySuggestion">AA</div>

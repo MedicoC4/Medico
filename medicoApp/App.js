@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
@@ -7,6 +8,8 @@ import DocFirstStep from './screens/docFirstStep';
 import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
+import AllPharmacies from './screens/AllPharmacies';
+
 const Stack = createNativeStackNavigator();
 
 

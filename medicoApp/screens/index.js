@@ -8,6 +8,7 @@ import Home from "./Home";
 import UserProfile from './UserProfile'
 import ProfileApp from "./ProfileApp";
 import Landing from "./Landing";
+import DoctorPdf from "./DoctorPdf";
 import AllPharmacies from './AllPharmacies'
 export {
     Login,
@@ -20,5 +21,6 @@ export {
     UserProfile,
     ProfileApp,
     Landing,
+    DoctorPdf,
     AllPharmacies
 }

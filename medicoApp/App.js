@@ -1,30 +1,34 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf} from "./screens";
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
+import DocFirstStep from './screens/docFirstStep';
+import DocSecondStep from './screens/docSecounStep';
+import UpgradeDocForm from './screens/UpgradeDocForm';
+import MapLocation from './screens/MapLocation';
+import AllPharmacies from './screens/AllPharmacies';
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Text>Hello Ya rojla</Text>
-    //   <Button
-    //   title="learn more"
-    //   color="#f194ff"
-    //   onPress={() => Alert.alert('Simple Button pressed')}
-    //   />
-    //   <StatusBar style="auto" />
-    // </View>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='FirstStep'
+        initialRouteName='DoctorPdf'
       >
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false
+          }}
+        />
+          <Stack.Screen
+          name="DoctorPdf"
+          component={DoctorPdf}
           options={{
             headerShown: false
           }}
@@ -78,7 +82,43 @@ export default function App() {
             headerShown: false
           }}
         />
+        <Stack.Screen
+          name="DocFirstStep"
+          component={DocFirstStep}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="DocSecoundStep"
+          component={DocSecondStep}
+          options={{
+            headerShown: false
+          }}
+        />
+          <Stack.Screen
+          name="UpgradeToDoc"
+          component={UpgradeDocForm}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="map"
+          component={MapLocation}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="AllPharmacies"
+          component={AllPharmacies}
+          options={{
+            headerShown: false
+          }}
+        />
       </Stack.Navigator>
+
       
     </NavigationContainer>
   );

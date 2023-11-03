@@ -42,7 +42,9 @@ export default function UserProfile({ navigation }) {
             <TouchableOpacity
               key={index}
               onPress={() => {
+                navigation.navigate("DocFirstStep")
                 setValue(index);
+               
               }}>
               <View style={[styles.radio, isActive && styles.radioActive]}>
                 <Text style={styles.radioLabel}>{label}</Text>

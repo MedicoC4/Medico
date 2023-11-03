@@ -17,7 +17,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='DoctorPdf'
+        initialRouteName='DocFirstStep'
       >
         <Stack.Screen
           name="Welcome"

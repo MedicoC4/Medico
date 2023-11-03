@@ -35,6 +35,7 @@ const Landing = () => {
       image: 'https://pharmacie.ma/uploads/0f369a47de133d19ce8d70469fc44d93_1503576291.jpeg', // Replace with actual image URL
       rating: 4.5,
       distance: 1.7,
+      address: 'Rue de la liberté, Tunis',
     },
     {
       name: 'Pharmacy Thabet',

@@ -2,7 +2,9 @@ import React from 'react'
 
 const OrderGrid = () => {
   return (
-    <div>OrderGrid</div>
+    <div>
+      
+    </div>
   )
 }
 

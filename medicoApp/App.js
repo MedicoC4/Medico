@@ -1,24 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-<<<<<<< HEAD
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep} from "./screens";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  Login,
-  Signup,
-  Welcome,
-  FirstStep,
-  SecondStep,
-  ThirdStep,
-  UserProfilePage,
-} from "./screens";
-import Landing from "./screens/Landing";
-import UserProfile from "./screens/UserProfile";
-=======
 import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf} from "./screens";
->>>>>>> ad33688a8ac9bcfad5f5ac2241b83e066430f9fb
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
@@ -32,13 +15,9 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-<<<<<<< HEAD
-      <Stack.Navigator initialRouteName="FirstStep">
-=======
       <Stack.Navigator
         initialRouteName='DoctorPdf'
       >
->>>>>>> ad33688a8ac9bcfad5f5ac2241b83e066430f9fb
         <Stack.Screen
           name="Welcome"
           component={Welcome}

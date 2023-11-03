@@ -21,6 +21,7 @@ import ResetePassword from './pages/resetePassword/ResetePassword'
 import Landing from "./pages/landingPage/landing"
 import Prod_info from "./pages/productDetails/Prod_info.jsx";
 import Prod_det from "./pages/productDetails/Prod_det.jsx";
+import Orders from "./pages/ordering/Orders.jsx";
 
 
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="login" element={<Login />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />
+            <Route path="orders" element={<Orders />} />
           </Routes>
         </CSSTransition>
       </TransitionGroup>

@@ -9,7 +9,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='DoctorPdf'
+        initialRouteName='FirstStep'
       >
         <Stack.Screen
           name="Welcome"

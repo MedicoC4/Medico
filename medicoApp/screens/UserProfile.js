@@ -12,18 +12,13 @@ import {
 
 const items = [
   {
-    label : 'Patient',
-    description : 'Register as a Patient so you can find pharmacies and purchase drugs',
-    icon : ''
-  },
-  {
     label : 'Pharmacy',
     description : 'Register as a Pharmacy so you can sell and manage your drugs on the app.',
     icon : ''
   },
   {
     label : 'Doctor',
-    description : 'Register as a Doctor so you can ...',
+    description : 'Register as a Doctor so you can Call, Chat and book with client',
     icon : ''
   }
 ]
@@ -42,7 +37,7 @@ export default function UserProfile({ navigation }) {
             <TouchableOpacity
               key={index}
               onPress={() => {
-                navigation.navigate("DocFirstStep")
+                navigation.navigate("pharmFirstStep")
                 setValue(index);
                
               }}>

@@ -9,6 +9,9 @@ import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
+import PharmFirstStep from './screens/PharmFirstStep'
+import PharmSecondStep from './screens/PharmSecoundStep'
+import UpgradeToPharm from './screens/UpgradeToPharm'
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +20,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='DocFirstStep'
+        initialRouteName='Login'
       >
         <Stack.Screen
           name="Welcome"
@@ -97,7 +100,7 @@ export default function App() {
           }}
         />
           <Stack.Screen
-          name="UpgradeToDoc"
+          name="upgradeToDoc"
           component={UpgradeDocForm}
           options={{
             headerShown: false
@@ -113,6 +116,27 @@ export default function App() {
         <Stack.Screen
           name="AllPharmacies"
           component={AllPharmacies}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="pharmFirstStep"
+          component={PharmFirstStep}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="pharmSecondStep"
+          component={PharmSecondStep}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="upgradeToPharm"
+          component={UpgradeToPharm}
           options={{
             headerShown: false
           }}

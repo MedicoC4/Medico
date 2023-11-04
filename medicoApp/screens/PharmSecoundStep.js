@@ -14,7 +14,7 @@ const Welcome = ({ navigation }) => {
                 <View>
 
                      <Image
-                        source={require("../assets/doctor-gif.gif")}
+                        source={require("../assets/pharm.gif")}
                         style={{
                             height: height*0.30,
                             width: width*0.4,
@@ -53,16 +53,16 @@ const Welcome = ({ navigation }) => {
                             fontSize: 16,
                             color: COLORS.black,
                             marginVertical: 4
-                        }}>Connect with your doctor</Text>
+                        }}>Connect with your Pharmacies</Text>
                         <Text style={{
                             fontSize: 16,
                             color: COLORS.black,
-                        }}>Call, Chat and book with client</Text>
+                        }}>Sell,Call, Chat and book with client</Text>
                     </View>
 
                     <Button
                         title="Upgrade Now"
-                        onPress={() => navigation.navigate("UpgradeToDoc")}
+                        onPress={() => navigation.navigate("upgradeToPharm")}
                         style={{
                             marginTop: 22,
                             width: "100%"

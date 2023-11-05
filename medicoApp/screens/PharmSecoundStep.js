@@ -14,7 +14,7 @@ const Welcome = ({ navigation }) => {
                 <View>
 
                      <Image
-                        source={require("../assets/pharm.gif")}
+                        source={require("../assets/pharm.webp")}
                         style={{
                             height: height*0.30,
                             width: width*0.4,

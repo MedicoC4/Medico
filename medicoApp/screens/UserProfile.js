@@ -1,66 +1,55 @@
-
-
-
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   SafeAreaView,
   View,
   Text,
   TouchableOpacity,
-} from 'react-native';
-
-const items = [
-  {
-    label : 'Pharmacy',
-    description : 'Register as a Pharmacy so you can sell and manage your drugs on the app.',
-    icon : ''
-  },
-  {
-    label : 'Doctor',
-    description : 'Register as a Doctor so you can Call, Chat and book with client',
-    icon : ''
-  }
-]
+  Pressable,
+} from "react-native";
+import { Button } from "react-native-paper";
 
 export default function UserProfile({ navigation }) {
   const [value, setValue] = React.useState(0);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#f6f6f6' }}>
-      <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f6f6f6" }} >
+      <View style={styles.container} >
         <Text style={styles.title}>Select your account type</Text>
 
-        {items.map(({ label, description, icon }, index) => {
-          const isActive = value === index;
-          return (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                navigation.navigate("pharmFirstStep")
-                setValue(index);
-               
-              }}>
-              <View style={[styles.radio, isActive && styles.radioActive]}>
-                <Text style={styles.radioLabel}>{label}</Text>
-
+        <TouchableOpacity onPress={() => navigation.navigate("DocFirstStep")}>
     
-                <View style={styles.radioBadge}>
-                  <Text style={styles.radioBadgeText}>{icon}</Text>
-                </View>
+          <View style={[styles.radio]}>
+            <Text style={styles.radioLabel}>Doctor</Text>
 
-                <Text style={styles.radioDescription}>{description}</Text>
+            <View style={styles.radioBadge}>
+              <Text style={styles.radioBadgeText}></Text>
+            </View>
 
-                <View
-                  style={[
-                    styles.radioInput,
-                    isActive && styles.radioInputActive,
-                  ]}
-                />
-              </View>
-            </TouchableOpacity>
-          );
-        })}
+            <Text style={styles.radioDescription}>
+              Register as a Doctor so you can Call, Chat and book with client
+            </Text>
+
+            <View style={[styles.radioInput]} />
+          </View>
+        
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("pharmFirstStep")}>
+          <View style={[styles.radio]}>
+            <Text style={styles.radioLabel}>Pharmacy</Text>
+
+            <View style={styles.radioBadge}>
+              <Text style={styles.radioBadgeText}></Text>
+            </View>
+
+            <Text style={styles.radioDescription}>
+              Register as a Pharmacy so you can sell and manage your drugs on
+              the app.
+            </Text>
+
+            <View style={[styles.radioInput]} />
+          </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -69,26 +58,25 @@ export default function UserProfile({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     padding: 24,
-    
   },
   title: {
     fontSize: 32,
-    fontWeight: '700',
-    color: '#1d1d1d',
+    fontWeight: "700",
+    color: "#1d1d1d",
     marginBottom: 12,
-    alignItems:'center',
+    alignItems: "center",
   },
   radio: {
-    marginTop :30 ,
-    position: 'relative',
-    backgroundColor: '#fff',
+    marginTop: 30,
+    position: "relative",
+    backgroundColor: "#fff",
     marginBottom: 12,
     padding: 16,
     borderRadius: 25,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     borderWidth: 2,
-    borderColor: 'transparent',
-    shadowColor: '#000',
+    borderColor: "transparent",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1,
@@ -102,16 +90,16 @@ const styles = StyleSheet.create({
   },
   radioLabel: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
     letterSpacing: 1.2,
     color: "#007260",
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     marginBottom: 8,
   },
   radioPrice: {
     fontSize: 18,
-    fontWeight: '700',
-    color: '#2f2f2f',
+    fontWeight: "700",
+    color: "#2f2f2f",
     marginBottom: 12,
   },
   radioBadge: {
@@ -123,16 +111,16 @@ const styles = StyleSheet.create({
   },
   radioBadgeText: {
     fontSize: 15,
-    fontWeight: '500',
-    color:"#007260",
+    fontWeight: "500",
+    color: "#007260",
   },
   radioDescription: {
     fontSize: 15,
-    fontWeight: '500',
-    color: '#848a96',
+    fontWeight: "500",
+    color: "#848a96",
   },
   radioInput: {
-    position: 'absolute',
+    position: "absolute",
     top: 16,
     right: 16,
     width: 24,

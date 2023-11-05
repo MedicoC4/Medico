@@ -79,18 +79,13 @@ export default function Example({navigation}) {
 
             <View style={styles.input}>
             <Button
-            onPress={() => navigation.navigate("map")}
-                  titleStyle={{
-                    color: "#FFFFFF"
-                 }}
-                title="Continue"
-                filled
-                style={{
-                                width: width*0.85,
-                                backgroundColor: COLORS.primary,
-                                color: COLORS.white
-                            }}
-                        />
+              onPress={() => navigation.navigate("map")}
+                        title="Get location"
+                        style={{
+                            marginTop: 22,
+                            width: "100%"
+                        }}
+                    />
             </View>
 
             

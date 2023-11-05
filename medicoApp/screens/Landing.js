@@ -7,11 +7,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
+import {auth} from '../firebase-config'
 
 
-const Landing = () => {
+const Landing = ({route}) => {
+  
   const navigation=useNavigation()
-  const userName = "Ahmed"; // Replace with actual user name
+  const userh=auth.currentUser.email 
+  console.log(userh);
   const orders = 1; // Replace with actual number of orders
   const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
   const numberOfDrugs = 3; // Replace with actual number of drugs
@@ -70,7 +73,7 @@ const Landing = () => {
       <View style={styles.header}>
         <View style={styles.greeting}>
           <Text style={styles.helloText}>Hello,</Text>
-          <Text style={styles.userName}>{userName}</Text>
+          <Text style={styles.userName}>{userh}</Text>
         </View>
         <View style={styles.icons}>
             <TouchableOpacity>

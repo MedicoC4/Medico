@@ -5,9 +5,19 @@ import DataGrid from "../../components/dataGrid/dataGrid";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { DB } from "../../firebase-config";
 import { Timestamp } from "firebase/firestore";
+import { useNavigate } from 'react-router';
+import ProductDetails from "../productDetails/ProductDetails";
+import { useDispatch } from 'react-redux';
+import { save } from '../../redux/productSlicer';
 
 const ProductOverview = () => {
   const [data, setData] = useState([]);
+  const [prodId,setPredId]=useState("");
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const handleShowProductDetails = (e) => {
+    dispatch(save(e));
+  };
 
   function timestampToDate(timestamp) {
     if (timestamp instanceof Timestamp) {
@@ -50,8 +60,10 @@ const ProductOverview = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+    localStorage.setItem("prod_id",prodId )
+  }, [prodId]);
   console.log(data);
+  console.log(prodId,"this");
 
   const filteredProducts = data.filter(
     (product) => product.productCategory === "fedi"

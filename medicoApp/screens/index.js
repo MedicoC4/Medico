@@ -11,6 +11,7 @@ import Landing from "./Landing";
 import DoctorPdf from "./DoctorPdf";
 import AllPharmacies from './AllPharmacies'
 import FinishSignUp from "./FinishSignUp";
+import Settings from "./Settings";
 export {
     Login,
     Welcome,
@@ -24,5 +25,6 @@ export {
     Landing,
     DoctorPdf,
     AllPharmacies,
-    FinishSignUp
+    FinishSignUp,
+    Settings
 }

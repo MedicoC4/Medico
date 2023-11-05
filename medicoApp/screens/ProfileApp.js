@@ -5,7 +5,7 @@ import COLORS from '../constants/colors';
 import Button from '../components/Button';
 import { AntDesign } from '@expo/vector-icons'; 
 
-const ProfileApp = () => {
+const ProfileApp = ({navigation}) => {
   return (
     <ScrollView  style={{marginTop:30}}
     >
@@ -150,6 +150,7 @@ const ProfileApp = () => {
         <View style={{flex: 0.8, height: 1, backgroundColor: COLORS.grey}} />
 </View>
 <TouchableOpacity
+            onPress={()=>navigation.navigate('Settings')}
             style={{
                 alignItems:'center',
                 justifyContent:'space-between',

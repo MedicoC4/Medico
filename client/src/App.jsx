@@ -61,7 +61,7 @@ const App = () => {
             <Route path="statistics" element={<Statistics />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />
-            <Route path="orders" element={<Orders />} />
+            {/* <Route path="orders" element={<Orders />} /> */}
           </Routes>
         </CSSTransition>
       </TransitionGroup>

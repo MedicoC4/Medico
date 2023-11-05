@@ -9,6 +9,8 @@ import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
+import AllMedicines from './screens/AllMedecines';
+import MedicineDetails from './screens/MedecineDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +19,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='DoctorPdf'
+        initialRouteName='Landing'
       >
         <Stack.Screen
           name="Welcome"
@@ -113,6 +115,20 @@ export default function App() {
         <Stack.Screen
           name="AllPharmacies"
           component={AllPharmacies}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="AllMedicines"
+          component={AllMedicines}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="MedicineDetails"
+          component={MedicineDetails}
           options={{
             headerShown: false
           }}

@@ -1,5 +1,117 @@
 .container___order___card{
-    width: 20rem;
-    height: 9rem;
-    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
 }
+.nested___divs___list{
+display: flex;
+align-items: center;
+border-radius: 0.5rem;
+width: 100%;
+height: 3.5rem;
+background-color: grey;
+padding:1rem;
+}
+.div1___nested___flex{
+    background-color: white;
+    /* padding-left: 1rem; */
+    width: 4rem;
+}
+.div2___nested___flex{
+    background-color: green;
+    /* padding-left: 1rem; */
+    width: 19rem;
+}
+
+.div3___nested___flex{
+    background-color: red;
+    /* padding-left: 1rem; */
+    width: 5rem;
+}
+
+.div4___nested___flex{
+    background-color: yellow;
+    /* padding-left: 1rem; */
+    width: 13rem;
+}
+
+.div5___nested___flex{
+    background-color: blue;
+    /* padding-left: 1rem; */
+    width: 17rem;
+}
+.div6___nested___flex{
+    background-color: peru;
+    /* padding-left: 1rem; */
+    width: 17rem;
+}
+.div7___nested___flex{
+    background-color: peachpuff;
+    /* padding-left: 1rem; */
+    /* width: 20%; */
+    display: flex;
+    flex-direction: column  ;
+}
+
+.imag___info___order{
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.image___info___ord{
+    top: 99px;
+    left: 147px;
+    width: 80px;
+    height: 80px;
+    border-radius: 100000px;
+   background-color: grey;
+}
+.info___cont___order___perso{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+.email___info___user___order{
+    top: 233px;
+    left: 915px;
+    width: 128px;
+    height: 24px;
+    padding: 0px 8px;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 24px;
+    box-shadow: 0px 2px 4px rgba(3,3,3,0.1);
+    background-color: #f0f0f0;
+    color: #6e6e6e;
+    font-size: 12px;
+    font-family: "Roboto";
+    font-weight: 600;
+    line-height: 16px;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.edit___order___reject{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+.imag___dilevery___order{
+    height: 3rem;
+    width: 3rem;
+}
+.nested___divs___list___container{
+        display: flex;
+        align-items: center;
+        border-radius: 0.5rem;
+        width: 100%;
+        height: 3.5rem;
+        background-color: grey;
+        padding-left:1rem;
+}
+
+
+

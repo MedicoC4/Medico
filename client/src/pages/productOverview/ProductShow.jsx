@@ -18,10 +18,10 @@ const ProductShow = () => {
         } catch (error) {
             console.log("error fetching data",error)
         }
-        useEffect(()=>{
-            getProducts()
-        },[])
-    }
+      }
+      useEffect(()=>{
+          getProducts()
+      },[])
   return (
     <div>
         <div className="all___suggested___cards">

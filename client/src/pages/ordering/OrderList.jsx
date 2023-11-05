@@ -62,76 +62,68 @@ const OrderList = () => {
     }
   };
 
-  const handleCanceledOrder = async () => {
+
+  const handleCanceledOrder = async (id) => {
     try {
-      const ordersQuery = query(
-        collection(DB, "orders"),
-        where("pharmacyId", "==", "fQ6ovqVAhufVHhrtOyKK")
-      );
-
-      const querySnapshot = await getDocs(ordersQuery);
-
-      querySnapshot.forEach((docSnap) => {
-        const docRef = doc(DB, "orders", docSnap.id);
-
-        updateDoc(docRef, {
-          canceledAt: serverTimestamp(),
-          orderStatus: "canceled",
-        });
+      const taskDocRef = doc(DB, "orders", id);
+     const x = await updateDoc(taskDocRef, {
+      canceledAt: serverTimestamp(),
+      orderStatus: "canceled",
       });
-
       setRefresh(!refresh);
     } catch (error) {
-      console.error("Error updating the orders:", error);
-    }
-  };
-  const handleAcceptedOrder = async () => {
+      console.log("error update", error);
+    }}
+  
+  // const handleCanceledOrder = async () => {
+  //   try {
+  //     const ordersQuery = query(
+  //       collection(DB, "orders"),
+  //       where("pharmacyId", "==", "fQ6ovqVAhufVHhrtOyKK")
+  //     );
+
+  //     const querySnapshot = await getDocs(ordersQuery);
+
+  //     querySnapshot.forEach((docSnap) => {
+  //       const docRef = doc(DB, "orders", docSnap.id);
+
+  //       updateDoc(docRef, {
+  //         canceledAt: serverTimestamp(),
+  //         orderStatus: "canceled",
+  //       });
+  //     });
+
+  //     setRefresh(!refresh);
+  //   } catch (error) {
+  //     console.error("Error updating the orders:", error);
+  //   }
+  // };
+  const handleAcceptedOrder = async (id) => {
     try {
-      const ordersQuery = query(
-        collection(DB, "orders"),
-        where("pharmacyId", "==", "fQ6ovqVAhufVHhrtOyKK")
-      );
-
-      const querySnapshot = await getDocs(ordersQuery);
-
-      querySnapshot.forEach((docSnap) => {
-        const docRef = doc(DB, "orders", docSnap.id);
-
-        updateDoc(docRef, {
-          acceptedAt: serverTimestamp(),
+      const taskDocRef = doc(DB, "orders", id);
+     const x = await updateDoc(taskDocRef, {
+      acceptedAt: serverTimestamp(),
           orderStatus: "accepted",
-        });
       });
-
       setRefresh(!refresh);
     } catch (error) {
-      console.error("Error updating the orders:", error);
-    }
-  };
-  const handleDileveryOrder = async (status) => {
+      console.log("error update", error);
+    }}
+
+
+
+  const handleDileveryOrder = async (id,status) => {
     try {
-      const ordersQuery = query(
-        collection(DB, "orders"),
-        where("pharmacyId", "==", "fQ6ovqVAhufVHhrtOyKK")
-      );
-
-      const querySnapshot = await getDocs(ordersQuery);
-
-      querySnapshot.forEach((docSnap) => {
-        const docRef = doc(DB, "orders", docSnap.id);
-
-        updateDoc(docRef, {
-          dilevredAt: serverTimestamp(),
+      const taskDocRef = doc(DB, "orders", id);
+     const x = await updateDoc(taskDocRef, {
+      dilevredAt: serverTimestamp(),
           livraisonStatus: status,
-        });
       });
-
       setRefresh(!refresh);
     } catch (error) {
-      console.error("Error updating the orders:", error);
-    }
-  };
-  // const docRef = doc(DB, "products", productId);
+      console.log("error update", error);
+    }}
+ 
   const getProdById = async (productId) => {
     try {
       const docSnap = await getDoc(doc(DB, "products", productId));
@@ -159,15 +151,17 @@ const OrderList = () => {
   console.log(orders, "all orders");
 
   return (
-    <div>
-      <div className="nested___divs___list">
+    <div className="bigggg____divvv___order">
+      <div className="big___big___con___ord">
+      <div className="nested___divs___list___up">
         <div className="div1___nested___flex">Client</div>
         <div className="div2___nested___flex">Product</div>
         <div className="div3___nested___flex">Quantity</div>
         <div className="div4___nested___flex">created At</div>
         <div className="div5___nested___flex">Order Status</div>
-        <div className="div6___nested___flex">Dilevred At</div>
+        <div className="div6___nested___flex">Dilevery status </div>
         <div className="div7___nested___flex">Action</div>
+      </div>
       </div>
       {orders.map((e) => {
         if (e.orderStatus === "pending") {
@@ -216,18 +210,19 @@ const OrderList = () => {
               </div>
 
               <div className="edit___order___reject">
+                
                 <button
-                  type="button"
-                  class="btn btn-primary"
+                  className="btn___cnfrm___order___modal"
+                  // type="button"
                   data-bs-toggle="modal"
-                  data-bs-target="#acceptedModal"
+                  data-bs-target={`#${e.id}accept`}
                   onClick={() => getProdById(e.productsId[0])}
                 >
-                  Confirme
+                  Accept
                 </button>
                 <div
                   class="modal fade"
-                  id="acceptedModal"
+                  id={`${e.id}accept`}
                   data-bs-backdrop="static"
                   data-bs-keyboard="false"
                   tabindex="-1"
@@ -238,7 +233,7 @@ const OrderList = () => {
                     <div class="modal-content">
                       <div class="modal-header">
                         <h5 class="modal-title" id="acceptedModalLabel">
-                          Modal title
+                          Acceptation of order
                         </h5>
                         <button
                           type="button"
@@ -264,7 +259,7 @@ const OrderList = () => {
                           type="button"
                           class="btn btn-primary"
                           data-bs-dismiss="modal"
-                          onClick={() => handleAcceptedOrder()}
+                          onClick={() => handleAcceptedOrder(e.id)}
                         >
                           Confirme
                         </button>
@@ -274,6 +269,16 @@ const OrderList = () => {
                 </div>
                 <div>
                   <button
+                    className="btn___cnfrm___order___modal___canc"
+                    type="button"
+                    // class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#${e.id}reject`}
+                    onClick={() => getProdById(e.productsId[0])}
+                  >
+                    Reject
+                  </button>
+                  {/* <button
                     type="button"
                     class="btn btn-primary"
                     data-bs-toggle="modal"
@@ -281,10 +286,10 @@ const OrderList = () => {
                     onClick={() => getProdById(e.productsId[0])}
                   >
                     Reject
-                  </button>
+                  </button> */}
                   <div
                     class="modal fade"
-                    id="canceledModal"
+                    id={`${e.id}reject`}
                     data-bs-backdrop="static"
                     data-bs-keyboard="false"
                     tabindex="-1"
@@ -295,7 +300,7 @@ const OrderList = () => {
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="canceledModalLabel">
-                            Modal title
+                            Reject of order
                           </h5>
                           <button
                             type="button"
@@ -305,7 +310,7 @@ const OrderList = () => {
                           ></button>
                         </div>
                         <div class="modal-body">
-                          <input placeholder="Write here" />
+                          <div>Are you sure to reject this order ?</div>
                         </div>
                         <div class="modal-footer">
                           <button
@@ -320,8 +325,11 @@ const OrderList = () => {
                             class="btn btn-primary"
                             data-bs-dismiss="modal"
                             onClick={() => {
-                              handleCanceled(e.productsId[0], e.quantityOrdered);
-                              handleCanceledOrder();
+                              handleCanceled(
+                                e.productsId[0],
+                                e.quantityOrdered
+                              );
+                              handleCanceledOrder(e.id);
                               setRefresh(!refresh);
                             }}
                           >
@@ -391,26 +399,31 @@ const OrderList = () => {
               )}
 
               <div className="edit___order___reject">
-                <img
+                <div
+                className="btn___cnfrm___order___modal___dilevry"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Dilevery</div>
+                {/* <img
                   className="imag___dilevery___order"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                   src={deliver2}
                   alt="Personal Info Icon"
-                />
+                /> */}
                 <div class="dropdown">
                   <ul class="dropdown-menu">
-                    <li onClick={() => handleDileveryOrder("pending")}>
+                    <li onClick={() => handleDileveryOrder(e.id,"pending")}>
                       <a class="dropdown-item" href="#">
                         Pending
                       </a>
                     </li>
-                    <li onClick={() => handleDileveryOrder("inTransit")}>
+                    <li onClick={() => handleDileveryOrder(e.id,"inTransit")}>
                       <a class="dropdown-item" href="#">
                         In Transit
                       </a>
                     </li>
-                    <li onClick={() => handleDileveryOrder("delivred")}>
+                    <li onClick={() => handleDileveryOrder(e.id,"delivred")}>
                       <a class="dropdown-item" href="#">
                         Delivered
                       </a>
@@ -421,7 +434,7 @@ const OrderList = () => {
                 <div>
                   <button
                     type="button"
-                    class="btn btn-primary"
+                    className="btn___cnfrm___order___modal___canc"
                     data-bs-toggle="modal"
                     data-bs-target="#canceledModal"
                     onClick={() => getProdById(e.productsId[0])}
@@ -466,8 +479,11 @@ const OrderList = () => {
                             class="btn btn-primary"
                             data-bs-dismiss="modal"
                             onClick={() => {
-                              handleCanceled(e.productsId[0], e.quantityOrdered);
-                              handleCanceledOrder();
+                              handleCanceled(
+                                e.productsId[0],
+                                e.quantityOrdered
+                              );
+                              handleCanceledOrder(e.id);
                             }}
                           >
                             Confirme
@@ -526,6 +542,7 @@ const OrderList = () => {
                 {e.dilevredAt}
               </div>
             </div>
+            
           );
         }
         if (e.orderStatus === "canceled") {

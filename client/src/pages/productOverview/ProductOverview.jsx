@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import SideNav from "../../components/sideNav/SideNav";
 import DataGrid from "../../components/dataGrid/dataGrid";
-import { collection, onSnapshot, query } from "firebase/firestore";import { DB } from "../../firebase-config";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { DB } from "../../firebase-config";
 import { Timestamp } from "firebase/firestore";
 
 const ProductOverview = () => {
@@ -22,8 +23,7 @@ const ProductOverview = () => {
   const fetchData = () => {
     try {
       const productsCollection = collection(DB, "products");
-  
-      // Listen for real-time updates
+
       const unsubscribe = onSnapshot(productsCollection, (querySnapshot) => {
         let list = [];
         querySnapshot.forEach((doc) => {
@@ -33,20 +33,17 @@ const ProductOverview = () => {
         });
         setData(list);
       });
-  
-      // Return the unsubscribe function to stop listening when the component unmounts
+
       return unsubscribe;
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  
+
   useEffect(() => {
-    // Start listening for real-time updates when the component mounts
     const unsubscribe = fetchData();
-  
+
     return () => {
-      // Unsubscribe from real-time updates when the component unmounts
       unsubscribe();
     };
   }, []);
@@ -56,14 +53,16 @@ const ProductOverview = () => {
   }, []);
   console.log(data);
 
-    const filteredProducts = data.filter((product) => product.productCategory === 'fedi');
-    console.log(filteredProducts);
-
+  const filteredProducts = data.filter(
+    (product) => product.productCategory === "fedi"
+  );
+  console.log(filteredProducts);
 
   return (
     <div className="all_product_container">
       <SideNav />
       <div className="body_cards_container">
+        <h1>Products</h1>
         <DataGrid data={data} />
       </div>
     </div>

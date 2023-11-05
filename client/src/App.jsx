@@ -6,19 +6,21 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-import db from "./firebase-config";
-import ProductOverview from "./pages/productOverview/ProductOverview";
-import AddProduct from "./pages/addProduct/AddProduct.jsx";
-import Overview from "./pages/overview/Overview";
-import Home from "./pages/dashboard/LandingPage";
-import ProductDetails from "./pages/productDetails/ProductDetails";
-import Statistics from "./pages/statistics/Statistics";
-import SideNav from "./components/sideNav/SideNav";
-import Login from "./pages/login/Login"
-import SignUp from './pages/signUp/SignUp'
-import ResetePassword from './pages/resetePassword/ResetePassword'
-import Landing from "./pages/landingPage/landing"
+import { 
+  TransitionGroup, 
+  CSSTransition 
+} from "react-transition-group";
+import ProductOverview        from "./pages/productOverview/ProductOverview";
+import AddProduct             from "./pages/addProduct/AddProduct.jsx";
+import Overview               from "./pages/overview/Overview";
+import Home                   from "./pages/dashboard/LandingPage";
+import ProductDetails         from "./pages/productDetails/ProductDetails";
+import Statistics             from "./pages/statistics/Statistics";
+import SideNav                from "./components/sideNav/SideNav";
+import Login                  from "./pages/login/Login"
+import SignUp                 from './pages/signUp/SignUp'
+import ResetePassword         from './pages/resetePassword/ResetePassword'
+import Landing                from "./pages/landingPage/landing"
 
 
 const App = () => {
@@ -27,6 +29,17 @@ const App = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
+  function scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+  
+  useEffect(() => {
+    window.addEventListener('popstate', scrollToTop);  
+    return () => {
+      window.removeEventListener('popstate', scrollToTop);
+    };
+  }, []);
 
   return (
     <div>
@@ -39,17 +52,13 @@ const App = () => {
           appear
         >
           <Routes>
-            <Route path="/home" element={<Landing />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Home />} />
             <Route path="add-product" element={<AddProduct />} />
             <Route path="products" element={<ProductOverview />} />
-            <Route path="overview" element={<Overview />} />
+            <Route path="product-detail" element={<ProductDetails />} />
             <Route path="statistics" element={<Statistics />} />
-            <Route path="product-overview" element={<ProductOverview />} />
-            <Route path="overview" element={<Overview />} />
-            <Route path="product-overview" element={<ProductOverview />} />
-            <Route path="login" element={<Login />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />
           </Routes>

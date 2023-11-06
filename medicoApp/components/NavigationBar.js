@@ -25,9 +25,9 @@ const NavigationBar = () => {
         {renderIcon(home, "home")}
         <Text style={selectedTab === "home" ? styles.selectedText : styles.text}>Home</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item} onPress={() => handlePress("Discover", "discover")}>
+      <TouchableOpacity style={styles.item} onPress={() => handlePress("userMap", "discover")}>
         {renderIcon(lense, "discover")}
-        <Text style={selectedTab === "discover" ? styles.selectedText : styles.text}>Discover</Text>
+        <Text style={selectedTab === "discover" ? styles.selectedText : styles.text}  >Discover</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.item} onPress={() => handlePress("AllPharmacies", "stores")}>
         {renderIcon(store, "stores")}

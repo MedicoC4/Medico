@@ -11,6 +11,8 @@ import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
 import AllMedicines from './screens/AllMedecines';
 import MedicineDetails from './screens/MedecineDetails';
+import UserMap from './screens/UserMap';
+import UserProfilePage from './screens/UserProfilePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -111,13 +113,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="userProfilePage"
-          component={UserProfilePage}
-          options={{
-            headerShown: false,
-          }}
-        />
+       
         <Stack.Screen
           name="map"
           component={MapLocation}
@@ -142,6 +138,13 @@ export default function App() {
         <Stack.Screen
           name="MedicineDetails"
           component={MedicineDetails}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="userMap"
+          component={UserMap}
           options={{
             headerShown: false
           }}

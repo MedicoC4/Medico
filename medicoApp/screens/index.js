@@ -5,8 +5,9 @@ import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import ThirdStep from './ThirdStep'
 import UserProfilePage from "./UserProfilePage";
+import UserMap from "./UserMap";
 
-import ThirdStep from './ThirdStep';
+
 import Home from "./Home";
 import UserProfile from './UserProfile'
 import ProfileApp from "./ProfileApp";
@@ -26,5 +27,6 @@ export {
     ProfileApp,
     Landing,
     DoctorPdf,
-    AllPharmacies
+    AllPharmacies,
+    UserMap
 }

@@ -25,30 +25,60 @@ const AllMedicines = () => {
       image:
         "https://www.med.tn/image-medicament-9816dd007411506ab2ce1249e99d2c8c.jpg",
       price: 10,
+      contraindications: [
+        "Allergie au paracétamol",
+        "Insuffisance hépatique",
+        "Grossesse",
+        "Allaitement",
+      ],
     },
     {
       name: "Gripex",
       image:
         "https://galpharma.tn/wp-content/uploads/2019/09/Gripex-Adulte-12.jpg",
       price: 10,
+      contraindications: [
+        "Allergie au paracétamol",
+        "Insuffisance hépatique",
+        "Grossesse",
+        "Allaitement",
+      ],
     },
     {
       name: "Analgin 500mg",
       image:
         "https://5.imimg.com/data5/SELLER/Default/2022/1/BN/EZ/DT/95289/analgin.jpg",
       price: 10,
+      contraindications: [
+        "Allergie au paracétamol",
+        "Insuffisance hépatique",
+        "Grossesse",
+        "Allaitement",
+      ],
     },
     {
       name: "Efferalgan 500mg",
       image:
         "https://www.famacie.com/web/image/product.template/985/image_1024?unique=561b0e2",
       price: 10,
+      contraindications: [
+        "Allergie au paracétamol",
+        "Insuffisance hépatique",
+        "Grossesse",
+        "Allaitement",
+      ],
     },
     {
       name: "Aspirine 500mg",
       image:
         "https://cdn1.apopixx.de/500/web_schraeg_png/10203626.png?ver=1649058520",
       price: 10,
+      contraindications: [
+        "Allergie au paracétamol",
+        "Insuffisance hépatique",
+        "Grossesse",
+        "Allaitement",
+      ],
     },
     // Add more medicines here...
   ];

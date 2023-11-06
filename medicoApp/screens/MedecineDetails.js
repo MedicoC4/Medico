@@ -8,6 +8,7 @@ const MedicineDetails = ({ route }) => {
   const { medicine } = route.params;
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(1);
+  const [contraindications, setContraindications] = useState(medicine.contraindications || []);
 
   const incrementQuantity = () => {
     setQuantity(prevQuantity => prevQuantity + 1);
@@ -43,18 +44,26 @@ const MedicineDetails = ({ route }) => {
         <Image source={{ uri: medicine.image }} style={styles.image} />
         <Text style={styles.name}>{medicine.name}</Text>
         <View style={styles.priceAndQuantityContainer}>
-          <Text style={styles.price}>{medicine.price} TND</Text>
+          <Text style={styles.price}>Price : {medicine.price} TND</Text>
           <View style={styles.quantityContainer}>
             <TouchableOpacity onPress={decrementQuantity}>
-              <Text style={styles.quantityChange}>-</Text>
+              <View style={styles.minusButton}>
+                <Text style={styles.quantityChange}>-</Text>
+              </View>
             </TouchableOpacity>
             <Text style={styles.quantity}>{quantity}</Text>
             <TouchableOpacity onPress={incrementQuantity}>
-              <Text style={styles.quantityChange}>+</Text>
+              <View style={styles.plusButton}>
+                <Text style={styles.quantityChange}>+</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
-        <Text style={styles.subtotal}>Subtotal: ${medicine.price * quantity}</Text>
+        <Text style={styles.subtotal}>Sub total : {medicine.price * quantity} TND</Text>
+        <Text style={styles.contraindicationsTitle}>Contraindications:</Text>
+{contraindications.map((contraindication, index) => (
+  <Text key={index} style={styles.contraindication}>{contraindication}</Text>
+))}
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.addToCartButton}>
@@ -106,6 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 10,
+    alignSelf: 'flex-start',
   },
   priceAndQuantityContainer: {
     flexDirection: 'row',
@@ -116,10 +126,13 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 18,
+    fontWeight: 'bold'
   },
   subtotal: {
     fontSize: 18,
     marginTop: 10,
+    alignSelf: 'flex-start',
+    fontWeight: 'bold'
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -134,7 +147,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
   addToCartButton: {
-    backgroundColor: 'grey',
+    backgroundColor: '#bebebe',
     padding: 10,
     width: '45%',
     alignItems: 'center',
@@ -155,16 +168,44 @@ const styles = StyleSheet.create({
   },
   quantityContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    width: 100,
+  },
+  minusButton: {
+    backgroundColor: 'lightgray',
+    borderRadius: 15, // Reduced from 20
+    width: 25, // Reduced from 30
+    height: 25, // Reduced from 30
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  plusButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 15, // Reduced from 20
+    width: 25, // Reduced from 30
+    height: 25, // Reduced from 30
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
   },
   quantityChange: {
-    fontSize: 25,
-    color: 'grey',
+    fontSize: 20,
+    color: 'white',
   },
   quantity: {
     fontSize: 18,
+  },
+  contraindicationsTitle: {
+    fontSize: 24,
+    marginTop: 40,
+    alignSelf: 'flex-start',
+    fontWeight: 'bold',
+  },
+  contraindication: {
+    fontSize: 16,
+    marginTop: 10,
+    alignSelf: 'flex-start',
   },
 });
 

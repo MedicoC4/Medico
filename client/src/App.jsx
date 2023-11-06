@@ -21,7 +21,7 @@ import Login                  from "./pages/login/Login"
 import SignUp                 from './pages/signUp/SignUp'
 import ResetePassword         from './pages/resetePassword/ResetePassword'
 import Landing                from "./pages/landingPage/landing"
-
+import Ordering               from "./pages/ordering/OrderList.jsx"
 
 const App = () => {
   const location = useLocation();
@@ -57,11 +57,11 @@ const App = () => {
             <Route path="/dashboard" element={<Home />} />
             <Route path="add-product" element={<AddProduct />} />
             <Route path="products" element={<ProductOverview />} />
-            <Route path="product-detail" element={<ProductDetails />} />
+            <Route path="product-detail/:productId" element={<ProductDetails />} />
             <Route path="statistics" element={<Statistics />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />
-            {/* <Route path="orders" element={<Orders />} /> */}
+            <Route path="orders" element={<Ordering />} />
           </Routes>
         </CSSTransition>
       </TransitionGroup>

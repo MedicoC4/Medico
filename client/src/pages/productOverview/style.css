@@ -311,6 +311,10 @@
   padding-left: 2rem;
   padding-right: 2rem;
 }
+
+.table-container {
+  overflow: hidden;
+}
 .description___details {
   display: flex;
   /* flex-direction: column; */

@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .MuiDataGrid-cellContent {
@@ -131,6 +132,7 @@
 
 .table-container {
     overflow-x: hidden;
+    width: 100%;
 }
 .products-cards {
   display: flex;
@@ -233,7 +235,7 @@
   align-items: center;
 }
 
-.card_footer > button {
+.card_footer > .button {
   font-size: 1.25rem;
   border: none;
   background-color: #9e9ea7;
@@ -242,8 +244,31 @@
   color: white;
   cursor: pointer;
   transition: 0.2s;
+  text-decoration: none;
 }
 
-.card_footer > button:hover {
+.card_footer > .button:hover {
   background-color: #9e9ea7b7;
+}
+
+.product_search {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: auto;
+  gap: 0.75rem;
+}
+
+.product_search > button {
+  padding: 0.44rem 2rem;
+  border-radius: 8px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+  color: #6e6e6e;
+  transition: 0.15s ease;
+}
+
+.product_search > button:hover {
+  background-color: rgba(0, 0, 0, 0.078);
 }

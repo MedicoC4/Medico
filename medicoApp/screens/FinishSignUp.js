@@ -20,11 +20,10 @@ const FinishSignUp = ({route}) => {
 
 
 
-    const userLogged=route.params.userInfo
+    // const userLogged=route.params.userInfo
     const [isOpen,setIsOpen]=useState(false)
-    const [currentValue,setCurrentValue]=useState('')
     const [name,setName]=useState('')
-    const [age,setAge]=useState(null)
+  
     const [gender,setGender]=useState(null)
 
 
@@ -42,7 +41,7 @@ const FinishSignUp = ({route}) => {
 
     const handleUpdateUserInfo = async () => {
         // Assuming you have the user object and additional data
-        const user = userLogged// Get the user object as needed
+        const user = auth.currentUser// Get the user object as needed
         const additionalData = {
           name: name,
           gender: gender,
@@ -51,7 +50,7 @@ const FinishSignUp = ({route}) => {
       
         // Call the function to update user data
         const updated =await updateUserDocument(user, additionalData);
-        navigation.navigate('Landing',{userInfo:updated})
+        navigation.navigate('Landing')
       };
 
 
@@ -133,10 +132,9 @@ const FinishSignUp = ({route}) => {
                         value: gender,
                          }))}
                          open={isOpen}
-                         value={currentValue}
+                         value={gender}
                          setOpen={() => setIsOpen(!isOpen)}
-                         setValue={(value) => setCurrentValue(value)}
-                         onChangeText={(text)=>setGender(text)}
+                         setValue={(value) => setGender(value)}
                          onSubmit={handleSubmit}
                          />
 

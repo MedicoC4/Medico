@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf,FinishSignUp,ProfileApp,Settings} from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf,FinishSignUp,ProfileApp,Settings,UserProfilePage} from "./screens";
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
@@ -128,13 +128,6 @@ export default function App() {
           <Stack.Screen
           name="UpgradeToDoc"
           component={UpgradeDocForm}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="userProfilePage"
-          component={UserProfilePage}
           options={{
             headerShown: false,
           }}

@@ -86,31 +86,6 @@ export const updateUserDocument = async (user, additionalData) => {
 };
 
 
-export const fetchUserDataByEmail = async (email) => {
-  try {
-    const collectionRef = collection(DB, 'users'); // Replace 'your_collection_name' with the actual name of your Firestore collection.
-    const q = query(collectionRef, where('email', '==', email));
-
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot && !querySnapshot.empty) {
-      const userData = [];
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        console.log('this is data',data);
-        userData.push(data);
-      });
-      return userData;
-    } else {
-      return null; // No matching documents found for the provided email.
-    }
-  } catch (error) {
-    console.error("Error getting documents:", error);
-    throw error;
-  }
-};
-
-
 
 
 

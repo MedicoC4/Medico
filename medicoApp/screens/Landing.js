@@ -7,35 +7,49 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
-import {auth,DB,fetchUserDataByEmail} from '../firebase-config'
+import {auth,DB} from '../firebase-config'
+import {collection,getDocs} from "firebase/firestore"
 
 
 const Landing = ({route}) => {
 
-  const [userData, setUserData] = useState(null);
-  const loggedUser=auth.currentUser.email
   const navigation=useNavigation()
-  // const userh=auth.currentUser.email
+
+  const [user, setUser] = useState([]);
+
+
+  const userCollectionRef = collection(DB, "users");
+
+
   const orders = 1; // Replace with actual number of orders
   const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
   const numberOfDrugs = 3; // Replace with actual number of drugs
   const orderTotal = 100; // Replace with actual order total
 
 
-  useEffect(() => {
-    const userEmail = loggedUser; // Replace with the actual user's email.
+  
+  const getUser = async () => {
+    try {
+      const result = await getDocs(userCollectionRef);
+      console.log('this is result',result);
+      const users = result.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })).filter(e=>e.email.toLowerCase() === auth.currentUser.email.toLowerCase())[0]
+      console.log("this is user",users);
+      setUser(users);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    fetchUserDataByEmail(userEmail)
-      .then((data) => {
-        if (data) {
-          // Data may contain multiple users, so you might want to access the first one.
-          setUserData(data[0]);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
+
+  useEffect(() => {
+
+    getUser()
   }, []);
+  
+  
 
   const pharmacies = [
     {
@@ -86,15 +100,14 @@ const Landing = ({route}) => {
 
 
 
+
   return (
       <View style={{flex: 1}}>
         <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.greeting}>
           <Text style={styles.helloText}>Hello,</Text>
-          <Text style={styles.userName}>{loggedUser
-          
-          }</Text>
+          <Text style={styles.userName}>{user.name}</Text>
         </View>
         <View style={styles.icons}>
             <TouchableOpacity>
@@ -196,7 +209,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 20,
   },
   icons: {
     flexDirection: 'row',

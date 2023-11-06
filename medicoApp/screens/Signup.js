@@ -52,7 +52,7 @@ const Signup = ({ navigation }) => {
             console.log(created);
           // Redirect to the landing page after successful signup
           
-          navigation.navigate('FinishSignUp',{userInfo:auth.currentUser})
+          navigation.navigate('FinishSignUp')
         } catch (error) {
           console.error('Error during signup:', error);
         }

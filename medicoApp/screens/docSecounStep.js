@@ -6,7 +6,7 @@ import NavigationBar from '../components/NavigationBar';
 const { width, height } = Dimensions.get("window");
 
 
-const Welcome = ({ navigation }) => {
+const DocSecondStep = ({ navigation }) => {
 
     return (
 
@@ -84,4 +84,4 @@ const Welcome = ({ navigation }) => {
     )
 }
 
-export default Welcome
+export default DocSecondStep

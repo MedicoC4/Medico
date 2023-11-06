@@ -397,4 +397,9 @@
   font-weight: 600px;
   line-height: 16px;
 }
+.cont___title___update___prod{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 

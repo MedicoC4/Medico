@@ -4,7 +4,7 @@ import COLORS from '../constants/colors';
 import Button from '../components/Button';
 const { width, height } = Dimensions.get("window");
 
-const DocFirstStep = ( { navigation } ) =>{
+const PharmFirstStep = ( { navigation } ) =>{
     console.log('hello');
         return ( 
         <View style={{ flex : 1,
@@ -73,4 +73,4 @@ const DocFirstStep = ( { navigation } ) =>{
 
 }
 
-export default DocFirstStep
+export default PharmFirstStep

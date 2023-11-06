@@ -1,21 +1,55 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { View, Text,Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import PharmacyCard from './PharmacyCard';
-import MedicineCard from './MedicineCard'
+import PharmacyCard from '../components/PharmacyCard';
+import MedicineCard from '../components/MedicineCard'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
+import {auth,DB} from '../firebase-config'
+import {collection,getDocs} from "firebase/firestore"
 
 
-const Landing = () => {
+const Landing = ({route}) => {
+
   const navigation=useNavigation()
-  const userName = "Ahmed"; // Replace with actual user name
+
+  const [user, setUser] = useState([]);
+
+
+  const userCollectionRef = collection(DB, "users");
+
+
   const orders = 1; // Replace with actual number of orders
   const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
   const numberOfDrugs = 3; // Replace with actual number of drugs
   const orderTotal = 100; // Replace with actual order total
+
+
+  
+  const getUser = async () => {
+    try {
+      const result = await getDocs(userCollectionRef);
+      console.log('this is result',result);
+      const users = result.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })).filter(e=>e.email.toLowerCase() === auth.currentUser.email.toLowerCase())[0]
+      console.log("this is user",users);
+      setUser(users);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+
+  useEffect(() => {
+
+    getUser()
+  }, []);
+  
+  
 
   const pharmacies = [
     {
@@ -64,13 +98,16 @@ const Landing = () => {
     topRatedPharmacies = pharmacies.filter(pharmacy => pharmacy.rating >= 4.5);
   }
 
+
+
+
   return (
       <View style={{flex: 1}}>
         <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.greeting}>
           <Text style={styles.helloText}>Hello,</Text>
-          <Text style={styles.userName}>{userName}</Text>
+          <Text style={styles.userName}>{user.name}</Text>
         </View>
         <View style={styles.icons}>
             <TouchableOpacity>
@@ -136,9 +173,9 @@ const Landing = () => {
       />
       <View style={styles.secondOrdersContainer}>
   <Text style={styles.ordersText}>Medicines</Text>
-  <TouchableOpacity style={styles.button}>
-    <Text style={styles.buttonText}>SEE ALL</Text>
-  </TouchableOpacity>
+  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AllMedicines')}>
+  <Text style={styles.buttonText}>SEE ALL</Text>
+</TouchableOpacity>
 </View>
 <FlatList
   data={medicines}
@@ -172,7 +209,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 20,
   },
   icons: {
     flexDirection: 'row',

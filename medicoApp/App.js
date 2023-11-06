@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf} from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf,FinishSignUp,ProfileApp,Settings,UserProfilePage} from "./screens";
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
@@ -9,22 +9,44 @@ import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
+<<<<<<< HEAD
 import PharmFirstStep from './screens/PharmFirstStep'
 import PharmSecondStep from './screens/PharmSecoundStep'
 import UpgradeToPharm from './screens/UpgradeToPharm'
+=======
+import AllMedicines from './screens/AllMedecines';
+import MedicineDetails from './screens/MedecineDetails';
+>>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
 
 const Stack = createNativeStackNavigator();
-
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
+<<<<<<< HEAD
         initialRouteName='Login'
+=======
+        initialRouteName='FirstStep'
+>>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
       >
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            headerShown: false
+          }}
+        />
+         <Stack.Screen
+          name="ProfileApp"
+          component={ProfileApp}
           options={{
             headerShown: false
           }}
@@ -37,52 +59,66 @@ export default function App() {
           }}
         />
         <Stack.Screen
+          name="FinishSignUp"
+          component={FinishSignUp}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
           name="Login"
           component={Login}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Signup"
           component={Signup}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="FirstStep"
           component={FirstStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="SecondStep"
           component={SecondStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="ThirdStep"
           component={ThirdStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Landing"
           component={Landing}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-                <Stack.Screen
+        <Stack.Screen
           name="userProfile"
           component={UserProfile}
           options={{
-            headerShown: false
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="userProfilePage"
+          component={UserProfilePage}
+          options={{
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -103,7 +139,7 @@ export default function App() {
           name="upgradeToDoc"
           component={UpgradeDocForm}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -121,13 +157,19 @@ export default function App() {
           }}
         />
         <Stack.Screen
+<<<<<<< HEAD
           name="pharmFirstStep"
           component={PharmFirstStep}
+=======
+          name="AllMedicines"
+          component={AllMedicines}
+>>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
           options={{
             headerShown: false
           }}
         />
         <Stack.Screen
+<<<<<<< HEAD
           name="pharmSecondStep"
           component={PharmSecondStep}
           options={{
@@ -137,6 +179,10 @@ export default function App() {
         <Stack.Screen
           name="upgradeToPharm"
           component={UpgradeToPharm}
+=======
+          name="MedicineDetails"
+          component={MedicineDetails}
+>>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
           options={{
             headerShown: false
           }}

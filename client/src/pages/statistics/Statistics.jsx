@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 import "./style.css";
@@ -29,7 +29,9 @@ const Statistics = () => {
                 <div className="title___prod___stat">
                   <div className="title___img_prodStat">
                     <div className="title___prod">Total products</div>
-                    <div className="icon___prod___stat"><FontAwesomeIcon icon="fa-duotone fa-clock" /></div>
+                    <div className="icon___prod___stat">
+                      {/* <FontAwesomeIcon icon="fa-duotone fa-clock" /> */}
+                      </div>
                   </div>
                 </div>
                 <div className="products___number___stat">1,256</div>

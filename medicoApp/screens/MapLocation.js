@@ -4,7 +4,7 @@ import { Dimensions, StyleSheet, View , Button} from 'react-native';
 import * as Location from 'expo-location';
 
 
-export default function App() {
+export default function MapLocation() {
   const [mapRegin ,setMapRegin] = useState({
     "latitude": 36.88180585894427, 
     "longitude": 10.185786131769419, 

@@ -36,6 +36,11 @@
   transform: translateY(-70%);
 }
 
+.link {
+  text-decoration: none;
+  color: rgb(45, 45, 45);
+}
+
 @keyframes fade {
   from {
     opacity: 0;

@@ -6,7 +6,6 @@ import SecondStep from "./SecondStep";
 import ThirdStep from './ThirdStep'
 import UserProfilePage from "./UserProfilePage";
 
-import ThirdStep from './ThirdStep';
 import Home from "./Home";
 import UserProfile from './UserProfile'
 import ProfileApp from "./ProfileApp";

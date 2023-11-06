@@ -9,8 +9,14 @@ import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
+<<<<<<< HEAD
+import PharmFirstStep from './screens/PharmFirstStep'
+import PharmSecondStep from './screens/PharmSecoundStep'
+import UpgradeToPharm from './screens/UpgradeToPharm'
+=======
 import AllMedicines from './screens/AllMedecines';
 import MedicineDetails from './screens/MedecineDetails';
+>>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +24,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
+<<<<<<< HEAD
+        initialRouteName='Login'
+=======
         initialRouteName='FirstStep'
+>>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
       >
         <Stack.Screen
           name="Welcome"
@@ -126,7 +136,7 @@ export default function App() {
           }}
         />
           <Stack.Screen
-          name="UpgradeToDoc"
+          name="upgradeToDoc"
           component={UpgradeDocForm}
           options={{
             headerShown: false,
@@ -147,15 +157,32 @@ export default function App() {
           }}
         />
         <Stack.Screen
+<<<<<<< HEAD
+          name="pharmFirstStep"
+          component={PharmFirstStep}
+=======
           name="AllMedicines"
           component={AllMedicines}
+>>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
           options={{
             headerShown: false
           }}
         />
         <Stack.Screen
+<<<<<<< HEAD
+          name="pharmSecondStep"
+          component={PharmSecondStep}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="upgradeToPharm"
+          component={UpgradeToPharm}
+=======
           name="MedicineDetails"
           component={MedicineDetails}
+>>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
           options={{
             headerShown: false
           }}

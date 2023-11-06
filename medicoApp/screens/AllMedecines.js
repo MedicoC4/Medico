@@ -128,14 +128,14 @@ const AllMedicines = () => {
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           {filteredMedicines.map((medicine, index) => (
             <TouchableOpacity
-            activeOpacity={1}
-            key={index}
-            onPress={() =>
-              navigation.navigate("MedicineDetails", { medicine })
-            }
-          >
-            <MedicineCard medicine={medicine} />
-          </TouchableOpacity>
+              activeOpacity={1}
+              key={index}
+              onPress={() =>
+                navigation.navigate("MedicineDetails", { medicine })
+              }
+            >
+              <MedicineCard medicine={medicine} />
+            </TouchableOpacity>
           ))}
         </View>
         <View style={{ height: 40 }} />

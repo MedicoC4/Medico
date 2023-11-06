@@ -1,25 +1,32 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf, UserProfilePage} from "./screens";
-import Landing from './screens/Landing';
-import UserProfile from './screens/UserProfile';
-import DocFirstStep from './screens/docFirstStep';
-import DocSecondStep from './screens/docSecounStep';
-import UpgradeDocForm from './screens/UpgradeDocForm';
-import MapLocation from './screens/MapLocation';
-import AllPharmacies from './screens/AllPharmacies';
-import AllMedicines from './screens/AllMedecines';
-import MedicineDetails from './screens/MedecineDetails';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  Login,
+  Signup,
+  Welcome,
+  FirstStep,
+  SecondStep,
+  ThirdStep,
+  DoctorPdf,
+  UserProfilePage,
+} from "./screens";
+import Landing from "./screens/Landing";
+import UserProfile from "./screens/UserProfile";
+import DocFirstStep from "./screens/docFirstStep";
+import DocSecondStep from "./screens/docSecounStep";
+import UpgradeDocForm from "./screens/UpgradeDocForm";
+import MapLocation from "./screens/MapLocation";
+import AllPharmacies from "./screens/AllPharmacies";
+import AllMedicines from "./screens/AllMedecines";
+import MedicineDetails from "./screens/MedecineDetails";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName='Landing'
-      >
+      <Stack.Navigator initialRouteName="Landing">
         <Stack.Screen
           name="Welcome"
           component={Welcome}
@@ -27,11 +34,11 @@ export default function App() {
             headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="DoctorPdf"
           component={DoctorPdf}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -94,17 +101,17 @@ export default function App() {
           name="DocFirstStep"
           component={DocFirstStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="DocSecoundStep"
           component={DocSecondStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="UpgradeToDoc"
           component={UpgradeDocForm}
           options={{
@@ -115,33 +122,31 @@ export default function App() {
           name="map"
           component={MapLocation}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="AllPharmacies"
           component={AllPharmacies}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="AllMedicines"
           component={AllMedicines}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="MedicineDetails"
           component={MedicineDetails}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
-
-      
     </NavigationContainer>
   );
 }

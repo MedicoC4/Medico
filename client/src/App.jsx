@@ -21,6 +21,7 @@ import Login                  from "./pages/login/Login"
 import SignUp                 from './pages/signUp/SignUp'
 import ResetePassword         from './pages/resetePassword/ResetePassword'
 import Landing                from "./pages/landingPage/landing"
+import Orders                from "./pages/ordering/Orders.jsx"
 
 
 const App = () => {
@@ -61,7 +62,7 @@ const App = () => {
             <Route path="statistics" element={<Statistics />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />
-            {/* <Route path="orders" element={<Orders />} /> */}
+            <Route path="orders" element={<Orders />} />
           </Routes>
         </CSSTransition>
       </TransitionGroup>

@@ -6,6 +6,7 @@ const Orders = () => {
   const [velInput,setValInput] = useState("")
   return (
     <div>
+      
        <OrderList/> 
     </div>
   )

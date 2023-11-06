@@ -11,11 +11,13 @@ import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
 import AllMedicines from './screens/AllMedecines';
 import MedicineDetails from './screens/MedecineDetails';
+import { UserProvider } from './constants/userProvier';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='FirstStep'
@@ -164,5 +166,6 @@ export default function App() {
 
       
     </NavigationContainer>
+    </UserProvider>
   );
 }

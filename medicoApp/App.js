@@ -14,7 +14,6 @@ import MedicineDetails from './screens/MedecineDetails';
 
 const Stack = createNativeStackNavigator();
 
-
 export default function App() {
   return (
     <NavigationContainer>
@@ -25,7 +24,7 @@ export default function App() {
           name="Welcome"
           component={Welcome}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
           <Stack.Screen
@@ -39,49 +38,56 @@ export default function App() {
           name="Login"
           component={Login}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Signup"
           component={Signup}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="FirstStep"
           component={FirstStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="SecondStep"
           component={SecondStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="ThirdStep"
           component={ThirdStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Landing"
           component={Landing}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-                <Stack.Screen
+        <Stack.Screen
           name="userProfile"
           component={UserProfile}
           options={{
-            headerShown: false
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="userProfilePage"
+          component={UserProfilePage}
+          options={{
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -102,7 +108,14 @@ export default function App() {
           name="UpgradeToDoc"
           component={UpgradeDocForm}
           options={{
-            headerShown: false
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="userProfilePage"
+          component={UserProfilePage}
+          options={{
+            headerShown: false,
           }}
         />
         <Stack.Screen

@@ -1,5 +1,6 @@
 import "./landing.css";
 import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import doctorSVG from "../../assets/images/doctorSvg.svg";
 import { gsap } from "gsap";
 import aaa from "../../assets/images/dashboard.svg";
@@ -47,7 +48,7 @@ const Landing = () => {
               <li>Dashboard</li>
               <li>Inventory</li>
               <li>Contact</li>
-              <li>Get Started</li>
+              <li><Link className="link" to='/dashboard'>Get Started</Link></li>
             </ul>
           </nav>
           <div>

@@ -27,7 +27,10 @@
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
     "react-native-document-picker": "^9.0.1",
+<<<<<<< HEAD
     "react-native-dropdown-picker": "^5.4.6",
+=======
+>>>>>>> 9542fc815eeb31f80a6923aae95c3eb60f43fdb9
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-maps": "1.7.1",
     "react-native-paper": "^5.11.1",
@@ -36,7 +39,8 @@
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "typescript": "^5.2.2"
   },
   "private": true
 }

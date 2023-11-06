@@ -9,9 +9,10 @@ import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
+import AllMedicines from './screens/AllMedecines';
+import MedicineDetails from './screens/MedecineDetails';
 
 const Stack = createNativeStackNavigator();
-
 
 export default function App() {
   return (
@@ -23,7 +24,7 @@ export default function App() {
           name="Welcome"
           component={Welcome}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
          <Stack.Screen
@@ -58,49 +59,56 @@ export default function App() {
           name="Login"
           component={Login}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Signup"
           component={Signup}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="FirstStep"
           component={FirstStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="SecondStep"
           component={SecondStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="ThirdStep"
           component={ThirdStep}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Landing"
           component={Landing}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
-                <Stack.Screen
+        <Stack.Screen
           name="userProfile"
           component={UserProfile}
           options={{
-            headerShown: false
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="userProfilePage"
+          component={UserProfilePage}
+          options={{
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -121,7 +129,14 @@ export default function App() {
           name="UpgradeToDoc"
           component={UpgradeDocForm}
           options={{
-            headerShown: false
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="userProfilePage"
+          component={UserProfilePage}
+          options={{
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -134,6 +149,20 @@ export default function App() {
         <Stack.Screen
           name="AllPharmacies"
           component={AllPharmacies}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="AllMedicines"
+          component={AllMedicines}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="MedicineDetails"
+          component={MedicineDetails}
           options={{
             headerShown: false
           }}

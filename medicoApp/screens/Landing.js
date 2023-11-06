@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import { View, Text,Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import PharmacyCard from './PharmacyCard';
-import MedicineCard from './MedicineCard'
+import PharmacyCard from '../components/PharmacyCard';
+import MedicineCard from '../components/MedicineCard'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
@@ -160,9 +160,9 @@ const Landing = ({route}) => {
       />
       <View style={styles.secondOrdersContainer}>
   <Text style={styles.ordersText}>Medicines</Text>
-  <TouchableOpacity style={styles.button}>
-    <Text style={styles.buttonText}>SEE ALL</Text>
-  </TouchableOpacity>
+  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AllMedicines')}>
+  <Text style={styles.buttonText}>SEE ALL</Text>
+</TouchableOpacity>
 </View>
 <FlatList
   data={medicines}

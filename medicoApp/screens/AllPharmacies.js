@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text,Image, StyleSheet, TouchableOpacity,  ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import PharmacyCard from './PharmacyCard2';
+import PharmacyCard from '../components/PharmacyCard2';
 import lense from '../assets/lense.png'
-import MedicineCard from './MedicineCard'
+import MedicineCard from '../components/MedicineCard'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';

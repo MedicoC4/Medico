@@ -3,11 +3,35 @@ import React, { useState } from 'react'
 const { width, height } = Dimensions.get('window');
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
+import {auth,updateUserDocument} from '../firebase-config'
+import { useNavigation } from '@react-navigation/native';
 
-const Settings = () => {
+const Settings = ({route}) => {
+
+
+    
+    const navigation=useNavigation()
+
+    // const userLogged=route.params.userInfo//import of user logged
+
     const [name,setName]=useState('')
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
+
+    const handleUpdateUserSettings = async () => {
+        // Assuming you have the user object and additional data
+        // const user = userLogged// Get the user object as needed
+        const additionalData = {
+          name: name,
+          email: email,
+          password:password
+          // Add other fields you want to update
+        };
+      
+        // Call the function to update user data
+        const updated =await updateUserDocument(user, additionalData);
+        navigation.navigate('Landing',{userInfo:updated})
+      };
 
 
     const handleSubmit = (e)=>{
@@ -145,7 +169,6 @@ const Settings = () => {
                         <TextInput
                             placeholder='Confirm Password'
                             placeholderTextColor={COLORS.black}
-                            // keyboardType='email-address'
                             style={{
                                 width: "100%"
                             }}
@@ -156,6 +179,7 @@ const Settings = () => {
                 </View>
                     </View>
                 <Button
+                onPress={handleUpdateUserSettings}
               titleStyle={{
                 color: "#FFFFFF"
              }}

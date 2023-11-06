@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { View, Text,Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PharmacyCard from './PharmacyCard';
@@ -7,18 +7,35 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
-import {auth} from '../firebase-config'
+import {auth,DB,fetchUserDataByEmail} from '../firebase-config'
 
 
 const Landing = ({route}) => {
-  
+
+  const [userData, setUserData] = useState(null);
+  const loggedUser=auth.currentUser.email
   const navigation=useNavigation()
-  const userh=auth.currentUser.email 
-  console.log(userh);
+  // const userh=auth.currentUser.email
   const orders = 1; // Replace with actual number of orders
   const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
   const numberOfDrugs = 3; // Replace with actual number of drugs
   const orderTotal = 100; // Replace with actual order total
+
+
+  useEffect(() => {
+    const userEmail = loggedUser; // Replace with the actual user's email.
+
+    fetchUserDataByEmail(userEmail)
+      .then((data) => {
+        if (data) {
+          // Data may contain multiple users, so you might want to access the first one.
+          setUserData(data[0]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, []);
 
   const pharmacies = [
     {
@@ -67,13 +84,17 @@ const Landing = ({route}) => {
     topRatedPharmacies = pharmacies.filter(pharmacy => pharmacy.rating >= 4.5);
   }
 
+
+
   return (
       <View style={{flex: 1}}>
         <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.greeting}>
           <Text style={styles.helloText}>Hello,</Text>
-          <Text style={styles.userName}>{userh}</Text>
+          <Text style={styles.userName}>{loggedUser
+          
+          }</Text>
         </View>
         <View style={styles.icons}>
             <TouchableOpacity>

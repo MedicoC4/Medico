@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore,doc, setDoc, getDoc } from "@firebase/firestore";
+import { getFirestore,doc, setDoc, getDoc,collection,query,where,getDocs } from "@firebase/firestore";
 import { name as appName } from './app.json';
 import { getAuth, createUserWithEmailAndPassword , GoogleAuthProvider,onAuthStateChanged } from "firebase/auth";
 
@@ -84,4 +84,33 @@ export const updateUserDocument = async (user, additionalData) => {
     console.error('Error updating user document:', error);
   }
 };
+
+
+export const fetchUserDataByEmail = async (email) => {
+  try {
+    const collectionRef = collection(DB, 'users'); // Replace 'your_collection_name' with the actual name of your Firestore collection.
+    const q = query(collectionRef, where('email', '==', email));
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot && !querySnapshot.empty) {
+      const userData = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log('this is data',data);
+        userData.push(data);
+      });
+      return userData;
+    } else {
+      return null; // No matching documents found for the provided email.
+    }
+  } catch (error) {
+    console.error("Error getting documents:", error);
+    throw error;
+  }
+};
+
+
+
+
 

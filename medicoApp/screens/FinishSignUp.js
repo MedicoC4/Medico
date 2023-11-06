@@ -20,7 +20,7 @@ const FinishSignUp = ({route}) => {
 
 
 
-    const userh=route.params.userInfo
+    const userLogged=route.params.userInfo
     const [isOpen,setIsOpen]=useState(false)
     const [currentValue,setCurrentValue]=useState('')
     const [name,setName]=useState('')
@@ -42,7 +42,7 @@ const FinishSignUp = ({route}) => {
 
     const handleUpdateUserInfo = async () => {
         // Assuming you have the user object and additional data
-        const user = userh// Get the user object as needed
+        const user = userLogged// Get the user object as needed
         const additionalData = {
           name: name,
           gender: gender,

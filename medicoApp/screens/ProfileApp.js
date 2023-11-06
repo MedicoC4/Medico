@@ -4,8 +4,12 @@ const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
 import { AntDesign } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/native';
 
-const ProfileApp = ({navigation}) => {
+const ProfileApp = ({route}) => {
+    const navigation=useNavigation()
+    // const user=route.params.userInfo
+
   return (
     <ScrollView  style={{marginTop:30}}
     >

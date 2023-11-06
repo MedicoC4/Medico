@@ -355,7 +355,7 @@ const OrderList = () => {
                   <img
                     className="imag___info___order"
                     data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                    aria-expanded="true"
                     src={personalInfoIcon}
                     alt="Personal Info Icon"
                     onClick={() => getUserByid(e.usersId)}
@@ -436,14 +436,14 @@ const OrderList = () => {
                     type="button"
                     className="btn___cnfrm___order___modal___canc"
                     data-bs-toggle="modal"
-                    data-bs-target="#canceledModal"
+                    data-bs-target={`#${e.id}rejected`}
                     onClick={() => getProdById(e.productsId[0])}
                   >
                     Reject
                   </button>
                   <div
                     class="modal fade"
-                    id="canceledModal"
+                    id={`${e.id}rejected`}
                     data-bs-backdrop="static"
                     data-bs-keyboard="false"
                     tabindex="-1"

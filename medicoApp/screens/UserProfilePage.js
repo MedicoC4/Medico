@@ -42,7 +42,7 @@ const logOut = ()=>{
   signOut(auth)
   navigation.navigate('Login')
 }
-console.log(auth.currentUser);
+
 
   return (
     <View

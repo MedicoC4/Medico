@@ -128,7 +128,7 @@ export default function App() {
           }}
         />
           <Stack.Screen
-          name="UpgradeToDoc"
+          name="upgradeToDoc"
           component={UpgradeDocForm}
           options={{
             headerShown: false,

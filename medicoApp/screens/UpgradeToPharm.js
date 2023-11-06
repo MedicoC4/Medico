@@ -56,7 +56,7 @@ export default function Example({navigation}) {
             </View>
 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Year of experiance</Text>
+              <Text style={styles.inputLabel}>Type</Text>
 
               <TextInput
                 value={yearOfEx}
@@ -78,7 +78,7 @@ export default function Example({navigation}) {
             </View>
 
             <View style={styles.input}>
-              <Button
+            <Button
               onPress={() => navigation.navigate("map")}
                         title="Get location"
                         style={{
@@ -86,7 +86,6 @@ export default function Example({navigation}) {
                             width: "100%"
                         }}
                     />
-
             </View>
 
             

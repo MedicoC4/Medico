@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import SideNav from "../../components/sideNav/SideNav";
 import DataGrid from "../../components/dataGrid/dataGrid";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot, query } from "firebase/firestore";
 import { DB } from "../../firebase-config";
 import { Timestamp } from "firebase/firestore";
 import { useNavigate } from 'react-router';
@@ -24,29 +24,39 @@ const ProductOverview = () => {
       const date = timestamp.toDate();
       const day = date.getDate().toString().padStart(2, "0");
       const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const year = date.getFullYear().toString().slice(-2);
-      const hours = date.getHours().toString().padStart(2, "0");
-      const minutes = date.getMinutes().toString().padStart(2, "0");
-
-      return `${day}/${month}/${year} ${hours}:${minutes}`;
+      const year = date.getFullYear().toString();
+      return `${day}/${month}/${year}`;
     }
     return null;
   }
 
-  const fetchData = async () => {
+  const fetchData = () => {
     try {
-      let list = [];
-      const querySnapshot = await getDocs(collection(DB, "products"));
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        data.timeStamp = timestampToDate(data.timeStamp);
-        list.push({ id: doc.id, ...data });
+      const productsCollection = collection(DB, "products");
+
+      const unsubscribe = onSnapshot(productsCollection, (querySnapshot) => {
+        let list = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          data.timeStamp = timestampToDate(data.timeStamp);
+          list.push({ id: doc.id, ...data });
+        });
+        setData(list);
       });
-      setData(list);
+
+      return unsubscribe;
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = fetchData();
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -55,45 +65,17 @@ const ProductOverview = () => {
   console.log(data);
   console.log(prodId,"this");
 
+  const filteredProducts = data.filter(
+    (product) => product.productCategory === "fedi"
+  );
+  console.log(filteredProducts);
+
   return (
     <div className="all_product_container">
       <SideNav />
       <div className="body_cards_container">
-        {/* <DataGrid data={data} /> */}
-        {data.map((e)=>(
-          <div className="all___suggested___cards">
-          <div className="card___suggested___container">
-            <div className="card___image___suggestion">
-              <img src="" alt="" />
-            </div>
-            <div className="text___product___suggestion">
-              <h1 className="product___title___suggestion">{e.productName}</h1>
-              <div className="keys___description___suggestion">
-                <div className="oneKey___description___suggestion">
-                  <div className="icon___product___keySuggestion">AA</div>
-                  <p className="text___product___keySuggestion">{e.productPrice}</p>
-                </div>
-                <div className="oneKey___description___suggestion">
-                  <div className="icon___product___keySuggestion">AA</div>
-                  <p className="text___product___keySuggestion">Quantity</p>
-                </div>
-                <div className="oneKey___description___suggestion">
-                  <div className="icon___product___keySuggestion">AA</div>
-                  <p className="text___product___keySuggestion">Quantity</p>
-                </div>
-                <p className="under___description___suggest">
-                  Description of this products
-                </p>
-              </div>
-              <button className="show___product___suggestion___btn" onClick={()=>{navigate("/product-details");setPredId(e.id);console.log(e.id,"ffffff");handleShowProductDetails(e.id);    localStorage.setItem("prod_id",prodId )
-}}> 
-                Show Product
-              </button>
-            </div>
-          </div>
-       
-        </div>
-        ))}
+        <h1>Products</h1>
+        <DataGrid data={data} />
       </div>
     </div>
   );

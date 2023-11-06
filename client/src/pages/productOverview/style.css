@@ -8,10 +8,18 @@
   justify-content: center;
 }
 
-*:focus { outline: none;}
 .all_product_container {
   display: flex;
   width: 100%;
+}
+
+.MuiDataGrid-columnHeaders {
+  background-color: #f7f7f8;
+  border-radius: 1rem;
+}
+
+.custom-header-class {
+  color: #6e6e6e;
 }
 
 .body_cards_container {
@@ -21,12 +29,19 @@
   padding: 1.5rem;
   transition: 0.2s;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.body_cards_container > h1 {
+  font-size: 3em;
+  text-align: start;
+  margin-bottom: 2rem;
 }
 
 .nav-push-effect {
-  transition: 0.3s ease; 
+  transition: 0.3s ease;
 }
 
 .sideNav:hover + .body_cards_container {

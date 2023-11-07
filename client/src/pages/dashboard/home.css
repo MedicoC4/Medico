@@ -7,14 +7,6 @@
   font-family: "Roboto", sans-serif;
 }
 
-.sideNav {
-  position: fixed;
-  background-color: #00a9a5;
-  height: 100vh;
-  width: 7.3vw;
-  transition: 0.2s;
-}
-
 .sideNav:hover {
   height: 100vh;
   width: 20.9vw;
@@ -300,6 +292,7 @@
   justify-content: center;
   align-items: center;
   padding: 2rem;
+  display: none;
 }
 
 .item5_container {
@@ -351,6 +344,7 @@
   grid-column: 9 / span 4;
   grid-row: 32 / span 9;
   background-color: rgba(240, 240, 240, 60%);
+  display: none;
 }
 
 .sideNav:hover + .dashboard_container > .grid > .item-6 {

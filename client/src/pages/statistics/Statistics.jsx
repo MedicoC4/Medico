@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import SideNav from "../../components/sideNav/SideNav";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -13,6 +14,9 @@ const Statistics = () => {
   const navigate = useNavigate()
   return (
     <div>
+      <div>
+        <SideNav />
+      </div>
       <div className="big___container___statistics">
         <div className="title___stat___photo">
           <div className="title___stat">Pharmacy Statistics</div>

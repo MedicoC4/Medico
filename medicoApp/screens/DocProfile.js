@@ -1,190 +1,478 @@
-import React from 'react';
+import React from "react";
 import {
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
   View,
   Text,
-  TouchableOpacity,
   Image,
-  Switch,
-} from 'react-native';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import activity from '../assets/activity.svg'
-const SECTIONS = [
-  {
-   
-    items: [
-      {icon: 'user',color: "#007260", label: 'Personal Details', type: 'link' },
-      {icon: 'settings',color: "#007260", label: 'Settings', type: 'link' },
-      {icon: {activity},color: "#007260", label: 'Statistique', type: 'link' },
-      {icon: 'navigation',color: "#007260", label: 'Speciality', type: 'link' },
-      {icon: 'navigation', color: '#32c759', label: 'Location', type: 'link' },
-     
-    ],
-  },
-  
-];
+  Pressable,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import {auth} from '../firebase-config'
 
-export default function Example() {
+const UserProfilePage = ({navigation}) => {
+// const email = auth.currentUser.email
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.profile}>
-          <TouchableOpacity
-            onPress={() => {
-              // handle onPress
-            }}>
-            <View style={styles.profileAvatarWrapper}>
+    <View
+      style={{
+        flex: 1,
+        marginHorizontal: 22,
+        paddingTop: 55,
+        paddingBottom: 40,
+        flexDirection: "column",
+        gap: 30,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          height: 100,
+        }}
+      >
+        <Text style={{ fontSize: 40, fontWeight: "bold" }}>Profile</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "40%",
+            height: "100%",
+            padding: 0,
+          }}
+        >
+          <TouchableOpacity>
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#EAEAEA",
+              }}
+            >
               <Image
-                alt=""
-                source={{
-                  uri: 'https://p1.hiclipart.com/preview/289/380/890/medicine-health-care-physician-3d-computer-graphics-animation-cartoon-computer-animation-finger-png-clipart.jpg',
+                source={require("../assets/bell.png")}
+                style={{
+                  width: 30,
+                  height: 30,
                 }}
-                style={styles.profileAvatar}
               />
-
-              <TouchableOpacity
-                onPress={() => {
-                  // handle onPress
-                }}>
-                <View style={styles.profileAction}>
-                  <FeatherIcon color="#fff" name="edit-3" size={15} />
-                </View>
-              </TouchableOpacity>
             </View>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: 60,
+              height: 60,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 100,
+              shadowColor: "rgba(3, 3, 3, 0.1)",
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              backgroundColor: "#EAEAEA",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#EAEAEA",
+              }}
+            >
+              <Image
+                source={require("../assets/basket.png")}
+                style={{
+                  width: 30,
+                  height: 30,
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          alignItems: "center",
+          margin: 3,
+          gap: 8,
 
-          <View style={styles.profileBody}>
-            <Text style={styles.profileName}>Doctor Name</Text>
-
-            <Text style={styles.profileAddress}>
-              Badge
+        }}
+      >
+        <View
+          style={{
+            width: 150,
+            height: 150,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 100,
+            shadowColor: "rgba(3, 3, 3, 0.1)",
+            shadowOffset: { width: 0, height: 2 },
+            shadowRadius: 4,
+            backgroundColor: "#EAEAEA",
+            position: "relative",
+          }}
+        >
+          <Image
+            style={{
+              width: 150,
+              height: 150,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 100,
+              shadowColor: "rgba(3, 3, 3, 0.1)",
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              backgroundColor: "#EAEAEA",
+            }}
+            source={require("../assets/hero3.jpg")}
+          />
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              width: 150,
+              top: 15,
+              left: 110,
+              width: 35,
+              height: 35,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 100,
+              shadowColor: "rgba(3, 3, 3, 0.1)",
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              backgroundColor: "#1a998e",
+              borderWidth: 3.5,
+              borderColor: "white",
+              borderStyle: "solid",
+            }}
+          >
+            <Image
+              style={{ width: 20, height: 20 }}
+              source={require("../assets/editPen.png")}
+            />
+          </TouchableOpacity>
+        </View>
+        <Text style={{ fontSize: 30, fontWeight: "bold" }}>Sanni Muiz</Text>
+        <View
+          style={{
+            width: "55%",
+            height: 24,
+            borderRadius: 24,
+            shadowColor: "rgba(3, 3, 3, 0.1)",
+            shadowOffset: { width: 0, height: 2 },
+            shadowRadius: 4,
+            backgroundColor: "#EAEAEA",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text>{email}</Text>
+        </View>
+      </View>
+      <View style={{ height: "46%" }}>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: "25%",
+            // backgroundColor: "grey",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/personalDetails.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+              Personal Details
             </Text>
           </View>
-        </View>
-
-        {SECTIONS.map(({ header, items }) => (
-          <View style={styles.section} key={header}>
-            <Text style={styles.sectionHeader}>{header}</Text>
-            {items.map(({ label, icon, type, value, color }, index) => {
-              return (
-                <TouchableOpacity
-                  key={label}
-                  onPress={() => {
-                    // handle onPress
-                  }}>
-                  <View style={styles.row}>
-                    <View style={[styles.rowIcon, { backgroundColor: color }]}>
-                      <FeatherIcon color="#fff" name={icon} size={18} />
-                    </View>
-
-                    <Text style={styles.rowLabel}>{label}</Text>
-
-                    <View style={styles.rowSpacer} />
-
-                    {type === 'boolean' && <Switch value={value} />}
-
-                    {type === 'link' && (
-                      <FeatherIcon
-                        color="#0c0c0c"
-                        name="chevron-right"
-                        size={22}
-                      />
-                    )}
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
+          <View
+            style={
+              {
+                // width: 60,
+                // height: 60,
+                // justifyContent: "center",
+                // alignItems: "center",
+                // borderRadius: 100,
+                // shadowColor: "rgba(3, 3, 3, 0.1)",
+                // shadowOffset: { width: 0, height: 2 },
+                // shadowRadius: 4,
+              }
+            }
+          >
+            {/* <Image source={require("../assets/flesh_right.png")}
+            style={{
+                width: 35,
+                height: 35,
+              }}
+            /> */}
+            <AntDesign name="right" size={24} color="#1a998e" />
           </View>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+        </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: "25%",
+            // backgroundColor: "grey",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/payment.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Payments</Text>
+          </View>
+          <View>
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: "25%",
+            // backgroundColor: "grey",
+            alignItems: "center",
+          
+          }}
+          onPress={()=>navigation.navigate('Settings')}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/settings.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Settings</Text>
+          </View>
+          <View>
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: "25%",
+            // backgroundColor: "grey",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/support.png")}
+                  style={{
+                    width: 27,
+                    height: 27,
+                  }}
+                />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Support</Text>
+          </View>
+          <View>
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 24,
-  },
-  section: {
-    paddingHorizontal: 24,
-  },
-  sectionHeader: {
-    paddingVertical: 12,
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#9e9e9e',
-    textTransform: 'uppercase',
-    letterSpacing: 1.1,
-  },
-  profile: {
-    padding: 24,
-    backgroundColor: '#fff',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profileAvatar: {
-    width: 72,
-    height: 72,
-    borderRadius: 9999,
-  },
-  profileAvatarWrapper: {
-    position: 'relative',
-  },
-  profileAction: {
-    position: 'absolute',
-    right: -4,
-    bottom: -10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 28,
-    height: 28,
-    borderRadius: 9999,
-    backgroundColor: '#007bff',
-  },
-  profileName: {
-    marginTop: 20,
-    fontSize: 19,
-    fontWeight: '600',
-    color: '#414d63',
-    textAlign: 'center',
-  },
-  profileAddress: {
-    marginTop: 5,
-    fontSize: 16,
-    color: '#989898',
-    textAlign: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    height: 50,
-    backgroundColor: '#f2f2f2',
-    borderRadius: 8,
-    marginBottom: 12,
-    paddingLeft: 12,
-    paddingRight: 12,
-  },
-  rowIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 9999,
-    marginRight: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  rowLabel: {
-    fontSize: 17,
-    fontWeight: '400',
-    color: '#0c0c0c',
-  },
-  rowSpacer: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-  },
-});
+export default UserProfilePage;

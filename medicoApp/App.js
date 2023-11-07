@@ -20,7 +20,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='DocProfile'
+        initialRouteName='Login'
       >
         <Stack.Screen
           name="Welcome"

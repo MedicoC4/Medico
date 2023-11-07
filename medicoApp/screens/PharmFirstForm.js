@@ -9,32 +9,17 @@ import {
   Dimensions
 } from 'react-native';
 import Button from '../components/Button';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
-import { DB } from '../firebase-config';
-import { addDoc, collection, doc, serverTimestamp,setDoc } from "firebase/firestore";
 
 
 
 
-export default function Example({navigation}) {
-  const [yearOfEx , setYearOfEx]= useState('')
-  const [specialite , setSpecialite]= useState('')
 
 
-  const createDocs = async()=>{
-    const docRef = doc(DB , "doctors","HVsbHgcz3nrrxU8QioQQ")
-    const newData = {specialite : specialite , "Years Of Experiance" : yearOfEx} 
-    try {
-     setDoc(doc(DB , newData,"newnew"))
-      
-    } catch (error) {
-      throw error
-    }
-  }
-  
+export default function PharmFirstForm({navigation}) {
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
       <View style={styles.container}>
@@ -46,7 +31,7 @@ export default function Example({navigation}) {
         <KeyboardAwareScrollView>
           <View style={styles.form}>
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Certificat</Text>
+              <Text style={styles.inputLabel}>Full Name</Text>
 
               <TextInput
                 
@@ -56,36 +41,33 @@ export default function Example({navigation}) {
             </View>
 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Year of experiance</Text>
+              <Text style={styles.inputLabel}>Type</Text>
 
               <TextInput
-                value={yearOfEx}
-                onChangeText={(e)=>{setYearOfEx(e)}}
+               
                 style={styles.inputControl}
-                
               />
             </View>
                 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>specialité</Text>
+              <Text style={styles.inputLabel}>Email</Text>
 
               <TextInput
-                value={specialite}
-                onChangeText={(e)=>{setSpecialite(e)}}
-                style={styles.inputControl}
                 
+                style={styles.inputControl}
+              />
+
+            </View>
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Phone</Text>
+
+              <TextInput
+                style={styles.inputControl}
               />
             </View>
-
+            
             <View style={styles.input}>
-              <Button
-              onPress={() => navigation.navigate("map")}
-                        title="Get location"
-                        style={{
-                            marginTop: 22,
-                            width: "100%"
-                        }}
-                    />
+    
 
             </View>
 
@@ -93,7 +75,7 @@ export default function Example({navigation}) {
 
             <View style={styles.formAction}>
             <Button
-            onPress={createDocs}
+            onPress={() => navigation.navigate("PharmSecoundForm")}
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

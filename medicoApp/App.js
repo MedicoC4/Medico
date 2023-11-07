@@ -6,7 +6,7 @@ import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
 import DocSecondStep from './screens/docSecounStep';
-import UpgradeDocForm from './screens/UpgradeDocForm';
+import UpgradeDocFirstForm from './screens/UpgradeDocFirstForm';
 import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
 import PharmFirstStep from './screens/PharmFirstStep'
@@ -17,6 +17,9 @@ import MedicineDetails from './screens/MedecineDetails';
 import UserMap from './screens/UserMap';
 import DocProfile from './screens/DocProfile'
 import { UserProvider } from './constants/userProvier';
+import UpgradeDocSecoundForm from './screens/UpgradeDocSecoundForm'
+import PharmSecoundForm from './screens/PharmSecoundForm';
+import PharmFirstForm from './screens/PharmFirstForm';
 
 
 const Stack = createNativeStackNavigator();
@@ -27,7 +30,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
 
-        initialRouteName='Login'
+        initialRouteName='userProfile'
       >
         <Stack.Screen
           name="Welcome"
@@ -165,7 +168,7 @@ export default function App() {
         />
           <Stack.Screen
           name="upgradeToDoc"
-          component={UpgradeDocForm}
+          component={UpgradeDocFirstForm}
           options={{
             headerShown: false,
           }}
@@ -195,6 +198,55 @@ export default function App() {
         <Stack.Screen
           name="MedicineDetails"
           component={MedicineDetails}
+
+          options={{
+            headerShown: false
+          }}
+          />
+        <Stack.Screen
+          name="UpgradeDocSecoundForm"
+          component={UpgradeDocSecoundForm}
+
+          options={{
+            headerShown: false
+          }}
+          />
+        <Stack.Screen
+          name="pharmFirstStep"
+          component={PharmFirstStep}
+
+          options={{
+            headerShown: false
+          }}
+          />
+
+        <Stack.Screen
+          name="PharmSecoundStep"
+          component={PharmSecondStep}
+
+          options={{
+            headerShown: false
+          }}
+          />
+        <Stack.Screen
+          name="UpgradeToPharm"
+          component={UpgradeToPharm}
+
+          options={{
+            headerShown: false
+          }}
+          />
+        <Stack.Screen
+          name="PharmSecoundForm"
+          component={PharmSecoundForm}
+
+          options={{
+            headerShown: false
+          }}
+          />
+        <Stack.Screen
+          name="PharmFirstForm"
+          component={PharmFirstForm}
 
           options={{
             headerShown: false

@@ -17,7 +17,12 @@ const { width, height } = Dimensions.get("window");
 
 
 export default function PharmSecoundForm({navigation}) {
+  const [certificate , setCertificate] = useState('')
+  const [description , setDescription] = useState('')
   
+  const test = ()=>{
+    console.log({certificate , description});
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
       <View style={styles.container}>
@@ -30,20 +35,22 @@ export default function PharmSecoundForm({navigation}) {
           <View style={styles.form}>
 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Year of experiance</Text>
+              <Text style={styles.inputLabel}>Certificate</Text>
 
               <TextInput
-              
+              value={certificate}
+              onChangeText={(e)=>{setCertificate(e)}}
                 style={styles.inputControl}
                 
               />
             </View>
                 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>specialité</Text>
+              <Text style={styles.inputLabel}>Description</Text>
 
               <TextInput
-                
+                value={description}
+                onChangeText={(e)=>{setDescription(e)}}
                 style={styles.inputControl}
                 
               />
@@ -70,7 +77,13 @@ export default function PharmSecoundForm({navigation}) {
       width:width*0.88}}
     />
             <View style={styles.formAction}>
-           
+            <Button
+            onPress={() =>{test()}}
+    title="Finish"
+    filled
+    style={{
+      width:width*0.88}}
+    />
             </View>
         
           </View>
@@ -111,6 +124,7 @@ const styles = StyleSheet.create({
   },
   formAction: {
     marginVertical: 24,
+    paddingTop: 240,
   },
   formFooter: {
     fontSize: 15,

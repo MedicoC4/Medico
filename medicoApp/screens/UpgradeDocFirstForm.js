@@ -12,6 +12,8 @@ import Button from '../components/Button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
+import { doc, setDoc } from "firebase/firestore"; 
+import { DB } from '../firebase-config';
 
 
 
@@ -26,9 +28,15 @@ export default function UpgradeDocFirstForm({navigation}) {
   const [description , setDescription]= useState('')
 
 
-  const test = ()=>{
+  const test = async()=>{
     console.log({fullName , gender , age , licence , description});
-    
+    await setDoc(doc(DB, "doctors", "MermsegT02wmtgtxjeIw"), {
+      fullName : fullName,
+      gender : gender,
+      age : age,
+      licence : licence,
+      description : description
+    });
   }
   
   return (

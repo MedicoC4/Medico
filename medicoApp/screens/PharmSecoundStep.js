@@ -6,7 +6,7 @@ import NavigationBar from '../components/NavigationBar';
 const { width, height } = Dimensions.get("window");
 
 
-const DocSecondStep = ({ navigation }) => {
+const Welcome = ({ navigation }) => {
 
     return (
 
@@ -14,7 +14,7 @@ const DocSecondStep = ({ navigation }) => {
                 <View>
 
                      <Image
-                        source={require("../assets/doctor-gif.gif")}
+                        source={require("../assets/pharm.webp")}
                         style={{
                             height: height*0.30,
                             width: width*0.4,
@@ -53,16 +53,16 @@ const DocSecondStep = ({ navigation }) => {
                             fontSize: 16,
                             color: COLORS.black,
                             marginVertical: 4
-                        }}>Connect with your doctor</Text>
+                        }}>Connect with your Pharmacies</Text>
                         <Text style={{
                             fontSize: 16,
                             color: COLORS.black,
-                        }}>Call, Chat and book with client</Text>
+                        }}>Sell,Call, Chat and book with client</Text>
                     </View>
 
                     <Button
                         title="Upgrade Now"
-                        onPress={() => navigation.navigate("upgradeToDoc")}
+                        onPress={() => navigation.navigate("upgradeToPharm")}
                         style={{
                             marginTop: 22,
                             width: "100%"
@@ -84,4 +84,4 @@ const DocSecondStep = ({ navigation }) => {
     )
 }
 
-export default DocSecondStep
+export default Welcome

@@ -1,45 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import MapView ,{Marker}from 'react-native-maps';
-import { StyleSheet, View , Text , Dimensions} from 'react-native';
-import * as Loation from 'expo-location'
-import { Button } from 'react-native-paper';
-
-export default function App() {
-
-    const [mapRegion , setMapRegion]=useState({
-        "latitude": 36.88180585894427, 
-        "longitude": 10.185786131769419, 
-        "latitudeDelta": 0.004599539499977823, 
-        "longitudeDelta": 0.0032310560345631956} 
+import { Dimensions, StyleSheet, View , Button} from 'react-native';
+import * as Location from 'expo-location';
 
 
-    )
-    const userLocation = async()=>{
-        let {status} = await Location.requestForegroundPermissionAsync()
-        if (status !== 'granted') {
-            setErrorMsg('Permission denied')
-        }
-        let location = await Location.getCurrentPositionAsynv({enableHighAccuracy: true})
-        setMapRegion({
-            latitude : location.coords.latitude,
-            longtitude : location.coords.longitude,
-            latitudeDelta :0.0400,
-            longtitudeDelta :0.0200
-        })
-        console.log(location.coords.latitude, location.coords.longitude);
-    }
-
-    useEffect(()=>{
-        userLocation()
-    },[])
+export default function MapLocation() {
+  const [mapRegin ,setMapRegin] = useState({
+    "latitude": 36.88180585894427, 
+    "longitude": 10.185786131769419, 
+    "latitudeDelta": 0.004599539499977823, 
+    "longitudeDelta": 0.0032310560345631956
+  })
+  const userLocation = async ()=>{
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location was denied');
+      return;
+  }
+  let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+   setMapRegin({
+    latitude: location.coords.latitude,
+    longitude: location.coords.longitude,
+    "latitudeDelta": 0.004599539499977823, 
+    "longitudeDelta": 0.0032310560345631956 
+   })
+   console.log(location.coords.latitude, location.coords.longitude );
+}
+useEffect(()=>{
+  userLocation()
+},[])
   return (
     <View style={styles.container}>
       <MapView style={styles.map} 
-      region={mapRegion}>
-
-      <Marker coordinate={mapRegion} title='Marker'/>
+      region={mapRegin}
+      >
+        <Marker coordinate={mapRegin} title='Your Location'/>
       </MapView>
-      <Button title='Get Location' onPress={userLocation}/>
+      <Button title='Get Location' style={styles.butt}onPress={userLocation}/>
     </View>
   );
 }
@@ -47,9 +44,15 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'#fff',
+    alignItems:'center',
+    justifyContent : 'center',
   },
   map: {
     width: '100%',
-    height: '100%',
+    height: '80%',
   },
+  butt : {
+    alignContent: 'center',
+  }
 });

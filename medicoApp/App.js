@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf,FinishSignUp,ProfileApp,Settings,UserProfilePage} from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf,FinishSignUp,ProfileApp,Settings,UserProfilePage,PharmacyProfile,Promotions,BestSellers,AllMissingProducts} from "./screens";
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
@@ -11,11 +11,16 @@ import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
 import AllMedicines from './screens/AllMedecines';
 import MedicineDetails from './screens/MedecineDetails';
+import UserMap from './screens/UserMap';
+// import UserProfilePage from './screens/UserProfilePage';
+import { UserProvider } from './constants/userProvier';
+
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='FirstStep'
@@ -23,6 +28,49 @@ export default function App() {
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            headerShown: false
+          }}
+        />
+         <Stack.Screen
+          name="ProfileApp"
+          component={ProfileApp}
+          options={{
+            headerShown: false
+          }}
+        />
+          <Stack.Screen
+          name="AllMissingProducts"
+          component={AllMissingProducts}
+          options={{
+            headerShown: false,
+          }}
+        />
+<Stack.Screen
+          name="Promotions"
+          component={Promotions}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="BestSellers"
+          component={BestSellers}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+          <Stack.Screen
+          name="PharmacyProfile"
+          component={PharmacyProfile}
           options={{
             headerShown: false,
           }}
@@ -126,12 +174,13 @@ export default function App() {
           }}
         />
           <Stack.Screen
-          name="UpgradeToDoc"
+          name="upgradeToDoc"
           component={UpgradeDocForm}
           options={{
             headerShown: false,
           }}
         />
+       
         <Stack.Screen
           name="map"
           component={MapLocation}
@@ -156,6 +205,14 @@ export default function App() {
         <Stack.Screen
           name="MedicineDetails"
           component={MedicineDetails}
+
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="userMap"
+          component={UserMap}
           options={{
             headerShown: false
           }}
@@ -164,5 +221,6 @@ export default function App() {
 
       
     </NavigationContainer>
+    </UserProvider>
   );
 }

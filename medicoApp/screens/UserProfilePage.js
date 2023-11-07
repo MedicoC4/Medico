@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   View,
   Text,
@@ -10,8 +10,40 @@ import {
   StyleSheet,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import {auth,DB} from '../firebase-config'
+import { getUser } from '../constants/userServices'
+import { signOut } from 'firebase/auth';
 
-const UserProfilePage = () => {
+const UserProfilePage = ({navigation}) => {
+
+
+
+  const [user, setUser] = useState([]);
+
+  // const userCollectionRef = collection(DB, "users");
+
+const email = auth.currentUser.email
+
+
+useEffect(() => {
+  async function fetchData() {
+    const userData = await getUser();
+    if (userData) {
+      setUser(userData);
+    }
+  }
+
+  fetchData();
+}, []);
+
+
+const logOut = ()=>{
+  console.log('logged out');
+  signOut(auth)
+  navigation.navigate('Login')
+}
+
+
   return (
     <View
       style={{
@@ -169,7 +201,7 @@ const UserProfilePage = () => {
             />
           </TouchableOpacity>
         </View>
-        <Text style={{ fontSize: 30, fontWeight: "bold" }}>Sanni Muiz</Text>
+        <Text style={{ fontSize: 30, fontWeight: "bold" }}>{user.name}</Text>
         <View
           style={{
             width: "55%",
@@ -183,7 +215,7 @@ const UserProfilePage = () => {
             alignItems: "center",
           }}
         >
-          <Text>muizzsani99@gmail.com</Text>
+          <Text>{email}</Text>
         </View>
       </View>
       <View style={{ height: "46%" }}>
@@ -350,7 +382,9 @@ const UserProfilePage = () => {
             height: "25%",
             // backgroundColor: "grey",
             alignItems: "center",
+          
           }}
+          onPress={()=>navigation.navigate('Settings')}
         >
           <View
             style={{
@@ -418,6 +452,7 @@ const UserProfilePage = () => {
             // backgroundColor: "grey",
             alignItems: "center",
           }}
+          onPress={logOut}
         >
           <View
             style={{
@@ -454,15 +489,15 @@ const UserProfilePage = () => {
                 }}
               >
                 <Image
-                  source={require("../assets/support.png")}
+                  source={require("../assets/logout.png")}
                   style={{
-                    width: 27,
-                    height: 27,
+                    width: 28,
+                    height: 28,
                   }}
                 />
               </View>
             </View>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Support</Text>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Log Out</Text>
           </View>
           <View>
             <AntDesign name="right" size={24} color="#1a998e" />

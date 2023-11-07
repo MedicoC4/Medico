@@ -1,81 +1,68 @@
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity, Dimensions, Alert, KeyboardAvoidingView } from 'react-native'
-import React, { useState,useEffect } from 'react'
-import { SafeAreaView } from "react-native-safe-area-context";
-import COLORS from '../constants/colors';
-import { Ionicons } from "@expo/vector-icons";
-import Checkbox from "expo-checkbox"
-import Button from '../components/Button';
-import {auth , googleProvider,signInWithCredential,GoogleAuthProvider } from '../firebase-config';
-import { createUserWithEmailAndPassword , signOut , signInWithPopup} from 'firebase/auth';
-const { width, height } = Dimensions.get("window");
-// import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import {
+    View,
+    Text,
+    Image,
+    Pressable,
+    TextInput,
+    TouchableOpacity,
+    Dimensions,
+    Alert,
+    KeyboardAvoidingView,
+  } from 'react-native';
+  
+  import React, { useState, useEffect } from 'react';
+  
+  import COLORS from '../constants/colors';
+  
+  import { Ionicons } from '@expo/vector-icons';
+  
+  import Checkbox from 'expo-checkbox';
+  
+  import Button from '../components/Button';
+  
+  import { auth,googleProvider, DB, createUserDocument } from '../firebase-config';
+  
+  import { createUserWithEmailAndPassword, signOut, signInWithPopup } from 'firebase/auth';
+  
+  const { width, height } = Dimensions.get('window');
 
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
-    const [userInfo,setUserInfo]=useState(null)
     const [email, setEmail] = useState('');
+    const [number,setNumber] = useState('');
     const [password, setPassword] = useState('');
 
 
-    // useEffect(() => {
-    //     GoogleSignin.configure({
-    //            webClientId: "468442720217-82eb2l2uo3vhmo7k42sn2a9htlnhrpk4.apps.googleusercontent.com",
-    //          });
-    //   }, []);
-    
-    //   FirstsignIn = async () => {
-    //     try {
-    //       await GoogleSignin.hasPlayServices();
-    //       const usrInfo = await GoogleSignin.signIn();
-    //       setUserInfo({ usrInfo });
-    //     } catch (error) {
-    //       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-    //         // user cancelled the login flow
-    //       } else if (error.code === statusCodes.IN_PROGRESS) {
-    //         // operation (e.g. sign in) is in progress already
-    //       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-    //         // play services not available or outdated
-    //       } else {
-    //         // some other error happened
-    //       }
-    //     }
-    //   };
-
-    // const signInWithGoogle = async () => {
-    //     try {
-    //       // Sign in with Google
-    //       await GoogleSignin.hasPlayServices();
-    //       const userInfo = await GoogleSignin.signIn();
-      
-    //       // Get Google OAuth ID token and access token
-    //       const googleCredential = GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
-      
-    //       // Sign in with Firebase
-    //       const userCredential = await signInWithCredential(auth(), googleCredential);
-      
-    //       // You can access user information from userCredential.user
-    //       const user = userCredential.user;
-    //       console.log('Successfully signed in with Google:', user.displayName);
-    //     } catch (error) {
-    //       console.error('Google sign-in error:', error);
-    //     }
-    //   };
-
-
-    const handleSignin= async() => {
-        try {
-            console.log('hello done')
-          await createUserWithEmailAndPassword(auth , email , password)
-          navigation.navigate('Landing')
-        } catch (error) {
-          console.log(error);
+    const handleSignUp = async () => {
+        if (!email || !password || !number) {
+          console.log('Please provide an email, phone number, and password.');
+          return;
         }
-    }
+      
+        try {
+          // Create a user in Firebase Authentication
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+          // Get the user object from the userCredential
+          const user = userCredential.user;
+      
+          // Save user data to Firestore including the phone number
+          const created =await createUserDocument(user, { email, number });
+            console.log(created);
+          // Redirect to the landing page after successful signup
+          
+          navigation.navigate('FinishSignUp')
+        } catch (error) {
+          console.error('Error during signup:', error);
+        }
+      };
+      
 
-    const handelSubmit = (e)=>{
+    const handleSubmit = (e)=>{
         e.preventDefault()
     }
+
 
     const withGoogle = async()=>{
         try {
@@ -86,18 +73,8 @@ const Signup = ({ navigation }) => {
           alert(error);
         }
       }
-    // const withGoogle = async()=>{
-    //   try {
-    //     signInWithPopup(auth , googleProvider)
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
 
-    const logOut = ()=>{
-        console.log('logged out');
-        signOut(auth)
-      }
+ 
 
 
     return (
@@ -145,6 +122,7 @@ const Signup = ({ navigation }) => {
                                 width: "100%"
                             }}
                             onChangeText={(text)=>{setEmail(text)}}
+                            onSubmit={handleSubmit}
                         />
                     </View>
                 </View>
@@ -186,6 +164,9 @@ const Signup = ({ navigation }) => {
                             style={{
                                 width: width*0.7
                             }}
+                            onChangeText={(text)=>setNumber(text)}
+                            onSubmit={handleSubmit}
+
                         />
                     </View>
                 </View>
@@ -216,6 +197,7 @@ const Signup = ({ navigation }) => {
                                 
                             }}
                             onChangeText={(text)=>{setPassword(text)}}
+                            onSubmit={handleSubmit}
                         />
 
                         <TouchableOpacity
@@ -259,7 +241,7 @@ const Signup = ({ navigation }) => {
                         marginTop: 18,
                         marginBottom: 4,
                     }}
-                    onPress={handleSignin}
+                    onPress={handleSignUp}
                     
                 />
 

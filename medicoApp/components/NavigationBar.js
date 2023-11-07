@@ -25,15 +25,15 @@ const NavigationBar = () => {
         {renderIcon(home, "home")}
         <Text style={selectedTab === "home" ? styles.selectedText : styles.text}>Home</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item} onPress={() => handlePress("Discover", "discover")}>
+      <TouchableOpacity style={styles.item} onPress={() => handlePress("userMap", "discover")}>
         {renderIcon(lense, "discover")}
-        <Text style={selectedTab === "discover" ? styles.selectedText : styles.text}>Discover</Text>
+        <Text style={selectedTab === "discover" ? styles.selectedText : styles.text}  >Discover</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.item} onPress={() => handlePress("AllPharmacies", "stores")}>
         {renderIcon(store, "stores")}
         <Text style={selectedTab === "stores" ? styles.selectedText : styles.text}>Stores</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item} onPress={() => handlePress("Login", "account")}>
+      <TouchableOpacity style={styles.item} onPress={() => handlePress("userProfilePage", "account")}>
         {renderIcon(account, "account")}
         <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
       </TouchableOpacity>

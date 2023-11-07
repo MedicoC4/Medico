@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import MapView ,{Marker}from 'react-native-maps';
 import { Dimensions, StyleSheet, View , Button} from 'react-native';
-import * as Location from 'expo-location';
+import * as Location from 'expo-location'
 
-
+const {width , height} = Dimensions.get('window')
 export default function MapLocation() {
   const [mapRegin ,setMapRegin] = useState({
-    "latitude": 36.88180585894427, 
-    "longitude": 10.185786131769419, 
-    "latitudeDelta": 0.004599539499977823, 
-    "longitudeDelta": 0.0032310560345631956
+    "latitude": 36.8065, 
+    "longitude":10.1815 , 
+    "latitudeDelta": 0.05459, 
+    "longitudeDelta": 0.0532
   })
   const userLocation = async ()=>{
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -47,12 +47,14 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff',
     alignItems:'center',
     justifyContent : 'center',
+    paddingBottom : 80
   },
   map: {
-    width: '100%',
-    height: '80%',
+    width: width*1,
+    height: height*1,
   },
   butt : {
     alignContent: 'center',
+    marginBottom : 2,
   }
 });

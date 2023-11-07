@@ -9,10 +9,13 @@ import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
+import PharmFirstStep from './screens/PharmFirstStep'
+import PharmSecondStep from './screens/PharmSecoundStep'
+import UpgradeToPharm from './screens/UpgradeToPharm'
 import AllMedicines from './screens/AllMedecines';
 import MedicineDetails from './screens/MedecineDetails';
 import UserMap from './screens/UserMap';
-// import UserProfilePage from './screens/UserProfilePage';
+import DocProfile from './screens/DocProfile'
 import { UserProvider } from './constants/userProvier';
 
 
@@ -23,7 +26,8 @@ export default function App() {
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='FirstStep'
+
+        initialRouteName='Login'
       >
         <Stack.Screen
           name="Welcome"
@@ -195,14 +199,8 @@ export default function App() {
           options={{
             headerShown: false
           }}
-        />
-        <Stack.Screen
-          name="userMap"
-          component={UserMap}
-          options={{
-            headerShown: false
-          }}
-        />
+          />
+       
       </Stack.Navigator>
 
       

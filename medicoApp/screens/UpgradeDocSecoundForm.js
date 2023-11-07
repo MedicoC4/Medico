@@ -9,18 +9,21 @@ import {
   Dimensions
 } from 'react-native';
 import Button from '../components/Button';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const { width, height } = Dimensions.get("window");
-import COLORS from '../constants/colors';
-import { DB } from '../firebase-config';
-import { addDoc, collection, doc, serverTimestamp,setDoc } from "firebase/firestore";
+
+
 
 
 
 
 export default function UpgradeDocSecoundForm({navigation}) {
-  
+  const [yoexperience , setYoexperience] = useState('')
+  const [certificate , setCertificate] = useState('')
+  const [speciality , setSpeciality] = useState('')
+
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
       <View style={styles.container}>
@@ -36,7 +39,8 @@ export default function UpgradeDocSecoundForm({navigation}) {
               <Text style={styles.inputLabel}>Year of experiance</Text>
 
               <TextInput
-              
+               value={yoexperience}
+                onChangeText={(e)=>{setYoexperience(e)}}
                 style={styles.inputControl}
                 
               />
@@ -46,7 +50,18 @@ export default function UpgradeDocSecoundForm({navigation}) {
               <Text style={styles.inputLabel}>specialité</Text>
 
               <TextInput
+                 value={speciality}
+                 onChangeText={(e)=>{setSpeciality(e)}}
+                style={styles.inputControl}
                 
+              />
+            </View>
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Cerificate</Text>
+
+              <TextInput
+                 value={certificate}
+                 onChangeText={(e)=>{setCertificate(e)}}
                 style={styles.inputControl}
                 
               />
@@ -72,8 +87,15 @@ export default function UpgradeDocSecoundForm({navigation}) {
     style={{
       width:width*0.88}}
     />
+              
             <View style={styles.formAction}>
-           
+            <Button
+            onPress={() => navigation.navigate("DoctorPdf")}
+    title="Finish"
+    filled
+    style={{
+      width:width*0.88}}
+    />
             </View>
         
           </View>
@@ -114,6 +136,7 @@ const styles = StyleSheet.create({
   },
   formAction: {
     marginVertical: 24,
+    paddingTop: 170,
   },
   formFooter: {
     fontSize: 15,

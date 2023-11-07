@@ -82,20 +82,6 @@ export default function App() {
             headerShown: false,
           }}
         />
-         <Stack.Screen
-          name="Settings"
-          component={Settings}
-          options={{
-            headerShown: false
-          }}
-        />
-         <Stack.Screen
-          name="ProfileApp"
-          component={ProfileApp}
-          options={{
-            headerShown: false
-          }}
-        />
           <Stack.Screen
           name="DoctorPdf"
           component={DoctorPdf}

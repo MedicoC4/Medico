@@ -9,21 +9,27 @@ import {
   Dimensions
 } from 'react-native';
 import Button from '../components/Button';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
-import { DB } from '../firebase-config';
-import { addDoc, collection, doc, serverTimestamp,setDoc } from "firebase/firestore";
+
 
 
 
 
 export default function UpgradeDocFirstForm({navigation}) {
-  const [yearOfEx , setYearOfEx]= useState('')
-  const [specialite , setSpecialite]= useState('')
+
+  const [fullName , setFullName]= useState('')
+  const [gender , setGender]= useState('')
+  const [age , setAge]= useState('')
+  const [licence , setLicence]= useState('')
+  const [description , setDescription]= useState('')
 
 
+  const test = ()=>{
+    console.log({fullName , gender , age , licence , description});
+    
+  }
   
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
@@ -39,7 +45,8 @@ export default function UpgradeDocFirstForm({navigation}) {
               <Text style={styles.inputLabel}>Full Name</Text>
 
               <TextInput
-                
+                value={fullName}
+                onChangeText={(e)=>{setFullName(e)}}
                 style={styles.inputControl}
                 
               />
@@ -49,35 +56,38 @@ export default function UpgradeDocFirstForm({navigation}) {
               <Text style={styles.inputLabel}>Gender</Text>
 
               <TextInput
-                value={yearOfEx}
-                onChangeText={(e)=>{setYearOfEx(e)}}
+                value={gender}
+                onChangeText={(e)=>{setGender(e)}}
                 style={styles.inputControl}
               />
             </View>
                 
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Email</Text>
+              <Text style={styles.inputLabel}>Age</Text>
 
               <TextInput
-                value={specialite}
-                onChangeText={(e)=>{setSpecialite(e)}}
+                 value={age}
+                 onChangeText={(e)=>{setAge(e)}}
                 style={styles.inputControl}
               />
 
             </View>
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Phone</Text>
+              <Text style={styles.inputLabel}>Licence</Text>
 
               <TextInput
+               value={licence}
+               onChangeText={(e)=>{setLicence(e)}}
                 style={styles.inputControl}
               />
             </View>
             
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Years of Experience</Text>
+              <Text style={styles.inputLabel}>Description</Text>
 
               <TextInput
-
+               value={description}
+               onChangeText={(e)=>{setDescription(e)}}
                 style={styles.inputControl}
                 
               />
@@ -91,7 +101,8 @@ export default function UpgradeDocFirstForm({navigation}) {
 
             <View style={styles.formAction}>
             <Button
-            onPress={() => navigation.navigate("UpgradeDocSecoundForm")}
+
+            onPress={() => {navigation.navigate("UpgradeDocSecoundForm") ; test()} }
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

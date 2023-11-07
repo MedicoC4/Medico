@@ -8,7 +8,7 @@ import aaa from "../../assets/images/dashboard.svg";
 import bbb from "../../assets/images/woman.svg";
 // import gsap from "gsap-trial";
 import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Atropos from "atropos/react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -19,28 +19,64 @@ const Landing = () => {
   const words = ["Operations", "Efficiency", "Workflow"];
   const wordRef = useRef(null);
   const main = useRef();
+  const fade = useRef();
 
   useLayoutEffect(() => {
     const ctx = gsap.context((self) => {
-      const boxes = self.selector('.box');
+      const boxes = self.selector(".fade_box");
+      boxes.forEach((box) => {
+        gsap.to(box, {
+          scale: 2,
+          duration: 0.5,
+          scrollTrigger: {
+            onEnter: () => console.log("Fade Box Entered"),
+            onLeave: () => console.log("Fade Box Left"),
+            trigger: box,
+            start: "top center",
+            end: "bottom",
+            scrub: 2,
+            markers: {
+              startColor: "black",
+              endColor: "white",
+              fontSize: "18px",
+              fontWeight: "bold",
+              indent: 20,
+            },
+            onEnter: () => console.log("Fade Box Entered"),
+            onLeave: () => console.log("Fade Box Left"),
+          },
+        });
+      });
+    }, fade); // <- Scope!
+    return () => ctx.revert();
+  }, []);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context((self) => {
+      const boxes = self.selector(".box");
       boxes.forEach((box) => {
         gsap.to(box, {
           scale: 1.2,
           duration: 0.5,
           scrollTrigger: {
+
             trigger: box,
-            start: 'top center',
-            end: 'bottom center',
-            scrub: 2, // Set scrub to match the smoothness
+            start: "top center",
+            end: "bottom",
+            scrub: 2,
+            // markers: {
+            //   startColor: "black",
+            //   endColor: "white",
+            //   fontSize: "18px",
+            //   fontWeight: "bold",
+            //   indent: 20,
+            // },
           },
         });
       });
     }, main); // <- Scope!
     return () => ctx.revert(); // <- Cleanup!
   }, []);
-  
-  
-
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -149,7 +185,7 @@ const Landing = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  borderRadius:'1.5rem'
+                  borderRadius: "1.5rem",
                 }}
               >
                 <div
@@ -158,10 +194,29 @@ const Landing = () => {
                     height: "200px",
                     width: "200px",
                   }}
-                  data-atropos-offset="5" 
+                  data-atropos-offset="5"
                 ></div>
               </div>
             </Atropos>
+          </section>
+          <section
+            className="section3"
+            style={{
+              height: "80vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div
+              className="fade_box"
+              ref={fade}
+              style={{
+                backgroundColor: "black",
+                height: "20vh",
+                width: "30vw",
+              }}
+            ></div>
           </section>
         </div>
       </div>

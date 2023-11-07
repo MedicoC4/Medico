@@ -23,7 +23,7 @@ export default function App() {
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='PharmacyProfile'
+        initialRouteName='FirstStep'
       >
         <Stack.Screen
           name="Welcome"

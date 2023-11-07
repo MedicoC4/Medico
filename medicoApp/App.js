@@ -20,7 +20,7 @@ export default function App() {
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='AllMissingProducts'
+        initialRouteName='FirstStep'
       >
         <Stack.Screen
           name="Welcome"

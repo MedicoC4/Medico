@@ -53,11 +53,12 @@ const PharmacyProfile = ({navigation}) => {
                 />
         </View>
                 <ScrollView style={{flexGrow:1,
-                height:height*0.78}}>
+                height:height*0.8}}>
                     
         <View style={styles.secondOrdersContainer}>
         <Text style={styles.ordersText}>Missing Products</Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}
+        onPress={()=>navigation.navigate('AllMissingProducts')}>
           <Text style={styles.buttonText}>SEE ALL</Text>
         </TouchableOpacity>
       </View>

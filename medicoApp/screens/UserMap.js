@@ -110,7 +110,7 @@ const UserMap = () => {
       };
 
       console.log(mapRegion);
-      // Function to calculate the distance between two coordinates
+  //     Function to calculate the distance between two coordinates
   const calculateDistance = (start, end) => {
     return haversine(start, end, { unit: 'meter' });
   };
@@ -119,6 +119,35 @@ const UserMap = () => {
         const distance = calculateDistance(mapRegion, doc);
         return distance <= radiusInMeters;
       });
+
+      // const calculateDistanceMapp = async () => {
+      //   if (location) {
+      //     // Calculate distances for all markers
+      //     const markersWithinRadius = await Promise.all(doctor.map(async (marker) => {
+      //       try {
+      //         const response = await fetch(
+      //           `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${location.coords.latitude},${location.coords.longitude}&destinations=${marker.latitude},${marker.longitude}&key=YOUR_API_KEY`
+      //         );
+      //         const data = await response.json();
+      
+      //         if (data.status === "OK") {
+      //           const distance = data.rows[0].elements[0].distance.value; // Distance in meters
+      //           return distance <= radiusInMeters;
+      //         } else {
+      //           console.error("Error calculating distance: ", data.status);
+      //           return false; // Handle the error accordingly
+      //         }
+      //       } catch (error) {
+      //         console.error("Error fetching distance data: ", error);
+      //         return false; // Handle the error accordingly
+      //       }
+      //     }));
+      
+         
+      //   }
+      // };
+
+      
       const handleMarkerPress = (marker) => {
         setSelectedMarker(marker);
         setModalVisible(true);

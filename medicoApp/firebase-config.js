@@ -44,10 +44,15 @@ export const createUserDocument = async (user, additionalData) => {
         await setDoc(userRef, {
           email,
           number,
+          image:null,
           createdAt: new Date(),
           name:'flen',
           age:null,
           gender:null,
+          birhdate:null,
+          reviewId:null,
+          doctorId:null,
+          nurseId:null
         });
       } catch (error) {
         console.log('Error in creating user', error);

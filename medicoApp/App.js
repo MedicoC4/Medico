@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf,FinishSignUp,ProfileApp,Settings,UserProfilePage} from "./screens";
+import { Login, Signup, Welcome,FirstStep,SecondStep, ThirdStep,DoctorPdf,FinishSignUp,ProfileApp,Settings,UserProfilePage,PharmacyProfile,Promotions,BestSellers,AllMissingProducts} from "./screens";
 import Landing from './screens/Landing';
 import UserProfile from './screens/UserProfile';
 import DocFirstStep from './screens/docFirstStep';
@@ -9,31 +9,54 @@ import DocSecondStep from './screens/docSecounStep';
 import UpgradeDocForm from './screens/UpgradeDocForm';
 import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
-// <<<<<<< HEAD
-import PharmFirstStep from './screens/PharmFirstStep'
-import PharmSecondStep from './screens/PharmSecoundStep'
-import UpgradeToPharm from './screens/UpgradeToPharm'
-// =======
 import AllMedicines from './screens/AllMedecines';
 import MedicineDetails from './screens/MedecineDetails';
-// <<<<<<< HEAD
 import UserMap from './screens/UserMap';
-import UserProfilePage from './screens/UserProfilePage';
-// =======
-// >>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
-// >>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
+// import UserProfilePage from './screens/UserProfilePage';
+import { UserProvider } from './constants/userProvier';
+
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Login'
+        initialRouteName='userMap'
       >
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+          <Stack.Screen
+          name="AllMissingProducts"
+          component={AllMissingProducts}
+          options={{
+            headerShown: false,
+          }}
+        />
+<Stack.Screen
+          name="Promotions"
+          component={Promotions}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="BestSellers"
+          component={BestSellers}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+          <Stack.Screen
+          name="PharmacyProfile"
+          component={PharmacyProfile}
           options={{
             headerShown: false,
           }}
@@ -159,13 +182,6 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="pharmFirstStep"
-          component={PharmFirstStep}
-          options={{
-            headerShown: false
-          }}
-          />
-          <Stack.Screen
           name="AllMedicines"
           component={AllMedicines}
           options={{
@@ -173,22 +189,9 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="pharmSecondStep"
-          component={PharmSecondStep}
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="upgradeToPharm"
-          component={UpgradeToPharm}
-          options={{
-            headerShown: false
-          }}
-          />
-          <Stack.Screen 
           name="MedicineDetails"
           component={MedicineDetails}
+
           options={{
             headerShown: false
           }}
@@ -204,5 +207,6 @@ export default function App() {
 
       
     </NavigationContainer>
+    </UserProvider>
   );
 }

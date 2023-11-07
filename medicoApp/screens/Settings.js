@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 const { width, height } = Dimensions.get('window');
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
-import {auth,updateUserDocument} from '../firebase-config'
+import {auth,updateUserDocument,updateUserSettings,updateEmailOnly} from '../firebase-config'
 import { useNavigation } from '@react-navigation/native';
 
 const Settings = ({route}) => {
@@ -12,26 +12,29 @@ const Settings = ({route}) => {
     
     const navigation=useNavigation()
 
-    // const userLogged=route.params.userInfo//import of user logged
 
-    const [name,setName]=useState('')
-    const [email,setEmail]=useState('')
-    const [password,setPassword]=useState('')
+    const [name,setName]=useState('');
+    const [email,setEmail]=useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+  
+
 
     const handleUpdateUserSettings = async () => {
         // Assuming you have the user object and additional data
-        // const user = userLogged// Get the user object as needed
+        const user = auth.currentUser// Get the user object as needed
         const additionalData = {
           name: name,
-          email: email,
-          password:password
           // Add other fields you want to update
         };
       
         // Call the function to update user data
-        const updated =await updateUserDocument(user, additionalData);
-        navigation.navigate('Landing',{userInfo:updated})
+        const updated =await updateUserDocument(user,additionalData);
+        navigation.navigate('Landing')
       };
+
+
 
 
     const handleSubmit = (e)=>{
@@ -114,11 +117,47 @@ const Settings = ({route}) => {
                             style={{
                                 width: "100%"
                             }}
-                            onChangeText={(text)=>{setName(text)}}
+                            // onChangeText={(text)=>{setName(text)}}
                             onSubmit={handleSubmit}
                         />
                     </View>
                 </View>
+
+                <View style={{ marginBottom: 12 }}>
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        marginVertical: 8
+                    }}>Current password :</Text>
+
+                    <View style={{
+                        width: width*0.89,
+                        height: height*0.06,
+                        borderColor: COLORS.black,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingLeft: 22
+                    }}>
+                        <TextInput
+                            placeholder='Curre,t password'
+                            placeholderTextColor={COLORS.black}
+                            // keyboardType='email-address'
+                            style={{
+                                width: "100%"
+                            }}
+                            // onChangeText={(text)=>{setCurrentPassword(text)}}
+                            onSubmit={handleSubmit}
+                        />
+                    </View>
+                </View>
+
+
+
+
+
+
 
                 <View style={{ marginBottom: 12 }}>
                     <Text style={{
@@ -144,7 +183,7 @@ const Settings = ({route}) => {
                             style={{
                                 width: "100%"
                             }}
-                            onChangeText={(text)=>{setPassword(text)}}
+                            // onChangeText={(text)=>{setNewPassword(text)}}
                             onSubmit={handleSubmit}
                         />
                     </View>
@@ -172,14 +211,18 @@ const Settings = ({route}) => {
                             style={{
                                 width: "100%"
                             }}
-                            // onChangeText={(text)=>{setName(text)}}
+                            // onChangeText={(text)=>{setConfirmPassword(text)}}
                             onSubmit={handleSubmit}
                         />
                     </View>
                 </View>
                     </View>
                 <Button
-                onPress={handleUpdateUserSettings}
+                onPress={()=>{
+                    handleUpdateUserSettings()
+                  
+                }}
+
               titleStyle={{
                 color: "#FFFFFF"
              }}
@@ -198,5 +241,3 @@ const Settings = ({route}) => {
 }
 
 export default Settings
-
-const styles = StyleSheet.create({})

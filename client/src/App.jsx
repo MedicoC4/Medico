@@ -21,19 +21,9 @@ import Login                  from "./pages/login/Login"
 import SignUp                 from './pages/signUp/SignUp'
 import ResetePassword         from './pages/resetePassword/ResetePassword'
 import Landing                from "./pages/landingPage/landing"
-<<<<<<< HEAD
 import Orders                from "./pages/ordering/Orders.jsx"
 
 
-=======
-import Ordering               from "./pages/ordering/OrderList.jsx"
-import { gsap }               from 'gsap-trial';
-import { ScrollTrigger }      from 'gsap-trial/ScrollTrigger';
-import { ScrollSmoother }     from 'gsap-trial/ScrollSmoother';
-import { TransitionProvider } from './context/TransitionContext.jsx';
-import TransitionComponent from './components/Transition/Transition.jsx';
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
->>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
 const App = () => {
   const location = useLocation();
 
@@ -80,11 +70,7 @@ const App = () => {
             <Route path="statistics" element={<Statistics />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="reset-password" element={<ResetePassword />} />
-<<<<<<< HEAD
             <Route path="orders" element={<Orders />} />
-=======
-            <Route path="orders" element={<Ordering />} />
->>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
           </Routes>
         {/* </CSSTransition> */}
       </TransitionProvider>

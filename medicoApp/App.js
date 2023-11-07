@@ -56,13 +56,6 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="FinishSignUp"
-          component={FinishSignUp}
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
           name="Login"
           component={Login}
           options={{

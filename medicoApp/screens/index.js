@@ -4,6 +4,8 @@ import Signup from "./Signup";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import UserProfilePage from "./UserProfilePage";
+import PharmacyProfile from './PharmacyProfile'
+import ThirdStep from './ThirdStep';
 import UserMap from "./UserMap";
 
 
@@ -15,6 +17,9 @@ import DoctorPdf from "./DoctorPdf";
 import AllPharmacies from './AllPharmacies'
 import FinishSignUp from "./FinishSignUp";
 import Settings from "./Settings";
+import AllMissingProducts from "./AllMissingProducts";
+import Promotions from "./Promotions";
+import BestSellers from "./BestSellers";
 export {
     Login,
     Welcome,
@@ -29,10 +34,10 @@ export {
     Landing,
     DoctorPdf,
     AllPharmacies,
-<<<<<<< HEAD
-    UserMap
-=======
     FinishSignUp,
     Settings,
->>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
+    PharmacyProfile,
+    AllMissingProducts,
+    Promotions,
+    BestSellers
 }

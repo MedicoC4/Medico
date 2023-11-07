@@ -27,6 +27,10 @@ export {
     Landing,
     DoctorPdf,
     AllPharmacies,
+<<<<<<< HEAD
+    UserMap
+=======
     FinishSignUp,
     Settings,
+>>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
 }

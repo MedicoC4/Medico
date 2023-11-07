@@ -414,11 +414,64 @@ const OrderList = () => {
                   <div
                     className="btn___cnfrm___order___modal___dilevry"
                     data-bs-toggle="dropdown"
+<<<<<<< HEAD
+                    aria-expanded="true"
+                    src={personalInfoIcon}
+                    alt="Personal Info Icon"
+                    onClick={() => getUserByid(e.usersId)}
+                  />
+
+                  <ul class="dropdown-menu">
+                    <div className="info___cont___order___perso">
+                      <img className="image___info___ord" />
+                      <div>{userName.name}</div>
+                      <div className="email___info___user___order">
+                        {userName.email}
+                      </div>
+                      <div>{userName.number}</div>
+                      <div>{userName.gender}</div>
+                    </div>
+                  </ul>
+                </div>
+              </div>
+              {/* <div className="div1___nested___flex">{userName.name}</div> */}
+              <div className="div2___nested___flex">{e.productsId[1]}</div>
+              <div className="div3___nested___flex">{e.quantityOrdered}</div>
+              <div className="div4___nested___flex">{e.createdAt}</div>
+              <div className="div5___nested___flex">
+                <span class="badge rounded-pill text-bg-success">
+                  Confirmed
+                </span>
+                {e.acceptedAt}
+              </div>
+              {e.livraisonStatus === "pending" ? (
+                <div className="div6___nested___flex">
+                  <span class="badge rounded-pill text-bg-warning">
+                    Pending
+                  </span>
+                </div>
+              ) : (
+                <div className="div6___nested___flex">
+                  <span class="badge rounded-pill text-bg-warning">
+                    In Transit
+                  </span>
+                </div>
+              )}
+
+              <div className="edit___order___reject">
+                <div
+                className="btn___cnfrm___order___modal___dilevry"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Dilevery</div>
+                {/* <img
+=======
                     aria-expanded="false"
                   >
                     Dilevery
                   </div>
                   {/* <img
+>>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
                   className="imag___dilevery___order"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
@@ -447,6 +500,65 @@ const OrderList = () => {
                     </ul>
                   </div>
 
+<<<<<<< HEAD
+                <div>
+                  <button
+                    type="button"
+                    className="btn___cnfrm___order___modal___canc"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#${e.id}rejected`}
+                    onClick={() => getProdById(e.productsId[0])}
+                  >
+                    Reject
+                  </button>
+                  <div
+                    class="modal fade"
+                    id={`${e.id}rejected`}
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    tabindex="-1"
+                    aria-labelledby="canceledModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="canceledModalLabel">
+                            Modal title
+                          </h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <input placeholder="Write here" />
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-dismiss="modal"
+                            onClick={() => {
+                              handleCanceled(
+                                e.productsId[0],
+                                e.quantityOrdered
+                              );
+                              handleCanceledOrder(e.id);
+                            }}
+                          >
+                            Confirme
+                          </button>
+=======
                   <div>
                     <button
                       type="button"
@@ -505,6 +617,7 @@ const OrderList = () => {
                               Confirme
                             </button>
                           </div>
+>>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
                         </div>
                       </div>
                     </div>

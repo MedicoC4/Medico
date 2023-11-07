@@ -62,7 +62,7 @@ const Welcome = ({ navigation }) => {
 
                     <Button
                         title="Upgrade Now"
-                        onPress={() => navigation.navigate("upgradeToPharm")}
+                        onPress={() => navigation.navigate("PharmFirstForm")}
                         style={{
                             marginTop: 22,
                             width: "100%"

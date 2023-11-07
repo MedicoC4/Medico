@@ -7,8 +7,6 @@ import UserProfilePage from "./UserProfilePage";
 import PharmacyProfile from './PharmacyProfile'
 import ThirdStep from './ThirdStep';
 import UserMap from "./UserMap";
-
-
 import Home from "./Home";
 import UserProfile from './UserProfile'
 import ProfileApp from "./ProfileApp";

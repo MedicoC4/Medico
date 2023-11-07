@@ -12,6 +12,9 @@ import AllPharmacies from './screens/AllPharmacies';
 import PharmFirstStep from './screens/PharmFirstStep'
 import PharmSecondStep from './screens/PharmSecoundStep'
 import UpgradeToPharm from './screens/UpgradeToPharm'
+import AllMedicines from './screens/AllMedecines';
+import MedicineDetails from './screens/MedecineDetails';
+import UserMap from './screens/UserMap';
 import DocProfile from './screens/DocProfile'
 
 const Stack = createNativeStackNavigator();
@@ -168,10 +171,10 @@ export default function App() {
           options={{
             headerShown: false
           }}
-        />
-        <Stack.Screen
-          name="DocProfile"
-          component={DocProfile}
+          />
+          <Stack.Screen
+          name="MedicineDetails"
+          component={MedicineDetails}
           options={{
             headerShown: false
           }}

@@ -59,7 +59,7 @@ const PharmFirstStep = ( { navigation } ) =>{
                  }}
                 title="Continue"
                 filled
-                onPress={() => navigation.navigate("pharmSecondStep")}
+                onPress={() => navigation.navigate("PharmSecoundStep")}
                 style={{
                                 width: width*0.85,
                                 backgroundColor: COLORS.primary,

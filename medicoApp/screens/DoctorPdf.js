@@ -3,6 +3,7 @@ import React,{useState} from 'react'
 import Button from '../components/Button';
 import COLORS from '../constants/colors';
 import * as DocumentPicker from 'expo-document-picker';
+// import { DocumentPicker } from 'expo-document-picker';
 const { width, height } = Dimensions.get("window");
 
 const DoctorPdf = () => {
@@ -57,6 +58,7 @@ const DoctorPdf = () => {
       {document.assets[0].name}
       </Text>
       </View> */}
+      
       {document && document.assets && document.assets[0] && document.assets[0].name && (
   <View
     style={{

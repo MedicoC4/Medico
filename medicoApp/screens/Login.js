@@ -5,10 +5,32 @@ import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
+import {signInWithEmailAndPassword} from 'firebase/auth';
+import {auth} from '../firebase-config'
 
 const Login = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [email,setEmail]=useState('');
+    const [password,setPassword]=useState('')
+
+
+    const handleLogin = async () => {
+        if (!email || !password) {
+          console.log('Please provide an email and password.');
+          return;
+        }
+      
+        try {
+          // Sign in with email and password
+        const hello=  await signInWithEmailAndPassword(auth, email, password);
+            console.log(hello);
+          // Redirect to the landing page after successful login
+          navigation.navigate('Landing');
+        } catch (error) {
+          console.error('Error during login:', error);
+        }
+      };
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -53,6 +75,7 @@ const Login = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
+                            onChangeText={(text)=>setEmail(text)}
                         />
                     </View>
                 </View>
@@ -81,6 +104,7 @@ const Login = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
+                            onChangeText={(text)=>setPassword(text)}
                         />
 
                         <TouchableOpacity
@@ -117,7 +141,7 @@ const Login = ({ navigation }) => {
                 </View>
 
                 <Button
-                    onPress={() => navigation.navigate("")}
+                    onPress={handleLogin}
                     title="Login"
                     filled
                     style={{

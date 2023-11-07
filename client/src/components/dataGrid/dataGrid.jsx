@@ -1,5 +1,6 @@
 import "./dataGrid.css";
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cards from "../cards/Cards";
 import Box from "@mui/material/Box";
@@ -33,12 +34,13 @@ export default function DataGridDemo({ data }) {
   const [categoryNames, setCategoryNames] = useState({});
   const [toggle, setToggle] = useState(true);
   const [iconPress, setIconPress] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const columns = [
     {
       field: "productImage",
       headerName: "Product",
-      width: 200,
+      width: 280,
       renderCell: (params) => {
         const imageUrl = params.row.imgUrl;
         const productName = params.row.productName;
@@ -58,14 +60,14 @@ export default function DataGridDemo({ data }) {
     {
       field: "productPrice",
       headerName: "Price",
-      width: 100,
+      width: 150,
       editable: true,
       headerClassName: "custom-header-class",
     },
     {
       field: "categories",
       headerName: "Categories",
-      width: 150,
+      width: 200,
       editable: true,
       headerClassName: "custom-header-class",
       renderCell: (params) => {
@@ -75,9 +77,23 @@ export default function DataGridDemo({ data }) {
       },
     },
     {
+      field: "quantity",
+      headerName: "Quantity",
+      width: 150,
+      editable: true,
+      headerClassName: "custom-header-class",
+    },
+    {
+      field: "isActive",
+      headerName: "isActive",
+      width: 150,
+      editable: true,
+      headerClassName: "custom-header-class",
+    },
+    {
       field: "timeStamp",
       headerName: "Created At",
-      width: 150,
+      width: 200,
       editable: true,
       headerClassName: "custom-header-class",
     },
@@ -125,8 +141,12 @@ export default function DataGridDemo({ data }) {
     setFilteredRows(data);
   }, [data]);
 
-  const handleSearch = async (event) => {
-    const searchTerm = event.target.value.toLowerCase();
+  const handleSearch = async () => {
+    if (searchTerm.trim() === "") {
+      setFilteredRows(data); 
+      return;
+    }
+
     const productsQuery = query(
       collection(DB, "products"),
       where("productName", ">=", searchTerm),
@@ -184,9 +204,12 @@ export default function DataGridDemo({ data }) {
       <div className="sidebar"></div>
       <div className="table-container">
         <div className="main_container_header">
-          <div className="group">
-            <SearchOutlined style={{ color: "#6e6e6e" }} />
-            <input type="text" placeholder="Search" onChange={handleSearch} />
+          <div className="product_search">
+            <div className="group">
+              <SearchOutlined style={{ color: "#6e6e6e" }} />
+              <input type="text" placeholder="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            </div>
+            <button onClick={handleSearch}>Search</button>
           </div>
           <div className="icons_toggle">
             <UnorderedListOutlined
@@ -226,7 +249,13 @@ export default function DataGridDemo({ data }) {
               <div className="card_main_conatainer">
                 {filteredRows.map((item, index) => {
                   return (
-                    <Cards key={index} categoryNames={categoryNames} item={item} iconPress={iconPress}  />
+                    <Cards
+                      key={index}
+                      index={index}
+                      categoryNames={categoryNames}
+                      item={item}
+                      iconPress={iconPress}
+                    />
                   );
                 })}
               </div>

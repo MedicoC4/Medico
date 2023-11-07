@@ -12,7 +12,7 @@ import AllPharmacies from './screens/AllPharmacies';
 import AllMedicines from './screens/AllMedecines';
 import MedicineDetails from './screens/MedecineDetails';
 import UserMap from './screens/UserMap';
-import UserProfilePage from './screens/UserProfilePage';
+// import UserProfilePage from './screens/UserProfilePage';
 import { UserProvider } from './constants/userProvier';
 
 
@@ -23,7 +23,7 @@ export default function App() {
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='FirstStep'
+        initialRouteName='PharmacyProfile'
       >
         <Stack.Screen
           name="Welcome"

@@ -42,7 +42,7 @@ const AddProduct = () => {
   };
 
   const removeBackground = async (imageFile) => {
-    const apiKey = "nWyfmu1H9pdH4DyNGrdstora";
+    const apiKey = "4Ed3fDDjriV6SC24Rg1eMZnj";
     const removeBgApiUrl = "https://api.remove.bg/v1.0/removebg";
 
     const formData = new FormData();
@@ -96,7 +96,6 @@ const AddProduct = () => {
       const name = new Date().getTime() + file.name;
       const storageRef = ref(storage, name);
 
-      const imageUrl = "URL_OF_YOUR_IMAGE";
       const processedImageBlob = await removeBackground(file);
 
       if (processedImageBlob) {

@@ -11,12 +11,7 @@ import MapLocation from './screens/MapLocation';
 import AllPharmacies from './screens/AllPharmacies';
 import AllMedicines from './screens/AllMedecines';
 import MedicineDetails from './screens/MedecineDetails';
-<<<<<<< HEAD
-import UserMap from './screens/UserMap';
-import UserProfilePage from './screens/UserProfilePage';
-=======
->>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
->>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
+import { UserProvider } from './constants/userProvier';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,11 +20,7 @@ export default function App() {
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
-<<<<<<< HEAD
-        initialRouteName='Login'
-=======
         initialRouteName='FirstStep'
->>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
       >
         <Stack.Screen
           name="Welcome"
@@ -162,27 +153,21 @@ export default function App() {
           name="DocSecoundStep"
           component={DocSecondStep}
           options={{
-            headerShown: false,
+            headerShown: false
           }}
         />
           <Stack.Screen
           name="upgradeToDoc"
-        <Stack.Screen
-          name="UpgradeToDoc"
           component={UpgradeDocForm}
           options={{
             headerShown: false,
           }}
         />
-<<<<<<< HEAD
-       
-=======
->>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
         <Stack.Screen
           name="map"
           component={MapLocation}
           options={{
-            headerShown: false,
+            headerShown: false
           }}
         />
         <Stack.Screen
@@ -193,39 +178,15 @@ export default function App() {
           }}
         />
         <Stack.Screen
-<<<<<<< HEAD
-          name="pharmFirstStep"
-          component={PharmFirstStep}
-=======
           name="AllMedicines"
           component={AllMedicines}
->>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
           options={{
             headerShown: false
           }}
         />
         <Stack.Screen
-<<<<<<< HEAD
-          name="pharmSecondStep"
-          component={PharmSecondStep}
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="upgradeToPharm"
-          component={UpgradeToPharm}
-=======
           name="MedicineDetails"
           component={MedicineDetails}
->>>>>>> 4c5e8c23806a534de7a0aa9c093bb058675738ac
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="userMap"
-          component={UserMap}
           options={{
             headerShown: false
           }}

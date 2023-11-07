@@ -15,6 +15,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 0px; /* Adjust the width as needed */
+}
+
+body::-webkit-scrollbar-thumb {
+  background: transparent; /* Set to the background color of your page */
 }
 
 code {

@@ -9,6 +9,7 @@ import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
 import {auth,DB} from '../firebase-config'
 import {collection,getDocs} from "firebase/firestore"
+import { getUser } from '../constants/userServices'
 
 
 const Landing = ({route}) => {
@@ -28,25 +29,31 @@ const Landing = ({route}) => {
 
 
   
-  const getUser = async () => {
-    try {
-      const result = await getDocs(userCollectionRef);
-      console.log('this is result',result);
-      const users = result.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      })).filter(e=>e.email.toLowerCase() === auth.currentUser.email.toLowerCase())[0]
-      console.log("this is user",users);
-      setUser(users);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  // const getUser = async () => {
+  //   try {
+  //     const result = await getDocs(userCollectionRef);
+  //     console.log('this is result',result);
+  //     const users = result.docs.map((doc) => ({
+  //       ...doc.data(),
+  //       id: doc.id,
+  //     })).filter(e=>e.email.toLowerCase() === auth.currentUser.email.toLowerCase())[0]
+  //     console.log("this is user",users);
+  //     setUser(users);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
 
   useEffect(() => {
+    async function fetchData() {
+      const userData = await getUser();
+      if (userData) {
+        setUser(userData);
+      }
+    }
 
-    getUser()
+    fetchData();
   }, []);
   
   
@@ -209,7 +216,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 35,
   },
   icons: {
     flexDirection: 'row',

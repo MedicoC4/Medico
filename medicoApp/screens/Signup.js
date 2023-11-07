@@ -74,10 +74,7 @@ const Signup = ({ navigation }) => {
         }
       }
 
-    const logOut = ()=>{
-        console.log('logged out');
-        signOut(auth)
-      }
+ 
 
 
     return (

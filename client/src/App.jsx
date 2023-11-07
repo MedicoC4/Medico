@@ -22,7 +22,12 @@ import SignUp                 from './pages/signUp/SignUp'
 import ResetePassword         from './pages/resetePassword/ResetePassword'
 import Landing                from "./pages/landingPage/landing"
 import Ordering               from "./pages/ordering/OrderList.jsx"
-
+import { gsap }               from 'gsap-trial';
+import { ScrollTrigger }      from 'gsap-trial/ScrollTrigger';
+import { ScrollSmoother }     from 'gsap-trial/ScrollSmoother';
+import { TransitionProvider } from './context/TransitionContext.jsx';
+import TransitionComponent from './components/Transition/Transition.jsx';
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 const App = () => {
   const location = useLocation();
 
@@ -44,17 +49,25 @@ const App = () => {
   return (
     <div>
       {/* <SideNav /> */}
-      <TransitionGroup className="transition-group">
-        <CSSTransition
+      <TransitionProvider>
+        {/* <CSSTransition
           key={location.key}
           classNames="fade"
           timeout={300}
           appear
-        >
+        > */}
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route path="/" element={
+            <TransitionComponent>
+              <Landing />
+            </TransitionComponent>
+            } />
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Home />} />
+            <Route path="/dashboard" element={
+            <TransitionComponent>
+            <Home />
+            </TransitionComponent>
+            } />
             <Route path="add-product" element={<AddProduct />} />
             <Route path="products" element={<ProductOverview />} />
             <Route path="product-detail/:productId" element={<ProductDetails />} />
@@ -63,8 +76,8 @@ const App = () => {
             <Route path="reset-password" element={<ResetePassword />} />
             <Route path="orders" element={<Ordering />} />
           </Routes>
-        </CSSTransition>
-      </TransitionGroup>
+        {/* </CSSTransition> */}
+      </TransitionProvider>
     </div>
   );
 };

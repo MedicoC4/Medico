@@ -1,6 +1,6 @@
 .sideNav {
   position: fixed;
-  background-color: #00a9a6;
+  background-color: #216a72;
   height: 100vh;
   width: 7.3vw;
   transition: 0.3s;
@@ -13,7 +13,7 @@
 
 .Links {
   text-decoration: none;
-  color: black;
+  color: #FFFFFF;
 }
 
 .sideNav > ul {

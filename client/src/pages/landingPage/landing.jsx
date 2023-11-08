@@ -13,7 +13,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Atropos from "atropos/react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import wave from "../../assets/images/wave.svg"
+import wave from "../../assets/images/wave.svg";
+import axios from "axios";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,6 +25,26 @@ const Landing = () => {
   const words = ["Operations", "Efficiency", "Workflow"];
   const wordRef = useRef(null);
   const main = useRef();
+
+
+
+  // const [data, setData] = useState([]);
+
+  // const fetchUsers = () => {
+  //   axios
+  //     .get("http://127.0.0.1:1128/api/user/getAll")
+  //     .then((data) => {
+  //       setData(data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  // useEffect(() => {
+  //   fetchUsers();
+  // }, []);
+
+  
 
   useLayoutEffect(() => {
     const ctx = gsap.context((self) => {
@@ -77,10 +98,7 @@ const Landing = () => {
     };
 
     const interval = setInterval(changeWord, 3000);
-
-    return () => {
-      clearInterval(interval);
-    };
+    clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -206,21 +224,35 @@ const Landing = () => {
             </div>
           </section>
           <section className="section4">
-            <img data-aos="fade-right" data-aos-delay="100" src={features} alt="" />
+            <img
+              data-aos="fade-right"
+              data-aos-delay="100"
+              src={features}
+              alt=""
+            />
             <div>
-              <h1 data-aos="zoom-in" data-aos-delay="200">Why should choose MediCo</h1>
+              <h1 data-aos="zoom-in" data-aos-delay="200">
+                Why should choose MediCo
+              </h1>
               <ul>
-                <li data-aos="zoom-in" data-aos-delay="300" >Comprehensive suite of digital solutions</li>
-                <li data-aos="zoom-in" data-aos-delay="400" >Customizable dashboards for easy accessibility</li>
-                <li data-aos="zoom-in" data-aos-delay="500" >Strategic planning and implementation support</li>
-                <li data-aos="zoom-in" data-aos-delay="600" >Personalized customer service</li>
+                <li data-aos="zoom-in" data-aos-delay="300">
+                  Comprehensive suite of digital solutions
+                </li>
+                <li data-aos="zoom-in" data-aos-delay="400">
+                  Customizable dashboards for easy accessibility
+                </li>
+                <li data-aos="zoom-in" data-aos-delay="500">
+                  Strategic planning and implementation support
+                </li>
+                <li data-aos="zoom-in" data-aos-delay="600">
+                  Personalized customer service
+                </li>
               </ul>
             </div>
           </section>
           <section className="last_section">
-              <img src={wave} alt="" />
-              <div>
-              </div>
+            <img src={wave} alt="" />
+            <div></div>
           </section>
         </div>
       </div>

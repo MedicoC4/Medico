@@ -12,6 +12,8 @@ import Button from '../components/Button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
+import { addDoc, collection } from 'firebase/firestore';
+import { DB } from '../firebase-config';
 
 
 
@@ -25,11 +27,17 @@ export default function PharmFirstForm({navigation}) {
   const [email , setEmail]=useState('')
   const [phone , setPhone]=useState('')
 
+  const pharmCollection = collection(DB , "pharmacy")
 
-
-  const test = ()=>{
-    console.log({fullName , type , email , phone});
-  }
+  const create = async()=>{
+    await addDoc(pharmCollection , {
+    fullName : fullName,
+    type : type,
+     email : email,
+     phone : phone
+    })
+    console.log('done');
+}
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
       <View style={styles.container}>
@@ -90,7 +98,7 @@ export default function PharmFirstForm({navigation}) {
 
             <View style={styles.formAction}>
             <Button
-            onPress={() => {navigation.navigate("PharmSecoundForm"),test()}}
+            onPress={() => {navigation.navigate("PharmSecoundForm"),create()}}
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

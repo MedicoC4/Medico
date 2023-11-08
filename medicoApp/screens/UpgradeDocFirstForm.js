@@ -14,7 +14,7 @@ const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
 import { doc, setDoc } from "firebase/firestore"; 
 import { DB } from '../firebase-config';
-
+import { collection , addDoc } from 'firebase/firestore';
 
 
 
@@ -27,16 +27,15 @@ export default function UpgradeDocFirstForm({navigation}) {
   const [licence , setLicence]= useState('')
   const [description , setDescription]= useState('')
 
-
-  const test = async()=>{
-    console.log({fullName , gender , age , licence , description});
-    await setDoc(doc(DB, "doctors", "MermsegT02wmtgtxjeIw"), {
+  const docCollection = collection(DB , "doctors")
+  const create = async()=>{
+      await addDoc(docCollection , {
       fullName : fullName,
-      gender : gender,
-      age : age,
-      licence : licence,
-      description : description
-    });
+       gender : gender,
+       age : age,
+       licence : licence,
+       description : description
+      })
   }
   
   return (
@@ -110,7 +109,7 @@ export default function UpgradeDocFirstForm({navigation}) {
             <View style={styles.formAction}>
             <Button
 
-            onPress={() => {navigation.navigate("UpgradeDocSecoundForm") ; test()} }
+            onPress={() => {navigation.navigate("UpgradeDocSecoundForm") ; create()} }
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

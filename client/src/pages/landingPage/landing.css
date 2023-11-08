@@ -320,7 +320,7 @@ svg {
 
 .intru {
   padding-top: 5rem;
-  padding-bottom: 10rem;
+  padding-bottom: 5rem;
   position: relative;
   display: flex;
   justify-content: center;
@@ -351,4 +351,85 @@ svg {
   font-size: 1.5em;
   text-align: start;
   color: #505050 !important;
+}
+
+.section4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 100%;
+  gap: 3rem;
+  padding-top: 3rem;
+}
+
+.section4 > img {
+  max-width: 30vw;
+}
+
+.section4 > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 4rem;
+  height: 60vh;
+  width: auto;
+  /* background-color: #00807e; */
+}
+
+.section4 > div > h1 {
+  font-weight: 800;
+  font-size: 2.5vw;
+}
+
+.section4 > div > ul {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem 2rem;
+  position: relative;
+}
+
+.section4 > div > ul > li {
+  background-color: #ffffff00;
+  filter: blur(50%);
+  list-style: none;
+  padding: 1.5rem 1.5rem;
+  border: 1px solid rgb(249, 249, 249);
+  border-radius: 1.5rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;}
+
+.section4 > div > ul > li:nth-child(2) {
+  margin-top: 3rem;
+}
+
+.section4 > div > ul > li:nth-child(3) {
+  margin-top: -1rem;
+}
+
+.section4 > div > ul > li:nth-child(4) {
+  margin-top: 2rem;
+}
+
+.last_section {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.last_section > div {
+  background-color: #99DDEE;
+  height: 65%;
+  width: 100%;
+}
+
+.last_section > img {
+  width: 130%;
+  height: 50vh;
+  object-fit: cover;
 }

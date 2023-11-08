@@ -6,12 +6,14 @@ import doctorSVG from "../../assets/images/doctorSvg.svg";
 import { gsap } from "gsap";
 import aaa from "../../assets/images/dashboard.svg";
 import bbb from "../../assets/images/woman.svg";
+import features from "../../assets/images/Progress.svg";
 import dashboad from "../../assets/images/Dashboardaaaaaa.png";
 import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Atropos from "atropos/react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import wave from "../../assets/images/wave.svg"
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -101,7 +103,7 @@ const Landing = () => {
                   <li>Inventory</li>
                   <li>Contact</li>
                   <li>
-                    <Link className="link" to="/dashboard">
+                    <Link className="link" to="/login">
                       Get Started
                     </Link>
                   </li>
@@ -204,13 +206,21 @@ const Landing = () => {
             </div>
           </section>
           <section className="section4">
-            <h1>Why should choose MediCo</h1>
-            <ul>
-              <li>Comprehensive suite of digital solutions</li>
-              <li>Customizable dashboards for easy accessibility</li>
-              <li>Strategic planning and implementation support</li>
-              <li>Personalized customer service</li>
-            </ul>
+            <img data-aos="fade-right" data-aos-delay="100" src={features} alt="" />
+            <div>
+              <h1 data-aos="zoom-in" data-aos-delay="200">Why should choose MediCo</h1>
+              <ul>
+                <li data-aos="zoom-in" data-aos-delay="300" >Comprehensive suite of digital solutions</li>
+                <li data-aos="zoom-in" data-aos-delay="400" >Customizable dashboards for easy accessibility</li>
+                <li data-aos="zoom-in" data-aos-delay="500" >Strategic planning and implementation support</li>
+                <li data-aos="zoom-in" data-aos-delay="600" >Personalized customer service</li>
+              </ul>
+            </div>
+          </section>
+          <section className="last_section">
+              <img src={wave} alt="" />
+              <div>
+              </div>
           </section>
         </div>
       </div>

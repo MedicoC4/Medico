@@ -18,6 +18,7 @@ import Settings from "./Settings";
 import AllMissingProducts from "./AllMissingProducts";
 import Promotions from "./Promotions";
 import BestSellers from "./BestSellers";
+import UserMapView from "./UserMapView";
 export {
     Login,
     Welcome,
@@ -38,5 +39,6 @@ export {
     AllMissingProducts,
     Promotions,
     BestSellers,
-    UserMap
+    UserMap,
+    UserMapView
 }

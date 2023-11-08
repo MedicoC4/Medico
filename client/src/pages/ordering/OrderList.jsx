@@ -414,7 +414,6 @@ const OrderList = () => {
                   <div
                     className="btn___cnfrm___order___modal___dilevry"
                     data-bs-toggle="dropdown"
-<<<<<<< HEAD
                     aria-expanded="true"
                     src={personalInfoIcon}
                     alt="Personal Info Icon"
@@ -465,13 +464,6 @@ const OrderList = () => {
                 aria-expanded="false"
                 >Dilevery</div>
                 {/* <img
-=======
-                    aria-expanded="false"
-                  >
-                    Dilevery
-                  </div>
-                  {/* <img
->>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
                   className="imag___dilevery___order"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
@@ -500,7 +492,6 @@ const OrderList = () => {
                     </ul>
                   </div>
 
-<<<<<<< HEAD
                 <div>
                   <button
                     type="button"
@@ -558,66 +549,6 @@ const OrderList = () => {
                           >
                             Confirme
                           </button>
-=======
-                  <div>
-                    <button
-                      type="button"
-                      className="btn___cnfrm___order___modal___canc"
-                      data-bs-toggle="modal"
-                      data-bs-target="#canceledModal"
-                      onClick={() => getProdById(e.productsId[0])}
-                    >
-                      Reject
-                    </button>
-                    <div
-                      class="modal fade"
-                      id="canceledModal"
-                      data-bs-backdrop="static"
-                      data-bs-keyboard="false"
-                      tabindex="-1"
-                      aria-labelledby="canceledModalLabel"
-                      aria-hidden="true"
-                    >
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="canceledModalLabel">
-                              Modal title
-                            </h5>
-                            <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                            ></button>
-                          </div>
-                          <div class="modal-body">
-                            <input placeholder="Write here" />
-                          </div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn btn-secondary"
-                              data-bs-dismiss="modal"
-                            >
-                              Close
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-primary"
-                              data-bs-dismiss="modal"
-                              onClick={() => {
-                                handleCanceled(
-                                  e.productsId[0],
-                                  e.quantityOrdered
-                                );
-                                handleCanceledOrder(e.id);
-                              }}
-                            >
-                              Confirme
-                            </button>
-                          </div>
->>>>>>> 29402f3c7a241b3d287b2df41d34bbfc7c4ef30f
                         </div>
                       </div>
                     </div>

@@ -30,6 +30,7 @@ const Pharmacy = require('./models/pharmacy.js')(connection, DataTypes)
 const Doctor = require('./models/doctor.js')(connection, DataTypes)
 const Order = require('./models/orders.js')(connection, DataTypes)
 const Order_user = require('./models/user_order.js')(connection, DataTypes)
+const Categories = require('./models/categories.js')(connection, DataTypes)
 
 User.hasOne(Pharmacy)
 Pharmacy.belongsTo(User)
@@ -42,6 +43,9 @@ Review.belongsTo(User)
 
 Doctor.hasMany(Review)
 Review.belongsTo(Doctor)
+
+Categories.hasMany(Product)
+Product.belongsTo(Categories)
 
 Doctor.hasMany(Record)
 Record.belongsTo(Doctor)
@@ -70,4 +74,4 @@ Order.belongsToMany(User, { through:  Order_user});
 //   .then(() => console.log("tables created"))
 //   .catch((error) => {throw error;});
 
-module.exports = {User, Product, Review, Record, Doctor, Order, Pharmacy, Order_user};
+module.exports = {User, Product, Review, Record, Doctor, Order, Pharmacy, Order_user, Categories};

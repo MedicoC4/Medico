@@ -59,6 +59,7 @@ const FinishSignUp = ({route}) => {
     }
 
   return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} >
     <KeyboardAvoidingView style={{ flex : 1,
         height:height*0.5,
         width:width*1,
@@ -77,7 +78,7 @@ const FinishSignUp = ({route}) => {
 
                 display:'flex',
                 textAlign:'center',
-                fontSize: 40,
+                fontSize: 25,
                 fontWeight: 800,
                 color: COLORS.black,
 
@@ -156,6 +157,7 @@ const FinishSignUp = ({route}) => {
                     />
 
         </KeyboardAvoidingView>
+        </ScrollView>
     // <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
     //         <View >
             

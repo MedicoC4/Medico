@@ -5,18 +5,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const PharmacyCard = ({ pharmacy }) => {
   return (
     <View style={styles.card}>
-      <Image source={{ uri: pharmacy.image }} style={styles.image} />
+      <Image source={{ uri: pharmacy.logo }} style={styles.image} />
       <View style={styles.infoContainer}>
         <View style={styles.nameRatingContainer}>
           <Text style={styles.name}>{pharmacy.name}</Text>
           <View style={styles.ratingContainer}>
             <Icon name="star" size={15} color="#FFD700" />
-            <Text style={styles.rating}>{pharmacy.rating}</Text>
+            <Text style={styles.rating}>{pharmacy.reviewId.rating}</Text>
           </View>
         </View>
         <View style={styles.distanceContainer}>
           <Icon name="map-marker" size={15} color="#2d958c" />
-          <Text style={[styles.distance, {color: '#2d958c'}]}>{pharmacy.distance} km</Text>
+          <Text >{pharmacy.distance} km</Text>
         </View>
       </View>
     </View>

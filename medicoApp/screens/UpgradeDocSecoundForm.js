@@ -90,7 +90,6 @@ export default function UpgradeDocSecoundForm({navigation}) {
               
             <View style={styles.formAction}>
             <Button
-            onPress={() => navigation.navigate("DoctorPdf")}
     title="Finish"
     filled
     style={{

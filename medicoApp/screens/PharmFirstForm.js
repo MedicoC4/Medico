@@ -12,6 +12,8 @@ import Button from '../components/Button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
+import { addDoc, collection } from 'firebase/firestore';
+import { DB } from '../firebase-config';
 
 
 
@@ -20,6 +22,22 @@ import COLORS from '../constants/colors';
 
 export default function PharmFirstForm({navigation}) {
 
+  const [fullName , setFullName]=useState('')
+  const [type , setType]=useState('')
+  const [email , setEmail]=useState('')
+  const [phone , setPhone]=useState('')
+
+  const pharmCollection = collection(DB , "pharmacy")
+
+  const create = async()=>{
+    await addDoc(pharmCollection , {
+    fullName : fullName,
+    type : type,
+     email : email,
+     phone : phone
+    })
+    console.log('done');
+}
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
       <View style={styles.container}>
@@ -34,7 +52,8 @@ export default function PharmFirstForm({navigation}) {
               <Text style={styles.inputLabel}>Full Name</Text>
 
               <TextInput
-                
+                 value={fullName}
+                 onChangeText={(e)=>{setFullName(e)}}
                 style={styles.inputControl}
                 
               />
@@ -44,7 +63,8 @@ export default function PharmFirstForm({navigation}) {
               <Text style={styles.inputLabel}>Type</Text>
 
               <TextInput
-               
+                value={type}
+                onChangeText={(e)=>{setType(e)}}
                 style={styles.inputControl}
               />
             </View>
@@ -53,7 +73,8 @@ export default function PharmFirstForm({navigation}) {
               <Text style={styles.inputLabel}>Email</Text>
 
               <TextInput
-                
+                 value={email}
+                 onChangeText={(e)=>{setEmail(e)}}
                 style={styles.inputControl}
               />
 
@@ -62,6 +83,8 @@ export default function PharmFirstForm({navigation}) {
               <Text style={styles.inputLabel}>Phone</Text>
 
               <TextInput
+               value={phone}
+               onChangeText={(e)=>{setPhone(e)}}
                 style={styles.inputControl}
               />
             </View>
@@ -75,7 +98,7 @@ export default function PharmFirstForm({navigation}) {
 
             <View style={styles.formAction}>
             <Button
-            onPress={() => navigation.navigate("PharmSecoundForm")}
+            onPress={() => {navigation.navigate("PharmSecoundForm"),create()}}
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

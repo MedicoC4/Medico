@@ -12,7 +12,9 @@ import Button from '../components/Button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
-
+import { doc, setDoc } from "firebase/firestore"; 
+import { DB } from '../firebase-config';
+import { collection , addDoc } from 'firebase/firestore';
 
 
 
@@ -25,10 +27,15 @@ export default function UpgradeDocFirstForm({navigation}) {
   const [licence , setLicence]= useState('')
   const [description , setDescription]= useState('')
 
-
-  const test = ()=>{
-    console.log({fullName , gender , age , licence , description});
-    
+  const docCollection = collection(DB , "doctors")
+  const create = async()=>{
+      await addDoc(docCollection , {
+      fullName : fullName,
+       gender : gender,
+       age : age,
+       licence : licence,
+       description : description
+      })
   }
   
   return (
@@ -102,7 +109,7 @@ export default function UpgradeDocFirstForm({navigation}) {
             <View style={styles.formAction}>
             <Button
 
-            onPress={() => {navigation.navigate("UpgradeDocSecoundForm") ; test()} }
+            onPress={() => {navigation.navigate("UpgradeDocSecoundForm") ; create()} }
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

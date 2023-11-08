@@ -1,45 +1,42 @@
-import React, { useState } from 'react';
-import { Button, Text, View } from 'react-native';
-import DatePicker from 'react-native-date-picker';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Button, View, Text } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useState } from "react";
 
-const Appointment = () => {
+export default function Appointment() {
   const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
 
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleDateChange = (selectedDate) => {
-    setSelectedDate(selectedDate);
-    setOpen(false);
+  const onChange = (e, selectedDate) => {
+    setDate(selectedDate);
   };
-
-  const handleBookAppointment = () => {
-    if (selectedDate) {
-      // Handle the logic for booking the appointment using the selectedDate.
-      // You can make an API call to book the appointment here.
-      console.log("Selected date and time:", selectedDate);
-    } else {
-      // Handle the case where a date and time have not been selected.
-      console.log("Please select a date and time for the appointment.");
-    }
-  };
-
+console.log(date);
   return (
-    <View>
-      <Button title="Select Date and Time" onPress={() => setOpen(true)} />
-      {selectedDate && <Text>Selected Date and Time: {selectedDate.toString()}</Text>}
-
-      <Button title="Book Appointment" onPress={handleBookAppointment} />
-
-      <DatePicker
-        modal
-        open={open}
-        date={date}
-        onConfirm={handleDateChange}
-        onCancel={() => setOpen(false)}
+    <View style={styles.container}>
+      <DateTimePicker
+        value={date}
+        mode={"date"}
+        is24Hour={true}
+        minimumDate
+        maximumDate
+        onChange={onChange}
       />
+      {/* <DateTimePicker
+        value={date}
+        mode={"time"}
+        is24Hour={true}
+        onChange={onChange}
+      /> */}
+      <Text>{date.toLocaleString()}</Text>
+      <StatusBar style="auto" />
     </View>
   );
-};
+}
 
-export default Appointment;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

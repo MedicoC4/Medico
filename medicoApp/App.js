@@ -20,6 +20,7 @@ import { UserProvider } from './constants/userProvier';
 import UpgradeDocSecoundForm from './screens/UpgradeDocSecoundForm'
 import PharmSecoundForm from './screens/PharmSecoundForm';
 import PharmFirstForm from './screens/PharmFirstForm';
+import Appointment from './screens/Appointment';
 
 
 const Stack = createNativeStackNavigator();
@@ -29,7 +30,7 @@ export default function App() {
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='userMap'
+        initialRouteName='appointment'
       >
         <Stack.Screen
           name="Welcome"
@@ -217,7 +218,14 @@ export default function App() {
             headerShown: false
           }}
         />
-      </Stack.Navigator>
+        <Stack.Screen
+          name="appointment"
+          component={Appointment}
+          options={{
+            headerShown: false
+          }}
+          />
+          </Stack.Navigator>
 
       
     </NavigationContainer>

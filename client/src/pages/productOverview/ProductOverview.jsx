@@ -19,6 +19,8 @@ const ProductOverview = () => {
     dispatch(save(e));
   };
 
+  console.log(data);
+
   function timestampToDate(timestamp) {
     if (timestamp instanceof Timestamp) {
       const date = timestamp.toDate();

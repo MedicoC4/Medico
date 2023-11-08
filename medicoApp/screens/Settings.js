@@ -31,7 +31,7 @@ const Settings = ({route}) => {
       
         // Call the function to update user data
         const updated =await updateUserDocument(user,additionalData);
-        navigation.navigate('Landing')
+        navigation.navigate('Landing',updated)
       };
 
 
@@ -87,7 +87,7 @@ const Settings = ({route}) => {
                             style={{
                                 width: "100%"
                             }}
-                            onChangeText={(text)=>{setEmail(text)}}
+                            // onChangeText={(text)=>{setEmail(text)}}
                             onSubmit={handleSubmit}
                         />
                     </View>
@@ -117,7 +117,7 @@ const Settings = ({route}) => {
                             style={{
                                 width: "100%"
                             }}
-                            // onChangeText={(text)=>{setName(text)}}
+                            onChangeText={(text)=>{setName(text)}}
                             onSubmit={handleSubmit}
                         />
                     </View>

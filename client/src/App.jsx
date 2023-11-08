@@ -10,6 +10,8 @@ import {
   TransitionGroup, 
   CSSTransition 
 } from "react-transition-group";
+import TransitionProvider from "./context/TransitionContext.jsx"
+import TransitionComponent from "./components/Transition/Transition.jsx"
 import ProductOverview        from "./pages/productOverview/ProductOverview";
 import AddProduct             from "./pages/addProduct/AddProduct.jsx";
 import Overview               from "./pages/overview/Overview";

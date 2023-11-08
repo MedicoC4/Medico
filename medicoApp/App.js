@@ -30,7 +30,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
 
-        initialRouteName='userProfile'
+        initialRouteName='Login'
       >
         <Stack.Screen
           name="Welcome"

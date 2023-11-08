@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,97 +6,90 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  Dimensions
-} from 'react-native';
-import Button from '../components/Button';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+  Dimensions,
+} from "react-native";
+import Button from "../components/Button";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const { width, height } = Dimensions.get("window");
 
-
-
-
-
-
-export default function UpgradeDocSecoundForm({navigation}) {
-  const [yoexperience , setYoexperience] = useState('')
-  const [certificate , setCertificate] = useState('')
-  const [speciality , setSpeciality] = useState('')
-
-
+export default function UpgradeDocSecoundForm({ navigation }) {
+  const [yoexperience, setYoexperience] = useState("");
+  const [certificate, setCertificate] = useState("");
+  const [speciality, setSpeciality] = useState("");
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F4EFF3" }}>
       <View style={styles.container}>
         <View style={styles.header}>
-
           <Text style={styles.title}>Create Account</Text>
         </View>
 
         <KeyboardAwareScrollView>
           <View style={styles.form}>
-
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Year of experiance</Text>
 
               <TextInput
-               value={yoexperience}
-                onChangeText={(e)=>{setYoexperience(e)}}
+                value={yoexperience}
+                onChangeText={(e) => {
+                  setYoexperience(e);
+                }}
                 style={styles.inputControl}
-                
               />
             </View>
-                
+
             <View style={styles.input}>
               <Text style={styles.inputLabel}>specialité</Text>
 
               <TextInput
-                 value={speciality}
-                 onChangeText={(e)=>{setSpeciality(e)}}
+                value={speciality}
+                onChangeText={(e) => {
+                  setSpeciality(e);
+                }}
                 style={styles.inputControl}
-                
               />
             </View>
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Cerificate</Text>
 
               <TextInput
-                 value={certificate}
-                 onChangeText={(e)=>{setCertificate(e)}}
+                value={certificate}
+                onChangeText={(e) => {
+                  setCertificate(e);
+                }}
                 style={styles.inputControl}
-                
               />
             </View>
 
             <View style={styles.input}>
               <Button
-              onPress={() => navigation.navigate("map")}
-                        title="Get location"
-                        style={{
-                            marginTop: 22,
-                            width: "100%"
-                        }}
-                    />
-
+                onPress={() => navigation.navigate("map")}
+                title="Get location"
+                style={{
+                  marginTop: 22,
+                  width: "100%",
+                }}
+              />
             </View>
 
-            
             <Button
-            onPress={() => navigation.navigate("DoctorPdf")}
-    title="Import Your Certificate"
-    filled
-    style={{
-      width:width*0.88}}
-    />
-              
+              onPress={() => navigation.navigate("DoctorPdf")}
+              title="Import Your Certificate"
+              filled
+              style={{
+                width: width * 0.88,
+              }}
+            />
+
             <View style={styles.formAction}>
-            <Button
-    title="Finish"
-    filled
-    style={{
-      width:width*0.88}}
-    />
+              <Button
+                title="Finish"
+                filled
+                style={{
+                  width: width * 0.88,
+                }}
+              />
             </View>
-        
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -119,15 +112,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 9999,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffdada',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffdada",
     marginBottom: 16,
   },
   title: {
     fontSize: 34,
-    fontWeight: 'bold',
-    color: '#181818',
+    fontWeight: "bold",
+    color: "#181818",
     marginBottom: 36,
   },
   form: {
@@ -140,43 +133,43 @@ const styles = StyleSheet.create({
   formFooter: {
     fontSize: 15,
     lineHeight: 20,
-    fontWeight: '400',
-    color: '#9fa5af',
-    textAlign: 'center',
+    fontWeight: "400",
+    color: "#9fa5af",
+    textAlign: "center",
   },
   inputLabel: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: '#1c1c1e',
+    fontWeight: "bold",
+    color: "#1c1c1e",
     marginBottom: 6,
   },
   inputControl: {
     height: 44,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     borderRadius: 12,
     fontSize: 15,
-    fontWeight: '500',
-    color: '#24262e',
+    fontWeight: "500",
+    color: "#24262e",
   },
   btnText: {
     fontSize: 17,
     lineHeight: 22,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
   },
   input: {
     marginBottom: 16,
   },
   btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 8,
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderWidth: 1,
-    backgroundColor: '#FD6B68',
-    borderColor: '#FD6B68',
+    backgroundColor: "#FD6B68",
+    borderColor: "#FD6B68",
   },
 });

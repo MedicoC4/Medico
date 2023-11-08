@@ -10,10 +10,10 @@ import {
   StyleSheet,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import {auth} from '../firebase-config'
+import { auth } from "../firebase-config";
 
-const UserProfilePage = ({navigation}) => {
-// const email = auth.currentUser.email
+const UserProfilePage = ({ navigation }) => {
+  // const email = auth.currentUser.email
 
   return (
     <View
@@ -112,7 +112,6 @@ const UserProfilePage = ({navigation}) => {
           alignItems: "center",
           margin: 3,
           gap: 8,
-
         }}
       >
         <View
@@ -281,7 +280,6 @@ const UserProfilePage = ({navigation}) => {
             width: "100%",
             justifyContent: "space-between",
             height: "25%",
-            // backgroundColor: "grey",
             alignItems: "center",
           }}
         >
@@ -348,11 +346,9 @@ const UserProfilePage = ({navigation}) => {
             width: "100%",
             justifyContent: "space-between",
             height: "25%",
-            // backgroundColor: "grey",
             alignItems: "center",
-          
           }}
-          onPress={()=>navigation.navigate('Settings')}
+          onPress={() => navigation.navigate("Settings")}
         >
           <View
             style={{

@@ -13,12 +13,11 @@ export default function UserProfile({ navigation }) {
   const [value, setValue] = React.useState(0);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f6f6f6" }} >
-      <View style={styles.container} >
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f6f6f6" }}>
+      <View style={styles.container}>
         <Text style={styles.title}>Select your account type</Text>
 
         <TouchableOpacity onPress={() => navigation.navigate("DocFirstStep")}>
-    
           <View style={[styles.radio]}>
             <Text style={styles.radioLabel}>Doctor</Text>
 
@@ -32,7 +31,6 @@ export default function UserProfile({ navigation }) {
 
             <View style={[styles.radioInput]} />
           </View>
-        
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("pharmFirstStep")}>
           <View style={[styles.radio]}>

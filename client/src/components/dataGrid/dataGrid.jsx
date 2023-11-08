@@ -35,6 +35,7 @@ export default function DataGridDemo({ data }) {
   const [toggle, setToggle] = useState(true);
   const [iconPress, setIconPress] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  console.log(filteredRows);
 
   const columns = [
     {

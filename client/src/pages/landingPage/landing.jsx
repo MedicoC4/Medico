@@ -6,12 +6,17 @@ import doctorSVG from "../../assets/images/doctorSvg.svg";
 import { gsap } from "gsap";
 import aaa from "../../assets/images/dashboard.svg";
 import bbb from "../../assets/images/woman.svg";
-// import gsap from "gsap-trial";
+import features from "../../assets/images/Progress.svg";
+import dashboad from "../../assets/images/Dashboardaaaaaa.png";
 import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Atropos from "atropos/react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import wave from "../../assets/images/wave.svg"
 
 gsap.registerPlugin(ScrollTrigger);
+
 const Landing = () => {
   const location = useLocation();
 
@@ -19,58 +24,19 @@ const Landing = () => {
   const words = ["Operations", "Efficiency", "Workflow"];
   const wordRef = useRef(null);
   const main = useRef();
-  const fade = useRef();
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context((self) => {
-      const boxes = self.selector(".fade_box");
-      boxes.forEach((box) => {
-        gsap.to(box, {
-          scale: 2,
-          duration: 0.5,
-          scrollTrigger: {
-            onEnter: () => console.log("Fade Box Entered"),
-            onLeave: () => console.log("Fade Box Left"),
-            trigger: box,
-            start: "top center",
-            end: "bottom",
-            scrub: 2,
-            markers: {
-              startColor: "black",
-              endColor: "white",
-              fontSize: "18px",
-              fontWeight: "bold",
-              indent: 20,
-            },
-            onEnter: () => console.log("Fade Box Entered"),
-            onLeave: () => console.log("Fade Box Left"),
-          },
-        });
-      });
-    }, fade); // <- Scope!
-    return () => ctx.revert();
-  }, []);
 
   useLayoutEffect(() => {
     const ctx = gsap.context((self) => {
       const boxes = self.selector(".box");
       boxes.forEach((box) => {
         gsap.to(box, {
-          scale: 1.2,
+          scale: 1.3,
           duration: 0.5,
           scrollTrigger: {
-
             trigger: box,
-            start: "top center",
+            start: "30",
             end: "bottom",
             scrub: 2,
-            // markers: {
-            //   startColor: "black",
-            //   endColor: "white",
-            //   fontSize: "18px",
-            //   fontWeight: "bold",
-            //   indent: 20,
-            // },
           },
         });
       });
@@ -117,6 +83,14 @@ const Landing = () => {
     };
   }, []);
 
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: false,
+      mirror: true,
+    });
+  }, []);
+
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
@@ -129,7 +103,7 @@ const Landing = () => {
                   <li>Inventory</li>
                   <li>Contact</li>
                   <li>
-                    <Link className="link" to="/dashboard">
+                    <Link className="link" to="/login">
                       Get Started
                     </Link>
                   </li>
@@ -164,59 +138,89 @@ const Landing = () => {
           <section className="section-2" ref={main}>
             <Atropos
               className="my-atropos box"
-              rotateXMax={5}
-              rotateYMax={5}
+              rotateXMax={4}
+              rotateYMax={4}
               shadow={false}
               activeOffset={0}
               shadowScale={0}
               highlight={false}
-              alwaysActive={false}
+              alwaysActive={true}
               onEnter={() => console.log("Enter")}
               onLeave={() => console.log("Leave")}
-              onRotate={(x, y) => console.log("Rotate", x, y)}
             >
               {" "}
               <div
                 style={{
-                  background:
-                    "linear-gradient(90deg, rgba(94,114,228,1) 15%, rgba(24,12,24,1) 72%)",
+                  backgroundColor: "#706bf997",
                   width: "100%",
                   height: "100%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  borderRadius: "1.5rem",
+                  borderRadius: "3rem",
+                  transition: "0.3s",
                 }}
+                className="dashbaord-bg"
               >
-                <div
-                  style={{
-                    backgroundColor: "black",
-                    height: "200px",
-                    width: "200px",
-                  }}
-                  data-atropos-offset="5"
-                ></div>
+                <div className="dashboard_anim" data-atropos-offset="1">
+                  <img src={dashboad} alt="" />
+                </div>
               </div>
             </Atropos>
           </section>
-          <section
-            className="section3"
-            style={{
-              height: "80vh",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <section className="section3">
             <div
-              className="fade_box"
-              ref={fade}
-              style={{
-                backgroundColor: "black",
-                height: "20vh",
-                width: "30vw",
-              }}
-            ></div>
+              data-aos-delay="300"
+              className="desc_landing"
+              data-aos="fade-up"
+              data-aos-anchor-placement="top-bottom"
+            >
+              <h1>How We Serve Pharmacies</h1>
+              <p>
+                We want to transform the way you do business. Digital
+                Pharmacist’s comprehensive digital engagement platform combines
+                cloud-based communication and adherence solutions with expert
+                digital marketing and reputation management, built to help you
+                succeed in a digital world.
+              </p>
+            </div>
+            <div className="intru">
+              <div className="instru_desc" data-aos="fade-right">
+                <h1>The Pharmacy Experience Dashboard</h1>
+                <p>
+                  We’ve created a portal that connects our entire suite of
+                  digital solutions so you can manage your pharmacy all in one
+                  place. Digital Pharmacist’s dashboard lets you customize
+                  website settings like delivery options and store hours. You
+                  can view the website, mobile app, and digital marketing
+                  reports, track patient call volume, and take care of incoming
+                  patient SMS and voice messages.
+                </p>
+              </div>
+              <img
+                src="https://www.digitalpharmacist.com//wp-content/uploads/2020/05/pharmacy-experience-ashboard.svg"
+                alt="aa"
+                data-aos="fade-left"
+                data-aos-delay="200"
+              />
+            </div>
+          </section>
+          <section className="section4">
+            <img data-aos="fade-right" data-aos-delay="100" src={features} alt="" />
+            <div>
+              <h1 data-aos="zoom-in" data-aos-delay="200">Why should choose MediCo</h1>
+              <ul>
+                <li data-aos="zoom-in" data-aos-delay="300" >Comprehensive suite of digital solutions</li>
+                <li data-aos="zoom-in" data-aos-delay="400" >Customizable dashboards for easy accessibility</li>
+                <li data-aos="zoom-in" data-aos-delay="500" >Strategic planning and implementation support</li>
+                <li data-aos="zoom-in" data-aos-delay="600" >Personalized customer service</li>
+              </ul>
+            </div>
+          </section>
+          <section className="last_section">
+              <img src={wave} alt="" />
+              <div>
+              </div>
           </section>
         </div>
       </div>

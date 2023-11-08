@@ -36,9 +36,20 @@ module.exports = {
       const updatedUser = await User.update(dataToUpdate, {
         where: { id: Number(id) },
       });
-      res.json(updatedUser[1]);
+      res.json(updatedUser);
       } catch (error) {
       throw error;
     }
   },
+  deleteOne: async (req, res) => {
+    let id = req.params.id;
+    try {
+      const deletedUser = await User.destroy({
+        where: { id: Number(id) },
+      });
+      res.json(deletedUser);
+    } catch (error) {
+      throw error;
+    }
+  }
 };

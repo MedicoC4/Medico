@@ -8,7 +8,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
 import {auth,DB} from '../firebase-config'
-import {collection,getDocs} from "firebase/firestore"
+import {collection,getDocs, onSnapshot} from "firebase/firestore"
 import { getUser } from '../constants/userServices'
 
 
@@ -17,10 +17,27 @@ const Landing = ({route}) => {
   const navigation=useNavigation()
 
   const [user, setUser] = useState([]);
+  const [pharmacies, setPharmacies] = useState([]);
+  console.log(pharmacies)
 
-
+  const pharmaciesCollectionRef = collection(DB, "pharmacy");
   const userCollectionRef = collection(DB, "users");
 
+  const getPharmacies = () => {
+    const unsubscribe = onSnapshot(pharmaciesCollectionRef, (snapshot) => {
+      const newPharmacies = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setPharmacies(newPharmacies);
+      console.log("this is pharmacies", newPharmacies);
+    }, (error) => {
+      console.error("Error fetching data:", error);
+    });
+  
+    // Clean up the listener on unmount
+    return unsubscribe;
+  };
 
   const orders = 1; // Replace with actual number of orders
   const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
@@ -52,40 +69,41 @@ const Landing = ({route}) => {
         setUser(userData);
       }
     }
-
+    const unsubscribe = getPharmacies();
+    return () => unsubscribe();
     fetchData();
   }, []);
   
   
 
-  const pharmacies = [
-    {
-      name: 'Pharmacy Masmoudi',
-      image: 'https://static1.lequotidiendupharmacien.fr/cdn/ff/zzKpsdTgDf4zJJAQLEKGfvN9SiuClrByPAJqIXxpBZg/1587729668/public/styles/gps_large/public/public/67237_img_34286_hr.png?itok=vrhqNYWQ', // Replace with actual image URL
-      rating: 4,
-      distance: 3,
-    },
-    {
-      name: 'Pharmacy Khlifi',
-      image: 'https://www.med.tn/uploads/pharmacy/8262_pharmacie-neira-smida-hamza_1590053166.jpg', // Replace with actual image URL
-      rating: 5,
-      distance: 2,
-    },
-    {
-      name: 'Pharmacy Yanes',
-      image: 'https://pharmacie.ma/uploads/0f369a47de133d19ce8d70469fc44d93_1503576291.jpeg', // Replace with actual image URL
-      rating: 4.5,
-      distance: 1.7,
-      address: 'Rue de la liberté, Tunis',
-    },
-    {
-      name: 'Pharmacy Thabet',
-      image: 'https://i.pinimg.com/564x/1f/f4/a0/1ff4a0ba5dd2dc730903bd897621fd8f.jpg', // Replace with actual image URL
-      rating: 3.5,
-      distance: 1.7,
-    },
-    // Add more pharmacies here...
-  ];
+  // const pharmacies = [
+  //   {
+  //     name: 'Pharmacy Masmoudi',
+  //     image: 'https://static1.lequotidiendupharmacien.fr/cdn/ff/zzKpsdTgDf4zJJAQLEKGfvN9SiuClrByPAJqIXxpBZg/1587729668/public/styles/gps_large/public/public/67237_img_34286_hr.png?itok=vrhqNYWQ', // Replace with actual image URL
+  //     rating: 4,
+  //     distance: 3,
+  //   },
+  //   {
+  //     name: 'Pharmacy Khlifi',
+  //     image: 'https://www.med.tn/uploads/pharmacy/8262_pharmacie-neira-smida-hamza_1590053166.jpg', // Replace with actual image URL
+  //     rating: 5,
+  //     distance: 2,
+  //   },
+  //   {
+  //     name: 'Pharmacy Yanes',
+  //     image: 'https://pharmacie.ma/uploads/0f369a47de133d19ce8d70469fc44d93_1503576291.jpeg', // Replace with actual image URL
+  //     rating: 4.5,
+  //     distance: 1.7,
+  //     address: 'Rue de la liberté, Tunis',
+  //   },
+  //   {
+  //     name: 'Pharmacy Thabet',
+  //     image: 'https://i.pinimg.com/564x/1f/f4/a0/1ff4a0ba5dd2dc730903bd897621fd8f.jpg', // Replace with actual image URL
+  //     rating: 3.5,
+  //     distance: 1.7,
+  //   },
+  //   // Add more pharmacies here...
+  // ];
 
   const medicines = [
     {

@@ -17,6 +17,7 @@ import {
   Promotions,
   BestSellers,
   AllMissingProducts,
+  Appointment,
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -36,7 +37,8 @@ import { UserProvider } from "./constants/userProvier";
 import UpgradeDocSecoundForm from "./screens/UpgradeDocSecoundForm";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
 import PharmFirstForm from "./screens/PharmFirstForm";
-
+import {Provider} from "react-redux"
+import store from "./redux/store"
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -250,6 +252,13 @@ export default function App() {
           <Stack.Screen
             name="PharmFirstForm"
             component={PharmFirstForm}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="appointment"
+            component={Appointment}
             options={{
               headerShown: false,
             }}

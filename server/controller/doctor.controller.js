@@ -14,9 +14,9 @@ module.exports = {
             throw err;
         }
     },
-    getOne : async()=>{
+    getOne : async(req,res)=>{
         try {
-        const oneDoc = await Doctor.getOne({where: {id : req.params.id}}); 
+        const oneDoc = await Doctor.findAll({where: {id : req.params.id}}); 
             res.json(oneDoc);
         } catch (error) {
             throw error

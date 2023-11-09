@@ -10,10 +10,10 @@ import {
   StyleSheet,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { auth } from "../firebase-config";
+
 
 const UserProfilePage = ({ navigation }) => {
-  // const email = auth.currentUser.email
+  
 
   return (
     <View
@@ -192,7 +192,6 @@ const UserProfilePage = ({ navigation }) => {
             width: "100%",
             justifyContent: "space-between",
             height: "25%",
-            // backgroundColor: "grey",
             alignItems: "center",
           }}
         >
@@ -244,25 +243,8 @@ const UserProfilePage = ({ navigation }) => {
             </Text>
           </View>
           <View
-            style={
-              {
-                // width: 60,
-                // height: 60,
-                // justifyContent: "center",
-                // alignItems: "center",
-                // borderRadius: 100,
-                // shadowColor: "rgba(3, 3, 3, 0.1)",
-                // shadowOffset: { width: 0, height: 2 },
-                // shadowRadius: 4,
-              }
-            }
+            style={{}}
           >
-            {/* <Image source={require("../assets/flesh_right.png")}
-            style={{
-                width: 35,
-                height: 35,
-              }}
-            /> */}
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>

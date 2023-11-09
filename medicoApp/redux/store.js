@@ -7,7 +7,7 @@ import doctorSlicer from './doctorSlicer.js';
 const store = configureStore({
   reducer: {
     idProd: idProdReducer,
-    user : userSlicer,
+  ...userSlicer,
     doctor:doctorSlicer
   },
 })

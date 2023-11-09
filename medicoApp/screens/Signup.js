@@ -69,13 +69,11 @@ const Signup = ({ navigation }) => {
             username:"foulen",
             password:password,
             type:"user",
-            "createdAt": "2023-11-09T13:32:16.000Z",
-            "updatedAt": "2023-11-09T13:32:16.000Z"
           }));
 
           // Redirect to the landing page after successful signup
           
-        //   navigation.navigate('FinishSignUp')
+          navigation.navigate('Login')
         } catch (error) {
           console.error('Error during signup:', error);
         }

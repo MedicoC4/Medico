@@ -23,35 +23,45 @@ const OrderList = () => {
   const [userName, setUserName] = useState("");
 
   // const productsCollectionRef = collection(DB,"orders")
-  const q = query(
-    collection(DB, "orders"),
-    where("pharmacyId", "==", "fQ6ovqVAhufVHhrtOyKK")
-  );
-  const fetchOrders = async () => {
+ const fetchOrders = async ()=>{
     try {
-      let list = [];
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        const createdAtString = data.createdAt.toDate().toLocaleString();
-        const cancelledAtString = data.canceledAt.toDate().toLocaleString();
-        const delivredAtString = data.dilevredAt.toDate().toLocaleString();
-        const acceptedAtString = data.acceptedAt.toDate().toLocaleString();
-        list.push({
-          id: doc.id,
-          ...data,
-          createdAt: createdAtString,
-          canceledAt: cancelledAtString,
-          dilevredAt: delivredAtString,
-          acceptedAt: acceptedAtString,
-        });
-      });
-      setOrders(list);
+        const data = await axios.get("/api/orders/getAll")
+        setOrders(data.data)
     } catch (error) {
-      console.log(error);
+        throw new Error (error)
     }
-  };
-  const handleCanceled = async (prodid, qOrder) => {
+ }
+//   const q = query(
+//     collection(DB, "orders"),
+//     where("pharmacyId", "==", "fQ6ovqVAhufVHhrtOyKK")
+//   );
+//   const fetchOrderss = async () => {
+//     try {
+//       let list = [];
+//       const querySnapshot = await getDocs(q);
+//       querySnapshot.forEach((doc) => {
+//         const data = doc.data();
+//         const createdAtString = data.createdAt.toDate().toLocaleString();
+//         const cancelledAtString = data.canceledAt.toDate().toLocaleString();
+//         const delivredAtString = data.dilevredAt.toDate().toLocaleString();
+//         const acceptedAtString = data.acceptedAt.toDate().toLocaleString();
+//         list.push({
+//           id: doc.id,
+//           ...data,
+//           createdAt: createdAtString,
+//           canceledAt: cancelledAtString,
+//           dilevredAt: delivredAtString,
+//           acceptedAt: acceptedAtString,
+//         });
+//       });
+//       setOrders(list);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+  
+
+const handleCanceled = async (prodid, qOrder) => {
     try {
       await updateDoc(doc(DB, "products", prodid), {
         quantity: productData.quantity + qOrder,

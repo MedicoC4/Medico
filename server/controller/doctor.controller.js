@@ -34,7 +34,7 @@ module.exports = {
             throw error
         }
     },
-    add : async ()=>{
+    add : async (req,res)=>{
         try {
             const added = await Doctor.create(req.body)
             res.json(added)

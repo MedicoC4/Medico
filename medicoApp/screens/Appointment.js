@@ -1,42 +1,45 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Button, View, Text } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useState } from "react";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Calendar } from "react-native-calendars";
 
-export default function Appointment() {
-  const [date, setDate] = useState(new Date());
+export default function DateSelection() {
+  const [selectedDates, setSelectedDates] = useState({});
 
-  const onChange = (e, selectedDate) => {
-    setDate(selectedDate);
+  const handleDateChange = (date) => {
+    const dateString = date.dateString;
+
+    // Clone the selectedDates object to avoid mutating state directly
+    const updatedSelectedDates = { ...selectedDates };
+
+    // Toggle the selection of the date
+    updatedSelectedDates[dateString] = {
+      selected: !selectedDates[dateString]?.selected,
+      marked: true,
+    };
+
+    setSelectedDates(updatedSelectedDates);
   };
-console.log(date);
+console.log(selectedDates);
   return (
-    <View style={styles.container}>
-      <DateTimePicker
-        value={date}
-        mode={"date"}
-        is24Hour={true}
-        minimumDate
-        maximumDate
-        onChange={onChange}
+    <View style={{ flex: 1, paddingTop: 20 }}>
+      <Calendar
+        onDayPress={handleDateChange}
+        markedDates={selectedDates}
       />
-      {/* <DateTimePicker
-        value={date}
-        mode={"time"}
-        is24Hour={true}
-        onChange={onChange}
-      /> */}
-      <Text>{date.toLocaleString()}</Text>
-      <StatusBar style="auto" />
+
+      {/* <TouchableOpacity onPress={()=>setSelectedDates({})}><Text>Reset</Text></TouchableOpacity> */}
+      <Text>Selected Dates:</Text>
+      {Object.keys(selectedDates).map((dateString, index) => (
+        <Text key={index}>{dateString}</Text>
+      ))}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+
+
+
+
+
+
+

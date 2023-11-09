@@ -1,52 +1,58 @@
-const { User, Order, Pharmacy, Product, Review, Record } = require("../index.js");
+const { User, Order, Pharmacy, Product, Review, Record, Categories } = require("../index.js");
 
 
 const dummyOrders = [
-    {
-      quantityOrdered: 10,
-      orderStatus: "Accepted",
-      livraisonStatus: "Shipped",
-      tracking_number: "XYZ98765",
-      acceptedAt: new Date("2023-01-15"),
-      dilevredAt: new Date("2023-01-20"),
-    },
-    {
-      quantityOrdered: 3,
-      orderStatus: "Rejected",
-      livraisonStatus: "Out for Delivery",
-      tracking_number: "DEF45678",
-      acceptedAt: null,
-      dilevredAt: null,
-    },
-    {
-      quantityOrdered: 7,
-      orderStatus: "Pending",
-      livraisonStatus: "Processing",
-      tracking_number: "MNO12345",
-      acceptedAt: null,
-      dilevredAt: null,
-    },
-    {
-      quantityOrdered: 2,
-      orderStatus: "Accepted",
-      livraisonStatus: "Delivered",
-      tracking_number: "JKL67890",
-      acceptedAt: new Date("2023-02-10"),
-      dilevredAt: new Date("2023-02-12"),
-    },
-    {
-      quantityOrdered: 4,
-      orderStatus: "Accepted",
-      livraisonStatus: "Delivered",
-      tracking_number: "PQR34567",
-      acceptedAt: new Date("2023-03-05"),
-      dilevredAt: new Date("2023-03-08"),
-    },
-  ];
+  {
+    quantityOrdered: 5,
+    orderStatus: "Pending",
+    livraisonStatus: "Pending",
+    tracking_number: "ABC12345",
+    total: 50.99,
+    acceptedAt: null,
+    dilevredAt: null,
+  },
+  {
+    quantityOrdered: 3,
+    orderStatus: "Accepted",
+    livraisonStatus: "Out for Delivery",
+    tracking_number: "DEF67890",
+    total: 30.49,
+    acceptedAt: new Date("2023-01-15"),
+    dilevredAt: null,
+  },
+  {
+    quantityOrdered: 7,
+    orderStatus: "Rejected",
+    livraisonStatus: "Processing",
+    tracking_number: "GHI12345",
+    total: 70.25,
+    acceptedAt: null,
+    dilevredAt: null,
+  },
+  {
+    quantityOrdered: 2,
+    orderStatus: "Accepted",
+    livraisonStatus: "Delivered",
+    tracking_number: "JKL56789",
+    total: 20.99,
+    acceptedAt: new Date("2023-02-10"),
+    dilevredAt: new Date("2023-02-12"),
+  },
+  {
+    quantityOrdered: 4,
+    orderStatus: "Pending",
+    livraisonStatus: "Shipped",
+    tracking_number: "MNO45678",
+    total: 40.75,
+    acceptedAt: null,
+    dilevredAt: null,
+  },
+];
   
   const dummyPharmacies = [
     {
       PHname: "Pharmacy A",
+      imageUrl: "https://example.com/pharmacy_a.jpg",
       type: "day",
       lang: 36.78,
       lat: 10.45,
@@ -54,6 +60,7 @@ const dummyOrders = [
     },
     {
       PHname: "Pharmacy B",
+      imageUrl: "https://example.com/pharmacy_b.jpg",
       type: "night",
       lang: 34.56,
       lat: 11.23,
@@ -61,6 +68,7 @@ const dummyOrders = [
     },
     {
       PHname: "Pharmacy C",
+      imageUrl: "https://example.com/pharmacy_c.jpg",
       type: "day",
       lang: 35.67,
       lat: 9.87,
@@ -68,6 +76,7 @@ const dummyOrders = [
     },
     {
       PHname: "Pharmacy D",
+      imageUrl: "https://example.com/pharmacy_d.jpg",
       type: "night",
       lang: 33.98,
       lat: 12.34,
@@ -75,6 +84,7 @@ const dummyOrders = [
     },
     {
       PHname: "Pharmacy E",
+      imageUrl: "https://example.com/pharmacy_e.jpg",
       type: "day",
       lang: 37.12,
       lat: 10.89,
@@ -251,8 +261,31 @@ const dummyOrders = [
       imgUrl: "https://example.com/mark_wilson.jpg",
     },
   ];
+
+  const dummyMedicineCategories = [
+    {
+      name: "Pain Relief",
+      description: "Category for medications that relieve pain and reduce fever.",
+    },
+    {
+      name: "Antibiotics",
+      description: "Category for medications that treat bacterial infections.",
+    },
+    {
+      name: "Allergy and Sinus",
+      description: "Category for medications that relieve allergy symptoms and sinus issues.",
+    },
+    {
+      name: "Digestive Health",
+      description: "Category for medications that support digestive health and relieve digestive issues.",
+    },
+    {
+      name: "Vitamins and Supplements",
+      description: "Category for various vitamins and dietary supplements.",
+    },
+  ];
   
-  module.exports = {dummyPharmacies, dummyOrders, dummyProducts, dummyRecords, dummyReviews, dummyUsers, };
+  module.exports = {dummyPharmacies, dummyOrders, dummyProducts, dummyRecords, dummyReviews, dummyUsers, dummyMedicineCategories, };
 
   
   User.bulkCreate(dummyUsers)

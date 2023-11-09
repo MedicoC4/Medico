@@ -11,7 +11,7 @@ const PharmacyCard = ({ pharmacy }) => {
           <Text style={styles.name}>{pharmacy.name}</Text>
           <View style={styles.ratingContainer}>
             <Icon name="star" size={15} color="#FFD700" />
-            <Text style={styles.rating}>{pharmacy.reviewId.rating}</Text>
+            <Text style={styles.rating}></Text>
           </View>
         </View>
         <View style={styles.distanceContainer}>

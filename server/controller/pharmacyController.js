@@ -1,9 +1,10 @@
-const {Product} = require ('../database/index')
+const {Pharmacy} = require('../database/index')
+
 
 module.exports = {
     getAll: async (req, res) => {
       try {
-        const getAll = await Product.findAll({});
+        const getAll = await Pharmacy.findAll({});
         res.json(getAll);
       } catch (err) {
         console.log("Error al obtener todos los usuarios");
@@ -11,13 +12,12 @@ module.exports = {
       }
     },
     create: async (req, res) => {
-      let productData = req.body;
-      if (!productData.productName || !productData.price || !productData.description) {
-        return res.status(400).send({ message: "user not found" });
-      }
+      let pharmacyData = req.body;
+     
+  
       try {
-        const newProduct = await Product.create(productData);
-        res.json(newProduct);
+        const newPharmacy = await Pharmacy.create(pharmacyData);
+        res.json(newPharmacy);
       } catch (error) {
         throw error;
       }
@@ -26,10 +26,10 @@ module.exports = {
       let id = req.params.id;
       let dataToUpdate = req.body;
       try {
-        const updatedProduct = await Product.update(dataToUpdate, {
+        const updatedPharmacy = await Pharmacy.update(dataToUpdate, {
           where: { id: Number(id) },
         });
-        res.json(updatedProduct);
+        res.json(updatedPharmacy);
         } catch (error) {
         throw error;
       }
@@ -37,10 +37,10 @@ module.exports = {
     deleteOne: async (req, res) => {
       let id = req.params.id;
       try {
-        const deletedProduct = await Product.destroy({
+        const deletedPharmacy = await Pharmacy.destroy({
           where: { id: Number(id) },
         });
-        res.json(deletedProduct);
+        res.json(deletedPharmacy);
       } catch (error) {
         throw error;
       }

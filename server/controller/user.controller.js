@@ -12,9 +12,7 @@ module.exports = {
   },
   create: async (req, res) => {
     let userData = req.body;
-    if (!userData.username || !userData.email || !userData.password) {
-      return res.status(400).send({ message: "user not found" });
-    }
+
 
     try {
       const emailExist = await User.findOne({

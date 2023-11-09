@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,16 +8,26 @@ import {
   Pressable,
 } from "react-native";
 import { Button } from "react-native-paper";
+import { auth,googleProvider, DB, createUserDocument } from '../firebase-config';
 
 export default function UserProfile({ navigation }) {
   const [value, setValue] = React.useState(0);
+  const [data,setData]=useState({
+    email:auth.currentUser.email,
+    fullName:"",
+    type:"doctor",
+    lang:23.24,
+    lat:24.24
+  })
+
+  console.log('this is the logged user ', auth.currentUser.email);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f6f6f6" }} >
       <View style={styles.container} >
         <Text style={styles.title}>Select your account type</Text>
 
-        <TouchableOpacity onPress={() => navigation.navigate("DocFirstStep")}>
+        <TouchableOpacity onPress={() => navigation.navigate("DocFirstStep",{data:data})}>
     
           <View style={[styles.radio]}>
             <Text style={styles.radioLabel}>Doctor</Text>

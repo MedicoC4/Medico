@@ -29,7 +29,6 @@ const Product = require('./models/products.js')(connection, DataTypes)
 const Pharmacy = require('./models/pharmacy.js')(connection, DataTypes)
 const Doctor = require('./models/doctor.js')(connection, DataTypes)
 const Order = require('./models/orders.js')(connection, DataTypes)
-const Order_user = require('./models/user_order.js')(connection, DataTypes)
 const Categories = require('./models/categories.js')(connection, DataTypes)
 const Day = require('./models/day.js')(connection, DataTypes)
 const Availability = require('./models/availabilty.js')(connection, DataTypes)
@@ -83,4 +82,4 @@ Availability.belongsTo(Day);
 //   .then(() => console.log("tables created"))
 //   .catch((error) => {throw error;});
 
-module.exports = {User, Product, Review, Record, Doctor, Order, Pharmacy, Order_user, Categories,Day,Availability};
+module.exports = {User, Product, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability};

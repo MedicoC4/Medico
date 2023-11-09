@@ -4,8 +4,10 @@ const UserRouter = require('./routes/user.route.js')
 const DoctorRouter = require('./routes/doctor.route.js')
 const CategoriesRouter = require('./routes/categories.route.js')
 const OrdersRouter = require('./routes/orders.route.js')
-const ProductsRouter = require('./routes/products.route.js')
 const DayRouter = require('./routes/day.router.js')
+const PharmacyRouter = require('./routes/pharmacy.route.js')
+const ProductRouter = require('./routes/products.route.js')
+
 const cors = require('cors')
 const app = express();
 const port = 1128; 
@@ -23,8 +25,9 @@ app.use('/api/user', UserRouter)
 app.use('/api/doctor', DoctorRouter)
 app.use('/api/Categories', CategoriesRouter)
 app.use('/api/orders', OrdersRouter)
-app.use('/api/products', ProductsRouter)
 app.use('/api/day', DayRouter)
+app.use('/api/pharmacy',PharmacyRouter)
+app.use('/api/product',ProductRouter)
 
 // Start the server
 app.listen(port, () => {

@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore,doc, setDoc, getDoc,collection,query,where,getDocs } from "@firebase/firestore";
 import { name as appName } from './app.json';
-import { getAuth, createUserWithEmailAndPassword , GoogleAuthProvider,onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword , GoogleAuthProvider,onAuthStateChanged,updateEmail } from "firebase/auth";
 
 // import {GoogleSignin} from '@react-native-google-signin/google-signin'
 
@@ -24,9 +24,6 @@ export {
 }
 
 
-// GoogleSignin.configure({
-//   webClientId: "468442720217-82eb2l2uo3vhmo7k42sn2a9htlnhrpk4.apps.googleusercontent.com",
-// });
 
 export const createUserDocument = async (user, additionalData) => {
   if (!user) return;

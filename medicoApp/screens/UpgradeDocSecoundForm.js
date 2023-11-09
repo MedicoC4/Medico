@@ -17,10 +17,15 @@ const { width, height } = Dimensions.get("window");
 
 
 
-export default function UpgradeDocSecoundForm({navigation}) {
+export default function UpgradeDocSecoundForm({navigation,route}) {
   const [yoexperience , setYoexperience] = useState('')
   const [certificate , setCertificate] = useState('')
   const [speciality , setSpeciality] = useState('')
+
+
+  const {data}=route.params
+
+  console.log("this is the full data to become doctor", data)
 
 
 
@@ -94,6 +99,7 @@ export default function UpgradeDocSecoundForm({navigation}) {
     filled
     style={{
       width:width*0.88}}
+      // onPress=({}=>())
     />
             </View>
         

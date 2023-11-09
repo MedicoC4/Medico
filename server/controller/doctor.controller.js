@@ -3,7 +3,11 @@ const {Doctor} = require('../database/index')
 module.exports = {
     getAll: async (req, res) => {
         try{
-            const getAll = await Doctor.findAll({})
+            const getAll = await Doctor.findAll({
+                where: {
+                  type: "doctor"
+                }
+              })
             res.json(getAll)
         }catch(err){
             console.log("Error al obtener todos los usuarios")

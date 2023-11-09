@@ -9,12 +9,12 @@ import {
   HeartFilled,
 } from "@ant-design/icons";
 
-const Cards = ({ item, categoryNames, index }) => {
+const Cards = ({ item, categoryNames }) => {
   console.log(categoryNames);
 
   const [iconPress, setIconPress] = useState(true);
 
-  const categoryName = categoryNames[item.productCategory.id] || "Loading...";
+  // const categoryName = categoryNames[item.productCategory.id] || "Loading...";
 
   return (
     <div className="med_card">
@@ -36,7 +36,7 @@ const Cards = ({ item, categoryNames, index }) => {
         <p>{item.productName}</p>
         <div className="category_badge">
           <Tag className="ant-tag" color="#F3F7FB" style={{ color: "#24aeb1" }}>
-            {categoryName}
+            categoryName
           </Tag>
         </div>
         <p>{item.productDescription}</p>

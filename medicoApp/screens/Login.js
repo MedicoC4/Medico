@@ -6,7 +6,11 @@ import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
 import {signInWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../firebase-config'
+import {auth} from '../firebase-config';
+import { UseSelector,useDispatch } from 'react-redux';
+import {signIn} from '../redux/userSlicer'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Login = ({ navigation }) => {
     
@@ -14,6 +18,9 @@ const Login = ({ navigation }) => {
     const [isChecked, setIsChecked] = useState(false);
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('')
+
+
+    const dispatch = useDispatch()
 
 
     const handleLogin = async () => {
@@ -25,9 +32,15 @@ const Login = ({ navigation }) => {
         try {
           // Sign in with email and password
         const hello=  await signInWithEmailAndPassword(auth, email, password);
-            console.log(hello);
+        if(hello._tokenResponse.idToken){
+            await AsyncStorage.setItem('token', hello._tokenResponse.idToken);
+            dispatch(signIn({email}))
+            
+            navigation.navigate('userProfile');
+        }else {
+            alert('failed sign in')
+        }
           // Redirect to the landing page after successful login
-          navigation.navigate('Landing');
         } catch (error) {
           console.error('Error during login:', error);
         }

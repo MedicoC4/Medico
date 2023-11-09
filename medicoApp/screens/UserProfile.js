@@ -19,12 +19,20 @@ export default function UserProfile({ navigation }) {
     lang:23.24,
     lat:24.24
   })
+  
+  const [pharmData,setPharmData]=useState({
+    email:auth.currentUser.email,
+    fullName:"",
+    type:"pharmacy",
+    lang:23.24,
+    lat:24.24
+  })
 
   console.log('this is the logged user ', auth.currentUser.email);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f6f6f6" }} >
-      <View style={styles.container} >
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f6f6f6" }}>
+      <View style={styles.container}>
         <Text style={styles.title}>Select your account type</Text>
 
         <TouchableOpacity onPress={() => navigation.navigate("DocFirstStep",{data:data})}>
@@ -42,9 +50,8 @@ export default function UserProfile({ navigation }) {
 
             <View style={[styles.radioInput]} />
           </View>
-        
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("pharmFirstStep")}>
+        <TouchableOpacity onPress={() => navigation.navigate("pharmFirstStep",{pharmData:pharmData})}>
           <View style={[styles.radio]}>
             <Text style={styles.radioLabel}>Pharmacy</Text>
 

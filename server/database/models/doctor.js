@@ -10,11 +10,11 @@ module.exports = (Sequelize, DataTypes) => {
     },
     lang: {
       type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
+      allowNull: true,
     },
     lat: {
       type: DataTypes.DECIMAL(10, 2), 
-      allowNull: false,
+      allowNull: true,
     },
   });
   return Doctor;

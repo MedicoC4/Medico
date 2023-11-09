@@ -1,8 +1,10 @@
 const express = require('express');
 require('dotenv').config()
 const UserRouter = require('./routes/user.route.js')
-const DoctorRouter = require('./routes/user.route.js')
+const DoctorRouter = require('./routes/doctor.route.js')
 const CategoriesRouter = require('./routes/categories.route.js')
+const OrdersRouter = require('./routes/orders.route.js')
+const DayRouter = require('./routes/day.router.js')
 const PharmacyRouter = require('./routes/pharmacy.route.js')
 const ProductRouter = require('./routes/products.route.js')
 
@@ -23,6 +25,8 @@ app.use('/api/user', UserRouter)
 app.use('/api/doctor', DoctorRouter)
 app.use('/api/Categories', CategoriesRouter)
 app.use('/api/Product', ProductRouter)
+app.use('/api/orders', OrdersRouter)
+app.use('/api/day', DayRouter)
 app.use('/api/pharmacy',PharmacyRouter)
 
 // Start the server

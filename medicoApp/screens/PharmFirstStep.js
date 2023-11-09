@@ -4,9 +4,12 @@ import COLORS from '../constants/colors';
 import Button from '../components/Button';
 const { width, height } = Dimensions.get("window");
 
-const PharmFirstStep = ( { navigation } ) =>{
+const PharmFirstStep = ( { navigation , route} ) =>{
     console.log('hello');
+    const {pharmData} = route.params
+    console.log("this is pharmData with navigation",pharmData);
         return ( 
+            
         <View style={{ flex : 1,
             height:height*0.5,
             width:width*1,
@@ -59,7 +62,7 @@ const PharmFirstStep = ( { navigation } ) =>{
                  }}
                 title="Continue"
                 filled
-                onPress={() => navigation.navigate("PharmSecoundStep")}
+                onPress={() => navigation.navigate("PharmSecoundStep" , {pharmData:pharmData})}
                 style={{
                                 width: width*0.85,
                                 backgroundColor: COLORS.primary,

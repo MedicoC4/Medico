@@ -19,6 +19,14 @@ export default function UserProfile({ navigation }) {
     lang:23.24,
     lat:24.24
   })
+  
+  const [pharmData,setPharmData]=useState({
+    email:auth.currentUser.email,
+    fullName:"",
+    type:"pharmacy",
+    lang:23.24,
+    lat:24.24
+  })
 
   console.log('this is the logged user ', auth.currentUser.email);
 
@@ -43,7 +51,7 @@ export default function UserProfile({ navigation }) {
             <View style={[styles.radioInput]} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("pharmFirstStep")}>
+        <TouchableOpacity onPress={() => navigation.navigate("pharmFirstStep",{pharmData:pharmData})}>
           <View style={[styles.radio]}>
             <Text style={styles.radioLabel}>Pharmacy</Text>
 

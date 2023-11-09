@@ -15,7 +15,9 @@ import COLORS from "../constants/colors";
 import { addDoc, collection } from "firebase/firestore";
 import { DB } from "../firebase-config";
 
-export default function PharmFirstForm({ navigation }) {
+export default function PharmFirstForm({ navigation,route }) {
+  const {pharmData}=route.params
+
   const [fullName, setFullName] = useState("");
   const [type, setType] = useState("");
   const [email, setEmail] = useState("");
@@ -93,7 +95,13 @@ export default function PharmFirstForm({ navigation }) {
             <View style={styles.formAction}>
               <Button
                 onPress={() => {
-                  navigation.navigate("PharmSecoundForm"), create();
+                  navigation.navigate("PharmSecoundForm" , {pharmData:{
+                    ...pharmData , 
+                    fullName,
+                    type,
+                    email ,
+                    phone
+                  }});
                 }}
                 titleStyle={{
                   color: "#FFFFFF",

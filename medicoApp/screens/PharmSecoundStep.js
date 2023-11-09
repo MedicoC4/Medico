@@ -5,7 +5,8 @@ import Button from "../components/Button";
 import NavigationBar from "../components/NavigationBar";
 const { width, height } = Dimensions.get("window");
 
-const Welcome = ({ navigation }) => {
+const Welcome = ({ navigation ,route}) => {
+  const {pharmData}= route.params
   return (
     <View style={{ flex: 1 }}>
       <View>
@@ -67,7 +68,7 @@ const Welcome = ({ navigation }) => {
 
         <Button
           title="Upgrade Now"
-          onPress={() => navigation.navigate("PharmFirstForm")}
+          onPress={() => navigation.navigate("PharmFirstForm" , {pharmData:pharmData})}
           style={{
             marginTop: 22,
             width: "100%",

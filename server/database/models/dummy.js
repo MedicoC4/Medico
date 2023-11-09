@@ -295,6 +295,13 @@ const dummyOrders = [
   //   .catch((error) => {
   //     console.error('Error creating dummy data:', error);
   //   });
+  // User.bulkCreate(dummyUsers)
+  //   .then(() => {
+  //     console.log('Dummy data created successfully.');
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error creating dummy data:', error);
+  //   });
 
     
   // Order.bulkCreate(dummyOrders)
@@ -334,6 +341,14 @@ const dummyOrders = [
 
     
   // Review.bulkCreate(dummyReviews)
+  //   .then(() => {
+  //     console.log('Dummy data created successfully.');
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error creating dummy data:', error);
+  //   });
+
+  // Categories.bulkCreate(dummyMedicineCategories)
   //   .then(() => {
   //     console.log('Dummy data created successfully.');
   //   })

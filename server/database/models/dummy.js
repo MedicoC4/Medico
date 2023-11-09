@@ -1,4 +1,4 @@
-const { User, Order, Pharmacy, Product, Review, Record } = require("../index.js");
+const { User, Order, Pharmacy, Product, Review, Record, Categories } = require("../index.js");
 
 
 const dummyOrders = [
@@ -261,8 +261,31 @@ const dummyOrders = [
       imgUrl: "https://example.com/mark_wilson.jpg",
     },
   ];
+
+  const dummyMedicineCategories = [
+    {
+      name: "Pain Relief",
+      description: "Category for medications that relieve pain and reduce fever.",
+    },
+    {
+      name: "Antibiotics",
+      description: "Category for medications that treat bacterial infections.",
+    },
+    {
+      name: "Allergy and Sinus",
+      description: "Category for medications that relieve allergy symptoms and sinus issues.",
+    },
+    {
+      name: "Digestive Health",
+      description: "Category for medications that support digestive health and relieve digestive issues.",
+    },
+    {
+      name: "Vitamins and Supplements",
+      description: "Category for various vitamins and dietary supplements.",
+    },
+  ];
   
-  module.exports = {dummyPharmacies, dummyOrders, dummyProducts, dummyRecords, dummyReviews, dummyUsers, };
+  module.exports = {dummyPharmacies, dummyOrders, dummyProducts, dummyRecords, dummyReviews, dummyUsers, dummyMedicineCategories, };
 
   
   // User.bulkCreate(dummyUsers)

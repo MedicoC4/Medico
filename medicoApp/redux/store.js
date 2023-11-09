@@ -4,10 +4,12 @@ import userSlicer from './userSlicer.js';
 import doctorSlicer from './doctorSlicer.js';
 
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     idProd: idProdReducer,
     user : userSlicer,
     doctor:doctorSlicer
   },
 })
+
+export default store

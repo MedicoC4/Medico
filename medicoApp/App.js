@@ -20,13 +20,17 @@ import { UserProvider } from './constants/userProvier';
 import UpgradeDocSecoundForm from './screens/UpgradeDocSecoundForm'
 import PharmSecoundForm from './screens/PharmSecoundForm';
 import PharmFirstForm from './screens/PharmFirstForm';
+import { Provider } from 'react-redux';
+import store from './redux/store'
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <UserProvider>
+    
+    
+      <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
 
@@ -35,6 +39,13 @@ export default function App() {
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="docProfile"
+          component={DocProfile}
           options={{
             headerShown: false,
           }}
@@ -241,8 +252,9 @@ export default function App() {
        
       </Stack.Navigator>
 
-      
     </NavigationContainer>
-    </UserProvider>
+      </Provider>
+    
+  
   );
 }

@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const initialState = {
+  data: [],
+  error: null,
+  loading: false,
+};
+
 
 const fetchDoctors = createAsyncThunk('api/fetchDoctors', async () => {
   const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll`); // Replace with your API endpoint
@@ -10,20 +16,20 @@ const fetchDoctors = createAsyncThunk('api/fetchDoctors', async () => {
 export const addDoctor = createAsyncThunk(
     "addDoctor",
     async (input, { dispatch }) => {
-     const response = await axios.post("http://localhost:3000/api/doctor/createUser", input);
+     const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/addDoc`, input);
       dispatch(fetchDoctors());
   return response.data
     }
   );
 
 const deleteDoctor = createAsyncThunk('api/deleteDoctor',async(id, {dispatch})=>{
-    const response = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/deleteDoctor/:${id}`)
+    const response = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/deleteDoc/:${id}`)
     dispatch(fetchDoctors())
     return response.data
 })
 
 const updateDoctor=createAsyncThunk('api/updateDoctor',async(id,input,{dispatch})=>{
-    const response = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateDoctor/:${id}`,input)
+    const response = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/updateDoc/:${id}`,input)
     dispatch(fetchDoctors())
     return response.data
 })

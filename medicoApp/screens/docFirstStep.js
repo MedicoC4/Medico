@@ -4,8 +4,10 @@ import COLORS from '../constants/colors';
 import Button from '../components/Button';
 const { width, height } = Dimensions.get("window");
 
-const DocFirstStep = ( { navigation } ) =>{
+const DocFirstStep = ( { navigation ,route} ) =>{
     console.log('hello');
+    const {data} = route.params
+    console.log("this is data with navigation",data);
         return ( 
         <View style={{ flex : 1,
             height:height*0.5,
@@ -59,7 +61,7 @@ const DocFirstStep = ( { navigation } ) =>{
                  }}
                 title="Continue"
                 filled
-                onPress={() => navigation.navigate("DocSecoundStep")}
+                onPress={() => navigation.navigate("DocSecoundStep",{data:data})}
                 style={{
                                 width: width*0.85,
                                 backgroundColor: COLORS.primary,

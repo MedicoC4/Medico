@@ -6,7 +6,8 @@ import NavigationBar from '../components/NavigationBar';
 const { width, height } = Dimensions.get("window");
 
 
-const DocSecondStep = ({ navigation }) => {
+const DocSecondStep = ({ navigation , route}) => {
+    const {data}= route.params
 
     return (
 
@@ -62,7 +63,7 @@ const DocSecondStep = ({ navigation }) => {
 
                     <Button
                         title="Upgrade Now"
-                        onPress={() => navigation.navigate("upgradeToDoc")}
+                        onPress={() => navigation.navigate("upgradeToDoc",{data:data})}
                         style={{
                             marginTop: 22,
                             width: "100%"

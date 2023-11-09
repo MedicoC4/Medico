@@ -1,8 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const initialState = {
+  data: [],
+  error: null,
+  loading: false,
+};
 
-const fetchUsers = createAsyncThunk('api/fetchUsers', async () => {
+
+
+export const fetchUsers = createAsyncThunk('api/fetchUsers', async () => {
   const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getAll`); // Replace with your API endpoint
   return response.data;
 });
@@ -10,7 +17,10 @@ const fetchUsers = createAsyncThunk('api/fetchUsers', async () => {
 export const addUser = createAsyncThunk(
     "addUser",
     async (input, { dispatch }) => {
-     const response = await axios.post("http://localhost:3000/api/doctor/createUser", input);
+      console.log(input,'this is the body');
+      console.log(process.env.EXPO_PUBLIC_SERVER_IP,"logged");
+     const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/createUser`, input);
+     console.log(response,"this is from the store");
       dispatch(fetchUsers());
   return response.data
     }

@@ -125,6 +125,7 @@
   },
   "scripts": {
     "start": "nodemon index.js",
+    "seeds": "node database/models/dummy.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

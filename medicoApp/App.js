@@ -42,50 +42,39 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <UserProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="userProfile">
+    <NavigationContainer>
+      <Stack.Navigator
+
+        initialRouteName='userProfile'
+      >
+        <Stack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
           <Stack.Screen
-            name="Welcome"
-            component={Welcome}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Settings"
-            component={Settings}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="ProfileApp"
-            component={ProfileApp}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="AllMissingProducts"
-            component={AllMissingProducts}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Promotions"
-            component={Promotions}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="BestSellers"
-            component={BestSellers}
-            options={{
-              headerShown: false,
-            }}
-          />
+          name="AllMissingProducts"
+          component={AllMissingProducts}
+          options={{
+            headerShown: false,
+          }}
+        />
+<Stack.Screen
+          name="Promotions"
+          component={Promotions}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="BestSellers"
+          component={BestSellers}
+          options={{
+            headerShown: false,
+          }}
+        />
 
           <Stack.Screen
             name="PharmacyProfile"

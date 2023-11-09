@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,43 +6,36 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  Dimensions
-} from 'react-native';
-import Button from '../components/Button';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+  Dimensions,
+} from "react-native";
+import Button from "../components/Button";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const { width, height } = Dimensions.get("window");
-import COLORS from '../constants/colors';
-import { addDoc, collection } from 'firebase/firestore';
-import { DB } from '../firebase-config';
+import COLORS from "../constants/colors";
+import { addDoc, collection } from "firebase/firestore";
+import { DB } from "../firebase-config";
 
+export default function PharmFirstForm({ navigation }) {
+  const [fullName, setFullName] = useState("");
+  const [type, setType] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
+  const pharmCollection = collection(DB, "pharmacy");
 
-
-
-
-export default function PharmFirstForm({navigation}) {
-
-  const [fullName , setFullName]=useState('')
-  const [type , setType]=useState('')
-  const [email , setEmail]=useState('')
-  const [phone , setPhone]=useState('')
-
-  const pharmCollection = collection(DB , "pharmacy")
-
-  const create = async()=>{
-    await addDoc(pharmCollection , {
-    fullName : fullName,
-    type : type,
-     email : email,
-     phone : phone
-    })
-    console.log('done');
-}
+  const create = async () => {
+    await addDoc(pharmCollection, {
+      fullName: fullName,
+      type: type,
+      email: email,
+      phone: phone,
+    });
+    console.log("done");
+  };
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F4EFF3" }}>
       <View style={styles.container}>
         <View style={styles.header}>
-
           <Text style={styles.title}>Create Account</Text>
         </View>
 
@@ -52,10 +45,11 @@ export default function PharmFirstForm({navigation}) {
               <Text style={styles.inputLabel}>Full Name</Text>
 
               <TextInput
-                 value={fullName}
-                 onChangeText={(e)=>{setFullName(e)}}
+                value={fullName}
+                onChangeText={(e) => {
+                  setFullName(e);
+                }}
                 style={styles.inputControl}
-                
               />
             </View>
 
@@ -64,54 +58,55 @@ export default function PharmFirstForm({navigation}) {
 
               <TextInput
                 value={type}
-                onChangeText={(e)=>{setType(e)}}
+                onChangeText={(e) => {
+                  setType(e);
+                }}
                 style={styles.inputControl}
               />
             </View>
-                
+
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Email</Text>
 
               <TextInput
-                 value={email}
-                 onChangeText={(e)=>{setEmail(e)}}
+                value={email}
+                onChangeText={(e) => {
+                  setEmail(e);
+                }}
                 style={styles.inputControl}
               />
-
             </View>
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Phone</Text>
 
               <TextInput
-               value={phone}
-               onChangeText={(e)=>{setPhone(e)}}
+                value={phone}
+                onChangeText={(e) => {
+                  setPhone(e);
+                }}
                 style={styles.inputControl}
               />
             </View>
-            
-            <View style={styles.input}>
-    
 
-            </View>
-
-            
+            <View style={styles.input}></View>
 
             <View style={styles.formAction}>
-            <Button
-            onPress={() => {navigation.navigate("PharmSecoundForm"),create()}}
-                  titleStyle={{
-                    color: "#FFFFFF"
-                 }}
+              <Button
+                onPress={() => {
+                  navigation.navigate("PharmSecoundForm"), create();
+                }}
+                titleStyle={{
+                  color: "#FFFFFF",
+                }}
                 title="Continue"
                 filled
                 style={{
-                                width: width*0.85,
-                                backgroundColor: COLORS.primary,
-                                color: COLORS.white
-                            }}
-                        />
+                  width: width * 0.85,
+                  backgroundColor: COLORS.primary,
+                  color: COLORS.white,
+                }}
+              />
             </View>
-        
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -134,15 +129,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 9999,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffdada',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffdada",
     marginBottom: 16,
   },
   title: {
     fontSize: 34,
-    fontWeight: 'bold',
-    color: '#181818',
+    fontWeight: "bold",
+    color: "#181818",
     marginBottom: 36,
   },
   form: {
@@ -154,43 +149,43 @@ const styles = StyleSheet.create({
   formFooter: {
     fontSize: 15,
     lineHeight: 20,
-    fontWeight: '400',
-    color: '#9fa5af',
-    textAlign: 'center',
+    fontWeight: "400",
+    color: "#9fa5af",
+    textAlign: "center",
   },
   inputLabel: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: '#1c1c1e',
+    fontWeight: "bold",
+    color: "#1c1c1e",
     marginBottom: 6,
   },
   inputControl: {
     height: 44,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     borderRadius: 12,
     fontSize: 15,
-    fontWeight: '500',
-    color: '#24262e',
+    fontWeight: "500",
+    color: "#24262e",
   },
   btnText: {
     fontSize: 17,
     lineHeight: 22,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
   },
   input: {
     marginBottom: 16,
   },
   btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 8,
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderWidth: 1,
-    backgroundColor: '#FD6B68',
-    borderColor: '#FD6B68',
+    backgroundColor: "#FD6B68",
+    borderColor: "#FD6B68",
   },
 });

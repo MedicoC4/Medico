@@ -9,6 +9,7 @@ import {signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../firebase-config'
 
 const Login = ({ navigation }) => {
+    
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [email,setEmail]=useState('');

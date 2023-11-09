@@ -5,20 +5,28 @@ import Button from "../components/Button";
 import NavigationBar from "../components/NavigationBar";
 const { width, height } = Dimensions.get("window");
 
-const DocSecondStep = ({ navigation }) => {
-  return (
-    <View style={{ flex: 1 }}>
-      <View>
-        <Image
-          source={require("../assets/doctor-gif.gif")}
-          style={{
-            height: height * 0.3,
-            width: width * 0.4,
-            borderRadius: 10,
-            transform: [{ translateX: 120 }, { translateY: 120 }],
-          }}
-        />
-      </View>
+const DocSecondStep = ({ navigation , route}) => {
+    const {data}= route.params
+
+    return (
+
+            <View style={{ flex: 1 }}> 
+                <View>
+
+                     <Image
+                        source={require("../assets/doctor-gif.gif")}
+                        style={{
+                            height: height*0.30,
+                            width: width*0.4,
+                            borderRadius: 10,
+                            transform: [
+                                { translateX: 120 },
+                                { translateY: 120 },
+                               
+                            ]
+                        }}
+                    /> 
+                </View>
 
       <View
         style={{
@@ -65,14 +73,14 @@ const DocSecondStep = ({ navigation }) => {
           </Text>
         </View>
 
-        <Button
-          title="Upgrade Now"
-          onPress={() => navigation.navigate("upgradeToDoc")}
-          style={{
-            marginTop: 22,
-            width: "100%",
-          }}
-        />
+                    <Button
+                        title="Upgrade Now"
+                        onPress={() => navigation.navigate("upgradeToDoc",{data:data})}
+                        style={{
+                            marginTop: 22,
+                            width: "100%"
+                        }}
+                    />
 
         <View
           style={{

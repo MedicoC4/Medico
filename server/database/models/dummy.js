@@ -288,40 +288,33 @@ const dummyOrders = [
   module.exports = {dummyPharmacies, dummyOrders, dummyProducts, dummyRecords, dummyReviews, dummyUsers, dummyMedicineCategories, };
 
   
-  // User.bulkCreate(dummyUsers)
-  //   .then(() => {
-  //     console.log('Dummy data created successfully.');
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error creating dummy data:', error);
-  //   });
+  User.bulkCreate(dummyUsers)
+    .then(() => {
+      console.log('Dummy data created successfully.');
+    })
+    .catch((error) => {
+      console.error('Error creating dummy data:', error);
+    });
 
     
-  // Order.bulkCreate(dummyOrders)
-  //   .then(() => {
-  //     console.log('Dummy data created successfully.');
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error creating dummy data:', error);
-  //   });
+  Order.bulkCreate(dummyOrders)
+    .then(() => {
+      console.log('Dummy data created successfully.');
+    })
+    .catch((error) => {
+      console.error('Error creating dummy data:', error);
+    });
 
 
-  // Pharmacy.bulkCreate(dummyPharmacies)
-  //   .then(() => {
-  //     console.log('Dummy data created successfully.');
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error creating dummy data:', error);
-  //   });
+  Pharmacy.bulkCreate(dummyPharmacies)
+    .then(() => {
+      console.log('Dummy data created successfully.');
+    })
+    .catch((error) => {
+      console.error('Error creating dummy data:', error);
+    });
 
 
-  // Product.bulkCreate(dummyProducts)
-  //   .then(() => {
-  //     console.log('Dummy data created successfully.');
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error creating dummy data:', error);
-  //   });
   Product.bulkCreate(dummyProducts)
     .then(() => {
       console.log('Dummy data created successfully.');
@@ -338,13 +331,6 @@ const dummyOrders = [
     .catch((error) => {
       console.error('Error creating dummy data:', error);
     });
-  //   Record.bulkCreate(dummyRecords)
-  //   .then(() => {
-  //     console.log('Dummy data created successfully.');
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error creating dummy data:', error);
-  //   });
 
     
   Review.bulkCreate(dummyReviews)

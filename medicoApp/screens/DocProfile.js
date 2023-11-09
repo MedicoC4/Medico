@@ -182,7 +182,7 @@ const UserProfilePage = ({ navigation }) => {
             alignItems: "center",
           }}
         >
-          <Text>{email}</Text>
+          <Text>hello</Text>
         </View>
       </View>
       <View style={{ height: "46%" }}>

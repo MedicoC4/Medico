@@ -41,15 +41,24 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <UserProvider>
+    
+    
+      <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
 
-        initialRouteName='userProfile'
+        initialRouteName='Login'
       >
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="docProfile"
+          component={DocProfile}
           options={{
             headerShown: false,
           }}
@@ -246,8 +255,11 @@ export default function App() {
               headerShown: false,
             }}
           />
-        </Stack.Navigator>
-      </NavigationContainer>
+       
+      </Stack.Navigator>
+
+      
+    </NavigationContainer>
     </UserProvider>
   );
 }

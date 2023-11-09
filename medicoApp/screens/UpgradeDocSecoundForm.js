@@ -12,10 +12,22 @@ import Button from "../components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const { width, height } = Dimensions.get("window");
 
-export default function UpgradeDocSecoundForm({ navigation }) {
-  const [yoexperience, setYoexperience] = useState("");
-  const [certificate, setCertificate] = useState("");
-  const [speciality, setSpeciality] = useState("");
+
+
+
+
+
+export default function UpgradeDocSecoundForm({navigation,route}) {
+  const [yoexperience , setYoexperience] = useState('')
+  const [certificate , setCertificate] = useState('')
+  const [speciality , setSpeciality] = useState('')
+
+
+  const {data}=route.params
+
+  console.log("this is the full data to become doctor", data)
+
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F4EFF3" }}>
@@ -82,13 +94,13 @@ export default function UpgradeDocSecoundForm({ navigation }) {
             />
 
             <View style={styles.formAction}>
-              <Button
-                title="Finish"
-                filled
-                style={{
-                  width: width * 0.88,
-                }}
-              />
+            <Button
+    title="Finish"
+    filled
+    style={{
+      width:width*0.88}}
+      // onPress=({}=>())
+    />
             </View>
           </View>
         </KeyboardAwareScrollView>

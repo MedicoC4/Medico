@@ -1,4 +1,4 @@
-const { User } = require("../database/index");
+const { User ,Doctor} = require("../database/index");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -19,7 +19,7 @@ module.exports = {
         where: { email: userData.email },
       });
       if (emailExist) {
-        return res.status(500).send({ message: "El correo ya existe" });
+        return res.status(401).send({ message: "El correo ya existe" });
       }
       const newUser = await User.create(userData);
       res.json(newUser);
@@ -46,6 +46,23 @@ module.exports = {
         where: { id: Number(id) },
       });
       res.json(deletedUser);
+    } catch (error) {
+      throw error;
+    }
+  },
+  SignIn: async (req, res) => {
+    let userData = req.body;
+
+
+    try {
+      const emailExist = await User.findOne({
+        where: { email: userData.email },
+        include:Doctor
+      });
+      if (!emailExist) {
+        return res.status(400).send({ message: "email is not valid" });
+      }
+      res.json(emailExist);
     } catch (error) {
       throw error;
     }

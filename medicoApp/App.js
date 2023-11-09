@@ -48,7 +48,7 @@ export default function App() {
       <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='appointment'
+        initialRouteName='Login'
       >
         <Stack.Screen
           name="Welcome"

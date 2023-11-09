@@ -5,21 +5,14 @@ import DataGrid from "../../components/dataGrid/dataGrid";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { DB } from "../../firebase-config";
 import { Timestamp } from "firebase/firestore";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 import ProductDetails from "../productDetails/ProductDetails";
-import { useDispatch } from 'react-redux';
-import { save } from '../../redux/productSlicer';
+import axios from "axios";
 
 const ProductOverview = () => {
   const [data, setData] = useState([]);
-  const [prodId,setPredId]=useState("");
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const handleShowProductDetails = (e) => {
-    dispatch(save(e));
-  };
-
-  console.log(data);
+  const [prodId, setPredId] = useState("");
+  const navigate = useNavigate();
 
   function timestampToDate(timestamp) {
     if (timestamp instanceof Timestamp) {
@@ -32,45 +25,20 @@ const ProductOverview = () => {
     return null;
   }
 
-  const fetchData = () => {
+  const fetchData = async () => {
     try {
-      const productsCollection = collection(DB, "products");
-
-      const unsubscribe = onSnapshot(productsCollection, (querySnapshot) => {
-        let list = [];
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          data.timeStamp = timestampToDate(data.timeStamp);
-          list.push({ id: doc.id, ...data });
-        });
-        setData(list);
-      });
-
-      return unsubscribe;
+      const response = await axios.get("http://127.0.0.1:1128/api/Product/getAll");
+      setData(response.data)
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error.message);
     }
   };
 
   useEffect(() => {
-    const unsubscribe = fetchData();
+    fetchData()
+  }, [])
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-    localStorage.setItem("prod_id",prodId )
-  }, [prodId]);
   console.log(data);
-  console.log(prodId,"this");
-
-  const filteredProducts = data.filter(
-    (product) => product.productCategory === "fedi"
-  );
-  console.log(filteredProducts);
 
   return (
     <div className="all_product_container">

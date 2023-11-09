@@ -24,10 +24,10 @@ app.use(cors())
 app.use('/api/user', UserRouter)
 app.use('/api/doctor', DoctorRouter)
 app.use('/api/Categories', CategoriesRouter)
+app.use('/api/Product', ProductRouter)
 app.use('/api/orders', OrdersRouter)
 app.use('/api/day', DayRouter)
 app.use('/api/pharmacy',PharmacyRouter)
-app.use('/api/product',ProductRouter)
 
 // Start the server
 app.listen(port, () => {

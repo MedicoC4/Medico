@@ -18,6 +18,8 @@ import Settings from "./Settings";
 import AllMissingProducts from "./AllMissingProducts";
 import Promotions from "./Promotions";
 import BestSellers from "./BestSellers";
+import UserMapView from "./UserMapView";
+import Appointment from "./Appointment";
 export {
     Login,
     Welcome,
@@ -37,5 +39,8 @@ export {
     PharmacyProfile,
     AllMissingProducts,
     Promotions,
-    BestSellers
+    BestSellers,
+    UserMap,
+    UserMapView,
+    Appointment
 }

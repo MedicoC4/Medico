@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
         const hello=  await signInWithEmailAndPassword(auth, email, password);
             console.log(hello);
           // Redirect to the landing page after successful login
-          navigation.navigate('userProfile');
+          navigation.navigate('Landing');
         } catch (error) {
           console.error('Error during login:', error);
         }

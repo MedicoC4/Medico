@@ -260,6 +260,6 @@ export default function App() {
 
       
     </NavigationContainer>
-    </UserProvider>
+    </Provider>
   );
 }

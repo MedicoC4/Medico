@@ -7,30 +7,32 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPharmacies } from '../redux/pharmacySlicer' // replace with actual path
 
 
 
 const Landing = ({route}) => {
-
-  const navigation=useNavigation()
-
-  const [user, setUser] = useState([]);
-  const [pharmacies, setPharmacies] = useState([]);
-  console.log(pharmacies)
-
-
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const pharmacies = useSelector(state => state); // use state directly
 
   useEffect(() => {
-    
-  }, []);
+    dispatch(fetchPharmacies());
+  }, [dispatch]);
+
+  const [user, setUser] = useState([]);
+
+  console.log(pharmacies)
+
   
 
 
   let topRatedPharmacies = [];
 
-  if (pharmacies) {
-    topRatedPharmacies = pharmacies.filter(pharmacy => pharmacy.rating >= 4.5);
-  }
+  // if (pharmacies) {
+  //   topRatedPharmacies = pharmacies.filter(pharmacy => pharmacy.rating >= 4.5);
+  // }
 
 
   return (

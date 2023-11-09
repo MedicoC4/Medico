@@ -1,18 +1,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useDispatch } from 'react-redux';
-import { fetchPharmacies } from '../redux/pharmacySlicer'
-
-
 
 const PharmacyCard = ({ pharmacy }) => {
-  const dispatch = useDispatch();
-
-useEffect(() => {
-  dispatch(fetchPharmacies());
-}, [dispatch]);
-
   return (
     <View style={styles.card}>
       <Image source={{ uri: pharmacy.logo }} style={styles.image} />

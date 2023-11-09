@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore,doc,setDoc,getDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
@@ -19,3 +19,43 @@ export const DB = getFirestore(app);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const storage = getStorage(app)
+
+
+export const createPharmacyDocument = async (user, additionalData) => {
+  if (!user) return;
+
+  const pharmacyRef = doc(DB, `pharmacy/${user.uid}`);
+
+  const snapshot = await getDoc(pharmacyRef);
+
+  if (!snapshot.exists()) {
+    const { email,number } = additionalData;
+
+    if (email) {
+      // Check if email is defined before setting it
+      try {
+        await setDoc(pharmacyRef, {
+          email,
+          number,
+          logo:null,
+          createdAt: new Date(),
+          name:'Flen Pharmacy',
+          distance:null,
+          isVisited:false,
+          isLocated:false,
+          location:null,
+          pharmacyLicense:null,
+          productsId:null,
+          type:null,
+          verification:false,
+          reviewId:null,
+          qualifiedPharmacist:null
+        });
+      } catch (error) {
+        console.log('Error in creating user', error);
+      }
+    } else {
+      console.log('Email is missing or undefined.');
+    }
+  }
+};

@@ -19,7 +19,8 @@ import { collection , addDoc } from 'firebase/firestore';
 
 
 
-export default function UpgradeDocFirstForm({navigation}) {
+export default function UpgradeDocFirstForm({navigation,route}) {
+  const {data}=route.params
 
   const [fullName , setFullName]= useState('')
   const [gender , setGender]= useState('')
@@ -109,7 +110,13 @@ export default function UpgradeDocFirstForm({navigation}) {
             <View style={styles.formAction}>
             <Button
 
-            onPress={() => {navigation.navigate("UpgradeDocSecoundForm") ; create()} }
+            onPress={() => {navigation.navigate("UpgradeDocSecoundForm",{data:{
+              ...data , 
+              fullName,
+              age,
+              licence ,
+              description
+            }}) } }
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

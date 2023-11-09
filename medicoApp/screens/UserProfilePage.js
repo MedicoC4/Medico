@@ -39,7 +39,7 @@ useEffect(() => {
 
 const logOut = ()=>{
   console.log('logged out');
-  signOut(auth)
+  signOut(auth.currentUser)
   navigation.navigate('Login')
 }
 

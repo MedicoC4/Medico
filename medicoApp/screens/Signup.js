@@ -26,6 +26,14 @@ import {
   
   const { width, height } = Dimensions.get('window');
 
+  import { useSelector, useDispatch,Provider } from 'react-redux';
+
+  import { addUser,fetchUsers } from '../redux/userSlicer';
+
+  import store from '../redux/store'
+
+
+
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
@@ -33,6 +41,14 @@ const Signup = ({ navigation }) => {
     const [number,setNumber] = useState('');
     const [password, setPassword] = useState('');
 
+    const dispatch = useDispatch();
+    const user= useSelector((state) => state.user.data);
+    console.log("this is the user",user);
+
+
+    useEffect(()=>{
+        dispatch(fetchUsers())
+    },[])
 
     const handleSignUp = async () => {
         if (!email || !password || !number) {
@@ -45,14 +61,21 @@ const Signup = ({ navigation }) => {
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
           // Get the user object from the userCredential
-          const user = userCredential.user;
+          const userLogged = userCredential.user;
       
           // Save user data to Firestore including the phone number
-          const created =await createUserDocument(user, { email, number });
-            console.log(created);
+          dispatch(addUser({
+            email:userLogged.email , 
+            username:"foulen",
+            password:password,
+            type:"user",
+            "createdAt": "2023-11-09T13:32:16.000Z",
+            "updatedAt": "2023-11-09T13:32:16.000Z"
+          }));
+
           // Redirect to the landing page after successful signup
           
-          navigation.navigate('FinishSignUp')
+        //   navigation.navigate('FinishSignUp')
         } catch (error) {
           console.error('Error during signup:', error);
         }
@@ -78,7 +101,7 @@ const Signup = ({ navigation }) => {
 
 
     return (
-
+            
             <KeyboardAvoidingView style={{ flex: 1, marginHorizontal: 22 }}
             behavior='padding'>
                 <View style={{ marginVertical: 22 }}>
@@ -345,6 +368,7 @@ const Signup = ({ navigation }) => {
                     </Pressable>
                 </View>
             </KeyboardAvoidingView>
+         
         
     )
 }

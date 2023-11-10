@@ -13,32 +13,52 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 const { width, height } = Dimensions.get("window");
 import COLORS from '../constants/colors';
 import { doc, setDoc } from "firebase/firestore"; 
-import { DB } from '../firebase-config';
+import { DB, auth } from '../firebase-config';
 import { collection , addDoc } from 'firebase/firestore';
-
-
+import {useSelector , useDispatch} from'react-redux'
+import { migrateDoctor } from '../redux/doctorSlicer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function UpgradeDocFirstForm({navigation,route}) {
-  const {data}=route.params
+  // const {data}=route.params
 
   const [fullName , setFullName]= useState('')
-  const [gender , setGender]= useState('')
   const [age , setAge]= useState('')
   const [licence , setLicence]= useState('')
   const [description , setDescription]= useState('')
 
-  const docCollection = collection(DB , "doctors")
-  const create = async()=>{
-      await addDoc(docCollection , {
-      fullName : fullName,
-       gender : gender,
-       age : age,
-       licence : licence,
-       description : description
-      })
+  // const docCollection = collection(DB , "doctors")
+  // const create = async()=>{
+  //     await addDoc(docCollection , {
+  //     fullName : fullName,
+  //      gender : gender,
+  //      age : age,
+  //      licence : licence,
+  //      description : description
+  //     })
+  // }
+  const dispatch = useDispatch()
+  const docMigration = async()=>{
+    const email = auth.currentUser.email
+    const obj = {
+      "fullname":fullName,
+      "age":age,
+      // "category":"exemple",
+      "email": email,
+      "description":description
+    }
+   dispatch(migrateDoctor(obj))
+   navigation.navigate("UpgradeDocSecoundForm")
+   await AsyncStorage.setItem('type', 'doctor');
   }
-  
+
+  const migration = useSelector((state)=>{
+    state.doctor.data
+  })
+
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
       <View style={styles.container}>
@@ -60,15 +80,15 @@ export default function UpgradeDocFirstForm({navigation,route}) {
               />
             </View>
 
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>Gender</Text>
+            {/* <View style={styles.input}>
+              <Text style={styles.inputLabel}>Type</Text>
 
               <TextInput
-                value={gender}
-                onChangeText={(e)=>{setGender(e)}}
+                value={type}
+                onChangeText={(e)=>{setType(e)}}
                 style={styles.inputControl}
               />
-            </View>
+            </View> */}
                 
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Age</Text>
@@ -81,7 +101,7 @@ export default function UpgradeDocFirstForm({navigation,route}) {
 
             </View>
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Licence</Text>
+              <Text style={styles.inputLabel}>Category</Text>
 
               <TextInput
                value={licence}
@@ -110,13 +130,7 @@ export default function UpgradeDocFirstForm({navigation,route}) {
             <View style={styles.formAction}>
             <Button
 
-            onPress={() => {navigation.navigate("UpgradeDocSecoundForm",{data:{
-              ...data , 
-              fullName,
-              age,
-              licence ,
-              description
-            }}) } }
+            onPress={() =>  docMigration()}
                   titleStyle={{
                     color: "#FFFFFF"
                  }}

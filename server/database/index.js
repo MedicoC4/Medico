@@ -31,10 +31,13 @@ const Doctor = require('./models/doctor.js')(connection, DataTypes)
 const Order = require('./models/orders.js')(connection, DataTypes)
 const Categories = require('./models/categories.js')(connection, DataTypes)
 const Day = require('./models/day.js')(connection, DataTypes)
+const Speciality = require('./models/speciality.js')(connection, DataTypes)
+
 const Availability = require('./models/availabilty.js')(connection, DataTypes)
 
-User.hasOne(Pharmacy)
-Pharmacy.belongsTo(User)
+
+Pharmacy.hasOne(User)
+User.belongsTo(Pharmacy)
 
 Doctor.hasOne(User)
 User.belongsTo(Doctor)
@@ -68,6 +71,10 @@ Order.belongsTo(User);
 
 Doctor.hasMany(Day);
 Day.belongsTo(Doctor);
+
+
+Doctor.hasOne(Speciality)
+Speciality.belongsTo(Doctor)
 
 Day.hasMany(Availability);
 Availability.belongsTo(Day);

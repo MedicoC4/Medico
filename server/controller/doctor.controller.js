@@ -1,4 +1,4 @@
-const {Doctor} = require('../database/index')
+const {Doctor, User , Record} = require('../database/index')
 
 module.exports = {
     getAll: async (req, res) => {
@@ -44,6 +44,40 @@ module.exports = {
             res.json(added)
         } catch (error) {
             throw error
+        }
+    },
+    
+    migrateDoctor : async(req , res)=>{
+        try {
+            const added = await Doctor.create(req.body)
+            console.log('this is the added',added);
+            const oneDoc = await User.update({type : "doctor",DoctorId:added.id},{where: {email : req.body.email}});
+            res.json(oneDoc);
+        } catch (error) {
+            throw error
+        }
+    },
+    updateLocation : async(req , res)=>{
+        try {
+             const oneDoc = await User.findOne({where: {email : req.body.email}});
+             const doc = await User.update({lang :req.body.lang, lat: req.body.lat},{where: {DoctorId : oneDoc.DoctorId}});
+            res.json(oneDoc);
+        } catch (error) {
+            
+        }
+    },
+    recordsDoc : async(req , res)=>{
+        try {
+            const oneDoc = await User.findOne({where: {email : req.body.email}});
+
+           const allDocs= req.body.Record.map((doc)=>{
+              return  {
+                    ...doc,
+                    DoctorId : oneDoc.DoctorId
+                }
+            })
+        } catch (error) {
+            
         }
     }
 }

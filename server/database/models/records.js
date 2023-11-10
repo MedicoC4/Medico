@@ -8,17 +8,9 @@ module.exports = (Sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      yx: {
-        type: DataTypes.STRING,
-      },
-      isverified: {
-        type:DataTypes.BOOLEAN,
-        defaultValue: false
-      },
-      speciality: {
-        type: DataTypes.ENUM("Generalist" ,'Cardiologist', 'Dermatologist', "Orthopedic Surgeon", "Gastroenterologist", "Ophthalmologist", "Neurologist", "Psychiatrist", "Rheumatologist"),
-          defaultValue: "Generalist"
-      },
+     name : {
+      type: DataTypes.STRING
+     }
     });
     return Records;
   };

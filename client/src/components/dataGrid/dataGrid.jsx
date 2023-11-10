@@ -127,7 +127,7 @@ export default function DataGridDemo({ data }) {
   }
   const handleDelete = (id) => {
     axios
-      .delete(`http://127.0.0.1:1128/api/Product/deleteprod/${id}`)
+      .delete(`http://127.0.0.1:1128/api/Product/deleteProduct/${id}`)
       .then((res) => {
         console.log(res);
         const updatedData = data.filter((item) => item.id !== id);

@@ -24,7 +24,6 @@ import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
 import { TransitionProvider } from "./context/TransitionContext.jsx";
 import TransitionComponent from "./components/Transition/Transition.jsx";
 import { AuthContext } from "./context/AuthContext.js";
-
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 const App = () => {
   const location = useLocation();

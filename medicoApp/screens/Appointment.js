@@ -17,9 +17,7 @@ console.log("unsrfghjklmùelect",unselectedDates);
         day:date
       }
     })
-    try {
-   
-      
+    try {   
       await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/${docId}`,data);
     } catch (error) {
       console.error("Error adding appointments:", error);
@@ -28,13 +26,11 @@ console.log("unsrfghjklmùelect",unselectedDates);
   };
 useEffect(()=>{
   const getAllDates = async () => {
-    try {
-     
-        
+    try {     
      const data= await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${1}`);
      setDocDate(data.data.Days.map((day)=>day.day));
      
-     setSelectedDates(data.data.Days.map((day)=>day.day)); //
+     setSelectedDates(data.data.Days.map((day)=>day.day)); 
 
      console.log("data",data.data.Days);
     } catch (error) {

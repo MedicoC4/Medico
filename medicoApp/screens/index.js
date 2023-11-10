@@ -20,6 +20,7 @@ import Promotions from "./Promotions";
 import BestSellers from "./BestSellers";
 import UserMapView from "./UserMapView";
 import Appointment from "./Appointment";
+import AppointementClient from "./AppointementClient";
 export {
     Login,
     Welcome,
@@ -42,5 +43,6 @@ export {
     BestSellers,
     UserMap,
     UserMapView,
-    Appointment
+    Appointment,
+    AppointementClient
 }

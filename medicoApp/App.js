@@ -18,6 +18,7 @@ import {
   BestSellers,
   AllMissingProducts,
   Appointment,
+  AppointementClient
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -258,7 +259,7 @@ export default function App() {
           />
           <Stack.Screen
             name="appointment"
-            component={Appointment}
+            component={AppointementClient}
             options={{
               headerShown: false,
             }}

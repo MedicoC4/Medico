@@ -8,6 +8,7 @@ const DayRouter = require('./routes/day.router.js')
 const PharmacyRouter = require('./routes/pharmacy.route.js')
 const ProductRouter = require('./routes/products.route.js')
 const AppointementRouter = require('./routes/appointement.route.js')
+const AppointementListRouter = require('./routes/appointementList.route.js')
 
 const cors = require('cors')
 const app = express();
@@ -30,6 +31,7 @@ app.use('/api/day', DayRouter)
 app.use('/api/pharmacy',PharmacyRouter)
 app.use('/api/product',ProductRouter)
 app.use('/api/aivability',AppointementRouter)
+app.use('/api/appointement',AppointementListRouter)
 
 // Start the server
 app.listen(port, () => {

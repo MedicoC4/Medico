@@ -11,6 +11,10 @@ export default function MapLocation() {
     latitudeDelta: 0.05459,
     longitudeDelta: 0.0532,
   });
+  const [latitude, setlatitude] = useState(0)
+  const [Longtituse, setLongtituse] = useState(0)
+
+
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {

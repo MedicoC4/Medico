@@ -11,7 +11,8 @@ import {
 import Button from "../components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const { width, height } = Dimensions.get("window");
-
+import { updateDoctor } from "../redux/doctorSlicer";
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -21,11 +22,28 @@ export default function UpgradeDocSecoundForm({navigation,route}) {
   const [yoexperience , setYoexperience] = useState('')
   const [certificate , setCertificate] = useState('')
   const [speciality , setSpeciality] = useState('')
+  const [latitude , setlatitude] = useState(0)
+  const [longtitude , setLongtitude] = useState(0)
 
+  const dispatch = useDispatch()
 
-  const {data}=route.params
+  const migration = useSelector((state)=>{
+    state.doctor.data
+  })
+  const mig = ()=>{
+    const data = dispatch(updateDoctor({
+    yoexperience:yoexperience,
+    certificate :certificate,
+    speciality :speciality,
+    // latitude : latitude,
+    // longtitude : longitude
+    }))
+    console.log(data);
+  }
 
-  console.log("this is the full data to become doctor", data)
+  // const {data}=route.params
+
+  // console.log("this is the full data to become doctor", data)
 
 
 
@@ -74,32 +92,17 @@ export default function UpgradeDocSecoundForm({navigation,route}) {
             </View>
 
             <View style={styles.input}>
-              <Button
-                onPress={() => navigation.navigate("map")}
-                title="Get location"
-                style={{
-                  marginTop: 22,
-                  width: "100%",
-                }}
-              />
             </View>
 
-            <Button
-              onPress={() => navigation.navigate("DoctorPdf")}
-              title="Import Your Certificate"
-              filled
-              style={{
-                width: width * 0.88,
-              }}
-            />
 
             <View style={styles.formAction}>
             <Button
-    title="Finish"
+  
+    title="Continue"
     filled
     style={{
       width:width*0.88}}
-      // onPress=({}=>())
+       onPress={() => navigation.navigate("map")}
     />
             </View>
           </View>

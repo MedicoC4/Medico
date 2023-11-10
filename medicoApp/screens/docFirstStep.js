@@ -6,8 +6,8 @@ const { width, height } = Dimensions.get("window");
 
 const DocFirstStep = ( { navigation ,route} ) =>{
     console.log('hello');
-    const {data} = route.params
-    console.log("this is data with navigation",data);
+    // const {data} = route.params
+    // console.log("this is data with navigation",data);
         return ( 
         <View style={{ flex : 1,
             height:height*0.5,
@@ -61,7 +61,7 @@ const DocFirstStep = ( { navigation ,route} ) =>{
                  }}
                 title="Continue"
                 filled
-                onPress={() => navigation.navigate("DocSecoundStep",{data:data})}
+                onPress={() => navigation.navigate("DocSecoundStep")}
                 style={{
                                 width: width*0.85,
                                 backgroundColor: COLORS.primary,

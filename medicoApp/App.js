@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -17,6 +17,7 @@ import {
   Promotions,
   BestSellers,
   AllMissingProducts,
+  AllDoctors
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -38,17 +39,37 @@ import PharmSecoundForm from "./screens/PharmSecoundForm";
 import PharmFirstForm from "./screens/PharmFirstForm";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [initialRoute, setInitialRoute] = useState('Login');
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token')
+
+        // Set the initial route based on the token existence
+        setInitialRoute(token ? 'Landing' : 'Login')
+      } catch (error) {
+        
+        console.error('Error checking token:', error)   
+         }
+    }
+    checkToken()
+  }, []);
+
+
   return (
     
     
       <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Login'
+        // initialRouteName={initialRoute}
+        initialRouteName="AllDoctors"
       >
         <Stack.Screen
           name="Welcome"
@@ -67,6 +88,13 @@ export default function App() {
           <Stack.Screen
           name="AllMissingProducts"
           component={AllMissingProducts}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="AllDoctors"
+          component={AllDoctors}
           options={{
             headerShown: false,
           }}

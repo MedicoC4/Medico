@@ -8,14 +8,30 @@ module.exports = (Sequelize, DataTypes) => {
       type: DataTypes.ENUM("doctor", "nurse"),
       defaultValue: "doctor",
     },
+    age: {
+      type: DataTypes.INTEGER
+    },
     lang: {
       type: DataTypes.DECIMAL(10, 2),
-      allowNull: true,
     },
     lat: {
       type: DataTypes.DECIMAL(10, 2), 
-      allowNull: true,
     },
+    isBlocked :{
+    type : DataTypes.BOOLEAN,
+    defaultValue: true
+    },
+    yx: {
+      type: DataTypes.STRING,
+    },
+    isverified: {
+      type:DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    // speciality: {
+    //   type: DataTypes.ENUM("Generalist" ,'Cardiologist', 'Dermatologist', "Orthopedic Surgeon", "Gastroenterologist", "Ophthalmologist", "Neurologist", "Psychiatrist", "Rheumatologist"),
+    //     defaultValue: "Generalist"
+    // },
   });
   return Doctor;
 };

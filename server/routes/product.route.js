@@ -1,5 +1,5 @@
 const route = require('express').Router()
-const {getAll, create, update, deleteOne} = require("../controller/product.controller")
+const {getAll, create, update, deleteOne} = require("../controller/products.controller")
 
 route.get("/getAll", getAll)
 route.post("/createProduct", create)

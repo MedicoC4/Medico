@@ -8,22 +8,33 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPharmacies } from '../redux/pharmacySlicer' // replace with actual path
+import { fetchPharmacies } from '../redux/pharmacySlicer'
+import { fetchMedicines } from '../redux/medecineSlicer'
 
 
 
 const Landing = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const pharmacies = useSelector(state => state); // use state directly
+  const pharmacies = useSelector(state => state.pharmacy?.data);
+  const medicines = useSelector(state => state.medecine?.data);
+
+
+  const fetch1 = () => {
+    dispatch(fetchPharmacies());
+  };
+  const fetch2 = () => {
+    dispatch(fetchMedicines());
+  };
 
   useEffect(() => {
-    dispatch(fetchPharmacies());
-  }, [dispatch]);
+    fetch1();
+    fetch2();
+  }, []);
 
-  const [user, setUser] = useState([]);
 
-  console.log(pharmacies)
+  
+  console.log('this is medicines',medicines)
 
   
 
@@ -41,7 +52,7 @@ const Landing = ({route}) => {
       <View style={styles.header}>
         <View style={styles.greeting}>
           <Text style={styles.helloText}>Hello,</Text>
-          <Text style={styles.userName}>{user.name}</Text>
+          <Text style={styles.userName}>Ahmed</Text>
         </View>
         <View style={styles.icons}>
             <TouchableOpacity>
@@ -66,7 +77,7 @@ const Landing = ({route}) => {
         <View style={styles.processingContainer}>
           <Text style={styles.processingText}>PROCESSING</Text>
         </View>
-        <Text style={styles.fromText}>From: </Text>
+        <Text style={styles.fromText}>From: {pharmacies.name} </Text>
         <View style={styles.separator} />
         <View style={styles.orderDetails}>
           <View style={styles.orderDetailItem}>
@@ -88,9 +99,9 @@ const Landing = ({route}) => {
       </View>
       <FlatList
         data={pharmacies}
-        renderItem={({ item }) => <PharmacyCard  />}
+        renderItem={({ item }) => <PharmacyCard pharmacy={item} />}
         keyExtractor={(item, index) => index.toString()}
-        horizontal={true} // Make the list horizontal
+        horizontal={true}
         />
 
       <View style={styles.secondOrdersContainer}>
@@ -100,20 +111,20 @@ const Landing = ({route}) => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={topRatedPharmacies}
+        // data={topRatedPharmacies}
         renderItem={({ item }) => <PharmacyCard />}
         keyExtractor={(item, index) => index.toString()}
         horizontal={true} // Make the list horizontal
       />
       <View style={styles.secondOrdersContainer}>
   <Text style={styles.ordersText}>Medicines</Text>
-  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AllMedicines')}>
+  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AllMedicines', { medicines: medicines })}>
   <Text style={styles.buttonText}>SEE ALL</Text>
 </TouchableOpacity>
 </View>
 <FlatList
-  // data={}
-  renderItem={({ item }) => <MedicineCard  />}
+  data={medicines}
+  renderItem={({ item }) => <MedicineCard medecine={item} />}
   keyExtractor={(item, index) => index.toString()}
   horizontal={true} // Make the list horizontal
 />

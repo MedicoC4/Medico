@@ -36,7 +36,7 @@ const Login = ({ navigation }) => {
             await AsyncStorage.setItem('token', hello._tokenResponse.idToken);
             dispatch(signIn({email}))
             
-            navigation.navigate('userProfile');
+            navigation.navigate('Landing');
         }else {
             alert('failed sign in')
         }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,7 +8,9 @@ import {
   Pressable,
 } from "react-native";
 import { Button } from "react-native-paper";
+
 import { auth,googleProvider, DB, createUserDocument } from '../firebase-config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function UserProfile({ navigation }) {
   const [value, setValue] = React.useState(0);
@@ -19,8 +21,32 @@ export default function UserProfile({ navigation }) {
     lang:23.24,
     lat:24.24
   })
+  
+  const [pharmData,setPharmData]=useState({
+    email:auth.currentUser.email,
+    fullName:"",
+    type:"pharmacy",
+    lang:23.24,
+    lat:24.24
+  })
 
-  console.log('this is the logged user ', auth.currentUser.email);
+  console.log('this is the logged user ', );
+  const checkToken = async()=>{
+    try {
+      const value = await AsyncStorage.getItem('token')
+      const type = await AsyncStorage.getItem('type')
+
+      console.log("token",value);
+      console.log("type",type);
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  useEffect(()=>{
+    checkToken()
+  },[])
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f6f6f6" }}>
@@ -43,7 +69,7 @@ export default function UserProfile({ navigation }) {
             <View style={[styles.radioInput]} />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("pharmFirstStep")}>
+        <TouchableOpacity onPress={() => navigation.navigate("pharmFirstStep",{pharmData:pharmData})}>
           <View style={[styles.radio]}>
             <Text style={styles.radioLabel}>Pharmacy</Text>
 

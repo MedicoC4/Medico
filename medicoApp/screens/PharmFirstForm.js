@@ -14,24 +14,44 @@ const { width, height } = Dimensions.get("window");
 import COLORS from "../constants/colors";
 import { addDoc, collection } from "firebase/firestore";
 import { DB } from "../firebase-config";
+import { useDispatch, useSelector } from "react-redux";
+import { migratePharmacy} from '../redux/doctorSlicer';
+import { migratePharm } from "../redux/pharmacySlicer";
 
-export default function PharmFirstForm({ navigation }) {
+export default function PharmFirstForm({ navigation,route }) {
+  const {pharmData}=route.params
+
   const [fullName, setFullName] = useState("");
-  const [type, setType] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-
+  // const [type, setType] = useState("");
+  
   const pharmCollection = collection(DB, "pharmacy");
 
-  const create = async () => {
-    await addDoc(pharmCollection, {
-      fullName: fullName,
-      type: type,
-      email: email,
-      phone: phone,
-    });
-    console.log("done");
-  };
+  // const create = async () => {
+  //   await addDoc(pharmCollection, {
+  //     fullName: fullName,
+  //     type: 'pharmacy',
+  //     email: email,
+  //     phone: phone,
+  //   });
+  //   console.log("done");
+  // };
+
+  const dispatch = useDispatch()
+
+  const migration = useSelector((state)=>{
+    state.pharmacy.data
+  })
+  const mig = ()=>{
+    const data = dispatch(migratePharm({
+      fullName : fullName,
+      type : 'Pharmacy',
+
+    }))
+    console.log(data);
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F4EFF3" }}>
       <View style={styles.container}>
@@ -53,7 +73,7 @@ export default function PharmFirstForm({ navigation }) {
               />
             </View>
 
-            <View style={styles.input}>
+            {/* <View style={styles.input}>
               <Text style={styles.inputLabel}>Type</Text>
 
               <TextInput
@@ -63,7 +83,7 @@ export default function PharmFirstForm({ navigation }) {
                 }}
                 style={styles.inputControl}
               />
-            </View>
+            </View> */}
 
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Email</Text>
@@ -93,7 +113,7 @@ export default function PharmFirstForm({ navigation }) {
             <View style={styles.formAction}>
               <Button
                 onPress={() => {
-                  navigation.navigate("PharmSecoundForm"), create();
+                  navigation.navigate("PharmSecoundForm" , mig());
                 }}
                 titleStyle={{
                   color: "#FFFFFF",

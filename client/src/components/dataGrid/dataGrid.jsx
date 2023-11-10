@@ -11,16 +11,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Timestamp } from "firebase/firestore";
 import {
-  collection,
-  doc,
-  deleteDoc,
-  getDocs,
-  query,
-  where,
-  getDoc,
-} from "firebase/firestore";
-import { DB } from "../../firebase-config";
-import {
   SearchOutlined,
   UnorderedListOutlined,
   AppstoreOutlined,
@@ -28,6 +18,7 @@ import {
   HeartFilled,
 } from "@ant-design/icons";
 import { Tag } from "antd";
+import axios from "axios";
 
 export default function DataGridDemo({ data }) {
   const [filteredRows, setFilteredRows] = useState(data);
@@ -35,21 +26,20 @@ export default function DataGridDemo({ data }) {
   const [toggle, setToggle] = useState(true);
   const [iconPress, setIconPress] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  console.log(filteredRows);
 
   const columns = [
     {
       field: "productImage",
       headerName: "Product",
       width: 280,
+      editable: false,
       renderCell: (params) => {
-        const imageUrl = params.row.imgUrl;
         const productName = params.row.productName;
 
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src={imageUrl}
+              // src={imageUrl}
               alt="Image"
               style={{ width: 60, height: 40, objectFit: "contain" }}
             />
@@ -59,50 +49,49 @@ export default function DataGridDemo({ data }) {
       },
     },
     {
-      field: "productPrice",
+      field: "price",
       headerName: "Price",
       width: 150,
-      editable: true,
+      editable: false,
       headerClassName: "custom-header-class",
     },
     {
-      field: "categories",
+      field: "CategoryId",
       headerName: "Categories",
       width: 200,
-      editable: true,
+      editable: false,
       headerClassName: "custom-header-class",
-      renderCell: (params) => {
-        const categoryName = categoryNames[params.row.productCategory.id];
-        console.log(categoryName);
-        return categoryName ? categoryName : "Loading...";
-      },
     },
     {
-      field: "quantity",
+      field: "stock",
       headerName: "Quantity",
       width: 150,
-      editable: true,
+      editable: false,
       headerClassName: "custom-header-class",
     },
     {
-      field: "isActive",
-      headerName: "isActive",
+      field: "codebar",
+      headerName: "Code Bar",
       width: 150,
-      editable: true,
+      editable: false,
       headerClassName: "custom-header-class",
     },
     {
-      field: "timeStamp",
+      field: "createdAt",
       headerName: "Created At",
       width: 200,
-      editable: true,
+      editable: false,
       headerClassName: "custom-header-class",
+      valueGetter: (params) => {
+        const timestamp = params.row.createdAt;
+        return timestampToDate(timestamp);
+      },
     },
     {
       field: "update",
       headerName: "Update",
       width: 90,
-      editable: true,
+      editable: false,
       headerClassName: "custom-header-class",
       renderCell: () => (
         <IconButton variant="contained" color="primary" size="small">
@@ -114,92 +103,45 @@ export default function DataGridDemo({ data }) {
       field: "delete",
       headerName: "Delete",
       width: 90,
+      editable: false,
       renderCell: (params) => (
         <IconButton
           variant="contained"
           color="error"
           size="small"
-          onClick={() => handleDelete(params.row.id)}
+          onClick={() => {
+            console.log(params.row.id);
+            handleDelete(params.row.id);
+          }}
         >
           <DeleteIcon />
         </IconButton>
       ),
     },
   ];
+  console.log(data);
 
   function timestampToDate(timestamp) {
-    if (timestamp instanceof Timestamp) {
-      const date = timestamp.toDate();
-      const day = date.getDate().toString().padStart(2, "0");
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const year = date.getFullYear().toString();
-      return `${day}/${month}/${year}`;
-    }
-    return null;
+    const formattedDate = new Date(timestamp).toLocaleDateString();
+    return `${formattedDate}`;
   }
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://127.0.0.1:1128/api/Product/deleteprod/${id}`)
+      .then((res) => {
+        console.log(res);
+        const updatedData = data.filter((item) => item.id !== id);
+        setFilteredRows(updatedData);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
+    // Update filteredRows whenever data changes
     setFilteredRows(data);
   }, [data]);
 
-  const handleSearch = async () => {
-    if (searchTerm.trim() === "") {
-      setFilteredRows(data); 
-      return;
-    }
-
-    const productsQuery = query(
-      collection(DB, "products"),
-      where("productName", ">=", searchTerm),
-      where("productName", "<=", searchTerm + "\uf8ff")
-    );
-
-    const querySnapshot = await getDocs(productsQuery);
-    const searchData = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    setFilteredRows(searchData);
-  };
-
-  const handleDelete = async (productId) => {
-    try {
-      const productRef = doc(DB, "products", productId);
-      await deleteDoc(productRef);
-
-      const updatedData = data.filter((row) => row.id !== productId);
-      setFilteredRows(updatedData);
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
-  };
-
-  useEffect(() => {
-    // Fetch and cache category names
-    const fetchCategoryNames = async () => {
-      const categoryNamesData = {};
-
-      for (const row of filteredRows) {
-        const categoryRef = row.productCategory;
-
-        if (!categoryNames[categoryRef.id]) {
-          const categoryDoc = await getDoc(categoryRef);
-
-          if (categoryDoc.exists()) {
-            categoryNamesData[categoryRef.id] = categoryDoc.data().name;
-          }
-        }
-      }
-
-      setCategoryNames(categoryNamesData);
-    };
-
-    fetchCategoryNames();
-  }, [filteredRows]);
-
-  console.log(categoryNames);
-
+  console.log(filteredRows);
   return (
     <Box sx={{ height: 400, width: 1 }}>
       <div className="sidebar"></div>
@@ -208,9 +150,14 @@ export default function DataGridDemo({ data }) {
           <div className="product_search">
             <div className="group">
               <SearchOutlined style={{ color: "#6e6e6e" }} />
-              <input type="text" placeholder="Search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-            <button onClick={handleSearch}>Search</button>
+            <button>Search</button>
           </div>
           <div className="icons_toggle">
             <UnorderedListOutlined
@@ -248,11 +195,10 @@ export default function DataGridDemo({ data }) {
           ) : (
             <div className="products-cards">
               <div className="card_main_conatainer">
-                {filteredRows.map((item, index) => {
+                {filteredRows.map((item) => {
                   return (
                     <Cards
-                      key={index}
-                      index={index}
+                      key={item.id}
                       categoryNames={categoryNames}
                       item={item}
                       iconPress={iconPress}

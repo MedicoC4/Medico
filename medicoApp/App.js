@@ -17,7 +17,8 @@ import {
   Promotions,
   BestSellers,
   AllMissingProducts,
-  AllDoctors
+  AllDoctors,
+  AddRatings
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -69,11 +70,18 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         // initialRouteName={initialRoute}
-        initialRouteName="AllDoctors"
+        initialRouteName="AddRatings"
       >
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="AddRatings"
+          component={AddRatings}
           options={{
             headerShown: false,
           }}

@@ -21,6 +21,7 @@ import BestSellers from "./BestSellers";
 import UserMapView from "./UserMapView";
 import Appointment from "./Appointment";
 import AllDoctors from "./AllDoctors";
+import AddRatings from "./AddRatings";
 export {
     Login,
     Welcome,
@@ -44,5 +45,6 @@ export {
     UserMap,
     UserMapView,
     Appointment,
-    AllDoctors
+    AllDoctors,
+    AddRatings
 }

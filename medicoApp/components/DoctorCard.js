@@ -21,7 +21,9 @@ const DoctorCard = () => {
         //   borderWidth: 3.5,
           borderColor: "white",
           borderRadius:20,
-          gap:10
+          gap:10,
+          elevation: 20,
+        shadowColor: 'grey',
         }}>
             <View style={{
                 display:"flex",
@@ -57,7 +59,7 @@ const DoctorCard = () => {
                 fontSize:12,
                 fontWeight:400,
                 color:'#8A96BC'
-            }}>Last Review sun oct 20. 12PM</Text>
+            }}>it depends on the written</Text>
             <View style={{display:'flex',
         flexDirection:'row',
         gap:10,

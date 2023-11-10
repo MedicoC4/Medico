@@ -44,5 +44,15 @@ module.exports = {
       } catch (error) {
         throw error;
       }
-    }
+    },
+    migratePharmacy : async()=>{
+      try {
+          const added = await Pharmacy.create(req.body)
+        console.log('this isthe added',added);
+      const onePharm = await User.update({type : "Pharmacy",PharmacyId:added.id},{where: {email : req.body.email}});
+          res.json(onePharm);
+      } catch (error) {
+          throw error
+      }
+  }
   };

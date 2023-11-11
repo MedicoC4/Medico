@@ -18,7 +18,9 @@ import {
   BestSellers,
   AllMissingProducts,
   Appointment,
-  AppointementClient
+  AppointementClient,
+  AppointementList
+  
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -40,6 +42,7 @@ import PharmSecoundForm from "./screens/PharmSecoundForm";
 import PharmFirstForm from "./screens/PharmFirstForm";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+// import { AppointementList } from "../server/database";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,7 +53,7 @@ export default function App() {
       <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Login'
+        initialRouteName='appointment'
       >
         <Stack.Screen
           name="Welcome"

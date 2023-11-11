@@ -1,4 +1,4 @@
-const { User, Order, Pharmacy, Product, Review, Record, Categories } = require("../index.js");
+const { User, Order, Pharmacy, Product, Review, Record, Categories, Availability, Doctor, Speciality } = require("../index.js");
 
 
 const dummyOrders = [
@@ -174,37 +174,27 @@ const dummyOrders = [
     {
       type: "Medical Report",
       file: "medical_report_1.pdf",
-      yx: "ABC123",
-      isverified: true,
-      speciality: "Cardiologist",
+      name: "John Doe",
     },
     {
       type: "Prescription",
       file: "prescription_1.jpg",
-      yx: "DEF456",
-      isverified: false,
-      speciality: "Dermatologist",
+      name: "Alice Smith",
     },
     {
       type: "Medical Report",
       file: "medical_report_2.pdf",
-      yx: "GHI789",
-      isverified: true,
-      speciality: "Orthopedic Surgeon",
+      name: "Bob Johnson",
     },
     {
       type: "Prescription",
       file: "prescription_2.jpg",
-      yx: "JKL012",
-      isverified: false,
-      speciality: "Gastroenterologist",
+      name: "Emma Davis",
     },
     {
       type: "Medical Report",
       file: "medical_report_3.pdf",
-      yx: "MNO345",
-      isverified: true,
-      speciality: "Ophthalmologist",
+      name: "Michael Brown",
     },
   ];
 
@@ -284,13 +274,97 @@ const dummyOrders = [
       description: "Category for various vitamins and dietary supplements.",
     },
   ];
+
+  const dummyAvailabilityData = [
+    {
+      hour: "09:00 AM",
+      availability: true,
+    },
+    {
+      hour: "10:00 AM",
+      availability: false,
+    },
+    {
+      hour: "11:00 AM",
+      availability: true,
+    },
+    {
+      hour: "01:00 PM",
+      availability: false,
+    },
+    {
+      hour: "02:00 PM",
+      availability: true,
+    },
+  ];
+
+  const dummyDoctors = [
+    {
+      fullname: "Dr. John Smith",
+      type: "doctor",
+      age: 35,
+      lang: 36.78,
+      lat: 10.45,
+      isBlocked: false,
+      yx: "ABC123",
+      isverified: true,
+    },
+    {
+      fullname: "Dr. Alice Johnson",
+      type: "doctor",
+      age: 40,
+      lang: 34.56,
+      lat: 11.23,
+      isBlocked: false,
+      yx: "DEF456",
+      isverified: true,
+    },
+    {
+      fullname: "Dr. Sarah Miller",
+      type: "doctor",
+      age: 38,
+      lang: 35.67,
+      lat: 9.87,
+      isBlocked: true,
+      yx: "GHI789",
+      isverified: false,
+    },
+    {
+      fullname: "Dr. Robert Davis",
+      type: "doctor",
+      age: 45,
+      lang: 33.98,
+      lat: 12.34,
+      isBlocked: true,
+      yx: "JKL012",
+      isverified: false,
+    },
+    {
+      fullname: "Dr. Emily White",
+      type: "doctor",
+      age: 42,
+      lang: 37.12,
+      lat: 10.89,
+      isBlocked: false,
+      yx: "MNO345",
+      isverified: true,
+    },
+  ];
+
+  const dummySpecialities = [
+    { name: "Generalist" },
+    { name: "Cardiologist" },
+    { name: "Dermatologist" },
+    { name: "Orthopedic Surgeon" },
+    { name: "Gastroenterologist" },
+  ];
   
-  module.exports = {dummyPharmacies, dummyOrders, dummyProducts, dummyRecords, dummyReviews, dummyUsers, dummyMedicineCategories, };
+  module.exports = {dummyPharmacies, dummyOrders, dummyProducts, dummyRecords, dummyReviews, dummyUsers, dummyMedicineCategories, dummyAvailabilityData, dummyDoctors, dummySpecialities  };
 
   
   User.bulkCreate(dummyUsers)
     .then(() => {
-      console.log('Dummy data created successfully.');
+      console.log('User data created successfully.');
     })
     .catch((error) => {
       console.error('Error creating dummy data:', error);
@@ -299,7 +373,7 @@ const dummyOrders = [
     
   Order.bulkCreate(dummyOrders)
     .then(() => {
-      console.log('Dummy data created successfully.');
+      console.log('Order data created successfully.');
     })
     .catch((error) => {
       console.error('Error creating dummy data:', error);
@@ -308,7 +382,7 @@ const dummyOrders = [
 
   Pharmacy.bulkCreate(dummyPharmacies)
     .then(() => {
-      console.log('Dummy data created successfully.');
+      console.log('Pharmacy data created successfully.');
     })
     .catch((error) => {
       console.error('Error creating dummy data:', error);
@@ -317,7 +391,7 @@ const dummyOrders = [
 
   Product.bulkCreate(dummyProducts)
     .then(() => {
-      console.log('Dummy data created successfully.');
+      console.log('Product data created successfully.');
     })
     .catch((error) => {
       console.error('Error creating dummy data:', error);
@@ -326,7 +400,7 @@ const dummyOrders = [
 
     Record.bulkCreate(dummyRecords)
     .then(() => {
-      console.log('Dummy data created successfully.');
+      console.log('Records data created successfully.');
     })
     .catch((error) => {
       console.error('Error creating dummy data:', error);
@@ -335,7 +409,7 @@ const dummyOrders = [
     
   Review.bulkCreate(dummyReviews)
     .then(() => {
-      console.log('Dummy data created successfully.');
+      console.log('Review data created successfully.');
     })
     .catch((error) => {
       console.error('Error creating dummy data:', error);
@@ -343,7 +417,31 @@ const dummyOrders = [
 
   Categories.bulkCreate(dummyMedicineCategories)
     .then(() => {
-      console.log('Dummy data created successfully.');
+      console.log('categories data created successfully.');
+    })
+    .catch((error) => {
+      console.error('Error creating dummy data:', error);
+    });
+
+  Availability.bulkCreate(dummyAvailabilityData)
+    .then(() => {
+      console.log('availability data created successfully.');
+    })
+    .catch((error) => {
+      console.error('Error creating dummy data:', error);
+    });
+
+  Doctor.bulkCreate(dummyDoctors)
+    .then(() => {
+      console.log('Doctors data created successfully.');
+    })
+    .catch((error) => {
+      console.error('Error creating dummy data:', error);
+    });
+
+  Speciality.bulkCreate(dummySpecialities)
+    .then(() => {
+      console.log('Specialties data created successfully.');
     })
     .catch((error) => {
       console.error('Error creating dummy data:', error);

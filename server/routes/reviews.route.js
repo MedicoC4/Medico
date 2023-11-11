@@ -3,9 +3,9 @@ const {getAll,create,update,deleteOne} = require('../controller/review.controlle
 
 
 route.get('/getAll',getAll)
-route.post('/createPhar',create)
-route.put('/updatePharmacy/:id',update)
-route.delete('/deletePharmacy/:id',deleteOne)
+route.post('/createRev',create)
+route.put('/updateRev/:id',update)
+route.delete('/deleteRev/:id',deleteOne)
 
 
 module.exports=route

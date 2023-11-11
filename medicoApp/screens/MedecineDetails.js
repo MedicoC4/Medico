@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchReviews } from '../redux/reviewSlicer';
+import ReviewCard from '../components/ReviewCard';
+import ReviewInput from '../components/SubmitReview';
 
 const MedicineDetails = ({ route }) => {
-  const { medicine } = route.params;
+  const { medicine } = route.params
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(1);
-  const [contraindications, setContraindications] = useState(medicine.contraindications || []);
   const [isModalVisible, setModalVisible] = useState(false);
   const [allergies, setAllergies] = useState('null');
   const [pregnant, setPregnant] = useState('null');
-  const [medications, setMedications] = useState('no');
-  const [selectedFile, setSelectedFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  const dispatch = useDispatch();
+  const reviews = useSelector(state => state.reviews.data); // Select the reviews data from the Redux store
+
+  useEffect(() => {
+    dispatch(fetchReviews()); // Dispatch the fetchReviews action when the component mounts
+    requestPermissions();
+  }, []);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -91,9 +100,14 @@ const MedicineDetails = ({ route }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{...styles.container, flex: 1}}>
-        <Image source={{ uri: medicine.image }} style={styles.image} />
-        <Text style={styles.name}>{medicine.name}</Text>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.container}>
+        <Image source={{ uri: medicine.imageURL }} style={styles.image} />
+        <Text style={styles.name}>{medicine.productName}</Text>
+        <Text style={styles.info}>Strength: {medicine.strength}</Text>
+<Text style={styles.info}>Manufacturer: {medicine.manufacturer}</Text>
+<Text style={styles.info}>Packaging: {medicine.packaging}</Text>
+<Text style={styles.info}>Description: {medicine.description}</Text>
         <View style={styles.priceAndQuantityContainer}>
           <Text style={styles.price}>Price : {medicine.price} TND</Text>
           <View style={styles.quantityContainer}>
@@ -111,11 +125,13 @@ const MedicineDetails = ({ route }) => {
           </View>
         </View>
         <Text style={styles.subtotal}>Sub total : {medicine.price * quantity} TND</Text>
-        <Text style={styles.contraindicationsTitle}>Contraindications:</Text>
-{contraindications.map((contraindication, index) => (
-  <Text key={index} style={styles.contraindication}>{contraindication}</Text>
+        <Text style={styles.contraindicationsTitle}>Reviews:</Text>
+        {reviews.map(review => (
+  <ReviewCard review={review.review} key={review.id} />
 ))}
+<ReviewInput />
       </View>
+      </ScrollView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.addToCartButton}>
           <Text style={styles.addToCartText}>Add to Cart</Text>
@@ -205,7 +221,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 200,
+    width: '100%',
     height: 200,
   },
   name: {
@@ -378,6 +394,12 @@ const styles = StyleSheet.create({
   selectedOption2: {
     backgroundColor: '#4CAF50',
     color: 'white', // Make the text white
+  },
+  info: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginTop: 10,
+    alignSelf: 'flex-start',
   },
 });
 

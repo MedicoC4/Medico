@@ -1,30 +1,32 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+
 const initialState = {
-  data: [],
-  error: null,
-  loading: false,
-};
+    data: [],
+    error: null,
+    loading: false,
+  };
 
+// Async thunk action for fetching pharmacies
+export const fetchPharmacies = createAsyncThunk(
+  'pharmacies/fetchPharmacies',
+  async () => {
+    const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/getAll`);
+    return response.data;
+  }
+);
 
-export const migratePharm = createAsyncThunk('api/migratePharm', async(input)=>{
-    const Pharm = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/migratePharm`,input)
-    return Pharm.data
-  })
-
-
-
-  const PharmacySlice = createSlice({
-    name: "pharmacy",
-    initialState,
-    reducers: {},
-
-    extraReducers(builder) {
-      builder.addCase(migratePharm.fulfilled, (state, action) => {
+// Slice
+const pharmaciesSlice = createSlice({
+  name: 'pharmacies',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchPharmacies.fulfilled, (state, action) => {
         state.data = action.payload;
-      });
-    }
-})
+    });
+  },
+});
 
-export default PharmacySlice.reducer 
+export default pharmaciesSlice.reducer;

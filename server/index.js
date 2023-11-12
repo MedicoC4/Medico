@@ -6,10 +6,11 @@ const CategoriesRouter = require('./routes/categories.route.js')
 const OrdersRouter = require('./routes/orders.route.js')
 const DayRouter = require('./routes/day.router.js')
 const PharmacyRouter = require('./routes/pharmacy.route.js')
-const ProductRouter = require('./routes/product.route.js')
+const ProductRouter = require('./routes/products.route.js')
+const ReviewRouter = require('./routes/reviews.route.js')
 
 const cors = require('cors')
-const app = express();
+const app = express();   
 const port = 1128; 
 app.use(express.json());
 require("./database/index.js")
@@ -28,6 +29,8 @@ app.use('/api/Product', ProductRouter)
 app.use('/api/orders', OrdersRouter)
 app.use('/api/day', DayRouter)
 app.use('/api/pharmacy',PharmacyRouter)
+
+app.use('/api/reviews', ReviewRouter)
 
 // Start the server
 app.listen(port, () => {

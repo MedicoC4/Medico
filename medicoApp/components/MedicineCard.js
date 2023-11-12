@@ -3,13 +3,13 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 
 
 
-const MedicineCard = ({ medicine }) => {
+const MedicineCard = ({ medecine }) => {
   const [isAvailable, setIsAvailable] = useState(true); // Default to true
   return (
     <View style={styles.card}>
-      <Image source={{ uri: medicine.image }} style={styles.image} />
+      <Image source={{ uri: medecine.imageURL }} style={styles.image} />
       <View style={styles.infoContainer}>
-        <Text style={styles.name}>{medicine.name}</Text>
+        <Text style={styles.name}>{medecine.productName}</Text>
         <View style={[styles.statusContainer, isAvailable ? {} : { backgroundColor: 'red' }]}>
           <Text style={styles.statusText}>{isAvailable ? 'Available' : 'Out of Stock'}</Text>
         </View>

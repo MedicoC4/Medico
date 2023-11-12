@@ -1,65 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text,Image, StyleSheet, TouchableOpacity,  ScrollView, TextInput } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import PharmacyCard from '../components/PharmacyCard2';
+import { StyleSheet, Text, View,ScrollView,SafeAreaView,TouchableOpacity,Dimensions,Image,TextInput } from 'react-native'
+import React,{useState,useEffect} from 'react'
+import COLORS from '../constants/colors'
 import lense from '../assets/lense.png'
-import MedicineCard from '../components/MedicineCard'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+const {width,height} = Dimensions.get('window')
+import DoctorCard from '../components/DoctorCard';
 import NavigationBar from '../components/NavigationBar';
-import { useNavigation } from '@react-navigation/native';
+import { fetchDoctors } from "../redux/doctorSlicer"; // Import fetchDoctors
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPharmacies } from "../redux/pharmacySlicer";
 
 
-const AllPharmacies = () => {
-  const navigation = useNavigation();
+
+
+const AllDoctors = () => {
+  const doctors = useSelector((state) => state.doctor?.data);
   const dispatch = useDispatch();
-  const pharmacies = useSelector((state) => state.pharmacy?.data);
-  
 
-  const fetch1 = () => {
-    dispatch(fetchPharmacies());
+  const fetch3 = () => {
+    dispatch(fetchDoctors()); // Fetch doctors data
   };
-  
 
   useEffect(() => {
-    fetch1();
+    fetch3(); // Call fetch3 in useEffect
   }, []);
-  
-
-
-  const medicines = [
-    {
-      name: 'Doliprane 1000',
-      image: 'https://www.med.tn/image-medicament-9816dd007411506ab2ce1249e99d2c8c.jpg', // Replace with actual image URL
-    },
-    {
-      name: 'Gripex',
-      image: 'https://galpharma.tn/wp-content/uploads/2019/09/Gripex-Adulte-12.jpg', // Replace with actual image URL
-    },
-    // Add more medicines here...
-  ];
-
-  const [search, setSearch] = useState('');
-    const [filteredPharmacies, setFilteredPharmacies] = useState([]);
-
-    useEffect(() => {
-        setFilteredPharmacies(
-            pharmacies.filter((pharmacy) =>
-                pharmacy.PHname.toLowerCase().includes(search.toLowerCase())
-            )
-        );
-    }, [search]);
 
   return (
-    <View style={{ flex: 1 }}>
-        <View style={styles.header}>
-            <Text style={styles.pharmaciesText}>Pharmacies</Text>
+    <View style={{flex:1,
+    gap:15}}>
+        <View>
+              <View style={styles.header}>
+            <Text style={styles.pharmaciesText}>Doctors list</Text>
             <View style={styles.icons}>
                 <TouchableOpacity>
                     <View style={styles.iconContainer}>
-                        <Icon name="bell-o" size={25} color="grey" style={styles.icon} />
+                        <Icon name="bell-o" size={25} color="grey" style={styles.icons} />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity>
@@ -74,22 +49,43 @@ const AllPharmacies = () => {
             <TextInput
                 style={styles.searchBar}
                 placeholder="Search..."
-                onChangeText={text => setSearch(text)}
-                value={search}
+                // onChangeText={text => setSearch(text)}
+                // value={search}
             />
         </View>
-        <ScrollView style={styles.container}>
-            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            {filteredPharmacies.map((pharmacy, index) => (
-    <PharmacyCard key={index} pharmacy={pharmacy} />
-))}
-            </View>
-            <View style={{ height: 40 }} />
+        </View>
+
+        <ScrollView contentContainerStyle={{
+            
+            display:'flex',
+            alignItems:'center',
+            gap:20,
+            height:'auto'
+            // justifyContent:'center'
+            
+        }}
+        >
+           
+            {/* <DoctorCard/>
+            <DoctorCard/>
+            <DoctorCard/>
+            <DoctorCard/>
+            <DoctorCard/> */}
+            {doctors && doctors.map((doctor) => (
+        <DoctorCard key={doctor.id} doctor={doctor} />
+      ))}
+
+
+           
+            
+            
         </ScrollView>
-        <NavigationBar />
+                    <NavigationBar/>
     </View>
-);
+  )
 }
+
+export default AllDoctors
 
 const styles = StyleSheet.create({
     container: {
@@ -104,7 +100,7 @@ const styles = StyleSheet.create({
     },
     pharmaciesText: {
         fontWeight: 'bold',
-        fontSize: 35,
+        fontSize: 30,
         marginLeft: 20, // Add this line
       },
     icons: {
@@ -188,5 +184,3 @@ const styles = StyleSheet.create({
     padding: 10, // Reduce this value
   },
 });
-
-export default AllPharmacies;

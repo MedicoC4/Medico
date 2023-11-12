@@ -401,7 +401,7 @@ const clearToken = async () => {
             alignItems: "center",
           
           }}
-          onPress={()=>navigation.navigate('Settings')}
+          onPress={()=>navigation.navigate('userProfile')}
         >
           <View
             style={{

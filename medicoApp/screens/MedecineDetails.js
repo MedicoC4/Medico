@@ -129,7 +129,7 @@ const MedicineDetails = ({ route }) => {
         {reviews.map(review => (
   <ReviewCard review={review.review} key={review.id} />
 ))}
-<ReviewInput />
+<ReviewInput productId={medicine.id} />
       </View>
       </ScrollView>
       <View style={styles.buttonContainer}>

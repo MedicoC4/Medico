@@ -8,43 +8,26 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPharmacies } from "../redux/pharmacySlicer";
 
 
 const AllPharmacies = () => {
-    const navigation=useNavigation()
-    const orders = 1; // Replace with actual number of orders
-    const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
-    const numberOfDrugs = 3; // Replace with actual number of drugs
-    const orderTotal = 100; // Replace with actual order total
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const pharmacies = useSelector((state) => state.pharmacy?.data);
   
 
-  const pharmacies = [
-    {
-      name: 'Pharmacy Masmoudi',
-      image: 'https://static1.lequotidiendupharmacien.fr/cdn/ff/zzKpsdTgDf4zJJAQLEKGfvN9SiuClrByPAJqIXxpBZg/1587729668/public/styles/gps_large/public/public/67237_img_34286_hr.png?itok=vrhqNYWQ', // Replace with actual image URL
-      rating: 4,
-      distance: 3,
-    },
-    {
-      name: 'Pharmacy Khlifi',
-      image: 'https://www.med.tn/uploads/pharmacy/8262_pharmacie-neira-smida-hamza_1590053166.jpg', // Replace with actual image URL
-      rating: 5,
-      distance: 2,
-    },
-    {
-      name: 'Pharmacy Yanes',
-      image: 'https://pharmacie.ma/uploads/0f369a47de133d19ce8d70469fc44d93_1503576291.jpeg', // Replace with actual image URL
-      rating: 4.5,
-      distance: 1.7,
-    },
-    {
-      name: 'Pharmacy Thabet',
-      image: 'https://i.pinimg.com/564x/1f/f4/a0/1ff4a0ba5dd2dc730903bd897621fd8f.jpg', // Replace with actual image URL
-      rating: 3.5,
-      distance: 1.7,
-    },
-    // Add more pharmacies here...
-  ];
+  const fetch1 = () => {
+    dispatch(fetchPharmacies());
+  };
+  
+
+  useEffect(() => {
+    fetch1();
+  }, []);
+  
+
 
   const medicines = [
     {
@@ -64,7 +47,7 @@ const AllPharmacies = () => {
     useEffect(() => {
         setFilteredPharmacies(
             pharmacies.filter((pharmacy) =>
-                pharmacy.name.toLowerCase().includes(search.toLowerCase())
+                pharmacy.PHname.toLowerCase().includes(search.toLowerCase())
             )
         );
     }, [search]);
@@ -97,9 +80,9 @@ const AllPharmacies = () => {
         </View>
         <ScrollView style={styles.container}>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                {filteredPharmacies.map((pharmacy, index) => (
-                    <PharmacyCard key={index} pharmacy={pharmacy} />
-                ))}
+            {filteredPharmacies.map((pharmacy, index) => (
+    <PharmacyCard key={index} pharmacy={pharmacy} />
+))}
             </View>
             <View style={{ height: 40 }} />
         </ScrollView>

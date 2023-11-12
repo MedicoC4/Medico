@@ -13,7 +13,7 @@ export const fetchMedicines = createAsyncThunk(
   async () => {
     console.log("this is the ip adress",process.env.EXPO_PUBLIC_SERVER_IP);
     const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/Product/getAll`);
-    console.log('this is responsee',response.data);
+    // console.log('this is responsee',response.data);
     return response.data;
   }
 );

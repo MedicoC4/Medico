@@ -30,9 +30,9 @@ export default function DateSelection() {
 
   const deleteDay = async (DayId) => {
     try {
-      const del = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/delete/${DayId}`);
       const delFromAppoint = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/delete/${DayId}`);
       const delFromAvailabilyty = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/delete/${DayId}`);
+      const del = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/delete/${DayId}`);
       setRefresh(!refresh);
       setModalVisible(false);
     } catch (error) {

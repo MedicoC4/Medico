@@ -7,12 +7,14 @@ const initialState = {
   loading: false,
 };
 
-const fetchDoctors = createAsyncThunk("api/fetchDoctors", async () => {
+export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () => {
   const response = await axios.get(
     `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll`
   ); // Replace with your API endpoint
+  console.log('this is responsee',response);
   return response.data;
 });
+
 
 export const addDoctor = createAsyncThunk(
   "addDoctor",

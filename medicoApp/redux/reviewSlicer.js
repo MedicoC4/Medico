@@ -11,15 +11,8 @@ const initialState = {
 // Async thunk action for fetching reviews
 export const fetchReviews = createAsyncThunk(
     'reviews/fetchReviews',
-    async (doctorId) => {
-      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAll/${doctorId}`);
-      return response.data;
-    }
-  );
-  export const addReviews = createAsyncThunk(
-    'reviews/addReviews',
-    async (input) => {
-      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRev`,input);
+    async () => {
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAll`);
       return response.data;
     }
   );
@@ -30,6 +23,13 @@ export const fetchReviews = createAsyncThunk(
     initialState,
     reducers: {},
     extraReducers: (builder) => {
+      builder
+        .addCase(fetchReviews.fulfilled, (state, action) => {
+          state.data = action.payload;
+        })
+        .addCase(createReview.fulfilled, (state, action) => {
+          state.data.push(action.payload);
+        });
       builder.addCase(fetchReviews.fulfilled, (state, action) => {
           state.data = action.payload;
       });
@@ -39,4 +39,5 @@ export const fetchReviews = createAsyncThunk(
     },
   });
   
+
   export default reviewsSlice.reducer;

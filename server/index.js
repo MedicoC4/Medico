@@ -10,7 +10,7 @@ const ProductRouter = require('./routes/products.route.js')
 const ReviewRouter = require('./routes/reviews.route.js')
 
 const cors = require('cors')
-const app = express();
+const app = express();   
 const port = 1128; 
 app.use(express.json());
 require("./database/index.js")

@@ -154,7 +154,9 @@ const Landing = ({ route }) => {
         />
         <View style={styles.secondOrdersContainer}>
   <Text style={styles.ordersText}>Doctors</Text>
-  <TouchableOpacity style={styles.button}>
+  <TouchableOpacity style={styles.button}
+  onPress={()=>{navigation.navigate('AllDoctors')}}
+  >
     <Text style={styles.buttonText}>SEE ALL</Text>
   </TouchableOpacity>
 </View>

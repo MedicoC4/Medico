@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
     
-    const [isPasswordShown, setIsPasswordShown] = useState(false);
+    const [isPasswordShown, setIsPasswordShown] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('')
@@ -35,6 +35,9 @@ const Login = ({ navigation }) => {
         if(hello._tokenResponse.idToken){
             await AsyncStorage.setItem('token', hello._tokenResponse.idToken);
             dispatch(signIn({email}))
+
+            setEmail('')
+            setPassword('')
             
             navigation.navigate('Landing');
         }else {
@@ -90,6 +93,7 @@ const Login = ({ navigation }) => {
                                 width: "100%"
                             }}
                             onChangeText={(text)=>setEmail(text)}
+                            value={email}
                         />
                     </View>
                 </View>
@@ -119,6 +123,7 @@ const Login = ({ navigation }) => {
                                 width: "100%"
                             }}
                             onChangeText={(text)=>setPassword(text)}
+                            value={password}
                         />
 
                         <TouchableOpacity

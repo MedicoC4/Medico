@@ -15,6 +15,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import personalInfoIcon from "../../assets/images/personalInfoIcon.png";
 import deliver2 from "../../assets/images/deliver2.png";
+import axios from "axios"
+
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [name, setName] = useState("aymen");

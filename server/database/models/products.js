@@ -10,12 +10,12 @@ module.exports = (Sequelize, DataTypes) => {
     strength: DataTypes.STRING,
     packaging: DataTypes.STRING,
     expiryDate: DataTypes.DATE,
-    imageURL: DataTypes.STRING,
+    imageURL: DataTypes.BLOB('long'),
     sideEffect: DataTypes.STRING,
     codebar: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    },
+    },  
   });
   return Products;
 };

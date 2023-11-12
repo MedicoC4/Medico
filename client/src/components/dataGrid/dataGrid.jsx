@@ -26,6 +26,7 @@ export default function DataGridDemo({ data }) {
   const [toggle, setToggle] = useState(true);
   const [iconPress, setIconPress] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [imageSrc, setImageSrc] = useState(null);
 
   const columns = [
     {
@@ -34,13 +35,14 @@ export default function DataGridDemo({ data }) {
       width: 280,
       editable: false,
       renderCell: (params) => {
+        const imageUrl = params.row.productImage;
         const productName = params.row.productName;
 
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              // src={imageUrl}
-              alt="Image"
+              src={imageSrc} 
+              alt={productName}
               style={{ width: 60, height: 40, objectFit: "contain" }}
             />
             <div style={{ marginLeft: "1rem" }}>{productName}</div>
@@ -127,7 +129,7 @@ export default function DataGridDemo({ data }) {
   }
   const handleDelete = (id) => {
     axios
-      .delete(`http://127.0.0.1:1128/api/Product/deleteprod/${id}`)
+      .delete(`http://127.0.0.1:1128/api/Product/deleteProduct/${id}`)
       .then((res) => {
         console.log(res);
         const updatedData = data.filter((item) => item.id !== id);

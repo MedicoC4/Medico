@@ -13,7 +13,7 @@ const ProductOverview = () => {
   const [data, setData] = useState([]);
   const [prodId, setPredId] = useState("");
   const navigate = useNavigate();
-
+  console.log(data);
   function timestampToDate(timestamp) {
     if (timestamp instanceof Timestamp) {
       const date = timestamp.toDate();
@@ -38,7 +38,7 @@ const ProductOverview = () => {
     fetchData()
   }, [])
 
-  console.log(data);
+  console.log(data);  
 
   return (
     <div className="all_product_container">

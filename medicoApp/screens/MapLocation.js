@@ -2,13 +2,32 @@ import React, { useEffect, useState , useContext} from "react";
 import MapView, { Marker } from "react-native-maps";
 import { Dimensions, StyleSheet, View, Button } from "react-native";
 import * as Location from "expo-location";
-import { myContext } from "../useContex/useContext";
-
+import { updateLocation } from "../redux/doctorSlicer";
+import {useSelector , useDispatch} from'react-redux'
 
 const { width, height } = Dimensions.get("window");
 export default function MapLocation() {
-  const {latitude , setlatitude , Longtituse , setLongtituse} = useContext(myContext)
+  const [latitude , setLatitude] = useState('')
+  const [longtitude , setLongtitude] = useState('')
  
+  const dispatch = useDispatch()
+  const location = async()=>{
+    const email = auth.currentUser.email
+    const obj = {
+      "lat":fullName,
+      "long":age,
+    }
+   dispatch(updateLocation(obj))
+  //  navigation.navigate("UpgradeDocSecoundForm")
+  //  await AsyncStorage.setItem('type', 'doctor');
+  }
+
+  const migration = useSelector((state)=>{
+    state.doctor.data
+  })
+
+
+
   const [mapRegin, setMapRegin] = useState({
     latitude: 36.8065,
     longitude: 10.1815,
@@ -33,21 +52,22 @@ export default function MapLocation() {
       longitudeDelta: 0.0032310560345631956,
     });
 
-    setlatitude(setMapRegin.latitude)
-    setLongtituse(setMapRegin.longitude)
+    setLatitude(setMapRegin.latitude)
+    setLongtitude(setMapRegin.longitude)
 
     
-    console.log(latitude, Longtituse);
+    console.log(location.coords.latitude, location.coords.longitude);
   };
   useEffect(() => {
     userLocation();
+    console.log(latitude, longtitude);
   }, []);
   return (
     <View style={styles.container}>
       <MapView style={styles.map} region={mapRegin}>
         <Marker coordinate={mapRegin} title="Your Location" />
       </MapView>
-      <Button title="Get Location" style={styles.butt} onPress={userLocation} />
+      <Button title="Get Location" style={styles.butt} onPress={()=>{userLocation() ; updateLocation()}} />
     </View>
   );
 }

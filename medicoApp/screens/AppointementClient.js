@@ -60,7 +60,7 @@ export default function AppointementClient() {
 
   const customStyles = {
     selected: {
-      backgroundColor: "blue",
+      selectedColor: "blue",
       borderRadius: 5,
     },
     today: {
@@ -68,7 +68,8 @@ export default function AppointementClient() {
     },
     custom: {
       selected: true,
-      selectedColor: "blue",
+      selectedColor: "#09d2a2",
+      dotColor:"white"
     },
   };
 
@@ -106,9 +107,9 @@ export default function AppointementClient() {
       >
         <Text
           style={{
-            color: item.id === hourId ? "#fff" : "#333",
+            color: item.id === hourId ? "#fff" : "#0ebe7f",
             fontSize: item.id === hourId ? 18 : 16,
-            transform: [{ scale: item.id === hourId ? 1.2 : 1 }],
+            transform: [{ scale: item.id === hourId ? 1.7 : 1.5 }],
           }}
         >
           {item.hour}
@@ -142,8 +143,8 @@ export default function AppointementClient() {
         <Carousel
           data={hours}
           renderItem={renderItem}
-          sliderWidth={300}
-          itemWidth={120} // Increase item width for a larger item
+          sliderWidth={350}
+          itemWidth={130} // Increase item width for a larger item
           layout={"default"}
           loop={true}
           containerCustomStyle={styles.carouselContainer}
@@ -174,6 +175,10 @@ const styles = StyleSheet.create({
   detailsContainer: {
     alignItems: "center",
     marginTop: 20,
+    backgroundColor:"white",
+    borderTopRightRadius:50,
+    borderTopLeftRadius:50,
+    height:420
   },
   dateText: {
     fontSize: 20,
@@ -188,20 +193,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
-    shadowColor: "rgba(3, 3, 3, 0.3)", // Increase shadow opacity
+    shadowColor: "rgba(3, 3, 3, 8)", // Increase shadow opacity
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 6,
-    backgroundColor: "grey",
+    backgroundColor: "#ecfaf5",
     marginHorizontal: 5,
+    color:"#09d09e"
   },
   selectedCarouselItem: {
-    backgroundColor: "green",
+    backgroundColor: "#0ebe7f",
   },
   confirmButton: {
-    backgroundColor: "blue",
+    backgroundColor: "#0ebe7f",
     borderRadius: 5,
     padding: 10,
     marginTop: 10,
+    width:"80%",
+    height:50,
+    justifyContent:"center",
+    alignItems: "center", 
   },
   confirmText: {
     color: "#fff",

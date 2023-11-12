@@ -13,15 +13,24 @@ module.exports = (Sequelize, DataTypes) => {
         defaultValue: "day",
       },
       lang: {
-        type: DataTypes.DECIMAL(10, 2), // The first argument is the total number of digits, and the second is the number of decimal places
-        allowNull: false,
+        type: DataTypes.DOUBLE, 
+        allowNull: true,
       },
       lat: {
-        type: DataTypes.DECIMAL(10, 2), 
-        allowNull: false,
+        type: DataTypes.DOUBLE, 
+        allowNull: true,
       },
       adress: {
         type: DataTypes.STRING
+      },
+      isBlocked:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+
+      },
+      isverified:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }
     });
     return Pharmacy;

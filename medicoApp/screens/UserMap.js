@@ -15,6 +15,7 @@ import haversine from "haversine";
 import MapViewDirections from "react-native-maps-directions";
 import SwipeableModal from "../components/SwipeableModal";
 // import Config from 'react-native-config'
+import axios from "axios";
 
 const UserMap = () => {
   const [radiusInMeters, setRadiusInMeters] = useState(20000);
@@ -25,16 +26,59 @@ const UserMap = () => {
   const [isNavigation, setIsNavigation] = useState(false);
   const [duration, setEstimatedDuration] = useState(null);
   const [destination, setDestination] = useState({});
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState({
+    latitude: null, // You can replace these with your default values
+    longitude: null,
+    latitudeDelta: 0.0922, // Initial values
+      longitudeDelta: 0.0421
+  });
   const [mapRegion, setMapRegion] = useState({
     latitude: 36.89228, // You can replace these with your default values
     longitude: 10.150136,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitudeDelta: 5.0922,
+    longitudeDelta: 5.0421,
   });
   const [filtred, setFiltred] = useState({});
   //   const mapApiKey = Config.MAP_API
-
+  const [mapFilterData,setMapFilterData] = useState("all")
+  const [mapData,setMapData] = useState([])
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",distance,duration);
+  
+  const getData = async ()=>{
+   if(mapFilterData === "all"){
+    try {
+      const dataDoc = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocation/1/0`)
+      const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/pharmaLocation/1/0`)
+      setMapData([...dataDoc.data,...dataPharma.data])
+    } catch (error) {
+      throw new Error(error)
+    }
+   }
+   if(mapFilterData === "doctor"){
+    try {
+      const dataDoc = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocation/1/0`)
+      setMapData(dataDoc.data)
+    } catch (error) {
+      throw new Error(error)
+    }
+   }
+   if(mapFilterData === "pharmacy"){
+    try {
+      const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/pharmaLocation/1/0`)
+      setMapData(dataPharma.data)
+    } catch (error) {
+      throw new Error(error)
+    }
+   }
+   
+  }
+  const updataLongLat = async(id,body)=>{
+   try {
+     const response = await axios.put(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateLongLat/${id}`,body)
+   } catch (error) {
+     throw new Error(error)
+   }
+  }
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -43,13 +87,19 @@ const UserMap = () => {
     }
 
     let currentLocation = await Location.getCurrentPositionAsync({});
-    setLocation(currentLocation);
-    setMapRegion({
-      latitude: currentLocation.coords.latitude,
+    updataLongLat(1,{lat:currentLocation.coords.latitude,lang:currentLocation.coords.longitude})
+    setLocation({
+      latitude: currentLocation.coords.latitude, // You can replace these with your default values
       longitude: currentLocation.coords.longitude,
       latitudeDelta: 0.0922, // Initial values
-      longitudeDelta: 0.0421,
+        longitudeDelta: 0.0421
     });
+    // setMapRegion({
+    //   latitude: currentLocation.coords.latitude,
+    //   longitude: currentLocation.coords.longitude,
+    //   latitudeDelta: 0.0922, // Initial values
+    //   longitudeDelta: 0.0421,
+    // });
   };
 
   const doctor = [
@@ -138,8 +188,8 @@ const UserMap = () => {
     return haversine(start, end, { unit: "meter" });
   };
   // Filter the doctors within the specified radius
-  const doctorsWithinRadius = doctor.filter((doc) => {
-    const distance = calculateDistance(mapRegion, doc);
+  const doctorsWithinRadius = mapData.filter((doc) => {
+    const distance = calculateDistance(location, doc);
     return distance <= radiusInMeters;
   });
 
@@ -182,6 +232,7 @@ const UserMap = () => {
 
   useEffect(() => {
     getLocation();
+    getData()
   }, []);
   return (
     <View style={styles.container}>
@@ -192,23 +243,24 @@ const UserMap = () => {
         initialRegion={mapRegion}
       >
         {doctorsWithinRadius.map((doct, i) => (
+          
           <Marker
             key={i}
             coordinate={doct}
             onPress={() => {
               handleMarkerPress(doct);
               setDestination({
-                latitude: doct.latitude,
-                longitude: doct.longitude,
+                latitude: doct.lat,
+                longitude: doct.lang,
                 latitudeDelta: 0.0922, // Initial values
                 longitudeDelta: 0.0421,
               });
-              getTime(doct.latitude, doct.longitude);
-              calculateDistanceMap(doct.latitude, doct.longitude);
+              getTime(doct.lat, doct.lang);
+              calculateDistanceMap(doct.lat, doct.lang);
             }}
           />
         ))}
-        <Marker coordinate={mapRegion} pinColor="green" />
+        <Marker coordinate={location} pinColor="green" />
       </MapView>
       {isNavigation && location && (
         <MapViewDirections

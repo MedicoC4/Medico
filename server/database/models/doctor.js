@@ -12,10 +12,14 @@ module.exports = (Sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     lang: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DOUBLE,
+      allowNull: true,
+ 
     },
     lat: {
-      type: DataTypes.DECIMAL(10, 2), 
+      type: DataTypes.DOUBLE, 
+      allowNull: true,
+
     },
     isBlocked :{
     type : DataTypes.BOOLEAN,

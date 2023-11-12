@@ -12,13 +12,20 @@ export default function DateSelection() {
   const currentDate = new Date().toISOString().split("T")[0];
 
   const addAppointment = async () => {
-    const newDates = selectedDates.filter((date) => !docDate.map((day) => day.day).includes(date));
+    const newDates = selectedDates.filter(
+      (date) => !docDate.map((day) => day.day).includes(date)
+    );
 
     if (newDates.length > 0) {
       const data = newDates.map((date) => ({ day: date }));
       try {
-        await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/1`, data);
-        const updatedData = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${1}`);
+        await axios.post(
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/1`,
+          data
+        );
+        const updatedData = await axios.get(
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${1}`
+        );
         setDocDate(updatedData.data.Days);
         setSelectedDates([]);
       } catch (error) {
@@ -30,9 +37,15 @@ export default function DateSelection() {
 
   const deleteDay = async (DayId) => {
     try {
-      const delFromAppoint = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/delete/${DayId}`);
-      const delFromAvailabilyty = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/delete/${DayId}`);
-      const del = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/delete/${DayId}`);
+      const delFromAppoint = await axios.delete(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/delete/${DayId}`
+      );
+      const delFromAvailabilyty = await axios.delete(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/delete/${DayId}`
+      );
+      const del = await axios.delete(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/delete/${DayId}`
+      );
       setRefresh(!refresh);
       setModalVisible(false);
     } catch (error) {
@@ -49,9 +62,14 @@ export default function DateSelection() {
         setModalVisible(true);
       } else {
         if (!selectedDates.includes(dateString)) {
-          setSelectedDates((prevSelectedDates) => [...prevSelectedDates, dateString]);
+          setSelectedDates((prevSelectedDates) => [
+            ...prevSelectedDates,
+            dateString,
+          ]);
         } else {
-          setSelectedDates((prevSelectedDates) => prevSelectedDates.filter((d) => d !== dateString));
+          setSelectedDates((prevSelectedDates) =>
+            prevSelectedDates.filter((d) => d !== dateString)
+          );
         }
       }
     }
@@ -60,7 +78,9 @@ export default function DateSelection() {
   useEffect(() => {
     const getAllDates = async () => {
       try {
-        const data = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${1}`);
+        const data = await axios.get(
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${1}`
+        );
         setDocDate(data.data.Days);
       } catch (error) {
         console.error("Error fetching appointments:", error);
@@ -74,58 +94,152 @@ export default function DateSelection() {
   return (
     <View style={{ flex: 1, paddingTop: 50, paddingHorizontal: 10 }}>
       {/* <ScrollView> */}
-        <View style={{justifyContent:"center",alignItems:"center",padding:20}}>
-          <Text style={{fontSize:28,fontWeight: "bold" }}>Appointment Managment</Text>
-        </View>
-        <Calendar
-          onDayPress={handleDateChange}
-          markedDates={{
-            ...docDate.reduce((acc, date) => ({ ...acc, [date.day]: { selected: true, marked: true } }), {}),
-            ...selectedDates.reduce((acc, date) => ({ ...acc, [date]: { selected: true, marked: true } }), {}),
+      <View
+        style={{ justifyContent: "center", alignItems: "center", padding: 20 }}
+      >
+        <Text style={{ fontSize: 28, fontWeight: "bold" }}>
+          Appointment Managment
+        </Text>
+      </View>
+      <Calendar
+        onDayPress={handleDateChange}
+        markedDates={{
+          ...docDate.reduce(
+            (acc, date) => ({
+              ...acc,
+              [date.day]: { selected: true, marked: true,selectedColor: "#09d2a2" },
+            }),
+            {}
+          ),
+          ...selectedDates.reduce(
+            (acc, date) => ({
+              ...acc,
+              [date]: { selected: true, marked: true },
+            }),
+            {}
+          ),
+        }}
+      />
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <Text
+          style={{
+            marginTop: 10,
+            marginBottom: 5,
+            fontSize: 23,
+            fontWeight: "bold",
+            padding: 15,
           }}
-        />
-        <View style={{justifyContent:"center",alignItems:"center"}}>
-        <Text style={{ marginTop: 10, marginBottom: 5, fontSize: 23, fontWeight: "bold" ,padding:15}}>Selected Dates</Text>
-        </View>
-        <ScrollView style={{ maxHeight: 230, marginBottom: 10 }}>
-          {selectedDates.map((date, index) => (
-            <TouchableOpacity key={index} style={{ backgroundColor: "lightblue", padding: 10, borderRadius: 5, marginBottom: 5,justifyContent:"center",alignItems:"center" }}>
-              <Text style={{ fontSize: 16 }}>{date}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+        >
+          Selected Dates
+        </Text>
+      </View>
+      <ScrollView style={{ maxHeight: 230, marginBottom: 10 }}>
+        {selectedDates.map((date, index) => (
+          <TouchableOpacity
+            key={index}
+            style={{
+              backgroundColor: "#09d2a2",
+              padding: 10,
+              borderRadius: 5,
+              marginBottom: 5,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16 ,color:"white"}}>{date}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
       {/* </ScrollView> */}
 
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <View style={{ backgroundColor: "white", padding: 20, borderRadius: 10, elevation: 5, width: "80%" }}>
-            <Text style={{ fontSize: 18, marginBottom: 10 }}>Are you sure to delete the availability for this day?</Text>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <View
+            style={{
+              backgroundColor: "white",
+              padding: 20,
+              borderRadius: 10,
+              elevation: 5,
+              width: "80%",
+            }}
+          >
+            <Text style={{ fontSize: 18, marginBottom: 10 }}>
+              Are you sure to delete the availability for this day?
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 deleteDay(selectedDayId);
               }}
-              style={{ backgroundColor: "red", padding: 15, borderRadius: 10, marginTop: 10 }}
+              style={{
+                backgroundColor: "red",
+                padding: 15,
+                borderRadius: 10,
+                marginTop: 10,
+              }}
             >
-              <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Confirm</Text>
+              <Text
+                style={{ color: "white", textAlign: "center", fontSize: 16 }}
+              >
+                Confirm
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
               }}
-              style={{ backgroundColor: "gray", padding: 15, borderRadius: 10, marginTop: 10 }}
+              style={{
+                backgroundColor: "gray",
+                padding: 15,
+                borderRadius: 10,
+                marginTop: 10,
+              }}
             >
-              <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Cancel</Text>
+              <Text
+                style={{ color: "white", textAlign: "center", fontSize: 16 }}
+              >
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
 
-      <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
-        <TouchableOpacity onPress={() => setSelectedDates([])} style={{ backgroundColor: "gray", padding: 15, borderRadius: 10, flex: 1, marginRight: 5 }}>
-          <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Reset</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          marginBottom: 10,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => setSelectedDates([])}
+          style={{
+            backgroundColor: "#ecfaf5",
+            padding: 15,
+            borderRadius: 10,
+            flex: 1,
+            marginRight: 5,
+          }}
+        >
+          <Text style={{ color: "#09d2a2", textAlign: "center", fontSize: 16 }}>
+            Reset
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={addAppointment} style={{ backgroundColor: "green", padding: 15, borderRadius: 10, flex: 1, marginLeft: 5 }}>
-          <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Create</Text>
+        <TouchableOpacity
+          onPress={addAppointment}
+          style={{
+            backgroundColor: "#0ebe7f",
+            padding: 15,
+            borderRadius: 10,
+            flex: 1,
+            marginLeft: 5,
+          }}
+        >
+          <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>
+            Create
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

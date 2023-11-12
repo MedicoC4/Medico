@@ -1,4 +1,5 @@
 const {Pharmacy} = require('../database/index')
+const { Op } = require("sequelize");
 
 
 module.exports = {
@@ -54,5 +55,18 @@ module.exports = {
       } catch (error) {
           throw error
       }
-  }
+  },
+  getAivablePharma: async (req, res) => {
+    try {
+      const getPharma = await Pharmacy.findAll({
+        where: {
+        isBlocked: { [Op.like]: req.params.blockPharma },
+        isverified: { [Op.like]: req.params.verefPharma },
+        },
+      });
+      res.status(200).send(getPharma)
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   };

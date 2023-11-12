@@ -20,6 +20,8 @@ import Promotions from "./Promotions";
 import BestSellers from "./BestSellers";
 import UserMapView from "./UserMapView";
 import Appointment from "./Appointment";
+import AllDoctors from "./AllDoctors";
+import AddRatings from "./AddRatings";
 export {
     Login,
     Welcome,
@@ -42,5 +44,7 @@ export {
     BestSellers,
     UserMap,
     UserMapView,
-    Appointment
+    Appointment,
+    AllDoctors,
+    AddRatings
 }

@@ -72,34 +72,30 @@ export default function DateSelection() {
   }, [selectedDates, refresh]);
 
   return (
-    <View style={{ flex: 1, paddingTop: 20, paddingHorizontal: 10 }}>
-      <Calendar
-        onDayPress={handleDateChange}
-        markedDates={{
-          ...docDate.reduce((acc, date) => ({ ...acc, [date.day]: { selected: true, marked: true } }), {}),
-          ...selectedDates.reduce((acc, date) => ({ ...acc, [date]: { selected: true, marked: true } }), {}),
-        }}
-      />
+    <View style={{ flex: 1, paddingTop: 50, paddingHorizontal: 10 }}>
+      {/* <ScrollView> */}
+        <View style={{justifyContent:"center",alignItems:"center",padding:20}}>
+          <Text style={{fontSize:28,fontWeight: "bold" }}>Appointment Managment</Text>
+        </View>
+        <Calendar
+          onDayPress={handleDateChange}
+          markedDates={{
+            ...docDate.reduce((acc, date) => ({ ...acc, [date.day]: { selected: true, marked: true } }), {}),
+            ...selectedDates.reduce((acc, date) => ({ ...acc, [date]: { selected: true, marked: true } }), {}),
+          }}
+        />
+        <View style={{justifyContent:"center",alignItems:"center"}}>
+        <Text style={{ marginTop: 10, marginBottom: 5, fontSize: 23, fontWeight: "bold" ,padding:15}}>Selected Dates</Text>
+        </View>
+        <ScrollView style={{ maxHeight: 230, marginBottom: 10 }}>
+          {selectedDates.map((date, index) => (
+            <TouchableOpacity key={index} style={{ backgroundColor: "lightblue", padding: 10, borderRadius: 5, marginBottom: 5,justifyContent:"center",alignItems:"center" }}>
+              <Text style={{ fontSize: 16 }}>{date}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      {/* </ScrollView> */}
 
-      <Text style={{ marginTop: 10, marginBottom: 5, fontSize: 18, fontWeight: "bold" }}>Selected Dates:</Text>
-      <ScrollView style={{ maxHeight: 150, marginBottom: 10 }}>
-        {selectedDates.map((date, index) => (
-          <TouchableOpacity key={index} style={{ backgroundColor: "lightblue", padding: 10, borderRadius: 5, marginBottom: 5 }}>
-            <Text style={{ fontSize: 16 }}>{date}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity onPress={() => setSelectedDates([])} style={{ backgroundColor: "gray", padding: 15, borderRadius: 10, flex: 1, marginRight: 5 }}>
-          <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Reset</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={addAppointment} style={{ backgroundColor: "green", padding: 15, borderRadius: 10, flex: 1, marginLeft: 5 }}>
-          <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Create</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Modal for confirming date deletion */}
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <View style={{ backgroundColor: "white", padding: 20, borderRadius: 10, elevation: 5, width: "80%" }}>
@@ -123,6 +119,15 @@ export default function DateSelection() {
           </View>
         </View>
       </Modal>
+
+      <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 10 }}>
+        <TouchableOpacity onPress={() => setSelectedDates([])} style={{ backgroundColor: "gray", padding: 15, borderRadius: 10, flex: 1, marginRight: 5 }}>
+          <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Reset</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={addAppointment} style={{ backgroundColor: "green", padding: 15, borderRadius: 10, flex: 1, marginLeft: 5 }}>
+          <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Create</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

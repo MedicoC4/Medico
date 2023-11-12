@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import MapView, { Marker } from "react-native-maps";
 import { Dimensions, StyleSheet, View, Button } from "react-native";
 import * as Location from "expo-location";
+import { myContext } from "../useContex/useContext";
+
 
 const { width, height } = Dimensions.get("window");
 export default function MapLocation() {
+  const {latitude , setlatitude , Longtituse , setLongtituse} = useContext(myContext)
+ 
   const [mapRegin, setMapRegin] = useState({
     latitude: 36.8065,
     longitude: 10.1815,
     latitudeDelta: 0.05459,
     longitudeDelta: 0.0532,
   });
-  const [latitude, setlatitude] = useState(0)
-  const [Longtituse, setLongtituse] = useState(0)
-
+  
 
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -30,7 +32,12 @@ export default function MapLocation() {
       latitudeDelta: 0.004599539499977823,
       longitudeDelta: 0.0032310560345631956,
     });
-    console.log(location.coords.latitude, location.coords.longitude);
+
+    setlatitude(setMapRegin.latitude)
+    setLongtituse(setMapRegin.longitude)
+
+    
+    console.log(latitude, Longtituse);
   };
   useEffect(() => {
     userLocation();

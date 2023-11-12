@@ -11,8 +11,15 @@ const initialState = {
 // Async thunk action for fetching reviews
 export const fetchReviews = createAsyncThunk(
     'reviews/fetchReviews',
-    async () => {
-      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAll`);
+    async (doctorId) => {
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAll/${doctorId}`);
+      return response.data;
+    }
+  );
+  export const addReviews = createAsyncThunk(
+    'reviews/addReviews',
+    async (input) => {
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRev`,input);
       return response.data;
     }
   );
@@ -26,6 +33,9 @@ export const fetchReviews = createAsyncThunk(
       builder.addCase(fetchReviews.fulfilled, (state, action) => {
           state.data = action.payload;
       });
+      builder.addCase(addReviews.fulfilled, (state, action) => {
+        state.data = action.payload;
+    });
     },
   });
   

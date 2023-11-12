@@ -70,7 +70,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         // initialRouteName={initialRoute}
-        initialRouteName="AddRatings"
+        initialRouteName="Landing"
       >
         <Stack.Screen
           name="Welcome"

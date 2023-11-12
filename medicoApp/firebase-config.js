@@ -1,9 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore,doc, setDoc, getDoc,collection,query,where,getDocs } from "@firebase/firestore";
-import { name as appName } from './app.json';
-import { getAuth, createUserWithEmailAndPassword , GoogleAuthProvider,onAuthStateChanged,updateEmail } from "firebase/auth";
+import { getFirestore,doc, setDoc, getDoc} from "@firebase/firestore";
+import { getAuth , GoogleAuthProvider } from "firebase/auth";
 
-// import {GoogleSignin} from '@react-native-google-signin/google-signin'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCX4jPxFJQC5T1zDPzrKz3HRYQdeps2St4",
@@ -19,9 +17,7 @@ const app = initializeApp(firebaseConfig);
 export const DB = getFirestore(app);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
-export {
-  onAuthStateChanged
-}
+
 
 
 

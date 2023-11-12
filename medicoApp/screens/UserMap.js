@@ -26,6 +26,7 @@ const UserMap = () => {
   const [isNavigation, setIsNavigation] = useState(false);
   const [duration, setEstimatedDuration] = useState(null);
   const [destination, setDestination] = useState({});
+  const [mapLocation, setMapLocation] = useState({});
   const [location, setLocation] = useState({
     latitude: null, // You can replace these with your default values
     longitude: null,
@@ -42,7 +43,7 @@ const UserMap = () => {
   //   const mapApiKey = Config.MAP_API
   const [mapFilterData,setMapFilterData] = useState("all")
   const [mapData,setMapData] = useState([])
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",distance,duration);
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",mapData);
   
   const getData = async ()=>{
    if(mapFilterData === "all"){
@@ -88,6 +89,7 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",distance,durati
 
     let currentLocation = await Location.getCurrentPositionAsync({});
     updataLongLat(1,{lat:currentLocation.coords.latitude,lang:currentLocation.coords.longitude})
+    setMapLocation(currentLocation)
     setLocation({
       latitude: currentLocation.coords.latitude, // You can replace these with your default values
       longitude: currentLocation.coords.longitude,
@@ -134,7 +136,7 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",distance,durati
     if (location && destination) {
       try {
         const response = await fetch(
-          `https://maps.googleapis.com/maps/api/directions/json?origin=${location.coords.latitude},${location.coords.longitude}&destination=${desLat},${desLong}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+          `https://maps.googleapis.com/maps/api/directions/json?origin=${mapLocation.coords.latitude},${mapLocation.coords.longitude}&destination=${desLat},${desLong}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
         );
         const data = await response.json();
         if (data.status === "OK") {
@@ -153,7 +155,7 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",distance,durati
     if (location) {
       try {
         const response = await fetch(
-          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${location.coords.latitude},${location.coords.longitude}&destinations=${desLat},${desLong}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${mapLocation.coords.latitude},${mapLocation.coords.longitude}&destinations=${desLat},${desLong}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
         );
         const data = await response.json();
         if (data.status === "OK") {
@@ -168,67 +170,27 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",distance,durati
     }
   };
 
-  console.log(mapRegion);
 
-  const mapFilter = (spes) => {
-    const x = doctor.forEach((e) => {
-      if (e.specialty === e) {
-        setFiltred(e);
-      }
-    });
-  };
+  
 
-  // const doctorsWithinRadiusFiltred = filtred.filter((doc) => {
-  //   const distance = calculateDistance(mapRegion, doc);
-  //   return distance <= radiusInMeters;
-  // });
 
-  //     Function to calculate the distance between two coordinates
   const calculateDistance = (start, end) => {
     return haversine(start, end, { unit: "meter" });
   };
   // Filter the doctors within the specified radius
   const doctorsWithinRadius = mapData.filter((doc) => {
-    const distance = calculateDistance(location, doc);
+    const distance = calculateDistance(mapLocation, doc);
     return distance <= radiusInMeters;
   });
 
-  // const calculateDistanceMapp = async () => {
-  //   if (location) {
-  //     // Calculate distances for all markers
-  //     const markersWithinRadius = await Promise.all(doctor.map(async (marker) => {
-  //       try {
-  //         const response = await fetch(
-  //           `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${location.coords.latitude},${location.coords.longitude}&destinations=${marker.latitude},${marker.longitude}&key=YOUR_API_KEY`
-  //         );
-  //         const data = await response.json();
 
-  //         if (data.status === "OK") {
-  //           const distance = data.rows[0].elements[0].distance.value; // Distance in meters
-  //           return distance <= radiusInMeters;
-  //         } else {
-  //           console.error("Error calculating distance: ", data.status);
-  //           return false; // Handle the error accordingly
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching distance data: ", error);
-  //         return false; // Handle the error accordingly
-  //       }
-  //     }));
-
-  //   }
-  // };
 
   const handleMarkerPress = (marker) => {
     setSelectedMarker(marker);
     setModalVisible(true);
   };
 
-  const calculateDistanceInKm = (start, end) => {
-    const distanceInMeters = haversine(start, end, { unit: "meter" });
-    const distanceInKm = distanceInMeters / 1000;
-    return distanceInKm;
-  };
+
 
   useEffect(() => {
     getLocation();
@@ -250,15 +212,15 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",distance,durati
             onPress={() => {
               handleMarkerPress(doct);
               setDestination({
-                latitude: doct.lat,
-                longitude: doct.lang,
+                latitude: doct.latitude,
+                longitude: doct.longitude,
                 latitudeDelta: 0.0922, // Initial values
                 longitudeDelta: 0.0421,
               });
-              getTime(doct.lat, doct.lang);
-              calculateDistanceMap(doct.lat, doct.lang);
+              getTime(doct.latitude, doct.longitude);
+              calculateDistanceMap(doct.latitude, doct.longitude);
             }}
-          />
+          pinColor="red"/>
         ))}
         <Marker coordinate={location} pinColor="green" />
       </MapView>
@@ -301,16 +263,16 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",distance,durati
               <View style={styling.modalHeader}>
                 <View style={styling.modalImage}>
                   <Image
-                    source={{ uri: selectedMarker?.imageUrl }}
+                    // source={{ uri: selectedMarker?.imageUrl }}
                     style={styling.imageHw}
                   />
                 </View>
                 <View>
                   <Text style={styling.modalText}>
-                    Name: {selectedMarker?.name}
+                    {/* Name: {selectedMarker?.name} */}
                   </Text>
                   <Text style={styling.modalText}>
-                    Specialty: {selectedMarker?.specialty}
+                    {/* Specialty: {selectedMarker?.specialty} */}
                   </Text>
                 </View>
               </View>

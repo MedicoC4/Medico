@@ -11,12 +11,12 @@ module.exports = (Sequelize, DataTypes) => {
     age: {
       type: DataTypes.INTEGER
     },
-    lang: {
+    longitude: {
       type: DataTypes.DOUBLE,
       allowNull: true,
  
     },
-    lat: {
+    latitude: {
       type: DataTypes.DOUBLE, 
       allowNull: true,
 

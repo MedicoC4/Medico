@@ -29,12 +29,12 @@ module.exports = (Sequelize, DataTypes) => {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
           },
-          lang: {
+          longitude: {
             type: DataTypes.DOUBLE, 
             allowNull: true,
 
           },
-          lat: {
+          latitude: {
             type: DataTypes.DOUBLE, 
             allowNull: true,
 

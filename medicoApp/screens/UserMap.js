@@ -26,7 +26,8 @@ const UserMap = () => {
   const [isNavigation, setIsNavigation] = useState(false);
   const [duration, setEstimatedDuration] = useState(null);
   const [destination, setDestination] = useState({});
-  const [mapLocation, setMapLocation] = useState({});
+  const [coordinatesData, setCoordnatesData] = useState([]);
+  const [mapLocation, setMapLocation] = useState(null);
   const [location, setLocation] = useState({
     latitude: null, // You can replace these with your default values
     longitude: null,
@@ -104,33 +105,43 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",mapData);
     // });
   };
 
-  const doctor = [
-    {
-      latitude: 36.875446,
-      longitude: 10.202043,
-      name: "Doctor 1",
-      specialty: "Specialty 1",
-    },
-    {
-      latitude: 36.851164,
-      longitude: 10.193179,
-      name: "Doctor 2",
-      specialty: "Specialty 2",
-    },
-    {
-      latitude: 36.812638,
-      longitude: 10.143401,
-      name: "Doctor 3",
-      specialty: "Specialty 3",
-    },
-    {
-      latitude: 36.743396,
-      longitude: 10.256431,
-      name: "Doctor 4",
-      specialty: "Specialty 4",
-      // Add more details
-    },
-  ];
+  // const doctor = [
+  //   {
+  //     latitude: 36.875446,
+  //     longitude: 10.202043,
+  //     name: "Doctor 1",
+  //     specialty: "Specialty 1",
+  //   },
+  //   {
+  //     latitude: 36.851164,
+  //     longitude: 10.193179,
+  //     name: "Doctor 2",
+  //     specialty: "Specialty 2",
+  //   },
+  //   {
+  //     latitude: 36.812638,
+  //     longitude: 10.143401,
+  //     name: "Doctor 3",
+  //     specialty: "Specialty 3",
+  //   },
+  //   {
+  //     latitude: 36.743396,
+  //     longitude: 10.256431,
+  //     name: "Doctor 4",
+  //     specialty: "Specialty 4",
+  //     // Add more details
+  //   },
+  // ];
+  const structureData = ()=>{
+    let data = []
+    const x = mapData.forEach((e)=>
+      data.push({
+        latitude: e.latitude,
+        longitude: e.longitude
+      })
+    )
+    setCoordnatesData(data)
+  }
 
   const getTime = async (desLat, desLong) => {
     if (location && destination) {
@@ -178,7 +189,7 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",mapData);
     return haversine(start, end, { unit: "meter" });
   };
   // Filter the doctors within the specified radius
-  const doctorsWithinRadius = mapData.filter((doc) => {
+  const doctorsWithinRadius = coordinatesData.filter((doc) => {
     const distance = calculateDistance(mapLocation, doc);
     return distance <= radiusInMeters;
   });
@@ -190,11 +201,12 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",mapData);
     setModalVisible(true);
   };
 
-
+console.log("",structureData);
 
   useEffect(() => {
     getLocation();
     getData()
+    structureData()
   }, []);
   return (
     <View style={styles.container}>

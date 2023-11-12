@@ -14,11 +14,11 @@ module.exports = (Sequelize, DataTypes) => {
       },
       longitude: {
         type: DataTypes.DOUBLE, 
-        allowNull: true,
+        defaultValue:0
       },
       latitude: {
         type: DataTypes.DOUBLE, 
-        allowNull: true,
+        defaultValue:0
       },
       adress: {
         type: DataTypes.STRING

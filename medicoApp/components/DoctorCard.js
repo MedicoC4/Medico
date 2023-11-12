@@ -5,7 +5,7 @@ import COLORS from '../constants/colors'
 
 const {width,height}= Dimensions.get('window')
 
-const DoctorCard = () => {
+const DoctorCard = ({doctor}) => {
   return (
     <View style={{
         // padding:11,
@@ -53,13 +53,13 @@ const DoctorCard = () => {
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>Ali By</Text>
+            }}>{doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,
                 fontWeight:400,
                 color:'#8A96BC'
-            }}>it depends on the written</Text>
+            }}>{doctor.type}</Text>
             <View style={{display:'flex',
         flexDirection:'row',
         gap:10,

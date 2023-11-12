@@ -7,10 +7,24 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const {width,height} = Dimensions.get('window')
 import DoctorCard from '../components/DoctorCard';
 import NavigationBar from '../components/NavigationBar';
+import { fetchDoctors } from "../redux/doctorSlicer"; // Import fetchDoctors
+import { useDispatch, useSelector } from "react-redux";
+
 
 
 
 const AllDoctors = () => {
+  const doctors = useSelector((state) => state.doctor?.data);
+  const dispatch = useDispatch();
+
+  const fetch3 = () => {
+    dispatch(fetchDoctors()); // Fetch doctors data
+  };
+
+  useEffect(() => {
+    fetch3(); // Call fetch3 in useEffect
+  }, []);
+
   return (
     <View style={{flex:1,
     gap:15}}>
@@ -48,13 +62,18 @@ const AllDoctors = () => {
             gap:20,
             height:'auto'
             // justifyContent:'center'
-        }}>
+            
+        }}
+        >
            
+            {/* <DoctorCard/>
             <DoctorCard/>
             <DoctorCard/>
             <DoctorCard/>
-            <DoctorCard/>
-            <DoctorCard/>
+            <DoctorCard/> */}
+            {doctors && doctors.map((doctor) => (
+        <DoctorCard key={doctor.id} doctor={doctor} />
+      ))}
 
 
            

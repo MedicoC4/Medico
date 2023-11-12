@@ -16,6 +16,15 @@ export const fetchReviews = createAsyncThunk(
       return response.data;
     }
   );
+
+  export const createReview = createAsyncThunk(
+    'reviews/createReview',
+    async (reviewData) => {
+      const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRev`, reviewData);
+      return response.data;
+    }
+  );
+  
   
   // Slice
   const reviewsSlice = createSlice({
@@ -30,12 +39,6 @@ export const fetchReviews = createAsyncThunk(
         .addCase(createReview.fulfilled, (state, action) => {
           state.data.push(action.payload);
         });
-      builder.addCase(fetchReviews.fulfilled, (state, action) => {
-          state.data = action.payload;
-      });
-      builder.addCase(addReviews.fulfilled, (state, action) => {
-        state.data = action.payload;
-    });
     },
   });
   

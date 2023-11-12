@@ -38,5 +38,13 @@ module.exports = {
     } catch (error) {
         throw new Error(error)
     }
-  }
+  },
+  deleteAvailability: async (req,res)=>{
+    try {
+        const delt = await Availability.destroy({where:{DayId:req.params.idOfDay}})
+        res.json("deleted")
+    } catch (error) {
+        throw new Error(error)
+    }
+} 
 };

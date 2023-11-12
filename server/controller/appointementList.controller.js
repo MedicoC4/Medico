@@ -46,4 +46,12 @@ module.exports = {
             throw new Error(error)
         }
       },
+      deleteAppoint: async (req,res)=>{
+        try {
+            const delt = await AppointementList.destroy({where:{DayId:req.params.DayOf}})
+            res.json("deleted")
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }

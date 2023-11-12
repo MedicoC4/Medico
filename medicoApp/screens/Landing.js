@@ -7,123 +7,43 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigation } from '@react-navigation/native';
-import {auth,DB} from '../firebase-config'
-import {collection,getDocs, onSnapshot} from "firebase/firestore"
-import { getUser } from '../constants/userServices'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPharmacies } from '../redux/pharmacySlicer'
+import { fetchMedicines } from '../redux/medecineSlicer'
+
 
 
 const Landing = ({route}) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const pharmacies = useSelector(state => state.pharmacy?.data);
+  const medicines = useSelector(state => state.medecine?.data);
 
-  const navigation=useNavigation()
 
-  const [user, setUser] = useState([]);
-  const [pharmacies, setPharmacies] = useState([]);
-  console.log(pharmacies)
-
-  const pharmaciesCollectionRef = collection(DB, "pharmacy");
-  const userCollectionRef = collection(DB, "users");
-
-  const getPharmacies = () => {
-    const unsubscribe = onSnapshot(pharmaciesCollectionRef, (snapshot) => {
-      const newPharmacies = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setPharmacies(newPharmacies);
-      console.log("this is pharmacies", newPharmacies);
-    }, (error) => {
-      console.error("Error fetching data:", error);
-    });
-  
-    // Clean up the listener on unmount
-    return unsubscribe;
+  const fetch1 = () => {
+    dispatch(fetchPharmacies());
+  };
+  const fetch2 = () => {
+    dispatch(fetchMedicines());
   };
 
-  const orders = 1; // Replace with actual number of orders
-  const pharmacyName = "Pharmacy Masmoudi"; // Replace with actual pharmacy name
-  const numberOfDrugs = 3; // Replace with actual number of drugs
-  const orderTotal = 100; // Replace with actual order total
-
-
-  
-  // const getUser = async () => {
-  //   try {
-  //     const result = await getDocs(userCollectionRef);
-  //     console.log('this is result',result);
-  //     const users = result.docs.map((doc) => ({
-  //       ...doc.data(),
-  //       id: doc.id,
-  //     })).filter(e=>e.email.toLowerCase() === auth.currentUser.email.toLowerCase())[0]
-  //     console.log("this is user",users);
-  //     setUser(users);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-
-
   useEffect(() => {
-    async function fetchData() {
-      const userData = await getUser();
-      if (userData) {
-        setUser(userData);
-      }
-    }
-    const unsubscribe = getPharmacies();
-    return () => unsubscribe();
-    fetchData();
+    fetch1();
+    fetch2();
   }, []);
+
+
   
+  console.log('this is medicines',medicines)
+
   
 
-  // const pharmacies = [
-  //   {
-  //     name: 'Pharmacy Masmoudi',
-  //     image: 'https://static1.lequotidiendupharmacien.fr/cdn/ff/zzKpsdTgDf4zJJAQLEKGfvN9SiuClrByPAJqIXxpBZg/1587729668/public/styles/gps_large/public/public/67237_img_34286_hr.png?itok=vrhqNYWQ', // Replace with actual image URL
-  //     rating: 4,
-  //     distance: 3,
-  //   },
-  //   {
-  //     name: 'Pharmacy Khlifi',
-  //     image: 'https://www.med.tn/uploads/pharmacy/8262_pharmacie-neira-smida-hamza_1590053166.jpg', // Replace with actual image URL
-  //     rating: 5,
-  //     distance: 2,
-  //   },
-  //   {
-  //     name: 'Pharmacy Yanes',
-  //     image: 'https://pharmacie.ma/uploads/0f369a47de133d19ce8d70469fc44d93_1503576291.jpeg', // Replace with actual image URL
-  //     rating: 4.5,
-  //     distance: 1.7,
-  //     address: 'Rue de la liberté, Tunis',
-  //   },
-  //   {
-  //     name: 'Pharmacy Thabet',
-  //     image: 'https://i.pinimg.com/564x/1f/f4/a0/1ff4a0ba5dd2dc730903bd897621fd8f.jpg', // Replace with actual image URL
-  //     rating: 3.5,
-  //     distance: 1.7,
-  //   },
-  //   // Add more pharmacies here...
-  // ];
-
-  const medicines = [
-    {
-      name: 'Doliprane 1000',
-      image: 'https://www.med.tn/image-medicament-9816dd007411506ab2ce1249e99d2c8c.jpg', // Replace with actual image URL
-    },
-    {
-      name: 'Gripex',
-      image: 'https://galpharma.tn/wp-content/uploads/2019/09/Gripex-Adulte-12.jpg', // Replace with actual image URL
-    },
-    // Add more medicines here...
-  ];
 
   let topRatedPharmacies = [];
 
-  if (pharmacies) {
-    topRatedPharmacies = pharmacies.filter(pharmacy => pharmacy.rating >= 4.5);
-  }
-
-
+  // if (pharmacies) {
+  //   topRatedPharmacies = pharmacies.filter(pharmacy => pharmacy.rating >= 4.5);
+  // }
 
 
   return (
@@ -132,7 +52,7 @@ const Landing = ({route}) => {
       <View style={styles.header}>
         <View style={styles.greeting}>
           <Text style={styles.helloText}>Hello,</Text>
-          <Text style={styles.userName}>{user.name}</Text>
+          <Text style={styles.userName}>Ahmed</Text>
         </View>
         <View style={styles.icons}>
             <TouchableOpacity>
@@ -148,7 +68,7 @@ const Landing = ({route}) => {
         </View>
       </View>
       <View style={styles.ordersContainer}>
-        <Text style={styles.ordersText}>Current orders ({orders})</Text>
+        <Text style={styles.ordersText}>Current orders </Text>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>SEE ALL</Text>
         </TouchableOpacity>
@@ -157,17 +77,17 @@ const Landing = ({route}) => {
         <View style={styles.processingContainer}>
           <Text style={styles.processingText}>PROCESSING</Text>
         </View>
-        <Text style={styles.fromText}>From: {pharmacyName}</Text>
+        <Text style={styles.fromText}>From: {pharmacies.name} </Text>
         <View style={styles.separator} />
         <View style={styles.orderDetails}>
           <View style={styles.orderDetailItem}>
           <MaterialCommunityIcons name="pill" size={20} color="#198b81" />
-            <Text style={styles.drugsText}>{numberOfDrugs} item(s)</Text>
+            <Text style={styles.drugsText}> item(s)</Text>
           </View>
           <View style={styles.separatorVertical} />
           <View style={styles.orderDetailItem}>
           <FontAwesome5 name="money-bill-wave" size={20} color="#198b81" />
-            <Text style={styles.totalText}>{orderTotal} TND </Text>
+            <Text style={styles.totalText}> TND </Text>
           </View>
         </View>
       </View>
@@ -181,7 +101,7 @@ const Landing = ({route}) => {
         data={pharmacies}
         renderItem={({ item }) => <PharmacyCard pharmacy={item} />}
         keyExtractor={(item, index) => index.toString()}
-        horizontal={true} // Make the list horizontal
+        horizontal={true}
         />
 
       <View style={styles.secondOrdersContainer}>
@@ -191,20 +111,20 @@ const Landing = ({route}) => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={topRatedPharmacies}
-        renderItem={({ item }) => <PharmacyCard pharmacy={item} />}
+        // data={topRatedPharmacies}
+        renderItem={({ item }) => <PharmacyCard />}
         keyExtractor={(item, index) => index.toString()}
         horizontal={true} // Make the list horizontal
       />
       <View style={styles.secondOrdersContainer}>
   <Text style={styles.ordersText}>Medicines</Text>
-  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AllMedicines')}>
+  <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AllMedicines', { medicines: medicines })}>
   <Text style={styles.buttonText}>SEE ALL</Text>
 </TouchableOpacity>
 </View>
 <FlatList
   data={medicines}
-  renderItem={({ item }) => <MedicineCard medicine={item} />}
+  renderItem={({ item }) => <MedicineCard medecine={item} />}
   keyExtractor={(item, index) => index.toString()}
   horizontal={true} // Make the list horizontal
 />

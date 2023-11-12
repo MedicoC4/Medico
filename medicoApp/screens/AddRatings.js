@@ -4,6 +4,8 @@ import { AirbnbRating } from 'react-native-ratings';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import NavigationBar from '../components/NavigationBar';
+import COLORS from '../constants/colors';
+import Button from '../components/Button';
 
 
 const {width,height} = Dimensions.get('window')
@@ -120,16 +122,20 @@ const AddRatings = () => {
             
       <AirbnbRating 
       size={15}
-      reviewSize={30}
+      reviewSize={25}
+      selectedColor={COLORS.primary}
+      reviewColor={COLORS.primary}
       />
 
       <View 
-      style={{alignItems:'center'}}
+      style={{
+        alignItems:'center',
+    gap:20}}
       >
 
       <TextInput
                 style={{
-                    height: height*0.5,
+                    height: height*0.42,
                     width:width*0.8,
                     backgroundColor: "white",
                     paddingHorizontal: 16,
@@ -144,6 +150,13 @@ const AddRatings = () => {
                 }}
                 placeholder='Add a comment for review...'
               />
+              <Button
+  
+    title="Create"
+    filled
+    style={{
+      width:width*0.8}}
+    />
               </View>
         </View>
         </View>

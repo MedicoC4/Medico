@@ -46,9 +46,44 @@ module.exports = {
             throw new Error(error)
         }
       },
+    getAppointementUser: async (req,res)=>{
+        try {
+            const getAppointement = await AppointementList.findAll({
+                where: {
+                    status: { [Op.like]: req.params.Statu },
+                    UserId: { [Op.like]: req.params.userID },
+                  },
+                  include: [
+                    {
+                      model: Doctor,
+                    },
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Availability,
+                    },
+                    {
+                      model: Day,
+                    },
+                  ],
+              });
+            res.json(getAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
       deleteAppoint: async (req,res)=>{
         try {
             const delt = await AppointementList.destroy({where:{DayId:req.params.DayOf}})
+            res.json("deleted")
+        } catch (error) {
+            throw new Error(error)
+        }
+    },
+      deleteUserAppoint: async (req,res)=>{
+        try {
+            const delt = await AppointementList.destroy({where:{id:req.params.idOFAppoi}})
             res.json("deleted")
         } catch (error) {
             throw new Error(error)

@@ -69,4 +69,12 @@ module.exports = {
       throw new Error(error);
     }
   },
+  updataLongLat:async (req, res) => {
+    try {
+      const longLat = await Pharmacy.update(req.body,{where:{id:req.params.idPharmcy}})
+      res.json(longLat)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
   };

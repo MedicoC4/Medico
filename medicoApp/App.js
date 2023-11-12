@@ -19,7 +19,8 @@ import {
   AllMissingProducts,
   Appointment,
   AppointementClient,
-  AppointementList
+  AppointementList,
+  UserMapView
   
 } from "./screens";
 import Landing from "./screens/Landing";
@@ -263,7 +264,7 @@ export default function App() {
           />
           <Stack.Screen
             name="appointment"
-            component={UserMap}
+            component={AppointementClient}
             options={{
               headerShown: false,
             }}

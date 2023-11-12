@@ -31,13 +31,13 @@ module.exports = {
     
     },
     create: async (req, res) => {
-      const { doctorId, userId, rating, comment } = req.body;
+      const { doctorId, userId, rating, review } = req.body;
 
       try {
         const newReview = await Review.create({
           DoctorId: doctorId,
           UserId: userId,
-          review: comment,
+          review: review,
           rating: rating,
         });
     

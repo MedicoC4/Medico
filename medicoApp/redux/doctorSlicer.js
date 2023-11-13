@@ -54,7 +54,7 @@ export const migrateDoctor = createAsyncThunk(
   "api/migrateDoctor",
   async (input) => {
     const doc = await axios.post(
-      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/migrationDoctor`,
+      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor//migrationDoctor`,
       input
     );
     return doc.data;

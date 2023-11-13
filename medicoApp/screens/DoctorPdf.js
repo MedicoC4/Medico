@@ -8,6 +8,7 @@ const { width, height } = Dimensions.get("window");
 
 const DoctorPdf = () => {
   const [document, setDocument] = useState({ assets: [{ name: '' }] });
+
   const [uri , setUri] = useState('')
   const [type , setType] = useState('')
   const [name , setName] = useState('')
@@ -25,7 +26,7 @@ const DoctorPdf = () => {
         setUri(document.assets[0].uri)
         setType(document.assets[0].mimeType)
         setName(document.assets[0].name)
-        console.log(document.assets[0].name);
+       
 
       }
 

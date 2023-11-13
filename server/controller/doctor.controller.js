@@ -60,16 +60,15 @@ module.exports = {
     updateLocation : async(req , res)=>{
         try {
              const oneDoc = await User.findOne({where: {email : req.body.email}});
-             const doc = await User.update({lang :req.body.lang, lat: req.body.lat},{where: {DoctorId : oneDoc.DoctorId}});
-            res.json(oneDoc);
+             const doc = await Doctor.update({lang :req.body.lang, lat: req.body.lat},{where: {DoctorId : oneDoc.DoctorId}});
+            res.json(doc);
         } catch (error) {
-            
+            throw error
         }
     },
     recordsDoc : async(req , res)=>{
         try {
             const oneDoc = await User.findOne({where: {email : req.body.email}});
-
            const allDocs= req.body.Record.map((doc)=>{
               return  {
                     ...doc,

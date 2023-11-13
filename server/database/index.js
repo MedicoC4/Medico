@@ -25,7 +25,7 @@ connection
 const User = require('./models/user.js')(connection, DataTypes)
 const Review = require('./models/reviews.js')(connection, DataTypes)
 const Record = require('./models/records.js')(connection, DataTypes)
-const Product = require('./models/products.js')(connection, DataTypes)
+const Products = require('./models/products.js')(connection, DataTypes)
 const Pharmacy = require('./models/pharmacy.js')(connection, DataTypes)
 const Doctor = require('./models/doctor.js')(connection, DataTypes)
 const Order = require('./models/orders.js')(connection, DataTypes)
@@ -48,8 +48,8 @@ Review.belongsTo(User)
 Doctor.hasMany(Review)
 Review.belongsTo(Doctor)
 
-Categories.hasMany(Product)
-Product.belongsTo(Categories)
+Categories.hasMany(Products)
+Products.belongsTo(Categories)
 
 Doctor.hasMany(Record)
 Record.belongsTo(Doctor)
@@ -57,14 +57,14 @@ Record.belongsTo(Doctor)
 Pharmacy.hasMany(Record)
 Record.belongsTo(Pharmacy)
 
-Product.hasMany(Record)
-Record.belongsTo(Product)
+Products.hasMany(Record)
+Record.belongsTo(Products)
 
-Pharmacy.hasMany(Product)
+Pharmacy.hasMany(Products)
 Products.belongsTo(Pharmacy)
 
-Product.hasMany(Order)
-Order.belongsTo(Product)
+Products.hasMany(Order)
+Order.belongsTo(Products)
 
 User.hasMany(Order);
 Order.belongsTo(User);
@@ -84,8 +84,8 @@ AppointementList.belongsTo(Doctor)
 User.belongsToMany(Review, { through: 'UserReview' });
 Review.belongsToMany(User, { through: 'UserReview' });
 
-Product.belongsToMany(Review, { through: 'ProductReview' });
-Review.belongsToMany(Product, { through: 'ProductReview' });
+Products.belongsToMany(Review, { through: 'ProductReview' });
+Review.belongsToMany(Products, { through: 'ProductReview' });
 
 Doctor.belongsToMany(Review, { through: 'DoctorReview' });
 Review.belongsToMany(Doctor, { through: 'DoctorReview' });
@@ -107,4 +107,4 @@ connection
   .then(() => console.log("tables created"))
   .catch((error) => {throw error;});
 
-module.exports = {User, Product, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality};
+module.exports = {User, Products, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality};

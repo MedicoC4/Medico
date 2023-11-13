@@ -1,5 +1,5 @@
 const route = require('express').Router()
-const {getAll , getOne , drop , change , add, migrateDoctor, updateLocation,getAivableDoc} = require("../controller/doctor.controller")
+const {getAll , getOne , drop , change , add, migrateDoctor, updateLocation,getAivableDoc,recordsDoc} = require("../controller/doctor.controller")
 
 
 
@@ -12,6 +12,7 @@ route.put("/updateDoc/:id" , change)
 route.post("/migrationDoctor",migrateDoctor)
 route.put("/updateLocation" , updateLocation)
 route.get("/docLocation/:blockDoc/:verefDoc" , getAivableDoc)
+route.put('/updateRecords', recordsDoc)
 
 
 

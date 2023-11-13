@@ -2,7 +2,10 @@ import { configureStore } from '@reduxjs/toolkit'
 import idProdReducer from './productSlicer.jsx';
 import userSlicer from './userSlicer.js';
 import doctorSlicer from './doctorSlicer.js';
-import PharmacySlice from './pharmacySlicer.js';
+import pharmacySlicer from './pharmacySlicer.js';
+import medecineSlicer from './medecineSlicer.js';
+import reviewSlicer from './reviewSlicer.js';
+
 
 
 const store = configureStore({
@@ -10,7 +13,10 @@ const store = configureStore({
     idProd: idProdReducer,
   ...userSlicer,
     doctor:doctorSlicer,
-    pharmacy:PharmacySlice
+    pharmacy:pharmacySlicer,
+    medecine: medecineSlicer,
+    reviews: reviewSlicer
+    
   },
 })
 

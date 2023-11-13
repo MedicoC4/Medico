@@ -20,9 +20,9 @@ import {
   
   import Button from '../components/Button';
   
-  import { auth,googleProvider, DB, createUserDocument } from '../firebase-config';
+  import { auth,googleProvider } from '../firebase-config';
   
-  import { createUserWithEmailAndPassword, signOut, signInWithPopup } from 'firebase/auth';
+  import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
   
   const { width, height } = Dimensions.get('window');
 
@@ -35,7 +35,7 @@ import {
 
 
 const Signup = ({ navigation }) => {
-    const [isPasswordShown, setIsPasswordShown] = useState(false);
+    const [isPasswordShown, setIsPasswordShown] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
     const [email, setEmail] = useState('');
     const [number,setNumber] = useState('');

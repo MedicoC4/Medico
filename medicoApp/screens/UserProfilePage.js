@@ -13,6 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import {auth,DB} from '../firebase-config'
 import { getUser } from '../constants/userServices'
 import { signOut } from 'firebase/auth';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserProfilePage = ({navigation}) => {
 
@@ -37,12 +38,28 @@ useEffect(() => {
 }, []);
 
 
-const logOut = ()=>{
-  console.log('logged out');
-  signOut(auth.currentUser)
-  navigation.navigate('Login')
-}
+const clearToken = async () => {
+  try {
+   const logOutToken= await AsyncStorage.removeItem('token'); //clearing token and type when you signout
+   const logOutType= await AsyncStorage.removeItem('type'); //clearing token and type when you signout
+   console.log('mecanique mnghir awre9',logOutToken,logOutType);
 
+  } catch (error) {
+    console.error('Error clearing token:', error);
+  }
+};
+
+
+
+  const logOut = async () => {
+    try {
+      await signOut(auth)
+      await clearToken()
+      navigation.navigate('Login')
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  };
 
   return (
     <View
@@ -384,7 +401,7 @@ const logOut = ()=>{
             alignItems: "center",
           
           }}
-          onPress={()=>navigation.navigate('Settings')}
+          onPress={()=>navigation.navigate('userProfile')}
         >
           <View
             style={{
@@ -429,7 +446,7 @@ const logOut = ()=>{
                 />
               </View>
             </View>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Settings</Text>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Upgrade account</Text>
           </View>
           <View>
             <AntDesign name="right" size={24} color="#1a998e" />
@@ -452,7 +469,7 @@ const logOut = ()=>{
             // backgroundColor: "grey",
             alignItems: "center",
           }}
-          onPress={logOut}
+          onPress={()=>logOut()}
         >
           <View
             style={{

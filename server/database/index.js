@@ -82,6 +82,17 @@ Availability.belongsTo(Day);
 
 Doctor.hasMany(AppointementList)
 AppointementList.belongsTo(Doctor)
+User.belongsToMany(Review, { through: 'UserReview' });
+Review.belongsToMany(User, { through: 'UserReview' });
+
+Product.belongsToMany(Review, { through: 'ProductReview' });
+Review.belongsToMany(Product, { through: 'ProductReview' });
+
+Doctor.belongsToMany(Review, { through: 'DoctorReview' });
+Review.belongsToMany(Doctor, { through: 'DoctorReview' });
+
+
+
 
 User.hasMany(AppointementList)
 AppointementList.belongsTo(User)
@@ -92,9 +103,9 @@ AppointementList.belongsTo(Availability)
 Day.hasMany(AppointementList)
 AppointementList.belongsTo(Day)
 
-// connection
-//   .sync({force: true })
-//   .then(() => console.log("tables created"))
-//   .catch((error) => {throw error;});
+connection
+  .sync({force: true })
+  .then(() => console.log("tables created"))
+  .catch((error) => {throw error;});
 
-module.exports = {User, Product, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList};
+module.exports = {User, Product, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality};

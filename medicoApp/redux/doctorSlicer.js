@@ -7,12 +7,14 @@ const initialState = {
   loading: false,
 };
 
-const fetchDoctors = createAsyncThunk("api/fetchDoctors", async () => {
+export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () => {
   const response = await axios.get(
     `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll`
   ); // Replace with your API endpoint
+  console.log('this is responsee',response);
   return response.data;
 });
+
 
 export const addDoctor = createAsyncThunk(
   "addDoctor",
@@ -52,13 +54,21 @@ export const migrateDoctor = createAsyncThunk(
   "api/migrateDoctor",
   async (input) => {
     const doc = await axios.post(
-      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/migrationDoctor`,
+      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor//migrationDoctor`,
       input
     );
     return doc.data;
   }
 );
-
+export const updateLocation = createAsyncThunk(
+  "api/updateLocation" , 
+  async(input)=>{
+    const responce = await axios.put(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/updateLocation` , 
+    input
+    )
+    return responce.data
+  }
+  )
 
 const DoctorSlice = createSlice({
   name: "doctor",
@@ -78,6 +88,9 @@ const DoctorSlice = createSlice({
       state.data = action.payload;
     });
     builder.addCase(migrateDoctor.fulfilled, (state, action) => {
+      state.data = action.payload;
+    });
+    builder.addCase(updateLocation.fulfilled, (state, action) => {
       state.data = action.payload;
     });
   },

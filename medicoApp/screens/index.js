@@ -22,6 +22,8 @@ import UserMapView from "./UserMapView";
 import Appointment from "./Appointment";
 import AppointementClient from "./AppointementClient";
 import AppointementList from "./AppointementList";
+import AllDoctors from "./AllDoctors";
+import AddRatings from "./AddRatings";
 export {
     Login,
     Welcome,
@@ -46,5 +48,7 @@ export {
     UserMapView,
     Appointment,
     AppointementClient,
-    AppointementList
+    AppointementList,
+    AllDoctors,
+    AddRatings
 }

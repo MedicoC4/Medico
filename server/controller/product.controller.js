@@ -4,12 +4,7 @@ module.exports = {
   getAll: async (req, res) => {
     try {
       const getAll = await Product.findAll({
-        attributes: [
-          [sequelize.literal("DATE_FORMAT(createdAt, '%Y-%m-%d ')"), 'CreatedAt'],
-          [sequelize.literal("DATE_FORMAT(updatedAt, '%Y-%m-%d')"), 'UpdatedAt'],
-          // Include other attributes as needed
-        ],
-        raw: true,
+
       });
       res.json(getAll);
     } catch (err) {

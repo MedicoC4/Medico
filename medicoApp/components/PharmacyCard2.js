@@ -2,42 +2,13 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
 const PharmacyCard2 = ({ pharmacy }) => {
-    const pharmacies = [
-        {
-          name: 'Pharmacy Masmoudi',
-          image: 'https://static1.lequotidiendupharmacien.fr/cdn/ff/zzKpsdTgDf4zJJAQLEKGfvN9SiuClrByPAJqIXxpBZg/1587729668/public/styles/gps_large/public/public/67237_img_34286_hr.png?itok=vrhqNYWQ', // Replace with actual image URL
-          rating: 4,
-          distance: 3,
-          address: 'Rue de la Colombe, Tunis',
-        },
-        {
-          name: 'Pharmacy Khlifi',
-          image: 'https://www.med.tn/uploads/pharmacy/8262_pharmacie-neira-smida-hamza_1590053166.jpg', // Replace with actual image URL
-          rating: 5,
-          distance: 2,
-          address: 'Rue de paris, Tunis',
-        },
-        {
-          name: 'Pharmacy Yanes',
-          image: 'https://pharmacie.ma/uploads/0f369a47de133d19ce8d70469fc44d93_1503576291.jpeg', // Replace with actual image URL
-          rating: 4.5,
-          address: 'Rue de la liberté, Tunis',
-        },
-        {
-          name: 'Pharmacy Thabet',
-          image: 'https://i.pinimg.com/564x/1f/f4/a0/1ff4a0ba5dd2dc730903bd897621fd8f.jpg', // Replace with actual image URL
-          rating: 3.5,
-          distance: 1.7,
-          address: 'Rue de la Republic, Tunis',
-        },
-        // Add more pharmacies here...
-      ];
+   
   return (
     <View style={styles.card}>
-      <Image source={{ uri: pharmacy.image }} style={styles.image} />
+      <Image source={{ uri: pharmacy.imageUrl}} style={styles.image} />
       <View style={styles.infoContainer}>
-        <Text style={styles.name}>{pharmacy.name}</Text>
-        <Text style={styles.address}>{pharmacy.address}</Text>
+        <Text style={styles.name}>{pharmacy.PHname}</Text>
+        <Text style={styles.address}>{pharmacy.adress}</Text>
         <View style={styles.hoursContainer}>
           <View style={styles.daysContainer}>
             <Text style={styles.days}>MON-FRI</Text>
@@ -74,11 +45,14 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: 'bold',
+    paddingLeft: 10,
   },
   address: {
     fontSize: 14,
     color: '#808080',
     marginTop: 5,
+    marginBottom: 5,
+    paddingLeft: 10,
   },
   hoursContainer: {
     flexDirection: 'row',

@@ -50,7 +50,7 @@
   display: grid;
   grid-area: auto;
   grid-template-columns: auto auto;
-  gap: 0.8rem 0rem;
+  gap: 0.8rem 0.6rem;
 }
 
 .side_effects_inputs > input {
@@ -68,10 +68,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  padding-right: 0.8rem;
 }
 
 .add_side_effects > p {
-  padding-left: 0.2rem;
+  padding-left: 0rem;
 }
 
 .sub_add_inputs {
@@ -97,6 +98,7 @@
 
 .addproduct_input_div > p {
   padding-left: 0.2rem;
+  margin: 0;
 }
 
 .left_div_add_details h1 {

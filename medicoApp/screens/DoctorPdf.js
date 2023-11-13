@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View,Dimensions,Image } from 'react-native'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Button from '../components/Button';
 import COLORS from '../constants/colors';
 import * as DocumentPicker from 'expo-document-picker';
@@ -8,6 +8,10 @@ const { width, height } = Dimensions.get("window");
 
 const DoctorPdf = () => {
   const [document, setDocument] = useState({ assets: [{ name: '' }] });
+  const [uri , setUri] = useState('')
+  const [type , setType] = useState('')
+  const [name , setName] = useState('')
+
 
   const  pickDocument = async () => {
 
@@ -17,10 +21,18 @@ const DoctorPdf = () => {
       
       // alert(result.uri);
       
-      console.log(result);
-      
+      if (result) {
+        setUri(document.assets[0].uri)
+        setType(document.assets[0].mimeType)
+        setName(document.assets[0].name)
+        console.log(document.assets[0].name);
+
       }
 
+      }
+useEffect(()=>{
+  console.log(document.assets[0].name);
+},[])
 
   return (
     <View style={{

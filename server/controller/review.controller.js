@@ -2,36 +2,22 @@ const {Review,Doctor,User} = require('../database/index')
 
 
 module.exports = {
-    getAll: async (req, res) => {
-      const { doctorId } = req.params;
+    getAllForDoctor: async (req, res) => {
 
       try {
-        const doctor = await Doctor.findByPk(doctorId);
-    
-        if (!doctor) {
-          return res.status(404).json({ error: 'Doctor not found' });
-        }
+        const doctorId = req.params.doctorId;
         const reviews = await Review.findAll({
-          include: [
-            {
-              model: User,
-              attributes: ['id','username','imgUrl'],
-            },
-          ],
-          where: {
-            DoctorId: doctorId,
-          },
-        })
-    
+          where: { doctorId: doctorId },
+        });
         res.json(reviews);
       } catch (error) {
-        console.error('Error fetching doctor reviews:', error);
+        console.error(error);
         res.status(500).json({ error: 'Internal server error' });
       }
     
     },
-    create: async (req, res) => {
-      const { doctorId, userId, rating, comment } = req.body;
+    createReview: async (req, res) => {
+      const { doctorId, userId, rating, comment } = req.body
 
       try {
         const newReview = await Review.create({

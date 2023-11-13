@@ -16,6 +16,8 @@ import { createReview } from '../redux/docReviewSlicer';
 const {width,height} = Dimensions.get('window')
 
 const AddRatings = () => {
+  const [rating,setRating]=useState(0)
+  const [comment,setComment]=useState('')
   const navigation = useNavigation();
   const dispatch = useDispatch();
 

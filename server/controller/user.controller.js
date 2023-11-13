@@ -66,5 +66,13 @@ module.exports = {
     } catch (error) {
       throw error;
     }
+  },
+  updataLongLat:async (req, res) => {
+    try {
+      const longLat = await User.update(req.body,{where:{id:req.params.idUse}})
+      res.json(longLat)
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 };

@@ -1,7 +1,8 @@
 const route = require('express').Router()
-const {dayAvailability} = require("../controller/day.controller")
+const {dayAvailability,deleteDay} = require("../controller/day.controller")
 
 route.post("/:doctorId", dayAvailability)
+route.delete("/delete/:IdDay", deleteDay)
 
 
 module.exports = route

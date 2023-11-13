@@ -51,6 +51,7 @@ console.log(userLocation,"userLock");
     <View style={styles.container}>
       <MapView
         style={styles.map}
+        customMapStyle={customMapStyle}
         initialRegion={{
           latitude: 36.894928,
           longitude: 10.192114,
@@ -63,7 +64,7 @@ console.log(userLocation,"userLock");
           destination={destination}
           apikey="AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y"
           strokeWidth={4}
-          strokeColor="red"
+          strokeColor="grey"
           mode={'WALKING'}
         />
         {userLocation && (
@@ -83,11 +84,67 @@ console.log(userLocation,"userLock");
 
 const styles = StyleSheet.create({
   container: {
+    ...StyleSheet.absoluteFillObject,
     flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  modalContainer: {
     flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  modal: {
+    height: 420,
+    width: "100%", // Set the desired height for the modal
+    backgroundColor: "white",
+    padding: 20,
+
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 50, // Top-left corner radius
+    borderTopRightRadius: 50,
   },
 });
+
+const customMapStyle = [
+  {
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#c9f2c6", // Land color
+      },
+    ],
+  },
+  {
+    elementType: "labels.icon",
+    stylers: [
+      {
+        visibility: "off", // Turn off all icons
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#aadaff", // Turquoise water color
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#ffffff", // Grey clair streets color
+      },
+    ],
+  },
+];
 
 export default UserMapView;

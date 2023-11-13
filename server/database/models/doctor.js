@@ -11,11 +11,15 @@ module.exports = (Sequelize, DataTypes) => {
     age: {
       type: DataTypes.INTEGER
     },
-    lang: {
-      type: DataTypes.DECIMAL(10, 2),
+    longitude: {
+      type: DataTypes.DOUBLE,
+      defaultValue:0
+ 
     },
-    lat: {
-      type: DataTypes.DECIMAL(10, 2), 
+    latitude: {
+      type: DataTypes.DOUBLE, 
+      defaultValue:0
+
     },
     isBlocked :{
     type : DataTypes.BOOLEAN,

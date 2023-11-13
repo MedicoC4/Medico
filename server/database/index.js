@@ -32,7 +32,6 @@ const Order = require('./models/orders.js')(connection, DataTypes)
 const Categories = require('./models/categories.js')(connection, DataTypes)
 const Day = require('./models/day.js')(connection, DataTypes)
 const Speciality = require('./models/speciality.js')(connection, DataTypes)
-
 const Availability = require('./models/availabilty.js')(connection, DataTypes)
 const AppointementList = require('./models/appointementList.js')(connection, DataTypes)
 

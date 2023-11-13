@@ -4,28 +4,32 @@ import { Dimensions, StyleSheet, View, Button } from "react-native";
 import * as Location from "expo-location";
 import { updateLocation } from "../redux/doctorSlicer";
 import {useSelector , useDispatch} from'react-redux'
+import { auth } from "../firebase-config";
 
 const { width, height } = Dimensions.get("window");
 export default function MapLocation() {
-  const [latitude , setLatitude] = useState('')
-  const [longtitude , setLongtitude] = useState('')
+  const [latitude , setLatitude] = useState(0)
+  const [longtitude , setLongtitude] = useState(0)
  
   const dispatch = useDispatch()
+
   const location = async()=>{
     const email = auth.currentUser.email
     const obj = {
-      "lat":fullName,
-      "long":age,
+      lang:longtitude,
+      lat:latitude,
     }
    dispatch(updateLocation(obj))
   //  navigation.navigate("UpgradeDocSecoundForm")
   //  await AsyncStorage.setItem('type', 'doctor');
   }
-
-  const migration = useSelector((state)=>{
+  const locationss = useSelector((state)=>{
     state.doctor.data
   })
 
+  useEffect(()=>{
+    location()
+  },[])
 
 
   const [mapRegin, setMapRegin] = useState({
@@ -67,7 +71,7 @@ export default function MapLocation() {
       <MapView style={styles.map} region={mapRegin}>
         <Marker coordinate={mapRegin} title="Your Location" />
       </MapView>
-      <Button title="Get Location" style={styles.butt} onPress={()=>{userLocation() ; updateLocation()}} />
+      <Button title="Get Location" style={styles.butt} onPress={()=>{userLocation() ; location()}} />
     </View>
   );
 }

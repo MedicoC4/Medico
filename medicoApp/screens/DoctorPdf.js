@@ -18,8 +18,6 @@ const DoctorPdf = () => {
 
       let result = await DocumentPicker.getDocumentAsync({});
       setDocument(result)
-      
-      
       // alert(result.uri);
       
       if (result) {

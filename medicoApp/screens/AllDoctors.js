@@ -13,9 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 
+
 const AllDoctors = () => {
   const doctors = useSelector((state) => state.doctor?.data);
   const dispatch = useDispatch();
+
 
   const fetch3 = () => {
     dispatch(fetchDoctors()); // Fetch doctors data

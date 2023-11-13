@@ -1,16 +1,25 @@
 import { StyleSheet, Text, View, Dimensions,TouchableOpacity,TextInput,Image,KeyboardAvoidingView } from 'react-native'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { AirbnbRating } from 'react-native-ratings';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import NavigationBar from '../components/NavigationBar';
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { createReview } from '../redux/docReviewSlicer';
+
+
 
 
 const {width,height} = Dimensions.get('window')
 
 const AddRatings = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+
   return (
     
     <View style={{
@@ -195,73 +204,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#E8E8E8',
       borderColor: '#D3D3D3', // Add this line
     },
-  ordersContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 55,
-  },
-  secondOrdersContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 40, // Adjust this value as needed
-  },
-  ordersText: {
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-  button: {
-    backgroundColor: '#ddf0ee',
-    borderRadius: 20,
-    paddingVertical: 3.5,
-    paddingHorizontal: 13,
-  
-    
-  },
-  buttonText: {
-    color: '#2d958c',
-    fontSize: 15,
-  },
-  card: {
-    borderRadius: 30,
-    padding: 19,
-    backgroundColor: '#f8f8f8',
-    marginTop: 30,
-    marginHorizontal: 10,
-    height: 150,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  searchBar: {
-    marginTop: 20,
-    marginBottom: 20,
-    padding: 10,
-    backgroundColor: '#E8E8E8',
-    borderRadius: 20,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#E8E8E8',
-    borderRadius: 20,
-    marginTop: 40, // Increase this value
-    marginLeft: 30,
-    marginRight: 30,
-  },
-  searchIcon: {
-    width: 20,
-    height: 20,
-    marginLeft: 10,
-  },
-  searchBar: {
-    flex: 1,
-    padding: 10, // Reduce this value
-  },
+
+
 });

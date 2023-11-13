@@ -45,7 +45,7 @@ const Landing = ({ route }) => {
   useEffect(() => {
     fetch1();
     fetch2();
-    fetch3(); // Call fetch3 in useEffect
+    fetch3();
   }, []);
 
   console.log("this is medicines", medicines);

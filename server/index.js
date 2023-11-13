@@ -10,6 +10,7 @@ const ProductRouter = require('./routes/product.route.js')
 const AppointementRouter = require('./routes/appointement.route.js')
 const AppointementListRouter = require('./routes/appointementList.route.js')
 const ReviewRouter = require('./routes/reviews.route.js')
+const NodemailerRoute = require('./routes/nodemailer.route.js')
 
 const cors = require('cors')
 const app = express();   
@@ -36,6 +37,7 @@ app.use('/api/aivability',AppointementRouter)
 app.use('/api/appointement',AppointementListRouter)
 
 app.use('/api/reviews', ReviewRouter)
+app.use('/api/email', NodemailerRoute)
 
 // Start the server
 app.listen(port, () => {

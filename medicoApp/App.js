@@ -299,7 +299,7 @@ export default function App() {
           />
           <Stack.Screen
             name="appointment"
-            component={UserMapView}
+            component={Appointment}
             options={{
               headerShown: false,
             }}

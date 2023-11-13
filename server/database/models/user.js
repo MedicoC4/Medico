@@ -28,7 +28,17 @@ module.exports = (Sequelize, DataTypes) => {
           updatedAt:{
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
-          }
+          },
+          longitude: {
+            type: DataTypes.DOUBLE, 
+            defaultValue:0
+
+          },
+          latitude: {
+            type: DataTypes.DOUBLE, 
+            defaultValue:0
+
+          },
     })
     return User
 }

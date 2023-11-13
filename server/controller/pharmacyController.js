@@ -1,4 +1,5 @@
 const {Pharmacy} = require('../database/index')
+const { Op } = require("sequelize");
 
 
 module.exports = {
@@ -54,5 +55,49 @@ module.exports = {
       } catch (error) {
           throw error
       }
-  }
+  },
+  getAivablePharma: async (req, res) => {
+    try {
+      const getPharma = await Pharmacy.findAll({
+        where: {
+        isBlocked: { [Op.like]: req.params.blockPharma },
+        isverified: { [Op.like]: req.params.verefPharma },
+        },
+      });
+      res.status(200).send(getPharma)
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  updataLongLat:async (req, res) => {
+    try {
+      const longLat = await Pharmacy.update(req.body,{where:{id:req.params.idPharmcy}})
+      res.json(longLat)
+    } catch (error) {
+      throw new Error(error)
+    }
+  },
+  updateLocation : async(req , res)=>{
+    try {
+         const oneDoc = await User.findOne({where: {email : req.body.email}});
+         const doc = await User.update({lang :req.body.lang, lat: req.body.lat},{where: {DoctorId : oneDoc.DoctorId}});
+        res.json(oneDoc);
+    } catch (error) {
+        
+    }
+},
+recordsDoc : async(req , res)=>{
+    try {
+        const onePharm = await User.findOne({where: {email : req.body.email}});
+
+       const allDocs= req.body.Record.map((pharm)=>{
+          return  {
+                ...pharm,
+                PharmacyId : onePharm.PharmacyId
+            }
+        })
+    } catch (error) {
+        
+    }
+}
   };

@@ -401,7 +401,7 @@ const clearToken = async () => {
             alignItems: "center",
           
           }}
-          onPress={()=>navigation.navigate('Settings')}
+          onPress={()=>navigation.navigate('userProfile')}
         >
           <View
             style={{
@@ -446,7 +446,7 @@ const clearToken = async () => {
                 />
               </View>
             </View>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Settings</Text>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Upgrade account</Text>
           </View>
           <View>
             <AntDesign name="right" size={24} color="#1a998e" />

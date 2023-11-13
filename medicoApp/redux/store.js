@@ -18,6 +18,8 @@ const store = configureStore({
     medecine: medecineSlicer,
     reviews: reviewSlicer,
     docRev:docReviewSlicer
+    // reviews: reviewSlicer
+    
   },
 })
 

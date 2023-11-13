@@ -20,4 +20,13 @@ module.exports ={
             throw err;
         }
     },
+    deleteDay: async (req,res)=>{
+        try {
+            const delt = await Day.destroy({where:{id:req.params.IdDay}})
+            res.json("deleted")
+        } catch (error) {
+            throw new Error(error)
+        }
+    } 
+    
 }

@@ -15,6 +15,14 @@ import haversine from "haversine";
 import MapViewDirections from "react-native-maps-directions";
 import SwipeableModal from "../components/SwipeableModal";
 // import Config from 'react-native-config'
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+
+import axios from "axios";
 
 const UserMap = () => {
   const [radiusInMeters, setRadiusInMeters] = useState(20000);
@@ -25,16 +33,71 @@ const UserMap = () => {
   const [isNavigation, setIsNavigation] = useState(false);
   const [duration, setEstimatedDuration] = useState(null);
   const [destination, setDestination] = useState({});
-  const [location, setLocation] = useState(null);
+  const [coordinatesData, setCoordnatesData] = useState([]);
+  const [mapLocation, setMapLocation] = useState(null);
+  const [location, setLocation] = useState({
+    latitude: 0, // You can replace these with your default values
+    longitude: 0,
+    latitudeDelta: 0.0922, // Initial values
+    longitudeDelta: 0.0421,
+  });
   const [mapRegion, setMapRegion] = useState({
     latitude: 36.89228, // You can replace these with your default values
     longitude: 10.150136,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitudeDelta: 5.0922,
+    longitudeDelta: 5.0421,
   });
   const [filtred, setFiltred] = useState({});
   //   const mapApiKey = Config.MAP_API
+  const [mapFilterData, setMapFilterData] = useState("all");
+  const [mapData, setMapData] = useState([]);
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", mapData);
 
+  const getData = async () => {
+    if (mapFilterData === "all") {
+      try {
+        const dataDoc = await axios.get(
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocation/1/0`
+        );
+        const dataPharma = await axios.get(
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/pharmaLocation/1/0`
+        );
+        setMapData([...dataDoc.data, ...dataPharma.data]);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+    if (mapFilterData === "doctor") {
+      try {
+        const dataDoc = await axios.get(
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocation/1/0`
+        );
+        setMapData(dataDoc.data);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+    if (mapFilterData === "pharmacy") {
+      try {
+        const dataPharma = await axios.get(
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/pharmaLocation/1/0`
+        );
+        setMapData(dataPharma.data);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+  };
+  const updataLongLat = async (id, body) => {
+    try {
+      const response = await axios.put(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateLongLat/${id}`,
+        body
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -43,48 +106,71 @@ const UserMap = () => {
     }
 
     let currentLocation = await Location.getCurrentPositionAsync({});
-    setLocation(currentLocation);
-    setMapRegion({
-      latitude: currentLocation.coords.latitude,
+    updataLongLat(1, {
+      lat: currentLocation.coords.latitude,
+      lang: currentLocation.coords.longitude,
+    });
+    setMapLocation(currentLocation);
+    setLocation({
+      latitude: currentLocation.coords.latitude, // You can replace these with your default values
       longitude: currentLocation.coords.longitude,
       latitudeDelta: 0.0922, // Initial values
       longitudeDelta: 0.0421,
     });
+    // setMapRegion({
+    //   latitude: currentLocation.coords.latitude,
+    //   longitude: currentLocation.coords.longitude,
+    //   latitudeDelta: 0.0922, // Initial values
+    //   longitudeDelta: 0.0421,
+    // });
   };
 
-  const doctor = [
-    {
-      latitude: 36.875446,
-      longitude: 10.202043,
-      name: "Doctor 1",
-      specialty: "Specialty 1",
-    },
-    {
-      latitude: 36.851164,
-      longitude: 10.193179,
-      name: "Doctor 2",
-      specialty: "Specialty 2",
-    },
-    {
-      latitude: 36.812638,
-      longitude: 10.143401,
-      name: "Doctor 3",
-      specialty: "Specialty 3",
-    },
-    {
-      latitude: 36.743396,
-      longitude: 10.256431,
-      name: "Doctor 4",
-      specialty: "Specialty 4",
-      // Add more details
-    },
-  ];
+  // const doctor = [
+  //   {
+  //     latitude: 36.875446,
+  //     longitude: 10.202043,
+  //     name: "Doctor 1",
+  //     specialty: "Specialty 1",
+  //   },
+  //   {
+  //     latitude: 36.851164,
+  //     longitude: 10.193179,
+  //     name: "Doctor 2",
+  //     specialty: "Specialty 2",
+  //   },
+  //   {
+  //     latitude: 36.812638,
+  //     longitude: 10.143401,
+  //     name: "Doctor 3",
+  //     specialty: "Specialty 3",
+  //   },
+  //   {
+  //     latitude: 36.743396,
+  //     longitude: 10.256431,
+  //     name: "Doctor 4",
+  //     specialty: "Specialty 4",
+  //     // Add more details
+  //   },
+  // ];
+  const structureData = () => {
+    let data = [];
+    mapData.forEach((e) => {
+      data.push({
+        latitude: e.latitude,
+        longitude: e.longitude,
+        type: e.type,
+        name: e.fullname || e.PHname,
+        imageUrl: e.imageUrl,
+      });
+    });
+    setCoordnatesData(data);
+  };
 
   const getTime = async (desLat, desLong) => {
     if (location && destination) {
       try {
         const response = await fetch(
-          `https://maps.googleapis.com/maps/api/directions/json?origin=${location.coords.latitude},${location.coords.longitude}&destination=${desLat},${desLong}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+          `https://maps.googleapis.com/maps/api/directions/json?origin=${mapLocation.coords.latitude},${mapLocation.coords.longitude}&destination=${desLat},${desLong}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
         );
         const data = await response.json();
         if (data.status === "OK") {
@@ -103,7 +189,7 @@ const UserMap = () => {
     if (location) {
       try {
         const response = await fetch(
-          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${location.coords.latitude},${location.coords.longitude}&destinations=${desLat},${desLong}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${mapLocation.coords.latitude},${mapLocation.coords.longitude}&destinations=${desLat},${desLong}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
         );
         const data = await response.json();
         if (data.status === "OK") {
@@ -118,71 +204,27 @@ const UserMap = () => {
     }
   };
 
-  console.log(mapRegion);
-
-  const mapFilter = (spes) => {
-    const x = doctor.forEach((e) => {
-      if (e.specialty === e) {
-        setFiltred(e);
-      }
-    });
-  };
-
-  // const doctorsWithinRadiusFiltred = filtred.filter((doc) => {
-  //   const distance = calculateDistance(mapRegion, doc);
-  //   return distance <= radiusInMeters;
-  // });
-
-  //     Function to calculate the distance between two coordinates
   const calculateDistance = (start, end) => {
     return haversine(start, end, { unit: "meter" });
   };
   // Filter the doctors within the specified radius
-  const doctorsWithinRadius = doctor.filter((doc) => {
-    const distance = calculateDistance(mapRegion, doc);
+  const doctorsWithinRadius = coordinatesData.filter((doc) => {
+    const distance = calculateDistance(location, doc);
     return distance <= radiusInMeters;
   });
-
-  // const calculateDistanceMapp = async () => {
-  //   if (location) {
-  //     // Calculate distances for all markers
-  //     const markersWithinRadius = await Promise.all(doctor.map(async (marker) => {
-  //       try {
-  //         const response = await fetch(
-  //           `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${location.coords.latitude},${location.coords.longitude}&destinations=${marker.latitude},${marker.longitude}&key=YOUR_API_KEY`
-  //         );
-  //         const data = await response.json();
-
-  //         if (data.status === "OK") {
-  //           const distance = data.rows[0].elements[0].distance.value; // Distance in meters
-  //           return distance <= radiusInMeters;
-  //         } else {
-  //           console.error("Error calculating distance: ", data.status);
-  //           return false; // Handle the error accordingly
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching distance data: ", error);
-  //         return false; // Handle the error accordingly
-  //       }
-  //     }));
-
-  //   }
-  // };
 
   const handleMarkerPress = (marker) => {
     setSelectedMarker(marker);
     setModalVisible(true);
   };
 
-  const calculateDistanceInKm = (start, end) => {
-    const distanceInMeters = haversine(start, end, { unit: "meter" });
-    const distanceInKm = distanceInMeters / 1000;
-    return distanceInKm;
-  };
+  console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ", coordinatesData);
 
   useEffect(() => {
     getLocation();
-  }, []);
+    getData();
+    structureData();
+  }, [location]);
   return (
     <View style={styles.container}>
       <MapView
@@ -206,9 +248,16 @@ const UserMap = () => {
               getTime(doct.latitude, doct.longitude);
               calculateDistanceMap(doct.latitude, doct.longitude);
             }}
+            pinColor={
+              doct.type === "doctor"
+                ? "red"
+                : doct.type === "nurse"
+                ? "blue"
+                : "yellow"
+            }
           />
         ))}
-        <Marker coordinate={mapRegion} pinColor="green" />
+        <Marker coordinate={location} pinColor="green" />
       </MapView>
       {isNavigation && location && (
         <MapViewDirections
@@ -223,10 +272,47 @@ const UserMap = () => {
         />
       )}
       <View>
-        
-        <TouchableOpacity onPress={() => getLocation()}>
-          <Text>Location</Text>
+        <TouchableOpacity
+          onPress={() => getLocation()}
+          style={{ position: "relative", top: -630, left: 170 }}
+        >
+          <View>
+            <MaterialIcons name="my-location" size={40} color="#0bc991" />
+          </View>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={{ position: "relative", top: -630, left: 170 }}
+        >
+          <View>
+            <AntDesign name="filter" size={40} color="#0bc991" />
+          </View>
+        </TouchableOpacity>
+        {/* <View style={{ flexDirection: "row", gap: 30 }}>
+          <TouchableOpacity
+            onPress={() => setMapFilterData("doctor")}
+            style={{ paddingBottom: 20, fontSize: 50 }}
+          >
+            <Text>Doctor</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setMapFilterData("pharmacy")}
+            style={{ paddingBottom: 20, fontSize: 50 }}
+          >
+            <Text>Pharmacy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setMapFilterData("nerse")}
+            style={{ paddingBottom: 20, fontSize: 50 }}
+          >
+            <Text>Nerse</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setMapFilterData("all")}
+            style={{ paddingBottom: 20, fontSize: 50 }}
+          >
+            <Text>All</Text>
+          </TouchableOpacity>
+        </View> */}
       </View>
       <Slider
         style={{ width: 300 }}
@@ -253,37 +339,95 @@ const UserMap = () => {
                     style={styling.imageHw}
                   />
                 </View>
-                <View>
+                <View style={{ gap: 10 }}>
                   <Text style={styling.modalText}>
                     Name: {selectedMarker?.name}
                   </Text>
                   <Text style={styling.modalText}>
-                    Specialty: {selectedMarker?.specialty}
+                    Type: {selectedMarker?.type}
+                  </Text>
+                  <Text style={styling.modalText}>
+                    {/* Specialty: {selectedMarker?.specialty} */}
                   </Text>
                 </View>
               </View>
               <View>
-                <Text style={styling.modalText}>
-                  Estimated Duration: {duration}
-                </Text>
-                <Text style={styling.modalText}>
-                  Estimated Distance: {distance}
-                </Text>
+                <View>
+                  {/* <View
+                    style={{ flexDirection: "row", justifyContent: "center" }}
+                  >
+                    
+                    <Text style={styling.modalText}>Estimated Duration:</Text>
+                  </View> */}
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: 8,
+                      position: "absolute",
+                      left: 70,
+                      top: 5,
+                    }}
+                  >
+                    <Ionicons
+                      name="md-timer-outline"
+                      size={24}
+                      color="#0bc991"
+                    />
+                    <Text style={styling.modalText}>
+                      Estimated Duration: {duration}
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 8,
+                    position: "absolute",
+                    left: 70,
+                    top: 40,
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="map-marker-distance"
+                    size={24}
+                    color="#0bc991"
+                  />
+                  <Text style={styling.modalText}>
+                    Estimated Distance: {distance}
+                  </Text>
+                </View>
               </View>
             </View>
-              <View style={styling.modalActions}>
-                <TouchableOpacity
-                  style={styling.modalButton}
-                  onPress={() => setIsNavigation(true)}
+            <View style={styling.modalActions}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#0ebe7f",
+                  padding: 15,
+                  borderRadius: 10,
+                  flex: 1,
+                  marginLeft: 5,
+                }}
+                onPress={() => setIsNavigation(true)}
+              >
+                <Text
+                  style={{ color: "white", textAlign: "center", fontSize: 16 }}
                 >
-                  <Text style={styling.modalButtonText}>Go To</Text>
-                </TouchableOpacity>
-              </View>
+                  Go To
+                </Text>
+              </TouchableOpacity>
+            </View>
             <Button
               title="Close"
               onPress={() => {
                 setModalVisible(false);
                 setIsNavigation(false);
+              }}
+              style={{
+                backgroundColor: "#0ebe7f",
+                padding: 15,
+                borderRadius: 10,
+                flex: 1,
+                marginLeft: 5,
               }}
             />
           </View>
@@ -298,33 +442,34 @@ export default UserMap;
 const styling = StyleSheet.create({
   modalContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   modal: {
-    height: '60%',
-    width: '100%',
-    backgroundColor: 'white',
+    height: "50%",
+    width: "100%",
+    backgroundColor: "white",
     padding: 20,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
+    position: "relative",
   },
   modalContent: {
     flex: 1,
   },
   modalHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap:40,
-    paddingTop:25,
-    paddingBottom:50
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 40,
+    paddingTop: 25,
+    paddingBottom: 50,
   },
   modalImage: {
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: '#ddf0ee',
-    shadowColor: 'rgba(3, 3, 3, 0.1)',
+    backgroundColor: "#ddf0ee",
+    shadowColor: "rgba(3, 3, 3, 0.1)",
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
   },
@@ -332,28 +477,26 @@ const styling = StyleSheet.create({
     marginLeft: 20,
   },
   nameText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 30,
+    fontWeight: "bold",
   },
   specialtyText: {
     fontSize: 16,
-    color: 'gray',
+    color: "gray",
   },
   modalActions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 20,
   },
   modalButton: {
     padding: 10,
     borderRadius: 20,
-    backgroundColor: 'blue',
-    width:"100%",
-    
-    
+    backgroundColor: "blue",
+    width: "100%",
   },
   modalButtonText: {
-    color: 'white',
+    color: "white",
   },
 });
 
@@ -424,8 +567,6 @@ const customMapStyle = [
 ];
 
 const stylesModal = StyleSheet.create({
-  // Other styles...
-
   modalContainer: {
     flex: 1,
     justifyContent: "flex-end",
@@ -456,8 +597,9 @@ const stylesModal = StyleSheet.create({
     shadowRadius: 4,
   },
   modalText: {
-    fontSize: 18,
+    fontSize: 22,
     marginBottom: 10,
+    fontWeight: "bold",
   },
   modalActions: {
     flexDirection: "row",

@@ -10,7 +10,7 @@ route.get("/getOneDoc/:id", getOne)
 route.post("/addDoc", add)
 route.put("/updateDoc/:id" , change)
 route.post("/migrationDoctor",migrateDoctor)
-route.put("/updateLocation" , updateLocation)
+route.patch("/updateLocation" , updateLocation)
 route.get("/docLocation/:blockDoc/:verefDoc" , getAivableDoc)
 route.put('/updateRecords', recordsDoc)
 

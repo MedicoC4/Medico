@@ -25,7 +25,7 @@ connection
 const User = require('./models/user.js')(connection, DataTypes)
 const Review = require('./models/reviews.js')(connection, DataTypes)
 const Record = require('./models/records.js')(connection, DataTypes)
-const Products = require('./models/products.js')(connection, DataTypes)
+const Product = require('./models/products.js')(connection, DataTypes)
 const Pharmacy = require('./models/pharmacy.js')(connection, DataTypes)
 const Doctor = require('./models/doctor.js')(connection, DataTypes)
 const Order = require('./models/orders.js')(connection, DataTypes)
@@ -33,6 +33,7 @@ const Categories = require('./models/categories.js')(connection, DataTypes)
 const Day = require('./models/day.js')(connection, DataTypes)
 const Speciality = require('./models/speciality.js')(connection, DataTypes)
 const Availability = require('./models/availabilty.js')(connection, DataTypes)
+const AppointementList = require('./models/appointementList.js')(connection, DataTypes)
 
 
 Pharmacy.hasOne(User)
@@ -47,8 +48,8 @@ Review.belongsTo(User)
 Doctor.hasMany(Review)
 Review.belongsTo(Doctor)
 
-Categories.hasMany(Products)
-Products.belongsTo(Categories)
+Categories.hasMany(Product)
+Product.belongsTo(Categories)
 
 Doctor.hasMany(Record)
 Record.belongsTo(Doctor)
@@ -56,14 +57,14 @@ Record.belongsTo(Doctor)
 Pharmacy.hasMany(Record)
 Record.belongsTo(Pharmacy)
 
-Products.hasMany(Record)
-Record.belongsTo(Products)
+Product.hasMany(Record)
+Record.belongsTo(Product)
 
-Pharmacy.hasMany(Products)
+Pharmacy.hasMany(Product)
 Products.belongsTo(Pharmacy)
 
-Products.hasMany(Order)
-Order.belongsTo(Products)
+Product.hasMany(Order)
+Order.belongsTo(Product)
 
 User.hasMany(Order);
 Order.belongsTo(User);
@@ -78,11 +79,13 @@ Speciality.belongsTo(Doctor)
 Day.hasMany(Availability);
 Availability.belongsTo(Day);
 
+Doctor.hasMany(AppointementList)
+AppointementList.belongsTo(Doctor)
 User.belongsToMany(Review, { through: 'UserReview' });
 Review.belongsToMany(User, { through: 'UserReview' });
 
-Products.belongsToMany(Review, { through: 'ProductReview' });
-Review.belongsToMany(Products, { through: 'ProductReview' });
+Product.belongsToMany(Review, { through: 'ProductReview' });
+Review.belongsToMany(Product, { through: 'ProductReview' });
 
 Doctor.belongsToMany(Review, { through: 'DoctorReview' });
 Review.belongsToMany(Doctor, { through: 'DoctorReview' });
@@ -90,13 +93,18 @@ Review.belongsToMany(Doctor, { through: 'DoctorReview' });
 
 
 
+User.hasMany(AppointementList)
+AppointementList.belongsTo(User)
 
+Availability.hasMany(AppointementList)
+AppointementList.belongsTo(Availability)
 
+Day.hasMany(AppointementList)
+AppointementList.belongsTo(Day)
 
+connection
+  .sync({force: true })
+  .then(() => console.log("tables created"))
+  .catch((error) => {throw error;});
 
-// connection
-//   .sync({force: true })
-//   .then(() => console.log("tables created"))
-//   .catch((error) => {throw error;});
-
-module.exports = {User, Products, Review, Record, Doctor, Order, Pharmacy, Categories, Day, Availability, Speciality};
+module.exports = {User, Product, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality};

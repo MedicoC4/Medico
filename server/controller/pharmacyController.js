@@ -80,7 +80,7 @@ module.exports = {
   updateLocation : async(req , res)=>{
     try {
          const oneDoc = await User.findOne({where: {email : req.body.email}});
-         const doc = await User.update({lang :req.body.lang, lat: req.body.lat},{where: {DoctorId : oneDoc.DoctorId}});
+         const doc = await User.update({longitude :req.body.longitude, latitude: req.body.latitude},{where: {DoctorId : oneDoc.DoctorId}});
         res.json(oneDoc);
     } catch (error) {
         

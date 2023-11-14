@@ -1,4 +1,4 @@
-const { AppointementList,Doctor,User,Availability,Day } = require("../database/index");
+const { AppointementList,Doctor,User,Availability,Day,Speciality } = require("../database/index");
 const { Op } = require("sequelize");
 
 
@@ -82,6 +82,9 @@ module.exports = {
                   include: [
                     {
                       model: Doctor,
+                      include:[{
+                        model:Speciality
+                      }]
                     },
                     {
                       model: User,

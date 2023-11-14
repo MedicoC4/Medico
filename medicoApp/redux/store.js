@@ -17,8 +17,7 @@ const store = configureStore({
     doctor:doctorSlicer,
     pharmacy:pharmacySlicer,
     medecine: medecineSlicer,
-    reviews: reviewSlicer
-    
+    reviews: reviewSlicer,
     orders: orderSlicer
   },
 })

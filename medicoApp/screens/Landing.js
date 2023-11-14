@@ -20,6 +20,10 @@ import { fetchPharmacies } from "../redux/pharmacySlicer";
 import { fetchMedicines } from "../redux/medecineSlicer";
 import DoctorCard from "../components/DrCard";
 import { fetchDoctors } from "../redux/doctorSlicer"; 
+import { auth } from "../firebase-config";
+
+
+
 
 
 const Landing = ({ route }) => {

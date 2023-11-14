@@ -53,6 +53,7 @@ module.exports = {
             const added = await Doctor.create(req.body)
             console.log('this is the added',added);
             const oneDoc = await User.update({type : "doctor",DoctorId:added.id},{where: {email : req.body.email}});
+            console.log(req.body.email);
             res.json(oneDoc);
         } catch (error) {
             throw error
@@ -70,11 +71,12 @@ module.exports = {
             throw error
         }
     },
-    updateSpeciality : async(req , res)=>{
+    updateSpeciality  : async(req , res)=>{
         try {
             console.log(req.body);
              const oneDoc = await User.findOne({where: {email : req.body.email}});
-             const doc = await Doctor.update({specialityId:req.body.specialityId},{where: {id : oneDoc.DoctorId}});
+             const doc = await Doctor.update({specialityId :req.body.specialityId,},{where: {id : oneDoc.DoctorId}});
+            // const doc = await Doctor.update(req.body, {where: {id : oneDoc.DoctorId}});
             res.send(doc);
         } catch (error) {
             throw error

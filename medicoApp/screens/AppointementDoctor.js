@@ -209,18 +209,18 @@ const AppointementList = () => {
                     
                    
                  </View>
-                 <View style={{width:"100%",height:"30%",alignItems:"center",justifyContent:"space-around",flexDirection:"row"}}>
+                 <View style={{width:"100%",height:"30%",alignItems:"center",justifyContent:"space-around",flexDirection:"row",backgroundColor:"yellow"}}>
                         <View style={{width:"50%",backgroundColor:"red"}}>
-                            <Text>Accepted At: {(appointment.updatedAt).split("T")}</Text>
+                            <Text>Accepted At:{new Date(appointment.updatedAt).toLocaleDateString()} {new Date(appointment.updatedAt).toLocaleTimeString()}</Text>
                         </View>
                         <View style={{justifyContent:"space-between",flexDirection:"row",flex:1,width:"40%",backgroundColor:"grey"}}>
-                            <View>
+                            <View style={{height:20,width:20}}>
                                 <Image source={require("../assets/chat.png")}/>
                             </View>
-                            <View>
+                            <View style={{height:20,width:20}}>
                                 <Image source={require("../assets/email.png")}/>
                             </View>
-                            <View>
+                            <View style={{height:20,width:20}}>
                                 <Image source={require("../assets/multiple.png")}/>
                             </View>
                         </View>

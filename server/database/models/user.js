@@ -14,7 +14,7 @@ module.exports = (Sequelize, DataTypes) => {
             allowNull: false,
           },
           type: {
-            type: DataTypes.ENUM('doctor', 'user','pharmacy'),
+            type: DataTypes.ENUM('doctor', 'user' , "pharmacy"),
               defaultValue: "user"
           },
           imgUrl: {

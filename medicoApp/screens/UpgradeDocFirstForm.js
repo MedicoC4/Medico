@@ -32,7 +32,6 @@ export default function UpgradeDocFirstForm({ navigation }) {
 
   const mapping = useSelector((state) => state.category.data );
 
-  console.log('this is categories' , mapping);
 
   const typeOptions = ["Nurse", "Doctor"];
 
@@ -40,8 +39,9 @@ export default function UpgradeDocFirstForm({ navigation }) {
 
   useEffect(() => {
     dispatch(fetchCategories());
-    dispatch(updateSpeciality())
   }, []);
+  
+  
 
   const docMigration = async () => {
     const email = auth.currentUser.email;
@@ -53,6 +53,8 @@ export default function UpgradeDocFirstForm({ navigation }) {
       email: email,
       yx: yoex,
     };
+   
+
 
     dispatch(migrateDoctor(obj));
     navigation.navigate("map");

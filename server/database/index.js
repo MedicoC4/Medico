@@ -73,8 +73,8 @@ Doctor.hasMany(Day);
 Day.belongsTo(Doctor);
 
 
-Doctor.hasOne(Speciality)
-Speciality.belongsTo(Doctor)
+Speciality.hasMany(Doctor)
+Doctor.belongsTo(Speciality)
 
 Day.hasMany(Availability);
 Availability.belongsTo(Day);

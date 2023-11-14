@@ -1,5 +1,6 @@
-const {Pharmacy} = require('../database/index')
+const {Pharmacy, User} = require('../database/index')
 const { Op } = require("sequelize");
+const pharmacy = require('../database/models/pharmacy');
 
 
 module.exports = {
@@ -46,12 +47,12 @@ module.exports = {
         throw error;
       }
     },
-    migratePharmacy : async()=>{
+    migratePharmacy : async(req , res)=>{
       try {
           const added = await Pharmacy.create(req.body)
-        console.log('this isthe added',added);
-      const onePharm = await User.update({type : "Pharmacy",PharmacyId:added.id},{where: {email : req.body.email}});
-          res.json(onePharm);
+          console.log('this is the added',added);
+          const oneDoc = await User.update({type : "pharmacy",PharmacyId:added.id},{where: {email : req.body.email}});
+          res.json(oneDoc);
       } catch (error) {
           throw error
       }
@@ -79,11 +80,14 @@ module.exports = {
   },
   updateLocation : async(req , res)=>{
     try {
+        console.log(req.body);
          const oneDoc = await User.findOne({where: {email : req.body.email}});
-         const doc = await User.update({longitude :req.body.longitude, latitude: req.body.latitude},{where: {DoctorId : oneDoc.DoctorId}});
-        res.json(oneDoc);
+
+         const doc = await Pharmacy.update({longitude :req.body.longitude, latitude : req.body.latitude},{where: {id : oneDoc.DoctorId}});
+        // const doc = await Doctor.update(req.body, {where: {id : oneDoc.DoctorId}});
+        res.send(doc);
     } catch (error) {
-        
+        throw error
     }
 },
 recordsDoc : async(req , res)=>{

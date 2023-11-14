@@ -70,19 +70,44 @@ module.exports = {
             throw error
         }
     },
-    recordsDoc : async(req , res)=>{
+    updateSpeciality : async(req , res)=>{
         try {
-            const oneDoc = await User.findOne({where: {email : req.body.email}});
-           const allDocs= req.body.Record.map((doc)=>{
-              return  {
-                    ...doc,
-                    DoctorId : oneDoc.DoctorId
-                }
-            })
+            console.log(req.body);
+             const oneDoc = await User.findOne({where: {email : req.body.email}});
+             const doc = await Doctor.update({specialityId:req.body.specialityId},{where: {id : oneDoc.DoctorId}});
+            res.send(doc);
         } catch (error) {
-            
+            throw error
         }
     },
+    // recordsDoc : async(req , res)=>{
+    //     try {
+    //         console.log(req.body.email);
+    //        const allDocs= req.body.Record.map(async(doc)=>{
+
+    //        await Record.create ({
+
+    //                 ...doc,
+    //                 DoctorId : oneDoc.id
+    //             })
+    //         })
+        
+    //         res.json('created')
+    //     } catch (error) {
+    //         res.json(error)
+    //     }
+    // },
+
+    recordsDoc : async (req ,res)=>{
+       try {
+        const record = await Record.create(req.body)
+       res.json(record)
+       } catch (error) {
+        throw error
+       }
+    },
+
+
     getAivableDoc: async (req, res) => {
         try {
           const getDoc = await Doctor.findAll({

@@ -16,6 +16,16 @@ export const fetchPharmacies = createAsyncThunk(
     return response.data;
   }
 );
+export const migratePharmacy = createAsyncThunk(
+  "api/migrateDoctor",
+  async (input) => {
+    const doc = await axios.post(
+      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/migratePharm`,
+      input
+    );
+    return doc.data;
+  }
+);
 
 // Slice
 const pharmaciesSlice = createSlice({
@@ -24,6 +34,9 @@ const pharmaciesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchPharmacies.fulfilled, (state, action) => {
+        state.data = action.payload;
+    });
+    builder.addCase(migratePharmacy.fulfilled, (state, action) => {
         state.data = action.payload;
     });
   },

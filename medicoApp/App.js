@@ -40,7 +40,6 @@ import MedicineDetails from "./screens/MedecineDetails";
 import UserMap from "./screens/UserMap";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
-import UpgradeDocSecoundForm from "./screens/UpgradeDocSecoundForm";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
 import PharmFirstForm from "./screens/PharmFirstForm";
 import { Provider } from "react-redux";
@@ -250,13 +249,6 @@ export default function App() {
           <Stack.Screen
             name="MedicineDetails"
             component={MedicineDetails}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="UpgradeDocSecoundForm"
-            component={UpgradeDocSecoundForm}
             options={{
               headerShown: false,
             }}

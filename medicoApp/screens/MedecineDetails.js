@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator, Alert } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviews } from '../redux/reviewSlicer';
+import { fetchOrders, createOrder } from '../redux/orderSlicer'
 import ReviewCard from '../components/ReviewCard';
 import ReviewInput from '../components/SubmitReview';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -22,12 +23,27 @@ const MedicineDetails = ({ route }) => {
   const [allergies, setAllergies] = useState('null');
   const [pregnant, setPregnant] = useState('null');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [clients, setClients] = useState('null');
+  
+const retrieve = async () => {
+
+  const value = await AsyncStorage.getItem('user');
+  const user = JSON.parse(value);
+  console.log('this is from the async storage',user);
+  setClients(user.id);
+  return user;
+}
+
+console.log(retrieve(),'this is from test');
+
 
   const dispatch = useDispatch();
-  const reviews = useSelector(state => state.reviews.data); // Select the reviews data from the Redux store
+  const reviews = useSelector(state => state.reviews.data); 
+  const orders = useSelector(state => state.orders.data)
 
   useEffect(() => {
-    dispatch(fetchReviews()); // Dispatch the fetchReviews action when the component mounts
+    dispatch(fetchReviews()); 
+    dispatch(fetchOrders())
     requestPermissions();
   }, []);
 
@@ -89,18 +105,34 @@ const MedicineDetails = ({ route }) => {
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const placeOrder = async () => {
-    // Show loading indicator
+   
     setIsPlacingOrder(true);
 
-    // Simulate an asynchronous operation (replace this with your actual order placement logic)
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const orderData = {
+      quantityOrdered: quantity,
+      total: medicine.price * quantity,
+      tracking_number: "C4CES",
+      ProductId: medicine.id,
+      UserId: clients,
+    };
 
-    // Hide loading indicator
-    setIsPlacingOrder(false);
+    try {
+      
+    dispatch(createOrder(orderData));
 
-    // Show a success message or navigate to a confirmation screen
-    Alert.alert('Order Placed', 'Your order has been successfully placed!');
-    toggleModal();
+
+      setIsPlacingOrder(false);
+
+     
+      Alert.alert('Order Placed', 'Your order has been successfully placed!');
+      toggleModal();
+    } catch (error) {
+   
+      console.error('Error placing order:', error);
+      
+      setIsPlacingOrder(false);
+    }
   };
 
   useEffect(() => {
@@ -265,7 +297,7 @@ const styles = StyleSheet.create({
   height: 200,
   },
   name: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     marginTop: 10,
     alignSelf: 'flex-start',

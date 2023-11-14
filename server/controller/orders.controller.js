@@ -28,16 +28,30 @@ module.exports = {
   },
   update: async (req, res) => {
     let id = req.params.id;
-    let dataToUpdate = req.body;
+    let { orderStatus } = req.body; // Assuming you only want to update the orderStatus field
+  
     try {
-      const updatedUser = await Order.update(dataToUpdate, {
-        where: { id: Number(id) },
-      });
-      res.json(updatedUser);
+      const updatedOrder = await Order.update(
+        { orderStatus },
+        {
+          where: { order_id: id },
+          returning: true, // This ensures that the updated order is returned
+        }
+      );
+  
+      if (updatedOrder[0] === 0) {
+        // If no rows were updated, it means the order with the given id was not found
+        res.status(404).json({ success: false, message: 'Order not found' });
+        return;
+      }
+  
+      res.json(updatedOrder[1][0]); // Return the updated order
     } catch (error) {
-      throw error;
+      console.error('Error updating order:', error.message);
+      res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
   },
+  
   deleteOne: async (req, res) => {
     let id = req.params.id;
     try {
@@ -48,21 +62,5 @@ module.exports = {
     } catch (error) {
       throw error;
     }
-  },
-  SignIn: async (req, res) => {
-    let userData = req.body;
-
-    try {
-      const emailExist = await Order.findOne({
-        where: { email: userData.email },
-        include: Doctor,
-      });
-      if (!emailExist) {
-        return res.status(400).send({ message: "email is not valid" });
-      }
-      res.json(emailExist);
-    } catch (error) {
-      throw error;
-    }
-  },
+  }
 };

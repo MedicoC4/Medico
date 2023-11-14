@@ -23,6 +23,7 @@
   justify-content: center;
   align-items: flex-start;
   gap: 3rem;
+  margin-left: 2rem;
 }
 
 .sideNav:hover {
@@ -37,7 +38,7 @@
   width: 500px;
 }
 
-.icon {
+.icons {
   height: 30px;
   width: 30px;
 }

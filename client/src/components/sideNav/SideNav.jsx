@@ -13,23 +13,23 @@ function SideNav() {
     <div className="sideNav">
       <ul>
         <div className="list-item">
-          <img className="icon" src={HomeIcon} alt="" />
+          <img className="icons" src={HomeIcon} alt="" />
           <li><Link className="Links" to='/dashboard'>dashboard</Link></li>
         </div>
         <div className="list-item">
-          <img className="icon" src={inventoryIcon} alt="" />
+          <img className="icons" src={inventoryIcon} alt="" />
           <li><Link className="Links" to="/add-product">Add Product</Link></li>
         </div>
         <div className="list-item">
-          <img className="icon" src={productIcon} alt="" />
+          <img className="icons" src={productIcon} alt="" />
           <li><Link className="Links" to="/products">product overview</Link></li>
         </div>
         <div className="list-item">
-          <img className="icon" src={productsIcon} alt="" />
+          <img className="icons" src={productsIcon} alt="" />
           <li><Link className="Links" to="/orders">Orders</Link></li>
         </div>
         <div className="list-item">
-          <img className="icon" src={statisticsIcon} alt="" />
+          <img className="icons" src={statisticsIcon} alt="" />
           <li><Link className="Links" to="/statistics">statistics</Link></li>
         </div>
       </ul>

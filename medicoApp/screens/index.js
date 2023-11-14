@@ -24,6 +24,7 @@ import AppointementClient from "./AppointementClient";
 import AppointementList from "./AppointementList";
 import AllDoctors from "./AllDoctors";
 import AddRatings from "./AddRatings";
+import PharProf from "./PharProf";
 export {
     Login,
     Welcome,
@@ -50,5 +51,6 @@ export {
     AppointementClient,
     AppointementList,
     AllDoctors,
-    AddRatings
+    AddRatings,
+    PharProf
 }

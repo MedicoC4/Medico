@@ -23,7 +23,8 @@ import {
   UserMapView,
   
   AllDoctors,
-  AddRatings
+  AddRatings,
+  PharProf
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -116,6 +117,14 @@ export default function App() {
 <Stack.Screen
           name="Promotions"
           component={Promotions}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="PharProf"
+          component={PharProf}
           options={{
             headerShown: false,
           }}

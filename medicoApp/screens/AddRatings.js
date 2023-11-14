@@ -21,6 +21,21 @@ const AddRatings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  const handleReviewAdding = () => {
+    const doctorId =1 
+    const userId =1
+
+    const newReview = {
+      doctorId,
+      userId,
+      content,
+    };
+
+    dispatch(createReview(newReview));
+
+    setComment('');
+    setRating('')
+  };
 
   return (
     
@@ -167,6 +182,7 @@ const AddRatings = () => {
     filled
     style={{
       width:width*0.8}}
+      onPress={handleReviewAdding}
     />
               </View>
         </View>

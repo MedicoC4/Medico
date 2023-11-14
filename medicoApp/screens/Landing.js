@@ -19,7 +19,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPharmacies } from "../redux/pharmacySlicer";
 import { fetchMedicines } from "../redux/medecineSlicer";
 import DoctorCard from "../components/DrCard";
-import { fetchDoctors } from "../redux/doctorSlicer"; // Import fetchDoctors
+import { fetchDoctors } from "../redux/doctorSlicer"; 
+import { auth } from "../firebase-config";
+
+
+
 
 
 const Landing = ({ route }) => {
@@ -39,7 +43,7 @@ const Landing = ({ route }) => {
   };
 
   const fetch3 = () => {
-    dispatch(fetchDoctors()); // Fetch doctors data
+    dispatch(fetchDoctors()); 
   };
   
   useEffect(() => {
@@ -48,7 +52,7 @@ const Landing = ({ route }) => {
     fetch3();
   }, []);
 
-  console.log("this is medicines", medicines);
+ 
 
   let topRatedPharmacies = [];
 
@@ -133,7 +137,7 @@ const Landing = ({ route }) => {
           data={topRatedPharmacies}
           renderItem={({ item }) => <PharmacyCard />}
           keyExtractor={(item, index) => index.toString()}
-          horizontal={true} // Make the list horizontal
+          horizontal={true} 
         />
         <View style={styles.secondOrdersContainer}>
           <Text style={styles.ordersText}>Medicines</Text>
@@ -150,7 +154,7 @@ const Landing = ({ route }) => {
           data={medicines}
           renderItem={({ item }) => <MedicineCard medecine={item} />}
           keyExtractor={(item, index) => index.toString()}
-          horizontal={true} // Make the list horizontal
+          horizontal={true} 
         />
         <View style={styles.secondOrdersContainer}>
   <Text style={styles.ordersText}>Doctors</Text>
@@ -162,10 +166,10 @@ const Landing = ({ route }) => {
 </View>
 
 <FlatList
-  data={verifiedDoctors} // Pass doctors data to FlatList
-  renderItem={({ item }) => <DoctorCard doctor={item} />} // Pass item (doctor) to DoctorCard
+  data={verifiedDoctors} 
+  renderItem={({ item }) => <DoctorCard doctor={item} />} 
   keyExtractor={(item, index) => index.toString()}
-  horizontal={true} // Make the list horizontal
+  horizontal={true} 
 />
         <View style={{ height: 40 }} />
       </ScrollView>

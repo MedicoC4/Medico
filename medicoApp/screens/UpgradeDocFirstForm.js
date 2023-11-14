@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,63 +6,67 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  Dimensions
-} from 'react-native';
-import Button from '../components/Button';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-const { width, height } = Dimensions.get("window");
-import COLORS from '../constants/colors';
-import { doc, setDoc } from "firebase/firestore"; 
-import { DB, auth } from '../firebase-config';
-import { collection , addDoc } from 'firebase/firestore';
-import {useSelector , useDispatch} from'react-redux'
-import { migrateDoctor } from '../redux/doctorSlicer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+  Dimensions,
+} from "react-native";
+import Button from "../components/Button";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+const { width } = Dimensions.get("window");
+import COLORS from "../constants/colors";
+import { auth } from "../firebase-config";
+import { useSelector, useDispatch } from "react-redux";
+import { migrateDoctor, updateSpeciality } from "../redux/doctorSlicer";
+import { fetchCategories } from "../redux/categorySlicer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DropDownPicker from "react-native-dropdown-picker";
+
+export default function UpgradeDocFirstForm({ navigation }) {
+  const [fullName, setFullName] = useState("");
+  const [age, setAge] = useState("");
+  const [yoex, setYoex] = useState(0);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenType, setIsOpenType] = useState(false);
+  const [category, setCategory] = useState(null);
+  const [type, setType] = useState(null);
+  
+
+  const mapping = useSelector((state) => state.category.data );
 
 
-export default function UpgradeDocFirstForm({navigation}) {
-  // const {data}=route.params
+  const typeOptions = ["Nurse", "Doctor"];
 
-  const [fullName , setFullName]= useState('')
-  const [age , setAge]= useState('')
-  const [licence , setLicence]= useState('')
-  const [description , setDescription]= useState('')
+  const dispatch = useDispatch();
 
-  // const docCollection = collection(DB , "doctors")
-  // const create = async()=>{
-  //     await addDoc(docCollection , {
-  //     fullName : fullName,
-  //      gender : gender,
-  //      age : age,
-  //      licence : licence,
-  //      description : description
-  //     })
-  // }
-  const dispatch = useDispatch()
-  const docMigration = async()=>{
-    const email = auth.currentUser.email
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, []);
+  
+  
+
+  const docMigration = async () => {
+    const email = auth.currentUser.email;
     const obj = {
-      "fullname":fullName,
-      "age":age,
-      // "category":"exemple",
-      "email": email,
-    }
-   dispatch(migrateDoctor(obj))
-   navigation.navigate("UpgradeDocSecoundForm")
-   await AsyncStorage.setItem('type', 'doctor');
-  }
-
-  const migration = useSelector((state)=>{
-    state.doctor.data
-  })
+      fullname: fullName,
+      type: type,
+      age: age,
+      category: category,
+      email: email,
+      yx: yoex,
+    };
+   
 
 
+    dispatch(migrateDoctor(obj));
+    navigation.navigate("map");
+    await AsyncStorage.setItem("type", "doctor");
+  };
+
+ 
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F4EFF3' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F4EFF3" }}>
       <View style={styles.container}>
         <View style={styles.header}>
-
           <Text style={styles.title}>Create Account</Text>
         </View>
 
@@ -73,76 +77,84 @@ export default function UpgradeDocFirstForm({navigation}) {
 
               <TextInput
                 value={fullName}
-                onChangeText={(e)=>{setFullName(e)}}
+                onChangeText={(e) => {
+                  setFullName(e);
+                }}
                 style={styles.inputControl}
-                
+              />
+            </View>
+            <View style={{ width: width * 0.9, gap: 10, zIndex: 1, paddingBottom: 20 }}>
+              <Text>Enter Your Category :</Text>
+              <DropDownPicker
+                items={typeOptions.map((category) => ({
+                  label: category,
+                  value: category,
+                }))}
+                open={isOpenType}
+                value={type}
+                setOpen={() => setIsOpenType(!isOpenType)}
+                setValue={(value) => setType(value)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
               />
             </View>
 
-            {/* <View style={styles.input}>
-              <Text style={styles.inputLabel}>Type</Text>
-
-              <TextInput
-                value={type}
-                onChangeText={(e)=>{setType(e)}}
-                style={styles.inputControl}
-              />
-            </View> */}
-                
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Age</Text>
 
               <TextInput
-                 value={age}
-                 onChangeText={(e)=>{setAge(e)}}
+                value={age}
+                onChangeText={(e) => {
+                  setAge(e);
+                }}
                 style={styles.inputControl}
               />
-
             </View>
+            <View style={{ width: width * 0.9, gap: 10, zIndex: 2, paddingBottom: 20 }}>
+              <Text>Enter Your speciality :</Text>
+              <DropDownPicker
+                items={mapping.map((category) => ({
+                  label: category.name,
+                  value: category.id,
+                }))}
+                open={isOpen}
+                value={category}
+                setOpen={() => setIsOpen(!isOpen)}
+                setValue={(value) => setCategory(value)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+              />
+            </View>
+
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Category</Text>
+              <Text style={styles.inputLabel}>Years Of Experience</Text>
 
               <TextInput
-               value={licence}
-               onChangeText={(e)=>{setLicence(e)}}
+                value={yoex}
+                onChangeText={(e) => {
+                  setYoex(e);
+                }}
                 style={styles.inputControl}
               />
             </View>
-            
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>Description</Text>
-
-              <TextInput
-               value={description}
-               onChangeText={(e)=>{setDescription(e)}}
-                style={styles.inputControl}
-                
-              />
-            </View>
-            <View style={styles.input}>
-    
-
-            </View>
-
-            
 
             <View style={styles.formAction}>
-            <Button
-
-            onPress={() =>  docMigration()}
-                  titleStyle={{
-                    color: "#FFFFFF"
-                 }}
+              <Button
+                onPress={() => docMigration()}
+                titleStyle={{
+                  color: "#FFFFFF",
+                }}
                 title="Continue"
                 filled
                 style={{
-                                width: width*0.85,
-                                backgroundColor: COLORS.primary,
-                                color: COLORS.white
-                            }}
-                        />
+                  width: width * 0.85,
+                  backgroundColor: COLORS.primary,
+                  color: COLORS.white,
+                }}
+              />
             </View>
-        
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -165,15 +177,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 9999,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffdada',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffdada",
     marginBottom: 16,
   },
   title: {
     fontSize: 34,
-    fontWeight: 'bold',
-    color: '#181818',
+    fontWeight: "bold",
+    color: "#181818",
     marginBottom: 36,
   },
   form: {
@@ -181,47 +193,48 @@ const styles = StyleSheet.create({
   },
   formAction: {
     marginVertical: 24,
+    zIndex: 0,
   },
   formFooter: {
     fontSize: 15,
     lineHeight: 20,
-    fontWeight: '400',
-    color: '#9fa5af',
-    textAlign: 'center',
+    fontWeight: "400",
+    color: "#9fa5af",
+    textAlign: "center",
   },
   inputLabel: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: '#1c1c1e',
+    fontWeight: "bold",
+    color: "#1c1c1e",
     marginBottom: 6,
   },
   inputControl: {
     height: 44,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     borderRadius: 12,
     fontSize: 15,
-    fontWeight: '500',
-    color: '#24262e',
+    fontWeight: "500",
+    color: "#24262e",
   },
   btnText: {
     fontSize: 17,
     lineHeight: 22,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
   },
   input: {
     marginBottom: 16,
   },
   btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 8,
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderWidth: 1,
-    backgroundColor: '#FD6B68',
-    borderColor: '#FD6B68',
+    backgroundColor: "#FD6B68",
+    borderColor: "#FD6B68",
   },
 });

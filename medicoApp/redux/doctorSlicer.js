@@ -10,7 +10,7 @@ const initialState = {
 export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () => {
   const response = await axios.get(
     `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll`
-  ); // Replace with your API endpoint
+  ); 
   console.log('this is responsee',response);
   return response.data;
 });
@@ -68,6 +68,15 @@ export const updateLocation = createAsyncThunk(
     )
     return responce.data
   }
+  )
+  export const updateSpeciality = createAsyncThunk(
+    "api/updateSpeciality",
+    async(input)=>{
+      const responce = await axios.patch(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/updateSpeciality`,
+      input
+      )
+      return responce.data
+    }
   )
 
 const DoctorSlice = createSlice({

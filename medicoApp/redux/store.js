@@ -6,6 +6,7 @@ import pharmacySlicer from './pharmacySlicer.js';
 import medecineSlicer from './medecineSlicer.js';
 import reviewSlicer from './reviewSlicer.js';
 import categorySlicer from './categorySlicer.js';
+import orderSlicer from './orderSlicer.js';
 
 
 
@@ -16,9 +17,9 @@ const store = configureStore({
     doctor:doctorSlicer,
     pharmacy:pharmacySlicer,
     medecine: medecineSlicer,
-    reviews: reviewSlicer,
-    category: categorySlicer
+    reviews: reviewSlicer
     
+    orders: orderSlicer
   },
 })
 

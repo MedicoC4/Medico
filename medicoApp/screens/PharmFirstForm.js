@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -10,47 +10,39 @@ import {
 } from "react-native";
 import Button from "../components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 import COLORS from "../constants/colors";
-import { addDoc, collection } from "firebase/firestore";
-import { DB } from "../firebase-config";
-import { useDispatch, useSelector } from "react-redux";
-import { migratePharmacy} from '../redux/doctorSlicer';
-import { migratePharm } from "../redux/pharmacySlicer";
+import { auth } from "../firebase-config";
+import { useSelector, useDispatch } from "react-redux";
+import { migratePharmacy } from "../redux/pharmacySlicer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DropDownPicker from "react-native-dropdown-picker";
 
-export default function PharmFirstForm({ navigation,route }) {
-  const {pharmData}=route.params
+export default function UpgradeDocFirstForm({ navigation }) {
+  const [pharmName, setPharmName] = useState("");
+  const [adress, setAdress] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [types, setTypes] = useState(null);
 
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  // const [type, setType] = useState("");
-  
-  const pharmCollection = collection(DB, "pharmacy");
+  const pharmaTypes = ["night", "day"];
 
-  // const create = async () => {
-  //   await addDoc(pharmCollection, {
-  //     fullName: fullName,
-  //     type: 'pharmacy',
-  //     email: email,
-  //     phone: phone,
-  //   });
-  //   console.log("done");
-  // };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const migration = useSelector((state)=>{
-    state.pharmacy.data
-  })
-  const mig = ()=>{
-    const data = dispatch(migratePharm({
-      fullName : fullName,
-      type : 'Pharmacy',
+;
 
-    }))
-    console.log(data);
-  }
+  const pharmMigration = async () => {
+    const email = auth.currentUser.email;
+    const obj = {
+      PHname: pharmName,
+      type: types,
+      adress : adress
+    };
+    dispatch(migratePharmacy(obj));
+    navigation.navigate("map");
+    await AsyncStorage.setItem("type", "pharmacy");
+  };
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F4EFF3" }}>
@@ -62,59 +54,48 @@ export default function PharmFirstForm({ navigation,route }) {
         <KeyboardAwareScrollView>
           <View style={styles.form}>
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Full Name</Text>
+              <Text style={styles.inputLabel}>Pharmacy Name</Text>
 
               <TextInput
-                value={fullName}
+                value={pharmName}
                 onChangeText={(e) => {
-                  setFullName(e);
-                }}
-                style={styles.inputControl}
-              />
-            </View>
-
-            {/* <View style={styles.input}>
-              <Text style={styles.inputLabel}>Type</Text>
-
-              <TextInput
-                value={type}
-                onChangeText={(e) => {
-                  setType(e);
-                }}
-                style={styles.inputControl}
-              />
-            </View> */}
-
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>Email</Text>
-
-              <TextInput
-                value={email}
-                onChangeText={(e) => {
-                  setEmail(e);
+                  setPharmName(e);
                 }}
                 style={styles.inputControl}
               />
             </View>
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Phone</Text>
+              <Text style={styles.inputLabel}>Adress</Text>
 
               <TextInput
-                value={phone}
+                value={adress}
                 onChangeText={(e) => {
-                  setPhone(e);
+                  setAdress(e);
                 }}
                 style={styles.inputControl}
               />
             </View>
+            <View style={{ width: width * 0.9, gap: 10, zIndex: 2, paddingBottom: 20 }}>
+              <Text>Enter Your type :</Text>
+              <DropDownPicker
+                items={pharmaTypes.map((category) => ({
+                  label: category,
+                  value: category,
+                }))}
+                open={isOpen}
+                value={types}
+                setOpen={() => setIsOpen(!isOpen)}
+                setValue={(value) => setTypes(value)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+              />
+            </View>
 
-            <View style={styles.input}></View>
 
             <View style={styles.formAction}>
               <Button
-                onPress={() => {
-                  navigation.navigate("PharmSecoundForm" , mig());
-                }}
+                onPress={() => pharmMigration()}
                 titleStyle={{
                   color: "#FFFFFF",
                 }}
@@ -165,6 +146,7 @@ const styles = StyleSheet.create({
   },
   formAction: {
     marginVertical: 24,
+    zIndex: 0,
   },
   formFooter: {
     fontSize: 15,

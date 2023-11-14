@@ -35,6 +35,7 @@ const UserMap = () => {
   const [destination, setDestination] = useState({});
   const [coordinatesData, setCoordnatesData] = useState([]);
   const [mapLocation, setMapLocation] = useState(null);
+  const [markerId, setMarkId] = useState(0);
   const [location, setLocation] = useState({
     latitude: 0, // You can replace these with your default values
     longitude: 0,
@@ -51,7 +52,7 @@ const UserMap = () => {
   //   const mapApiKey = Config.MAP_API
   const [mapFilterData, setMapFilterData] = useState("all");
   const [mapData, setMapData] = useState([]);
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", mapData);
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", markerId);
 
   const getData = async () => {
     if (mapFilterData === "all") {
@@ -160,7 +161,8 @@ const UserMap = () => {
         longitude: e.longitude,
         type: e.type,
         name: e.fullname || e.PHname,
-        imageUrl: e.imageUrl,
+        id:e.id
+        // imageUrl: e.imageUrl,
       });
     });
     setCoordnatesData(data);
@@ -407,7 +409,7 @@ const UserMap = () => {
                   flex: 1,
                   marginLeft: 5,
                 }}
-                onPress={() => setIsNavigation(true)}
+                onPress={() => setMarkId(selectedMarker?.id)}
               >
                 <Text
                   style={{ color: "white", textAlign: "center", fontSize: 16 }}
@@ -420,7 +422,6 @@ const UserMap = () => {
               title="Close"
               onPress={() => {
                 setModalVisible(false);
-                setIsNavigation(false);
               }}
               style={{
                 backgroundColor: "#0ebe7f",
@@ -433,6 +434,7 @@ const UserMap = () => {
           </View>
         </View>
       </Modal>
+      
     </View>
   );
 };

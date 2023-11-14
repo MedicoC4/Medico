@@ -23,7 +23,8 @@ import {
   UserMapView,
   
   AllDoctors,
-  AddRatings
+  AddRatings,
+  AppointementDoctor
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -75,7 +76,7 @@ export default function App() {
       <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Login'
+        initialRouteName='appointment'
       >
         <Stack.Screen
           name="Welcome"
@@ -299,7 +300,7 @@ export default function App() {
           />
           <Stack.Screen
             name="appointment"
-            component={Appointment}
+            component={AppointementDoctor}
             options={{
               headerShown: false,
             }}

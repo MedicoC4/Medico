@@ -46,6 +46,32 @@ module.exports = {
             throw new Error(error)
         }
       },
+    getAppointementAll: async (req,res)=>{
+        try {
+            const getAppointement = await AppointementList.findAll({
+                where: {
+                    DoctorId: { [Op.like]: req.params.DocidAll }
+                  },
+                  include: [
+                    {
+                      model: Doctor,
+                    },
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Availability,
+                    },
+                    {
+                      model: Day,
+                    },
+                  ],
+              });
+            res.json(getAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
     getAppointementUser: async (req,res)=>{
         try {
             const getAppointement = await AppointementList.findAll({

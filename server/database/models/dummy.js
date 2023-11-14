@@ -1,4 +1,4 @@
-const { User, Order, Pharmacy, Product, Review, Record, Categories, Availability, Doctor, Speciality } = require("../index.js");
+const { User, Order, Pharmacy, Products, Review, Record, Categories, Availability, Doctor, Speciality } = require("../index.js");
 
 
 const dummyOrders = [
@@ -389,7 +389,7 @@ const dummyOrders = [
     });
 
 
-  Product.bulkCreate(dummyProducts)
+  Products.bulkCreate(dummyProducts)
     .then(() => {
       console.log('Product data created successfully.');
     })

@@ -4,28 +4,24 @@ import { Dimensions, StyleSheet, View, Button } from "react-native";
 import * as Location from "expo-location";
 import { updateLocation } from "../redux/doctorSlicer";
 import {useSelector , useDispatch} from'react-redux'
+import { auth } from "../firebase-config";
 
 const { width, height } = Dimensions.get("window");
-export default function MapLocation() {
-  const [latitude , setLatitude] = useState('')
-  const [longtitude , setLongtitude] = useState('')
+export default function MapLocation({navigation}) {
+  const [latitude , setLatitude] = useState(0)
+  const [longtitude , setLongtitude] = useState(0)
  
   const dispatch = useDispatch()
-  const location = async()=>{
-    const email = auth.currentUser.email
-    const obj = {
-      "lat":fullName,
-      "long":age,
-    }
-   dispatch(updateLocation(obj))
-  //  navigation.navigate("UpgradeDocSecoundForm")
-  //  await AsyncStorage.setItem('type', 'doctor');
-  }
 
-  const migration = useSelector((state)=>{
+
+  const locationss = useSelector((state)=>{
     state.doctor.data
   })
 
+  // useEffect(()=>{
+  //   userLocation()
+  //   console.log("gggggggggggggggg",latitude , longtitude);
+  // },[])
 
 
   const [mapRegin, setMapRegin] = useState({
@@ -35,39 +31,66 @@ export default function MapLocation() {
     longitudeDelta: 0.0532,
   });
   
+  const locationSet = async()=>{
 
+    const email = auth.currentUser.email
+    const obj = {
+      longitude:longtitude,
+      latitude:latitude,
+      email
+    }
+   dispatch(updateLocation(obj))
+  //  navigation.navigate("UpgradeDocSecoundForm")
+  //  await AsyncStorage.setItem('type', 'doctor');
+  }
   const userLocation = async () => {
+
     let { status } = await Location.requestForegroundPermissionsAsync();
+
     if (status !== "granted") {
       setErrorMsg("Permission to access location was denied");
       return;
     }
+
     let location = await Location.getCurrentPositionAsync({
       enableHighAccuracy: true,
     });
+
     setMapRegin({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       latitudeDelta: 0.004599539499977823,
       longitudeDelta: 0.0032310560345631956,
     });
+    console.log("gggggggggggggggg",location.coords.latitude );
 
-    setLatitude(setMapRegin.latitude)
-    setLongtitude(setMapRegin.longitude)
+    setLatitude(location.coords.latitude)
+    setLongtitude(location.coords.longitude)
+    // if(location.coords.latitude){
 
+      const email = auth.currentUser.email
+  
+      const obj = {
+        longitude:location.coords.longitude,
+        latitude:location.coords.latitude,
+        email
+      }
+     dispatch(updateLocation(obj))
+    // }
     
-    console.log(location.coords.latitude, location.coords.longitude);
+
   };
-  useEffect(() => {
-    userLocation();
-    console.log(latitude, longtitude);
-  }, []);
+  // useEffect(() => {
+  //   userLocation();
+  //   console.log(latitude, longtitude);
+  // }, []);
   return (
     <View style={styles.container}>
       <MapView style={styles.map} region={mapRegin}>
         <Marker coordinate={mapRegin} title="Your Location" />
       </MapView>
-      <Button title="Get Location" style={styles.butt} onPress={()=>{userLocation() ; updateLocation()}} />
+      <Button title="Get Location" style={styles.butt} onPress={()=>{userLocation()}} />
+      <Button title="Next" onPress={()=>{ navigation.navigate("DoctorPdf")}}/>
     </View>
   );
 }

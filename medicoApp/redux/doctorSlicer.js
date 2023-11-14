@@ -54,7 +54,7 @@ export const migrateDoctor = createAsyncThunk(
   "api/migrateDoctor",
   async (input) => {
     const doc = await axios.post(
-      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/migrationDoctor`,
+      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor//migrationDoctor`,
       input
     );
     return doc.data;
@@ -63,7 +63,7 @@ export const migrateDoctor = createAsyncThunk(
 export const updateLocation = createAsyncThunk(
   "api/updateLocation" , 
   async(input)=>{
-    const responce = await axios.put(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/updateLocation` , 
+    const responce = await axios.patch(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/updateLocation` , 
     input
     )
     return responce.data

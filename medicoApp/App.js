@@ -17,6 +17,11 @@ import {
   Promotions,
   BestSellers,
   AllMissingProducts,
+  Appointment,
+  AppointementClient,
+  AppointementList,
+  UserMapView,
+  
   AllDoctors,
   AddRatings
 } from "./screens";
@@ -40,6 +45,7 @@ import PharmSecoundForm from "./screens/PharmSecoundForm";
 import PharmFirstForm from "./screens/PharmFirstForm";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+// import { AppointementList } from "../server/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
@@ -287,6 +293,13 @@ export default function App() {
           <Stack.Screen
             name="PharmFirstForm"
             component={PharmFirstForm}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="appointment"
+            component={UserMapView}
             options={{
               headerShown: false,
             }}

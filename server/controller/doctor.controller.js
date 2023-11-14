@@ -1,4 +1,5 @@
 const {Doctor, User , Record} = require('../database/index')
+const { Op } = require("sequelize");
 
 module.exports = {
     getAll: async (req, res) => {
@@ -14,9 +15,9 @@ module.exports = {
             throw err;
         }
     },
-    getOne : async()=>{
+    getOne : async(req,res)=>{
         try {
-        const oneDoc = await Doctor.getOne({where: {id : req.params.id}}); 
+        const oneDoc = await Doctor.findAll({where: {id : req.params.id}}); 
             res.json(oneDoc);
         } catch (error) {
             throw error
@@ -30,12 +31,12 @@ module.exports = {
             throw err;
         }
       },
-      change : async()=>{
+      change : async(req,res)=>{
         try {
-        const Updated = await Doctor.upddate(req.body,{where: {id: req.params.id}})
+        const Updated = await Doctor.update(req.body,{where: {id: req.params.id}})
         res.json(Updated)
         } catch (error) {
-            throw error
+            throw new Error(error)
         }
     },
     add : async (req,res)=>{
@@ -59,17 +60,19 @@ module.exports = {
     },
     updateLocation : async(req , res)=>{
         try {
+            console.log(req.body);
              const oneDoc = await User.findOne({where: {email : req.body.email}});
-             const doc = await User.update({lang :req.body.lang, lat: req.body.lat},{where: {DoctorId : oneDoc.DoctorId}});
-            res.json(oneDoc);
+
+             const doc = await Doctor.update({longitude :req.body.longitude, latitude : req.body.latitude},{where: {id : oneDoc.DoctorId}});
+            // const doc = await Doctor.update(req.body, {where: {id : oneDoc.DoctorId}});
+            res.send(doc);
         } catch (error) {
-            
+            throw error
         }
     },
     recordsDoc : async(req , res)=>{
         try {
             const oneDoc = await User.findOne({where: {email : req.body.email}});
-
            const allDocs= req.body.Record.map((doc)=>{
               return  {
                     ...doc,
@@ -79,5 +82,18 @@ module.exports = {
         } catch (error) {
             
         }
-    }
+    },
+    getAivableDoc: async (req, res) => {
+        try {
+          const getDoc = await Doctor.findAll({
+            where: {
+            isBlocked: { [Op.like]: req.params.blockDoc },
+            isverified: { [Op.like]: req.params.verefDoc },
+            },
+          });
+          res.status(200).send(getDoc)
+        } catch (error) {
+          throw new Error(error);
+        }
+      },
 }

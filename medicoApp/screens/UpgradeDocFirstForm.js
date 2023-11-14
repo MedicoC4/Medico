@@ -20,7 +20,7 @@ import { migrateDoctor } from '../redux/doctorSlicer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-export default function UpgradeDocFirstForm({navigation,route}) {
+export default function UpgradeDocFirstForm({navigation}) {
   // const {data}=route.params
 
   const [fullName , setFullName]= useState('')
@@ -46,7 +46,6 @@ export default function UpgradeDocFirstForm({navigation,route}) {
       "age":age,
       // "category":"exemple",
       "email": email,
-      "description":description
     }
    dispatch(migrateDoctor(obj))
    navigation.navigate("UpgradeDocSecoundForm")

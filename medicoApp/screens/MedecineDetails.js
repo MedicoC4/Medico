@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator, Alert } from 'react-native';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviews } from '../redux/reviewSlicer';
 import ReviewCard from '../components/ReviewCard';
 import ReviewInput from '../components/SubmitReview';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const MedicineDetails = ({ route }) => {
   const { medicine } = route.params
@@ -27,6 +30,19 @@ const MedicineDetails = ({ route }) => {
     dispatch(fetchReviews()); // Dispatch the fetchReviews action when the component mounts
     requestPermissions();
   }, []);
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchReviews());
+    requestPermissions();
+  }, []);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await dispatch(fetchReviews());
+    setIsRefreshing(false); // Closing parenthesis was missing here
+  };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -70,9 +86,20 @@ const MedicineDetails = ({ route }) => {
     }
   };
 
-  const placeOrder = () => {
-    // Implement your order placement logic here
-    console.log('Order placed');
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+
+  const placeOrder = async () => {
+    // Show loading indicator
+    setIsPlacingOrder(true);
+
+    // Simulate an asynchronous operation (replace this with your actual order placement logic)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // Hide loading indicator
+    setIsPlacingOrder(false);
+
+    // Show a success message or navigate to a confirmation screen
+    Alert.alert('Order Placed', 'Your order has been successfully placed!');
     toggleModal();
   };
 
@@ -100,9 +127,22 @@ const MedicineDetails = ({ route }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
+          />
+        }
+      >
       <View style={styles.container}>
-        <Image source={{ uri: medicine.imageURL }} style={styles.image} />
+      <LinearGradient
+  colors={['transparent', 'rgba(0, 0, 0, 0.3)']}  // Adjust the alpha for transparency
+  style={styles.imageContainer}
+>
+  <Image source={{ uri: medicine.imageURL }} style={styles.image} />
+</LinearGradient>
         <Text style={styles.name}>{medicine.productName}</Text>
         <Text style={styles.info}>Strength: {medicine.strength}</Text>
 <Text style={styles.info}>Manufacturer: {medicine.manufacturer}</Text>
@@ -127,8 +167,8 @@ const MedicineDetails = ({ route }) => {
         <Text style={styles.subtotal}>Sub total : {medicine.price * quantity} TND</Text>
         <Text style={styles.contraindicationsTitle}>Reviews:</Text>
         {reviews.map(review => (
-  <ReviewCard review={review.review} key={review.id} />
-))}
+            <ReviewCard review={review.review} key={review.id} />
+          ))}
 <ReviewInput productId={medicine.id} />
       </View>
       </ScrollView>
@@ -222,7 +262,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
+  height: 200,
   },
   name: {
     fontSize: 20,
@@ -400,6 +440,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
     alignSelf: 'flex-start',
+  },
+  imageContainer: {
+    width: '100%',
+    height: 200,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
 });
 

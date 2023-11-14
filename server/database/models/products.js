@@ -10,7 +10,7 @@ module.exports = (Sequelize, DataTypes) => {
     strength: DataTypes.STRING,
     packaging: DataTypes.STRING,
     expiryDate: DataTypes.DATE,
-    imageURL: DataTypes.BLOB('long'),
+    imageURL: DataTypes.STRING,
     sideEffect: DataTypes.STRING,
     codebar: {
       type: DataTypes.INTEGER,

@@ -3,7 +3,13 @@ const { Products } = require("../database/index");
 module.exports = {
   getAll: async (req, res) => {
     try {
+<<<<<<< HEAD:server/controller/product.controller.js
       const getAll = await Products.findAll({});
+=======
+      const getAll = await Products.findAll({
+
+      });
+>>>>>>> 3dd4f3f72b6e3c5570e737b7a0ae480c29695f9d:server/controller/products.controller.js
       res.json(getAll);
     } catch (err) {
       console.log("Error al obtener todos los productos", err);

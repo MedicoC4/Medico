@@ -1,0 +1,92 @@
+const { AppointementList,Doctor,User,Availability,Day } = require("../database/index");
+const { Op } = require("sequelize");
+
+
+module.exports = {
+    updateStatus: async (req,res)=>{
+        try {
+            const updateStatus = await AppointementList.update(req.body,{where:{id:req.params.idAppoint}})
+            res.json(updateStatus)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
+    postAppointement: async (req,res)=>{
+        try {
+            const addAppointement = await AppointementList.create(req.body)
+            res.json(addAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
+    getAppointement: async (req,res)=>{
+        try {
+            const getAppointement = await AppointementList.findAll({
+                where: {
+                    status: { [Op.like]: req.params.status },
+                    DoctorId: { [Op.like]: req.params.Docid },
+                  },
+                  include: [
+                    {
+                      model: Doctor,
+                    },
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Availability,
+                    },
+                    {
+                      model: Day,
+                    },
+                  ],
+              });
+            res.json(getAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
+    getAppointementUser: async (req,res)=>{
+        try {
+            const getAppointement = await AppointementList.findAll({
+                where: {
+                    status: { [Op.like]: req.params.Statu },
+                    UserId: { [Op.like]: req.params.userID },
+                  },
+                  include: [
+                    {
+                      model: Doctor,
+                    },
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Availability,
+                    },
+                    {
+                      model: Day,
+                    },
+                  ],
+              });
+            res.json(getAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
+      deleteAppoint: async (req,res)=>{
+        try {
+            const delt = await AppointementList.destroy({where:{DayId:req.params.DayOf}})
+            res.json("deleted")
+        } catch (error) {
+            throw new Error(error)
+        }
+    },
+      deleteUserAppoint: async (req,res)=>{
+        try {
+            const delt = await AppointementList.destroy({where:{id:req.params.idOFAppoi}})
+            res.json("deleted")
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+}

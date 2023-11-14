@@ -1,5 +1,5 @@
 import "./sideNav.css";
-import React from "react";
+import React, {useState} from "react";
 import { Link, Outlet } from 'react-router-dom';
 import HomeIcon from "../../assets/images/home.svg";
 import inventoryIcon from "../../assets/images/inventory.svg";
@@ -9,8 +9,11 @@ import statisticsIcon from "../../assets/images/statistics.svg";
 
 
 function SideNav() {
+
+  const [sideNav, setSideNav] = useState(false)
+
   return (
-    <div className="sideNav">
+    <div className={sideNav ? "opened" : "sideNav"} >
       <ul>
         <div className="list-item">
           <img className="icons" src={HomeIcon} alt="" />

@@ -103,8 +103,8 @@ Day.hasMany(AppointementList)
 AppointementList.belongsTo(Day)
 
 // connection
-//   .sync({force: true })
-//   .then(() => console.log("tables created"))
-//   .catch((error) => {throw error;});
+  // .sync({force: true })
+  // .then(() => console.log("tables created"))
+  // .catch((error) => {throw error;});
 
 module.exports = {User, Products, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality};

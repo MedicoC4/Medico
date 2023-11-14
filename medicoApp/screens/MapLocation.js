@@ -5,11 +5,16 @@ import * as Location from "expo-location";
 import { updateLocation } from "../redux/doctorSlicer";
 import {useSelector , useDispatch} from'react-redux'
 import { auth } from "../firebase-config";
+import { pharmacyLocation } from "../redux/pharmacySlicer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
 export default function MapLocation({navigation}) {
   const [latitude , setLatitude] = useState(0)
   const [longtitude , setLongtitude] = useState(0)
+
+
+
  
   const dispatch = useDispatch()
 
@@ -32,6 +37,8 @@ export default function MapLocation({navigation}) {
   });
   
   const locationSet = async()=>{
+    
+    const typeLOgger = await AsyncStorage.getItem("type");
 
     const email = auth.currentUser.email
     const obj = {
@@ -39,11 +46,18 @@ export default function MapLocation({navigation}) {
       latitude:latitude,
       email
     }
-   dispatch(updateLocation(obj))
+    dispatch(pharmacyLocation(obj))
+
+    if (typeLOgger === 'pharmacy') {
+      dispatch(pharmacyLocation(obj))
+    }
+  
+
   //  navigation.navigate("UpgradeDocSecoundForm")
   //  await AsyncStorage.setItem('type', 'doctor');
   }
   const userLocation = async () => {
+    const typeLOgger = await AsyncStorage.getItem("type");
 
     let { status } = await Location.requestForegroundPermissionsAsync();
 
@@ -75,7 +89,15 @@ export default function MapLocation({navigation}) {
         latitude:location.coords.latitude,
         email
       }
-     dispatch(updateLocation(obj))
+      console.log('this is the logger' , typeLOgger);
+      if (typeLOgger === 'pharmacy') {
+        console.log('hiii');
+        dispatch(pharmacyLocation(obj))
+      }
+      if (typeLOgger === 'doctor') {
+        dispatch(updateLocation(obj))
+       
+      }
     // }
     
 

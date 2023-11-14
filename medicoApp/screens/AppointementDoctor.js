@@ -96,7 +96,7 @@ const AppointementList = () => {
                 <View style={{flex:1,flexDirection:"colmun",justifyContent:"center",padding:20,backgroundColor:"white",borderRadius:20,width:"100%",height:280}}>
                  <View style={{backgroundColor:"red",width:"100%",height:"50%"}}>
                     <View style={{flex:1,flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-                        <View style={{backgroundColor:"blue",height:"100%",width:"70%",flex:1,flexDirection:"column",gap:5}}>
+                        <View style={{backgroundColor:"blue",height:"100%",width:"70%",flex:1,flexDirection:"column",gap:2}}>
                             <View style={{backgroundColor:"black",widh:"100%",height:"60%",flex:1,flexDirection:"column",gap:5}}>
                                 <Text></Text>
                                 <Text></Text>

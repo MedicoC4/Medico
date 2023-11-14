@@ -113,7 +113,7 @@ const DoctorCard = ({doctor}) => {
                     alignItems:'center',
                     borderBottomLeftRadius:20,
                 }}
-                onPress={()=>navigation.navigate('docProfile')}>
+                onPress={()=>navigation.navigate('docProfile',{data:doctor})}>
                     <Text
                     style={{
                         color:COLORS.white,

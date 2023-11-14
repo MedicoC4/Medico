@@ -44,7 +44,7 @@ export const signIn = createAsyncThunk(
     console.log(process.env.EXPO_PUBLIC_SERVER_IP,"logged");
    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/signIn`, input);
    console.log(response,"this is from the store");
-   await AsyncStorage.setItem('type', response.data.type);
+   await AsyncStorage.setItem('type',JSON.stringify( response.data));
 
   
 return response.data

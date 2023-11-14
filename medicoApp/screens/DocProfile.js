@@ -10,11 +10,20 @@ import {
   StyleSheet,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-const UserProfilePage = ({ navigation }) => {
+const UserProfilePage = ({ navigation,route }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+
+  const {data} = route.params
+
+ 
+
+
+
+  console.log("this is data", data)
+
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -33,6 +42,7 @@ const UserProfilePage = ({ navigation }) => {
     };
 
     checkAuth();
+   
   }, []);
   
   
@@ -447,7 +457,7 @@ const UserProfilePage = ({ navigation }) => {
             source={require("../assets/hero3.jpg")}
           />
         </View>
-        <Text style={{ fontSize: 30, fontWeight: "bold" }}>Sanni Muiz</Text>
+        <Text style={{ fontSize: 30, fontWeight: "bold" }}>{data.fullname}</Text>
         <View
           style={{
             width: "55%",
@@ -473,7 +483,11 @@ const UserProfilePage = ({ navigation }) => {
             height: "25%",
             alignItems: "center",
           }}
-          onPress={()=>{navigation.navigate('AddRatings')}}
+          onPress={()=>{navigation.navigate('AddRatings',{
+            data : {
+              doctor:data
+            }
+          })}}
         >
           <View
             style={{

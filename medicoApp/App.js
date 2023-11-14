@@ -24,7 +24,8 @@ import {
   
   AllDoctors,
   AddRatings,
-  PharProf
+  PharProf,
+  DocProfileNew
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -77,7 +78,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         // initialRouteName={initialRoute}
-        initialRouteName="Login"
+        initialRouteName="DocProfileNew"
       >
         <Stack.Screen
           name="Welcome"
@@ -96,6 +97,13 @@ export default function App() {
         <Stack.Screen
           name="docProfile"
           component={DocProfile}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="DocProfileNew"
+          component={DocProfileNew}
           options={{
             headerShown: false,
           }}

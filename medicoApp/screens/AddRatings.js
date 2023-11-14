@@ -9,29 +9,51 @@ import Button from '../components/Button';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { createReview } from '../redux/docReviewSlicer';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 
 
 const {width,height} = Dimensions.get('window')
 
-const AddRatings = () => {
+const AddRatings = ({route}) => {
   const [rating,setRating]=useState(0)
   const [comment,setComment]=useState('')
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [client,setClient]=useState(0)
+
+const {data}=route.params
+
+const retrieve = async ()=> {
+  const retrieved = await AsyncStorage.getItem("type")
+  setClient(JSON.parse(retrieved))
+  console.log("retrieved",JSON.parse(retrieved))
+}
+
+
+console.log("this is the client",client.id)
+
+useEffect(()=>{
+  retrieve()
+},[])
+console.log("this is the doctorId", data.doctor.fullname ,"of from the review page",data.doctor.id)
+console.log("this is the userId of from the review page",client)
 
   const handleReviewAdding = () => {
-    const doctorId =1 
-    const userId =1
+    const doctorId =data.doctor.id
+    const userId =client.id
 
     const newReview = {
       doctorId,
       userId,
-      content,
+      rating:rating,
+      comment:comment,
     };
 
     dispatch(createReview(newReview));
+    console.log('rev',newReview);
 
     setComment('');
     setRating('')
@@ -111,13 +133,13 @@ const AddRatings = () => {
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>Ali By</Text>
+            }}>{data.doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,
                 fontWeight:400,
                 color:'#8A96BC'
-            }}>it depends on the written</Text>
+            }}>{data.doctor.type}</Text>
             <View style={{display:'flex',
         flexDirection:'row',
         gap:10,
@@ -175,6 +197,9 @@ const AddRatings = () => {
 
                 }}
                 placeholder='Add a comment for review...'
+              onChangeText={(text)=>{
+                setComment(text)
+              }}
               />
               <Button
   

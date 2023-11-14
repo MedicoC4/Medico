@@ -1,4 +1,5 @@
-const { Products } = require("../database/index");
+const { get } = require("dottie");
+const { Products, Missing } = require("../database/index");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -16,6 +17,16 @@ module.exports = {
     let product = req.body;
     try {
       const newProduct = await Products.create(product);
+      const checkMissing = await Missing.findOne({codebar:newProduct.codebar});
+      if (!checkMissing) {
+        const missing = await Missing.create({codebar:newProduct.codebar,quantity:newProduct.stock});
+      }
+      if (checkMissing) {
+        const missing = await Missing.update({quantity:newProduct.stock + checkMissing.quantity}, {
+          where: { codebar:newProduct.codebar },
+        });
+      }
+    
       res.json(newProduct);
     } catch (error) {
       console.log("Error en el servidor", error);
@@ -26,6 +37,22 @@ module.exports = {
     let id = req.params.id;
     let dataToUpdate = req.body;
     try {
+      const getProd = await Products.findOne( {
+        where: { id: Number(id) },
+      }); 
+      const checkMissing = await Missing.findOne({codebar:getProd.codebar});
+      if (getProd && getProd.stock < req.body.stock) {
+        let diff = req.body.stock - getProd.stock;
+        const missing = await Missing.update({quantity:diff + checkMissing.quantity}, {
+          where: { codebar:getProd.codebar },
+        });
+      }
+      if (getProd && getProd.stock > req.body.stock) {
+        let diff = getProd.stock - req.body.stock ;
+        const missing = await Missing.update({quantity: checkMissing.quantity - diff}, {
+          where: { codebar:getProd.codebar },
+        });
+      }
       const updatedProduct = await Products.update(dataToUpdate, {
         where: { id: Number(id) },
       });

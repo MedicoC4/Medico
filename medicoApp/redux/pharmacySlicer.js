@@ -27,6 +27,17 @@ export const migratePharmacy = createAsyncThunk(
   }
 );
 
+export const pharmacyLocation = createAsyncThunk(
+  "api/pharmacyLocation",
+  async (input) => {
+    const pharm = await axios.patch(
+      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/updateLocation`,
+      input
+    );
+    return pharm.data;
+  }
+)
+
 // Slice
 const pharmaciesSlice = createSlice({
   name: 'pharmacies',
@@ -37,6 +48,9 @@ const pharmaciesSlice = createSlice({
         state.data = action.payload;
     });
     builder.addCase(migratePharmacy.fulfilled, (state, action) => {
+        state.data = action.payload;
+    });
+    builder.addCase(pharmacyLocation.fulfilled, (state, action) => {
         state.data = action.payload;
     });
   },

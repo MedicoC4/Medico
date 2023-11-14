@@ -17,7 +17,7 @@ export const fetchPharmacies = createAsyncThunk(
   }
 );
 export const migratePharmacy = createAsyncThunk(
-  "api/migrateDoctor",
+  "api/migratePharmacy",
   async (input) => {
     const doc = await axios.post(
       `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/migratePharm`,

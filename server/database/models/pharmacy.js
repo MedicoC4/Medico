@@ -10,6 +10,7 @@ module.exports = (Sequelize, DataTypes) => {
       },
       type: {
         type: DataTypes.ENUM("night", "day"),
+        defaultValue : "day"
         
       },
       longitude: {

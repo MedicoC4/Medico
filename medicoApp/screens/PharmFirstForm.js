@@ -22,7 +22,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
   const [pharmName, setPharmName] = useState("");
   const [adress, setAdress] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [types, setTypes] = useState(null);
+  // const [types, setTypes] = useState(null);
 
   const pharmaTypes = ["night", "day"];
 
@@ -35,7 +35,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
     const email = auth.currentUser.email;
     const obj = {
       PHname: pharmName,
-      type: types,
+      email : email,
       adress : adress
     };
     dispatch(migratePharmacy(obj));
@@ -77,7 +77,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
             </View>
             <View style={{ width: width * 0.9, gap: 10, zIndex: 2, paddingBottom: 20 }}>
               <Text>Enter Your type :</Text>
-              <DropDownPicker
+              {/* <DropDownPicker
                 items={pharmaTypes.map((category) => ({
                   label: category,
                   value: category,
@@ -89,7 +89,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
                 onSubmit={(e) => {
                   e.preventDefault();
                 }}
-              />
+              /> */}
             </View>
 
 

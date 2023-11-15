@@ -21,7 +21,7 @@ import {
   AppointementClient,
   AppointementList,
   UserMapView,
-  
+  AllReviews,
   AllDoctors,
   AddRatings,
   PharProf,
@@ -117,6 +117,13 @@ export default function App() {
         <Stack.Screen
           name="AllDoctors"
           component={AllDoctors}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="AllReviews"
+          component={AllReviews}
           options={{
             headerShown: false,
           }}

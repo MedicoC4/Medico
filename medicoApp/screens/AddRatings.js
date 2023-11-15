@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions,TouchableOpacity,TextInput,Image,KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Text, View, Dimensions,TouchableOpacity,TextInput,Image,KeyboardAvoidingView, TouchableWithoutFeedback,Keyboard } from 'react-native'
 import React,{useState,useEffect} from 'react'
 import { AirbnbRating } from 'react-native-ratings';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -18,7 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const {width,height} = Dimensions.get('window')
 
 const AddRatings = ({route}) => {
-  const [rating,setRating]=useState(0)
+  const [rating,setRating]=useState('')
   const [comment,setComment]=useState('')
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -33,13 +33,10 @@ const retrieve = async ()=> {
 }
 
 
-console.log("this is the client",client.id)
-
 useEffect(()=>{
   retrieve()
 },[])
-console.log("this is the doctorId", data.doctor.fullname ,"of from the review page",data.doctor.id)
-console.log("this is the userId of from the review page",client)
+
 
   const handleReviewAdding = () => {
     const doctorId =data.doctor.id
@@ -48,12 +45,12 @@ console.log("this is the userId of from the review page",client)
     const newReview = {
       doctorId,
       userId,
-      rating:rating,
+    rating,
       comment:comment,
     };
 
-    dispatch(createReview(newReview));
     console.log('rev',newReview);
+    dispatch(createReview(newReview));
 
     setComment('');
     setRating('')
@@ -83,6 +80,7 @@ console.log("this is the userId of from the review page",client)
         </View>
       
         </View>
+      
         <View style={{
             alignItems:'center',
         }}>
@@ -171,8 +169,11 @@ console.log("this is the userId of from the review page",client)
       <AirbnbRating 
       size={15}
       reviewSize={25}
-      selectedColor={COLORS.primary}
-      reviewColor={COLORS.primary}
+      // selectedColor={COLORS.primary}
+      // reviewColor={COLORS.primary}
+      onFinishRating={(value)=>{
+        setRating(value)
+      }}
       />
 
       <View 
@@ -200,6 +201,7 @@ console.log("this is the userId of from the review page",client)
               onChangeText={(text)=>{
                 setComment(text)
               }}
+              
               />
               <Button
   
@@ -212,7 +214,7 @@ console.log("this is the userId of from the review page",client)
               </View>
         </View>
         </View>
-      
+       
         <NavigationBar/>
     </View>
   )

@@ -1,42 +1,39 @@
-import { StyleSheet, Text, View, Image,TouchableOpacity,Dimensions,ImageBackground,FlatList,ScrollView } from 'react-native'
-import React,{useEffect} from 'react'
-const {width,height}= Dimensions.get('window')
-import Button from '../components/Button'
+import { StyleSheet, Text, View,ImageBackground,ScrollView,Dimensions,TouchableOpacity,Image } from 'react-native'
+import React,{useEffect,useState} from 'react'
 import COLORS from '../constants/colors'
-import NavigationBar from '../components/NavigationBar'
-import Icon from "react-native-vector-icons/FontAwesome";
 import ReviewCardDoctor from '../components/ReviewCardDoctor'
-import { AntDesign } from "@expo/vector-icons";
-import {fetchDocReviews} from '../redux/docReviewSlicer'
 import { useDispatch, useSelector } from 'react-redux'
-// import { TextInput } from 'react-native-gesture-handler'
+import {fetchDocReviews} from '../redux/docReviewSlicer'
+import {fetchUserNames} from '../redux/userSlicer'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import NavigationBar from '../components/NavigationBar'
+
+const {width,height}=Dimensions.get('window')
+const AllReviews = ({navigation,route}) => {
+    const {data} = route.params
+    const dispatch=useDispatch()
+    const reviews=useSelector((state)=>state.docRev.data)
+    const userN=useSelector((state)=>state.user.data)
+
+    console.log('hello',userN);
+
+    console.log("those are the reviews",reviews)
+    const [client,setClient]=useState(0)
 
 
 
-const DocProfileNew = ({navigation,route}) => {
-  const dispatch=useDispatch()
+    const fetchReviews= ()=>{
+        dispatch(fetchDocReviews(data.id))
+    }
 
-
-  const reviews=useSelector((state)=>state.docRev.data)
-  const fetchReviews= ()=>{
-    dispatch(fetchDocReviews(data.id))
-}
-useEffect(() => {
-  fetchReviews()
-  
-}, []);
-
-  const {data} = route.params
-
+    useEffect(() => {
+        fetchReviews()
+      }, []);
   return (
     <View style={{
-        display:'flex',
-        flexDirection:'column',
-        flex:1,
-        alignItems:'center',
-        gap:9
+        backgroundColor:'white',
     }}>
-        <View style={{
+      <View style={{
             width:width*1,
             height:height*0.48
         }}>
@@ -208,92 +205,33 @@ useEffect(() => {
 
         </View>
 
+        
+                <View style={{
+                    flexGrow:1,
+                    height:height*0.47
+                }}>
         <ScrollView contentContainerStyle={{
             paddingLeft:20,
             paddingRight:20,
             width:width*1,
-            height:height*0.5,
-            // alignItems:'center',
+            // height:height*2.5,
+            alignItems:'center',
+            gap:10,
+            paddingTop:2,
+            paddingBottom:2,
+            flexGrow:1
             
         }}>
-            <View style={{
-                // alignItems:'center',
-                gap:10
-            }}>
-            <View style={{
-                gap:15
-            }}>
-            <Text style={{
-                fontSize:30,
-                fontWeight:600
-            }}>About Doctor</Text>
-            <Text style={{
-                color:COLORS.black,
-                fontSize:18,
-                // fontWeight:600
-            }}>Hello, My name is Dr. Name. I'm specialized In hello whatever it says we gonna kill it </Text>
-            </View>
-            
-            <Text style={{
-              fontSize:20,
-              fontWeight:600
-            }}>Recent Reviews</Text>
-      <View style={{
-        // alignItems:'center',
-        gap:15
-      }}>
-        <View style={{
-          flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    // marginTop: 40,
-    paddingRight:20
-        }}>
-
-        <TouchableOpacity style={{
-          backgroundColor: "#ddf0ee",
-          borderRadius: 20,
-          paddingVertical: 3.5,
-          paddingHorizontal: 13
-        }}
-        onPress={()=>navigation.navigate('AllReviews',
-        {
-          data : {
-            doctor:data,
-            review:reviews
-          }
-        }
-
-        )}
-        >
-            <Text style={{
-              color: "#2d958c",
-              fontSize: 15,
-            }}>SEE ALL</Text>
-          </TouchableOpacity>
-        </View>
-
-            <View style={{
-              alignItems:'center',
-              gap:20
-            }}>
-{reviews.slice(0, 2).map((review, index) => (
-  <ReviewCardDoctor key={review.id} review={review} />
-))}
-</View>
-      </View>
-        </View>
+            {reviews.map((review, index) => (
+          <ReviewCardDoctor key={review.id} review={review} />
+        ))}
         </ScrollView>
-        {/* <TextInput></TextInput> */}
-        
-        
-
-     <NavigationBar/>
-     
+        </View>
+        <NavigationBar/>
     </View>
   )
 }
 
-export default DocProfileNew
+export default AllReviews
 
 const styles = StyleSheet.create({})

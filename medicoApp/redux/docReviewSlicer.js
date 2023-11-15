@@ -20,7 +20,6 @@ export const fetchDocReviews = createAsyncThunk(
     'review/createReview',
     async(input)=>{
         const response=await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRev`,input);
-        console.log('this is review response',response);
         return response.data;
     }
   )

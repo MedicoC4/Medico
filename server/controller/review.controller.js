@@ -8,6 +8,7 @@ module.exports = {
         const doctorId = req.params.doctorId;
         const reviews = await Review.findAll({
           where: { doctorId: doctorId },
+          include : User
         });
         res.json(reviews);
       } catch (error) {

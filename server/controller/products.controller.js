@@ -1,5 +1,4 @@
-const { get } = require("dottie");
-const { Products, Missing } = require("../database/index");
+const { Products, Missing , User} = require("../database/index");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -16,15 +15,16 @@ module.exports = {
   create: async (req, res) => {
     let product = req.body;
     try {
-      const newProduct = await Products.create(product);
+      const findUser = await User.findOne({where : {email: req.body.email}})
+      const newProduct = await Products.create({...product, PharmacyId: findUser.id});
       const checkMissing = await Missing.findOne({codebar:newProduct.codebar});
       if (!checkMissing) {
-        const missing = await Missing.create({codebar:newProduct.codebar,quantity:newProduct.stock});
+       await Missing.create({codebar:newProduct.codebar,quantity:newProduct.stock});
       }
       if (checkMissing) {
-        const missing = await Missing.update({quantity:newProduct.stock + checkMissing.quantity}, {
-          where: { codebar:newProduct.codebar },
-        });
+        console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+         await checkMissing.update({quantity:newProduct.stock + checkMissing.quantity});
+     
       }
     
       res.json(newProduct);
@@ -43,15 +43,11 @@ module.exports = {
       const checkMissing = await Missing.findOne({codebar:getProd.codebar});
       if (getProd && getProd.stock < req.body.stock) {
         let diff = req.body.stock - getProd.stock;
-        const missing = await Missing.update({quantity:diff + checkMissing.quantity}, {
-          where: { codebar:getProd.codebar },
-        });
+        checkMissing.update({quantity:diff + checkMissing.quantity});
       }
       if (getProd && getProd.stock > req.body.stock) {
         let diff = getProd.stock - req.body.stock ;
-        const missing = await Missing.update({quantity: checkMissing.quantity - diff}, {
-          where: { codebar:getProd.codebar },
-        });
+      await checkMissing.update({quantity: checkMissing.quantity - diff});
       }
       const updatedProduct = await Products.update(dataToUpdate, {
         where: { id: Number(id) },

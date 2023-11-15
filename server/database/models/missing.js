@@ -6,11 +6,11 @@ module.exports = (Sequelize, DataTypes) => {
       },
       order: {
         type: DataTypes.INTEGER,
-        defaultValue: 0,
+        defaultValue: 1,
       },
       quantity: {
         type: DataTypes.INTEGER,
-        defaultValue: 0,
+        defaultValue: 1,
       },
       codebar: {
         type: DataTypes.INTEGER,
@@ -18,14 +18,20 @@ module.exports = (Sequelize, DataTypes) => {
       }, 
       
     });
-    Missing.afterCreate((instance) => {
+    Missing.afterCreate(async(instance) => {
         // Calculate the sum and update the sumColumn before creating
-        instance.quota = instance.quantity /instance.order;
+        instance.quota = instance.quantity / instance.order;
+        await instance.save();
       });
       
-      Missing.afterUpdate((instance) => {
+      Missing.afterUpdate(async(instance) => {
         // Calculate the sum and update the sumColumn before updating
-        instance.quota = instance.quantity /instance.order;
+        if(instance.changed(instance.quantity)||instance.changed(instance.order)){
+            
+            instance.quota = instance.quantity / instance.order;
+            await instance.save();
+
+        }
       });
     return Missing;
   };

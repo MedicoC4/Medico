@@ -18,16 +18,14 @@ module.exports = {
     }
   },
   create: async (req, res) => {
-    let userData = req.body;
+    let userData = req.body; 
     try {
       const newOrder= await Order.create(userData);
       const newProduct= await Products.findOne({id:newOrder.ProductId});
       const checkMissing = await Missing.findOne({codebar:newProduct.codebar});
    
       
-        const missing = await Missing.update({order: checkMissing.order + 1}, {
-          where: { codebar:newProduct.codebar },
-        });
+        await checkMissing.update({order: checkMissing.order + 1});
       
       res.json(newOrder);
     } catch (error) {

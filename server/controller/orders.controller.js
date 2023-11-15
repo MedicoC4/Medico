@@ -1,4 +1,4 @@
-const { Order, Products, User } = require("../database/index.js");
+const { Order, Products, User, Missing, } = require("../database/index.js");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -32,10 +32,19 @@ module.exports = {
     }
   },
   create: async (req, res) => {
-    let userData = req.body;
+
+    let userData = req.body; 
     try {
-      const newUser = await Order.create(userData);
-      res.json(newUser);
+      const newOrder= await Order.create(userData);
+      const newProduct= await Products.findOne({id:newOrder.ProductId});
+      const checkMissing = await Missing.findOne({where:{codebar:newProduct.codebar}});
+   
+      
+        await checkMissing.update({order: checkMissing.order + 1});
+        checkMissing.quota = checkMissing.quantity / checkMissing.order;
+        await checkMissing.save();
+      
+      res.json(newOrder);
     } catch (error) {
       throw error;
     }

@@ -22,11 +22,14 @@ const AppointementList = () => {
   const [isConfirmedModalSec, setIsConfirmedModalSec] = useState(false);
   const [isRejectedModal, setIsRejectedModal] = useState(false);
   const [isRejectedModalSec, setIsRejectedModalSec] = useState(false);
+  const [sendEmail, setSendEmail] = useState(false);
+
   const [saveData, setSaveData] = useState({
     userName: "",
     day: "",
     hour: "",
-    createdAt: "",
+    createdDate: "",
+    createdHour: "",
   });
   console.log(saveData, "saveData");
   //   const fetchData = async () => {
@@ -301,10 +304,15 @@ const AppointementList = () => {
                         onPress={() => {
                           setIsConfirmedModal(true);
                           setSaveData({
-                            userName: appointment.User.userName,
+                            userName: appointment.User.username,
                             day: appointment.Day.day,
                             hour: appointment.Availability.hour,
-                            createdAt: appointment.createdAt,
+                            createdDate: new Date(
+                              appointment.createdAt
+                            ).toLocaleDateString(),
+                            createdHour: new Date(
+                              appointment.createdAt
+                            ).toLocaleTimeString(),
                           });
                         }}
                       >
@@ -336,10 +344,15 @@ const AppointementList = () => {
                         onPress={() => {
                           setIsRejectedModal(true);
                           setSaveData({
-                            userName: appointment.User.userName,
+                            userName: appointment.User.username,
                             day: appointment.Day.day,
                             hour: appointment.Availability.hour,
-                            createdAt: appointment.createdAt,
+                            createdDate: new Date(
+                              appointment.createdAt
+                            ).toLocaleDateString(),
+                            createdHour: new Date(
+                              appointment.createdAt
+                            ).toLocaleTimeString(),
                           });
                         }}
                       >
@@ -835,14 +848,69 @@ const AppointementList = () => {
               >
                 <View style={styles.modalContainer}>
                   <View style={styles.modalContent}>
-                    <Text>Are you sure to confirme the appointement of {appointment.User.username}, in {appointment.Day.day}, at {appointment.Availability.hour}</Text>
-                    {/* <Button
-                      title="Close Modal"
-                      onPress={() => setIsConfirmedModal(false)}
-                    /> */}
-                    <TouchableOpacity style={{justifyContent:"flex-end"}} onPress={() => setIsConfirmedModal(false)}><Text>Close</Text></TouchableOpacity>
-                    <TouchableOpacity style={{justifyContent:"flex-end"}} onPress={() => {setIsConfirmedModal(false);setIsConfirmedModalSec(true)}}><Text>Confirme</Text></TouchableOpacity>
-
+                    <Text
+                      style={{ justifyContent: "center", alignItems: "center" }}
+                    >
+                      Are you sure to confirme the appointement of{" "}
+                      {saveData.userName}, on {saveData.day}, at {saveData.hour}
+                    </Text>
+                    <View style={{ flexDirection: "row", gap: 20 }}>
+                      <View
+                        style={{
+                          width: "45%",
+                          backgroundColor: COLORS.primary,
+                          height: 30,
+                          borderRadius: 50,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <TouchableOpacity
+                          onPress={() => {
+                            setIsConfirmedModal(false);
+                            setIsConfirmedModalSec(true);
+                          }}
+                        >
+                          <Text
+                            style={{
+                              color: "white",
+                              fontWeight: "bold",
+                              fontSize: 20,
+                            }}
+                          >
+                            Confirme
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View
+                        style={{
+                          width: "45%",
+                          backgroundColor: "white",
+                          height: 30,
+                          borderRadius: 50,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderWidth: 2,
+                          borderColor: "#f20404",
+                          borderStyle: "solid",
+                        }}
+                      >
+                        <TouchableOpacity
+                          style={{}}
+                          onPress={() => setIsConfirmedModal(false)}
+                        >
+                          <Text
+                            style={{
+                              color: "#f20404",
+                              fontWeight: "bold",
+                              fontSize: 20,
+                            }}
+                          >
+                            Close
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
                   </View>
                 </View>
               </Modal>
@@ -851,14 +919,85 @@ const AppointementList = () => {
                 animationType="fade"
                 transparent={true}
               >
-                <View style={styles.modalContainer}>
-                  <View style={styles.modalContent}>
-                    <Text>Are you sure to confirme the appointement of {appointment.User.username}, in {appointment.Day.day}, at {appointment.Availability.hour}</Text>
-                    {/* <Button
-                      title="Close Modal"
-                      onPress={() => setIsConfirmedModal(false)}
-                    /> */}
-                    <TouchableOpacity style={{justifyContent:"flex-end"}} onPress={() => setIsConfirmedModalSec(false)}><Text>Close</Text></TouchableOpacity>
+                <View style={stylesModalSec.modalContainer}>
+                  <View style={stylesModalSec.modalContent}>
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        paddingTop: 30,
+                        gap: 10,
+                      }}
+                    >
+                      <Image
+                        style={{ width: 200, height: 200 }}
+                        source={require("../assets/coche.png")}
+                      />
+                      <Text
+                        style={{
+                          color: "#677294",
+                          fontSize: 22,
+                          fontWeight: "bold",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        The Appointement is Accepted
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      ></View>
+                    </View>
+                    <Text
+                      style={{
+                        color: "#677294",
+                        fontSize: 15,
+                        fontWeight: "bold",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      You accepted an appointement with {saveData.userName}, on{" "}
+                      {saveData.day}, at {saveData.hour}
+                    </Text>
+
+                    <View
+                      style={{
+                        width: "45%",
+                        backgroundColor: COLORS.primary,
+                        height: 30,
+                        borderRadius: 50,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => setIsConfirmedModalSec(false)}
+                        style={{
+                          width: "45%",
+                          backgroundColor: COLORS.primary,
+                          height: 30,
+                          borderRadius: 50,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "white",
+                            fontWeight: "bold",
+                            fontSize: 20,
+                          }}
+                        >
+                          Done
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </Modal>
@@ -869,15 +1008,66 @@ const AppointementList = () => {
               >
                 <View style={styles.modalContainer}>
                   <View style={styles.modalContent}>
-                    <Text>Are you sure to reject the appointement of {appointment.User.username}, in {appointment.Day.day}, at {appointment.Availability.hour}</Text>
-                    <Button
-                      title="Close Modal"
-                      onPress={() => setIsRejectedModal(false)}
-                    />
-                    <Button
-                      title="Reject Modal"
-                      onPress={() => {setIsRejectedModal(false);setIsRejectedModalSec(true)}}
-                    />
+                    <Text>
+                      You confirmed an appointement with {saveData.userName}, on{" "}
+                      {saveData.day}, at {saveData.hour}
+                    </Text>
+                    <View style={{ flexDirection: "row", gap: 20 }}>
+                      <View
+                        style={{
+                          width: "45%",
+                          backgroundColor: COLORS.primary,
+                          height: 30,
+                          borderRadius: 50,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <TouchableOpacity
+                          onPress={() => {
+                            setIsRejectedModal(false);
+                            setIsRejectedModalSec(true);
+                          }}
+                        >
+                          <Text
+                            style={{
+                              color: "white",
+                              fontWeight: "bold",
+                              fontSize: 20,
+                            }}
+                          >
+                            Reject
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View
+                        style={{
+                          width: "45%",
+                          backgroundColor: "white",
+                          height: 30,
+                          borderRadius: 50,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderWidth: 2,
+                          borderColor: "#f20404",
+                          borderStyle: "solid",
+                        }}
+                      >
+                        <TouchableOpacity
+                          onPress={() => setIsRejectedModal(false)}
+                        >
+                          <Text
+                            style={{
+                              color: "#f20404",
+                              fontWeight: "bold",
+                              fontSize: 20,
+                            }}
+                          >
+                            Close
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
                   </View>
                 </View>
               </Modal>
@@ -886,13 +1076,98 @@ const AppointementList = () => {
                 animationType="fade"
                 transparent={true}
               >
+                <View style={stylesModalSec.modalContainer}>
+                  <View style={stylesModalSec.modalContent}>
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <Image
+                        style={{ width: 250, height: 250 }}
+                        source={require("../assets/marqueX.png")}
+                      />
+                      {/* <View style={{flex:1,flexDirection:"row",justifyContent:"center",alignItems:"center"}}> */}
+                      <Text
+                        style={{
+                          color: "#677294",
+                          fontSize: 22,
+                          fontWeight: "bold",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        Your Appointement is Rejected
+                      </Text>
+                      {/* </View> */}
+                    </View>
+                    <Text
+                      style={{
+                        color: "#677294",
+                        fontSize: 15,
+                        fontWeight: "bold",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      You rejected an appointement with {saveData.userName}, on{" "}
+                      {saveData.day}, at {saveData.hour}
+                    </Text>
+
+                    <View
+                      style={{
+                        width: "45%",
+                        backgroundColor: COLORS.primary,
+                        height: 30,
+                        borderRadius: 50,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => setIsRejectedModalSec(false)}
+                        style={{
+                          width: "45%",
+                          backgroundColor: COLORS.primary,
+                          height: 30,
+                          borderRadius: 50,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "white",
+                            fontWeight: "bold",
+                            fontSize: 20,
+                          }}
+                        >
+                          Done
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={sendEmail}
+              >
                 <View style={styles.modalContainer}>
                   <View style={styles.modalContent}>
-                    <Text>Are you sure to reject the appointement of {appointment.User.username}, in {appointment.Day.day}, at {appointment.Availability.hour}</Text>
-                    <Button
-                      title="Close Modal"
-                      onPress={() => setIsRejectedModalSec(false)}
-                    />
+                    <Text style={styles.modalText}>
+                      Your Email Content Goes Here
+                    </Text>
+
+                    <TouchableOpacity
+                      onPress={()=>setSendEmail(false)}
+                      style={styles.modalButton}
+                    >
+                      <Text style={styles.buttonText}>Close Modal</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </Modal>
@@ -904,6 +1179,30 @@ const AppointementList = () => {
     </View>
   );
 };
+const stylesModalSec = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    width: 300,
+    height: 520,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+});
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -921,11 +1220,11 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     elevation: 5,
-    width:300,
-    height:200,
-    justifyContent:"space-between",
-    alignItems:"center",
-    flexDirection:"column"
+    width: 300,
+    height: 200,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "column",
   },
 });
 

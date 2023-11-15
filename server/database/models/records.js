@@ -9,7 +9,7 @@ module.exports = (Sequelize, DataTypes) => {
         allowNull: false
       },
      name : {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
      }
     });
     return Records;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./addProduct.css";
+import { auth } from "../../firebase-config";
 import SideNav from "../../components/sideNav/SideNav";
 import {
   addDoc,
@@ -57,7 +58,7 @@ const initialState = {
     required: true,
   },
   image: {
-    value: {},
+    value: "",
     required: true,
     file: true,
     allowedTypes: ["jpg", "jpeg", "png", "gif"],
@@ -88,6 +89,7 @@ const AddProduct = () => {
     sideEffect:"",
     codebar: "",
     productCategory: "",
+    imageURL: "https://www.parafendri.tn/2330-medium_default/svr-sun-secure-blur-creme-mousse-spf50.jpg",
   });
 
 
@@ -115,9 +117,9 @@ const AddProduct = () => {
       return;
     }
   
-  
+  const user = auth.currentUser;
     axios
-      .post("http://127.0.0.1:1128/api/Product/createProduct", {...inputs, imageURL: file})
+      .post("http://127.0.0.1:1128/api/Product/createProduct", {...inputs, imageURL: "https://www.parafendri.tn/2330-medium_default/svr-sun-secure-blur-creme-mousse-spf50.jpg" , email: user.email })
       .then((response) => {
         console.log("Product added successfully", response.data);
       })

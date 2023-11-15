@@ -10,7 +10,7 @@ const ProductRouter = require('./routes/product.route.js')
 const AppointementRouter = require('./routes/appointement.route.js')
 const AppointementListRouter = require('./routes/appointementList.route.js')
 const ReviewRouter = require('./routes/reviews.route.js')
-
+const morgan = require('morgan')
 const cors = require('cors')
 const app = express();   
 const port = 1128; 
@@ -18,7 +18,7 @@ app.use(express.json());
 require("./database/index.js")
 const swaggerUi = require('swagger-ui-express');
 
-
+app.use(morgan('combined'));
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(null, { swaggerOptions: { url: '/swagger.json' } }));
 
 app.use(express.json());

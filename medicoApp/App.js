@@ -75,7 +75,7 @@ export default function App() {
       <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='appointment'
+        initialRouteName='appointmentDoctor'
       >
         <Stack.Screen
           name="Welcome"
@@ -291,7 +291,21 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="appointment"
+            name="appointement"
+            component={Appointment}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="appointmentClient"
+            component={AppointementClient}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="appointmentDoctor"
             component={AppointementDoctor}
             options={{
               headerShown: false,

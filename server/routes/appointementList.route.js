@@ -3,7 +3,7 @@ const {updateStatus,postAppointement,getAppointement,deleteAppoint,getAppointeme
 
 route.get("/getAppointementUserr/:Statu/:userID", getAppointementUser)
 route.put("/updateAppoint/:idAppoint", updateStatus)
-route.post("/add", postAppointement)
+route.post("/add/:userPost", postAppointement)
 route.get("/getAppointement/:status/:Docid", getAppointement)
 route.delete("/delete/:DayOf", deleteAppoint)
 route.delete("/deleteOfAppoi/:idOFAppoi", deleteUserAppoint)

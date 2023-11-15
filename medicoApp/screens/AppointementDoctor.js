@@ -8,15 +8,20 @@ import {
   StyleSheet,
   Modal,
   Button,
-  Dimensions
+  Dimensions,
+  
 } from "react-native";
+import { Picker } from '@react-native-picker/picker';
+
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
 const {width,height} = Dimensions.get('window')
+import { auth } from "../firebase-config";
 
 import axios from "axios";
 import COLORS from "../constants/colors";
+import { firebase } from "@react-native-firebase/database";
 const AppointementList = () => {
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(true);
@@ -25,6 +30,8 @@ const AppointementList = () => {
   const [isRejectedModal, setIsRejectedModal] = useState(false);
   const [isRejectedModalSec, setIsRejectedModalSec] = useState(false);
   const [sendEmail, setSendEmail] = useState(false);
+const [idOfHour,setIdOfHour]=useState(0); 
+const [idOfAppoint,setIdOfAppoint]=useState(0); 
 
   const [saveData, setSaveData] = useState({
     userName: "",
@@ -33,7 +40,8 @@ const AppointementList = () => {
     createdDate: "",
     createdHour: "",
   });
-  console.log(saveData, "saveData");
+
+
   //   const fetchData = async () => {
   //     try {
   //       const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/getAppointement/pending/${1}`);
@@ -45,10 +53,12 @@ const AppointementList = () => {
   //   };
   const fetchAllData = async () => {
     try {
+      const email = auth.currentUser.email
+
       const response = await axios.get(
         `http://${
           process.env.EXPO_PUBLIC_SERVER_IP
-        }:1128/api/appointement/getAllDoc/${1}`
+        }:1128/api/appointement/getAllDoc/${email}`
       );
       setData(response.data);
     } catch (error) {
@@ -57,8 +67,10 @@ const AppointementList = () => {
     }
   };
 
-  const updateStatus = async (idH, body) => {
+  const updateStatus = async (idH) => {
+    
     try {
+      const email = auth.currentUser.email
       const response = await axios.put(
         `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/update/${idH}`,
         { availability: 1 }
@@ -80,6 +92,7 @@ const AppointementList = () => {
     }
   };
 
+
   useEffect(() => {
     // fetchData();
     fetchAllData();
@@ -95,8 +108,11 @@ const AppointementList = () => {
       }}
     >
       <Text style={{ paddingBottom: 40, fontSize: 35, fontWeight: "bold" }}>
-        Appointmenttt List
+        Appointment List
       </Text>
+    
+    
+
       <FlatList
         data={data}
         keyExtractor={(appointment) => String(appointment.id)}
@@ -115,8 +131,13 @@ const AppointementList = () => {
                   paddingRight: 15,
                   paddingLeft: 15,
                   width: 380,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 5 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 15,
+                  elevation: 5, // Elevation for Android
                   // backgroundColor: "#dedede",
-                  // backgroundColor:"#edeaea",
+                  // backgroundColor: "#edeaea",
                   // borderRadius: 20,
                 }}
               >
@@ -316,6 +337,8 @@ const AppointementList = () => {
                               appointment.createdAt
                             ).toLocaleTimeString(),
                           });
+                          setIdOfHour(appointment.Availability.id);
+                          setIdOfAppoint(appointment.id);
                         }}
                       >
                         <Text
@@ -356,6 +379,7 @@ const AppointementList = () => {
                               appointment.createdAt
                             ).toLocaleTimeString(),
                           });
+                          setIdOfAppoint(appointment.id)
                         }}
                       >
                         <Text
@@ -386,8 +410,13 @@ const AppointementList = () => {
                   paddingRight: 15,
                   paddingLeft: 15,
                   width: 380,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 5 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 15,
+                  elevation: 5, // Elevation for Android
                   // backgroundColor: "#dedede",
-                  // backgroundColor:"#edeaea",
+                  // backgroundColor: "#edeaea",
                   // borderRadius: 20,
                 }}
               >
@@ -624,8 +653,13 @@ const AppointementList = () => {
                   paddingRight: 15,
                   paddingLeft: 15,
                   width: 380,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 5 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 15,
+                  elevation: 5, // Elevation for Android
                   // backgroundColor: "#dedede",
-                  // backgroundColor:"#edeaea",
+                  // backgroundColor: "#edeaea",
                   // borderRadius: 20,
                 }}
               >
@@ -871,6 +905,8 @@ const AppointementList = () => {
                           onPress={() => {
                             setIsConfirmedModal(false);
                             setIsConfirmedModalSec(true);
+                            updateStatus(idOfHour);
+                            updateStatusAppointement(idOfAppoint,{status:"Accepted"})
                           }}
                         >
                           <Text
@@ -1009,7 +1045,7 @@ const AppointementList = () => {
                 <View style={styles.modalContainer}>
                   <View style={styles.modalContent}>
                     <Text style={{ justifyContent: "center", alignItems: "center" ,textAlign:"center",paddingTop:20,fontWeight:"bold",fontSize:18,color:"#677294"}}>
-                      You confirmed an appointement with {saveData.userName}, on{" "}
+                      Are you sure to reject an appointement with {saveData.userName}, on{" "}
                       {saveData.day}, at {saveData.hour}
                     </Text>
                     <View style={{ flexDirection: "row", gap: 20 }}>
@@ -1027,6 +1063,7 @@ const AppointementList = () => {
                           onPress={() => {
                             setIsRejectedModal(false);
                             setIsRejectedModalSec(true);
+                            updateStatusAppointement(idOfAppoint,{status:"Rejected"})
                           }}
                         >
                           <Text
@@ -1099,7 +1136,7 @@ const AppointementList = () => {
                           textAlign:'center'
                         }}
                       >
-                        Your Appointement is Rejected
+                        The Appointement is Rejected
                       </Text>
                       {/* </View> */}
                     </View>
@@ -1227,5 +1264,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
 });
+
+
 
 export default AppointementList;

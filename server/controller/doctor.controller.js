@@ -85,12 +85,12 @@ module.exports = {
     recordsDoc : async(req , res)=>{
         try {
         const oneDoc = await User.findOne({where: {email : req.body.email}});
-        const allDocs= req.body.Record.map(async(doc)=>{
+  
            await Record.create ({
-                    ...doc,
+                    ...req.body,
                     DoctorId : oneDoc.id
                 })
-            })
+        
         
             res.json('created')
         } catch (error) {

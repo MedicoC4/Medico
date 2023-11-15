@@ -111,9 +111,9 @@ const DoctorSlice = createSlice({
     builder.addCase(updateLocation.fulfilled, (state, action) => {
       state.data = action.payload;
     });
-    builder.addCase(updateRecords.fulfilled, (state, action) => {
-      state.data = action.payload;
-    });
+    // builder.addCase(updateRecords.fulfilled, (state, action) => {
+    //   state.data = action.payload;
+    // });
   },
 });
 export default DoctorSlice.reducer;

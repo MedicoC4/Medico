@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Dimensions, Image, FlatList, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import Button from "../components/Button";
 import COLORS from "../constants/colors";
 import * as DocumentPicker from "expo-document-picker";
-import { updateRecords } from "../redux/doctorSlicer"; 
-import { auth } from "../firebase-config";
+import { updateRecords } from "../redux/doctorSlicer";
 
 const { width, height } = Dimensions.get("window");
 
@@ -19,7 +26,8 @@ const DoctorPdf = () => {
       multiple: true,
     });
 
-    const totalSelectedDocuments = result.assets.length + documents.assets.length;
+    const totalSelectedDocuments =
+      result.assets.length + documents.assets.length;
 
     if (totalSelectedDocuments > 6) {
       Alert.alert(
@@ -35,44 +43,8 @@ const DoctorPdf = () => {
     }
   };
 
-  const sendDocuments = async () => {
-    try {
-      const uploadPromises = documents.assets.map(async (document) => {
-        const formData = new FormData();
-        formData.append('file', { uri: document.uri, name: document.name, type: document.type });
-
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/dp42uyqn5/upload`, 
-          {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
-
-        const responseData = await response.json();
-
-        return {
-          type: responseData.format,
-          file: responseData.secure_url,
-          name: document.name,
-        };
-      });
-
-      const uploadedDocuments = await Promise.all(uploadPromises);
-
-      const obj = {
-        email: auth.currentUser.email,
-        Record: uploadedDocuments,
-      };
-
-      dispatch(updateRecords(obj));
-    } catch (error) {
-      console.error('Error uploading to Cloudinary:', error);
-      // Handle error
-    }
+  const sendDocuments = () => {
+    dispatch(updateRecords({ records: documents.assets }));
   };
 
   useEffect(() => {

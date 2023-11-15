@@ -13,7 +13,7 @@ module.exports = (Sequelize, DataTypes) => {
     imageURL: DataTypes.STRING,
     sideEffect: DataTypes.STRING,
     codebar: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },  
   });

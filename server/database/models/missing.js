@@ -13,7 +13,7 @@ module.exports = (Sequelize, DataTypes) => {
         defaultValue: 1,
       },
       codebar: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
       }, 
       

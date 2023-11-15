@@ -1,4 +1,4 @@
-const { Order } = require("../database/index.js");
+const { Order, Products, User } = require("../database/index.js");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -15,6 +15,20 @@ module.exports = {
     } catch (err) {
       console.log("Error al obtener todos los usuarios");
       throw err;
+    }
+  },
+  getOne: async (req, res) => {
+    try {
+      const getOne = await Order.findOne({
+        where: { order_id: req.params.id },
+        include : [
+          {model:User},
+          {model:Products}
+        ]
+      })
+      res.json(getOne)
+    } catch (error) {
+      throw error
     }
   },
   create: async (req, res) => {

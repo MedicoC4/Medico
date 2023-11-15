@@ -11,7 +11,7 @@ route.get("/pharmaLocation/:blockPharma/:verefPharma" , getAivablePharma)
 route.put("/updateLangLat/:idPharmcy" , updataLongLat)
 
 
-route.put("/updateLocation" , updateLocation)
-route.put("/updatRecords" , recordsDoc)
+route.patch("/updateLocation" , updateLocation)
+route.patch("/updatRecords" , recordsDoc)
 
 module.exports=route

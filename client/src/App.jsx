@@ -5,7 +5,7 @@ import {
   Route,
   Routes,
   useLocation,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import ProductOverview from "./pages/productOverview/ProductOverview";
@@ -24,18 +24,17 @@ import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
 import { TransitionProvider } from "./context/TransitionContext.jsx";
 import TransitionComponent from "./components/Transition/Transition.jsx";
 import { AuthContext } from "./context/AuthContext.js";
+import OderDetails from "./pages/ordering/OderDetails.jsx";
+
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 const App = () => {
   const location = useLocation();
 
-  const { currentUser } = useContext(AuthContext)
-  console.log(currentUser)
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   const RequireAuth = ({ children }) => {
     return currentUser ? children : <Navigate to="/dashboard" />;
   };
-
-
-
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -81,6 +80,7 @@ const App = () => {
             <Route path="statistics" element={<Statistics />} />
             <Route path="reset-password" element={<ResetePassword />} />
             <Route path="orders" element={<Ordering />} />
+            <Route path="order-details/:orderId" element={<OderDetails />} />
           </Routes>
         </CSSTransition>
       </TransitionGroup>

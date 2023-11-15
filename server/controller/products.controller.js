@@ -3,13 +3,21 @@ const { Products } = require("../database/index");
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const getAll = await Products.findAll({
-
-      });
+      const getAll = await Products.findAll({});
       res.json(getAll);
     } catch (err) {
       console.log("Error al obtener todos los productos", err);
       res.status(500).json({ error: "Error al obtener todos los productos" });
+    }
+  },
+  getOne: async (req, res) => {
+    try {
+      const getOne = await Products.findOne({
+        where: { id: req.params.id },
+      });
+      res.json(getOne);
+    } catch (error) {
+      throw error;
     }
   },
   create: async (req, res) => {

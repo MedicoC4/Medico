@@ -1,5 +1,6 @@
 import "./cardList.css";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import SideNav from "../../components/sideNav/SideNav";
 import axios from "axios";
 // import { or } from "firebase/firestore"; // This import is not used
@@ -40,9 +41,9 @@ const OrderList = () => {
   }, []);
 
   return (
-    <div className="main_order_container">
+    <div className="main_order_container" >
       <SideNav />
-      <div className="order-content">
+      <div className="order-content" style={{padding:'2rem'}}>
         <div className="grid-container">
           <div className="grid-item header">Order ID</div>
           <div className="grid-item header">Product Name</div>
@@ -54,7 +55,7 @@ const OrderList = () => {
           <div className="grid-item header">Action</div>
           {orders.map((order, index) => (
             <React.Fragment key={index}>
-              <div className="grid-item">{order.tracking_number}</div>
+              <div className="grid-item"><Link to={`/order-details/${order.order_id}`} className="orders_link">{order.tracking_number}</Link></div>
               <div className="grid-item">Product A</div>
               <div className="grid-item">
                 <img

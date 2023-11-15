@@ -8,10 +8,12 @@ import {
   StyleSheet,
   Modal,
   Button,
+  Dimensions
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
+const {width,height} = Dimensions.get('window')
 
 import axios from "axios";
 import COLORS from "../constants/colors";
@@ -592,7 +594,7 @@ const AppointementList = () => {
                           source={require("../assets/chat.png")}
                         />
                       </TouchableOpacity>
-                      <TouchableOpacity>
+                      <TouchableOpacity onPress={()=>setSendEmail(true)}>
                         <Image
                           style={{ width: 48, height: 48 }}
                           source={require("../assets/email.png")}
@@ -849,7 +851,7 @@ const AppointementList = () => {
                 <View style={styles.modalContainer}>
                   <View style={styles.modalContent}>
                     <Text
-                      style={{ justifyContent: "center", alignItems: "center" }}
+                      style={{ justifyContent: "center", alignItems: "center" ,textAlign:"center",paddingTop:20,fontWeight:"bold",fontSize:18,color:"#677294"}}
                     >
                       Are you sure to confirme the appointement of{" "}
                       {saveData.userName}, on {saveData.day}, at {saveData.hour}
@@ -859,7 +861,7 @@ const AppointementList = () => {
                         style={{
                           width: "45%",
                           backgroundColor: COLORS.primary,
-                          height: 30,
+                          height: 45,
                           borderRadius: 50,
                           justifyContent: "center",
                           alignItems: "center",
@@ -886,7 +888,7 @@ const AppointementList = () => {
                         style={{
                           width: "45%",
                           backgroundColor: "white",
-                          height: 30,
+                          height: 45,
                           borderRadius: 50,
                           justifyContent: "center",
                           alignItems: "center",
@@ -927,7 +929,7 @@ const AppointementList = () => {
                         alignItems: "center",
                         flexDirection: "column",
                         paddingTop: 30,
-                        gap: 10,
+                        gap: 16,
                       }}
                     >
                       <Image
@@ -939,8 +941,7 @@ const AppointementList = () => {
                           color: "#677294",
                           fontSize: 22,
                           fontWeight: "bold",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          textAlign:"center"
                         }}
                       >
                         The Appointement is Accepted
@@ -956,10 +957,9 @@ const AppointementList = () => {
                     <Text
                       style={{
                         color: "#677294",
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: "bold",
-                        justifyContent: "center",
-                        alignItems: "center",
+                       textAlign:"center"
                       }}
                     >
                       You accepted an appointement with {saveData.userName}, on{" "}
@@ -970,7 +970,7 @@ const AppointementList = () => {
                       style={{
                         width: "45%",
                         backgroundColor: COLORS.primary,
-                        height: 30,
+                        height: height*0.08,
                         borderRadius: 50,
                         justifyContent: "center",
                         alignItems: "center",
@@ -1008,7 +1008,7 @@ const AppointementList = () => {
               >
                 <View style={styles.modalContainer}>
                   <View style={styles.modalContent}>
-                    <Text>
+                    <Text style={{ justifyContent: "center", alignItems: "center" ,textAlign:"center",paddingTop:20,fontWeight:"bold",fontSize:18,color:"#677294"}}>
                       You confirmed an appointement with {saveData.userName}, on{" "}
                       {saveData.day}, at {saveData.hour}
                     </Text>
@@ -1017,7 +1017,7 @@ const AppointementList = () => {
                         style={{
                           width: "45%",
                           backgroundColor: COLORS.primary,
-                          height: 30,
+                          height: 45,
                           borderRadius: 50,
                           justifyContent: "center",
                           alignItems: "center",
@@ -1044,7 +1044,7 @@ const AppointementList = () => {
                         style={{
                           width: "45%",
                           backgroundColor: "white",
-                          height: 30,
+                          height: 45,
                           borderRadius: 50,
                           justifyContent: "center",
                           alignItems: "center",
@@ -1095,8 +1095,8 @@ const AppointementList = () => {
                           color: "#677294",
                           fontSize: 22,
                           fontWeight: "bold",
-                          justifyContent: "center",
-                          alignItems: "center",
+                  
+                          textAlign:'center'
                         }}
                       >
                         Your Appointement is Rejected
@@ -1106,10 +1106,9 @@ const AppointementList = () => {
                     <Text
                       style={{
                         color: "#677294",
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: "bold",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        textAlign:"center"
                       }}
                     >
                       You rejected an appointement with {saveData.userName}, on{" "}
@@ -1120,7 +1119,7 @@ const AppointementList = () => {
                       style={{
                         width: "45%",
                         backgroundColor: COLORS.primary,
-                        height: 30,
+                        height: height*0.08,
                         borderRadius: 50,
                         justifyContent: "center",
                         alignItems: "center",
@@ -1161,13 +1160,14 @@ const AppointementList = () => {
                     <Text style={styles.modalText}>
                       Your Email Content Goes Here
                     </Text>
-
+                          <View>
                     <TouchableOpacity
-                      onPress={()=>setSendEmail(false)}
+                      onPress={() => setSendEmail(false)}
                       style={styles.modalButton}
                     >
-                      <Text style={styles.buttonText}>Close Modal</Text>
+                      <Image style={{height:45,width:45}} source={require("../assets/envoyer.png")}/>
                     </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </Modal>

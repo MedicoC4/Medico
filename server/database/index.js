@@ -34,6 +34,7 @@ const Day = require('./models/day.js')(connection, DataTypes)
 const Speciality = require('./models/speciality.js')(connection, DataTypes)
 const Availability = require('./models/availabilty.js')(connection, DataTypes)
 const AppointementList = require('./models/appointementList.js')(connection, DataTypes)
+const Missing = require('./models/missing.js')(connection, DataTypes)
 
 
 Pharmacy.hasOne(User)
@@ -91,8 +92,6 @@ Review.belongsToMany(Products, { through: 'ProductReview' })
 // Review.belongsToMany(Doctor, { through: 'DoctorReview' })
 
 
-
-
 User.hasMany(AppointementList)
 AppointementList.belongsTo(User)
 
@@ -103,8 +102,8 @@ Day.hasMany(AppointementList)
 AppointementList.belongsTo(Day)
 
 // connection
-//   .sync({force: true })
+//   .sync({alter: true })
 //   .then(() => console.log("tables created"))
 //   .catch((error) => {throw error;});
 
-module.exports = {User, Products, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality};
+module.exports = {User, Products, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality, Missing};

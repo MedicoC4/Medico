@@ -1,4 +1,5 @@
 const { Products, Missing , User} = require("../database/index");
+const missing = require("../database/models/missing");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -16,18 +17,27 @@ module.exports = {
     let product = req.body;
     try {
       const findUser = await User.findOne({where : {email: req.body.email}})
-      const newProduct = await Products.create({...product, PharmacyId: findUser.id});
-      const checkMissing = await Missing.findOne({codebar:newProduct.codebar});
-      if (!checkMissing) {
-       await Missing.create({codebar:newProduct.codebar,quantity:newProduct.stock});
-      }
+      const newProduct = await Products.create({...product, PharmacyId: findUser.PharmacyId});
+      console.log(newProduct.codebar);
+      const checkMissing = await Missing.findOne({where:{codebar:newProduct.codebar}});
+      console.log("checkMissing");
       if (checkMissing) {
-        console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-         await checkMissing.update({quantity:newProduct.stock + checkMissing.quantity});
-     
+        console.log("checkMissing exist",checkMissing);
+       const done= await checkMissing.update(
+          {quantity: newProduct.stock + checkMissing.quantity},
+          {where: {codebar: newProduct.codebar}}
+        );
+        checkMissing.quota = checkMissing.quantity / checkMissing.order;
+        await checkMissing.save();
       }
+      if (!checkMissing) {
+        console.log(" not checkMissing exist",checkMissing);
+        const data= await Missing.create({codebar:newProduct.codebar,quantity:newProduct.stock});
+      }
+     
     
-      res.json(newProduct);
+      res.status(200).send(checkMissing);
+   
     } catch (error) {
       console.log("Error en el servidor", error);
       res.status(500).json({ error: "Error en el servidor" });
@@ -40,19 +50,31 @@ module.exports = {
       const getProd = await Products.findOne( {
         where: { id: Number(id) },
       }); 
-      const checkMissing = await Missing.findOne({codebar:getProd.codebar});
+      const checkMissing = await Missing.findOne({where:{codebar:getProd.codebar}});
       if (getProd && getProd.stock < req.body.stock) {
+        console.log("ooutside");
         let diff = req.body.stock - getProd.stock;
-        checkMissing.update({quantity:diff + checkMissing.quantity});
+        await checkMissing.update(
+          {quantity: diff + checkMissing.quantity},
+          {where: {codebar: getProd.codebar}}
+        );
+        checkMissing.quota = checkMissing.quantity / checkMissing.order;
+        await checkMissing.save();
       }
       if (getProd && getProd.stock > req.body.stock) {
-        let diff = getProd.stock - req.body.stock ;
-      await checkMissing.update({quantity: checkMissing.quantity - diff});
+        console.log("INSIDE");
+        let diff = getProd.stock - req.body.stock;
+        await checkMissing.update(
+          {quantity: checkMissing.quantity - diff},
+          {where: {codebar: getProd.codebar}}
+        );
+        checkMissing.quota = checkMissing.quantity / checkMissing.order;
+        await checkMissing.save();
       }
       const updatedProduct = await Products.update(dataToUpdate, {
         where: { id: Number(id) },
       });
-      res.json(updatedProduct);
+      res.json(checkMissing);
     } catch (error) {
       console.log("Error en el servidor", error);
       res.status(500).json({ error: "Error en el servidor" });

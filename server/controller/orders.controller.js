@@ -18,14 +18,17 @@ module.exports = {
     }
   },
   create: async (req, res) => {
+
     let userData = req.body; 
     try {
       const newOrder= await Order.create(userData);
       const newProduct= await Products.findOne({id:newOrder.ProductId});
-      const checkMissing = await Missing.findOne({codebar:newProduct.codebar});
+      const checkMissing = await Missing.findOne({where:{codebar:newProduct.codebar}});
    
       
         await checkMissing.update({order: checkMissing.order + 1});
+        checkMissing.quota = checkMissing.quantity / checkMissing.order;
+        await checkMissing.save();
       
       res.json(newOrder);
     } catch (error) {

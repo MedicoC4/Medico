@@ -101,9 +101,9 @@ AppointementList.belongsTo(Availability)
 Day.hasMany(AppointementList)
 AppointementList.belongsTo(Day)
 
-connection
-  .sync({alter: true })
-  .then(() => console.log("tables created"))
-  .catch((error) => {throw error;});
+// connection
+//   .sync({alter: true })
+//   .then(() => console.log("tables created"))
+//   .catch((error) => {throw error;});
 
 module.exports = {User, Products, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality, Missing};

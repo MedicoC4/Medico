@@ -24,15 +24,6 @@ module.exports = (Sequelize, DataTypes) => {
         await instance.save();
       });
       
-      Missing.afterUpdate(async(instance) => {
-        // Calculate the sum and update the sumColumn before updating
-        if(instance.changed(instance.quantity)||instance.changed(instance.order)){
-            
-            instance.quota = instance.quantity / instance.order;
-            await instance.save();
-
-        }
-      });
     return Missing;
   };
   

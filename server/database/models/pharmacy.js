@@ -4,10 +4,11 @@ module.exports = (Sequelize, DataTypes) => {
         type: DataTypes.STRING,
         
       },
-      imageUrl: {
+      iimageUrl: {
         type: DataTypes.STRING,
-        
+        defaultValue :"https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png"
       },
+      
       type: {
         type: DataTypes.ENUM("night", "day"),
         defaultValue : "day"

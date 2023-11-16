@@ -32,7 +32,8 @@ const Landing = ({ route }) => {
   const pharmacies = useSelector((state) => state.pharmacy?.data);
   const medicines = useSelector((state) => state.medecine?.data);
   const doctors = useSelector((state) => state.doctor?.data);
-  const verifiedDoctors = doctors.filter(doctor => doctor.isverified)
+  const verifiedDoctors = doctors.filter(doctor => doctor.isverified !== undefined && doctor.isverified)
+
 
 
   const fetch1 = () => {

@@ -15,7 +15,6 @@ const initialState = {
     const response = await axios.get(
       `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/Categories/getAll`
     );
-    console.log('this is responsee',response);
     return response.data;
   });
 

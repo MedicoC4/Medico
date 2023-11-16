@@ -9,6 +9,7 @@ import DoctorCard from '../components/DoctorCard';
 import NavigationBar from '../components/NavigationBar';
 import { fetchDoctors } from "../redux/doctorSlicer"; // Import fetchDoctors
 import { useDispatch, useSelector } from "react-redux";
+import { save } from '../redux/doctorSlicer';
 
 
 
@@ -16,9 +17,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AllDoctors = () => {
   const doctors = useSelector((state) => state.doctor?.data);
+
+
+
+  console.log('this is doctor id hello man',doctors);
   const dispatch = useDispatch();
 
-
+  const handleID=(id)=>{
+    dispatch(save(id))
+  }
   const fetch3 = () => {
     dispatch(fetchDoctors()); // Fetch doctors data
   };
@@ -74,7 +81,7 @@ const AllDoctors = () => {
             <DoctorCard/>
             <DoctorCard/> */}
             {doctors && doctors.map((doctor) => (
-        <DoctorCard key={doctor.id} doctor={doctor} />
+        <DoctorCard key={doctor.id} doctor={doctor} handleID={handleID(doctor.id)} />
       ))}
 
 

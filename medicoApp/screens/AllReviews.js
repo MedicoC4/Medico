@@ -8,6 +8,7 @@ import {fetchUserNames} from '../redux/userSlicer'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NavigationBar from '../components/NavigationBar'
 
+
 const {width,height}=Dimensions.get('window')
 const AllReviews = ({navigation,route}) => {
     const {data} = route.params

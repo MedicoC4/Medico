@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { View, Text, Dimensions, Image, FlatList, TouchableOpacity, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import Button from "../components/Button";
 import COLORS from "../constants/colors";
 import * as DocumentPicker from "expo-document-picker";
-import { updateRecords } from "../redux/doctorSlicer";
+import { updateRecords } from "../redux/doctorSlicer"; 
+import { auth } from "../firebase-config";
+import axios from "axios";
+
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -26,8 +22,7 @@ const DoctorPdf = () => {
       multiple: true,
     });
 
-    const totalSelectedDocuments =
-      result.assets.length + documents.assets.length;
+    const totalSelectedDocuments = result.assets.length + documents.assets.length;
 
     if (totalSelectedDocuments > 6) {
       Alert.alert(
@@ -43,8 +38,39 @@ const DoctorPdf = () => {
     }
   };
 
-  const sendDocuments = () => {
-    dispatch(updateRecords({ records: documents.assets }));
+  const sendDocuments = async () => {
+    const email = auth.currentUser.email
+    documents.assets.map(async (document) => {
+    try {
+        const formData = new FormData();
+        formData.append('file', document);
+        formData.append("upload_preset", "qyrzp0xv");
+        const response = await axios.post(
+          `https://api.cloudinary.com/v1_1/dp42uyqn5/upload`, formData
+         
+        );
+
+
+
+
+
+        const obj = {
+          email,
+            type: response.data.format,
+          file: response.data.secure_url,
+          name: document.name,
+        };
+  
+        dispatch(updateRecords(obj));
+    
+      } catch (error) {
+        console.error('Error uploading to Cloudinary:');
+        throw error
+      }
+      });
+
+
+  
   };
 
   useEffect(() => {

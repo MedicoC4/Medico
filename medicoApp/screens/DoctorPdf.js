@@ -16,7 +16,8 @@ import * as DocumentPicker from "expo-document-picker";
 import { updateRecords } from "../redux/doctorSlicer";
 import { auth } from "../firebase-config";
 import axios from "axios";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { updateRecordsPharm } from "../redux/pharmacySlicer";
 const { width, height } = Dimensions.get("window");
 
 const DoctorPdf = () => {
@@ -48,6 +49,8 @@ const DoctorPdf = () => {
 
   const sendDocuments = async () => {
     const email = auth.currentUser.email;
+    const typeLOgger = await AsyncStorage.getItem("type");
+
     documents.assets.map(async (document) => {
       try {
         const formData = new FormData();
@@ -64,8 +67,15 @@ const DoctorPdf = () => {
           file: response.data.secure_url,
           name: document.name,
         };
+        console.log(typeLOgger);
 
-        dispatch(updateRecords(obj));
+
+
+        if (typeLOgger === "pharmacy") {
+          dispatch(updateRecordsPharm(obj));
+        }else {
+          dispatch(updateRecords(obj));
+        }
       } catch (error) {
         console.error("Error uploading to Cloudinary:");
         throw error;

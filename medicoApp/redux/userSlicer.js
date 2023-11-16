@@ -21,11 +21,8 @@ export const fetchUserNames=createAsyncThunk('api/fetchUserName',async(id)=>{
 
 export const addUser = createAsyncThunk(
     "addUser",
-    async (input, { dispatch }) => {
-      console.log(input,'this is the body');
-      console.log(process.env.EXPO_PUBLIC_SERVER_IP,"logged");
+    async (input, { dispatch }) => { 
      const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/createUser`, input);
-     console.log(response,"this is from the store");
   return response.data
     }
   );

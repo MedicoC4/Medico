@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator, Alert, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
+import { auth } from '../firebase-config';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +14,7 @@ import { fetchOrders, createOrder } from '../redux/orderSlicer'
 import ReviewCard from '../components/ReviewCard';
 import ReviewInput from '../components/SubmitReview';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
 
 
 const MedicineDetails = ({ route }) => {
@@ -20,22 +22,25 @@ const MedicineDetails = ({ route }) => {
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(1);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [allergies, setAllergies] = useState('null');
-  const [pregnant, setPregnant] = useState('null');
+  const [allergies, setAllergies] = useState('');
+  const [pregnant, setPregnant] = useState('No');
   const [selectedImage, setSelectedImage] = useState(null);
   const [clients, setClients] = useState('null');
+  const [address, setAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   
-const retrieve = async () => {
 
-  const value = await AsyncStorage.getItem('user');
-  const user = JSON.parse(value);
-  console.log('this is from the async storage',user);
-  setClients(user.id);
-  return user;
-}
-
-console.log(retrieve(),'this is from test');
-
+  const retrieve = async () => {
+    const value = await AsyncStorage.getItem('user');
+    if (value !== null) {
+      const user = JSON.parse(value);
+      setClients(user.id);
+      return user;
+    } else {
+      console.log('No user data in async storage');
+      return null;
+    }
+  }
 
   const dispatch = useDispatch();
   const reviews = useSelector(state => state.reviews.data); 
@@ -56,7 +61,7 @@ console.log(retrieve(),'this is from test');
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await dispatch(fetchReviews());
+     dispatch(fetchReviews());
     setIsRefreshing(false); // Closing parenthesis was missing here
   };
 
@@ -81,43 +86,72 @@ console.log(retrieve(),'this is from test');
     }
   };
 
-  const selectFile = async () => {
-    const result = await DocumentPicker.getDocumentAsync();
-    if (result.type === 'success') {
-      setSelectedFile(result);
-    }
-  };
-
   const selectImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      delete result.cancelled;
-      setSelectedImage(result.assets[0].uri);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+        delete result.canceled;
+        
+        let formData = new FormData();
+        formData.append('file', {
+          uri: result.assets[0].uri,
+          type: 'image/jpeg', // or whichever type your image is
+          name: 'prescription', // you can choose any name
+        });
+  
+        formData.append("upload_preset", "ntdxso9x");
+        console.log("dfghjklmljhgfdsdfg",formData)
+        const response = await axios.post(
+          'https://api.cloudinary.com/v1_1/ddsp5aq1k/upload',
+          formData
+        );
+        console.log(response)
+        setSelectedImage(response.data.secure_url)
+      }
+      
+    } catch (error) {
+      console.log(error)
     }
   };
 
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
-
+ 
   const placeOrder = async () => {
    
+    const email = auth.currentUser.email
     setIsPlacingOrder(true);
 
-    
+    function generateTrackingNumber(length) {
+      let result = '';
+      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+  }
+
+  try {
     const orderData = {
       quantityOrdered: quantity,
+      pregnant: pregnant,
+      allergies: allergies,
+      prescription: selectedImage,
       total: medicine.price * quantity,
-      tracking_number: "C4CES",
+      tracking_number: generateTrackingNumber(5),
       ProductId: medicine.id,
-      UserId: clients,
+      email,
+      phoneNumber: phoneNumber,
+      address: address,
     };
 
-    try {
+   
       
     dispatch(createOrder(orderData));
 
@@ -214,18 +248,14 @@ console.log(retrieve(),'this is from test');
       </View>
       <Modal isVisible={isModalVisible}>
         <View style={styles.modalContainer}>
-          <Text style={styles.modalQuestion}>Do you have allergies to medications, food, a vaccine component, or latex?</Text>
-          <View style={styles.modalOptions}>
-            <TouchableOpacity style={[styles.modalOption, allergies === 'yes' && styles.selectedOption]} onPress={() => setAllergies('yes')}>
-              <Text style={allergies === 'yes' && styles.selectedOptionText}>Yes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.modalOption, allergies === 'no' && styles.selectedOption]} onPress={() => setAllergies('no')}>
-              <Text style={allergies === 'no' && styles.selectedOptionText}>No</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.modalOption, allergies === "I don't know" && styles.selectedOption]} onPress={() => setAllergies("I don't know")}>
-              <Text style={allergies === "I don't know" && styles.selectedOptionText}>I don't know</Text>
-            </TouchableOpacity>
-          </View>
+        <Text style={styles.modalQuestion}>Do you have allergies to medications, food, a vaccine component, or latex?</Text>
+  <TextInput
+    style={styles.input}
+    onChangeText={setAllergies}
+    value={allergies}
+    placeholder="Type your allergies here"
+  />
+          
           <Text style={styles.modalQuestion}>Are you pregnant?</Text>
           <View style={styles.modalOptions}>
             <TouchableOpacity style={[styles.modalOption, pregnant === 'yes' && styles.selectedOption2]} onPress={() => setPregnant('yes')}>
@@ -248,6 +278,21 @@ console.log(retrieve(),'this is from test');
         <Image source={{ uri: selectedImage }} style={styles.selectedImage} />
       </View>
     )}
+    <Text style={styles.modalQuestion}>Please insert your address:</Text>
+<TextInput
+  style={styles.input}
+  onChangeText={setAddress}
+  value={address}
+  placeholder="Type your address here"
+/>
+<Text style={styles.modalQuestion}>Please insert your phone number:</Text>
+<TextInput
+  style={styles.input}
+  onChangeText={setPhoneNumber}
+  value={phoneNumber}
+  placeholder="+216 XX XXX XXX"
+  keyboardType="phone-pad" // This will bring up a numeric keypad
+/>
     <View style={styles.modalButtonContainer}>
       <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
         <Text style={styles.closeText}>Close</Text>
@@ -410,6 +455,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     marginTop: 10,
+    marginBottom: 10,
   },
   uploadButtonText: {
     color: 'white',
@@ -480,6 +526,16 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  input: {
+    height: 50,
+    margin: 12,
+    marginLeft: -2,
+    marginRight: -2,
+    borderWidth: 1,
+    borderRadius: 20, 
+    padding: 10,
+    paddingLeft: 15
   },
 });
 

@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
     data: [],
+    userOrders:[],
     error: null,
     loading: false,
   };
@@ -11,6 +12,15 @@ const initialState = {
 export const fetchOrders = createAsyncThunk("orders/fetchOrders", async () => {
   try {
     const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/orders/getAll`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+});
+
+export const fetchOrdersByUserId = createAsyncThunk("orders/fetchOrdersByUserId", async (userId) => {
+  try {
+    const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/orders/getById/${userId}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -46,6 +56,8 @@ const orderSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+
+
       .addCase(createOrder.pending, (state) => {
         state.loading = true;
       })
@@ -54,6 +66,18 @@ const orderSlice = createSlice({
         state.data.push(action.payload);
       })
       .addCase(createOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      .addCase(fetchOrdersByUserId.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchOrdersByUserId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userOrders = action.payload;
+      })
+      .addCase(fetchOrdersByUserId.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

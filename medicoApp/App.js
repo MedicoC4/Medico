@@ -25,7 +25,8 @@ import {
   AllDoctors,
   AddRatings,
   PharProf,
-  DocProfileNew
+  DocProfileNew,
+  AppointementDoctor
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -315,8 +316,22 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="appointment"
-            component={UserMapView}
+            name="appointement"
+            component={Appointment}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="appointmentClient"
+            component={AppointementClient}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="appointmentDoctor"
+            component={AppointementDoctor}
             options={{
               headerShown: false,
             }}

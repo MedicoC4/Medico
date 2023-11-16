@@ -8,9 +8,12 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
+
 import Icon from "react-native-vector-icons/FontAwesome";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import PharmacyCard from "../components/PharmacyCard";
 import MedicineCard from "../components/MedicineCard";
+import OrderDetails from "../components/OrderDetails";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import NavigationBar from "../components/NavigationBar";
@@ -19,12 +22,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPharmacies } from "../redux/pharmacySlicer";
 import { fetchMedicines } from "../redux/medecineSlicer";
 import DoctorCard from "../components/DrCard";
-import { fetchDoctors } from "../redux/doctorSlicer"; 
+import { fetchDoctors } from "../redux/doctorSlicer";
+import { fetchOrdersByUserId } from "../redux/orderSlicer";
 import { auth } from "../firebase-config";
-
-
-
-
 
 const Landing = ({ route }) => {
   const navigation = useNavigation();
@@ -32,33 +32,45 @@ const Landing = ({ route }) => {
   const pharmacies = useSelector((state) => state.pharmacy?.data);
   const medicines = useSelector((state) => state.medecine?.data);
   const doctors = useSelector((state) => state.doctor?.data);
-  const verifiedDoctors = doctors.filter(doctor => doctor.isverified !== undefined && doctor.isverified)
+  const orders = useSelector((state) => state.orders.userOrders);
+  const verifiedDoctors = doctors.filter((doctor) => doctor.isverified);
+  const [clients, setClients] = useState("null");
+  const [pendingOrders, setPendingOrders] = useState([]);
 
-
+  const retrieve = async () => {
+    const email = auth.currentUser.email;
+    dispatch(fetchOrdersByUserId(email));
+    if (orders) {
+      setPendingOrders(
+        orders.filter((order) => order.orderStatus === "Pending")
+      );
+    }
+  };
 
   const fetch1 = () => {
     dispatch(fetchPharmacies());
+
   };
   const fetch2 = () => {
     dispatch(fetchMedicines());
   };
 
   const fetch3 = () => {
-    dispatch(fetchDoctors()); 
+    dispatch(fetchDoctors());
   };
-  
+
   useEffect(() => {
     fetch1();
     fetch2();
     fetch3();
   }, []);
 
- 
-
   let topRatedPharmacies = [];
 
   if (pharmacies) {
-    topRatedPharmacies = pharmacies.filter(pharmacy => pharmacy.rating >= 4.5);
+    topRatedPharmacies = pharmacies.filter(
+      (pharmacy) => pharmacy.rating >= 4.5
+    );
   }
 
   return (
@@ -97,24 +109,12 @@ const Landing = ({ route }) => {
             <Text style={styles.buttonText}>SEE ALL</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.card}>
-          <View style={styles.processingContainer}>
-            <Text style={styles.processingText}>PROCESSING</Text>
-          </View>
-          <Text style={styles.fromText}>From: {pharmacies.name} </Text>
-          <View style={styles.separator} />
-          <View style={styles.orderDetails}>
-            <View style={styles.orderDetailItem}>
-              <MaterialCommunityIcons name="pill" size={20} color="#198b81" />
-              <Text style={styles.drugsText}> item(s)</Text>
-            </View>
-            <View style={styles.separatorVertical} />
-            <View style={styles.orderDetailItem}>
-              <FontAwesome5 name="money-bill-wave" size={20} color="#198b81" />
-              <Text style={styles.totalText}> TND </Text>
-            </View>
-          </View>
-        </View>
+        <OrderDetails
+          pharmacies={pharmacies}
+          userId={clients}
+          orders={pendingOrders}
+          email
+        />
         <View style={styles.secondOrdersContainer}>
           <Text style={styles.ordersText}>Pharmacies near you</Text>
           <TouchableOpacity style={styles.button}>
@@ -138,7 +138,7 @@ const Landing = ({ route }) => {
           data={topRatedPharmacies}
           renderItem={({ item }) => <PharmacyCard />}
           keyExtractor={(item, index) => index.toString()}
-          horizontal={true} 
+          horizontal={true}
         />
         <View style={styles.secondOrdersContainer}>
           <Text style={styles.ordersText}>Medicines</Text>
@@ -155,23 +155,26 @@ const Landing = ({ route }) => {
           data={medicines}
           renderItem={({ item }) => <MedicineCard medecine={item} />}
           keyExtractor={(item, index) => index.toString()}
-          horizontal={true} 
+          horizontal={true}
         />
         <View style={styles.secondOrdersContainer}>
-  <Text style={styles.ordersText}>Doctors</Text>
-  <TouchableOpacity style={styles.button}
-  onPress={()=>{navigation.navigate('AllDoctors')}}
-  >
-    <Text style={styles.buttonText}>SEE ALL</Text>
-  </TouchableOpacity>
-</View>
+          <Text style={styles.ordersText}>Doctors</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("AllDoctors");
+            }}
+          >
+            <Text style={styles.buttonText}>SEE ALL</Text>
+          </TouchableOpacity>
+        </View>
 
-<FlatList
-  data={verifiedDoctors} 
-  renderItem={({ item }) => <DoctorCard doctor={item} />} 
-  keyExtractor={(item, index) => index.toString()}
-  horizontal={true} 
-/>
+        <FlatList
+          data={verifiedDoctors}
+          renderItem={({ item }) => <DoctorCard doctor={item} />}
+          keyExtractor={(item, index) => index.toString()}
+          horizontal={true}
+        />
         <View style={{ height: 40 }} />
       </ScrollView>
       <NavigationBar />

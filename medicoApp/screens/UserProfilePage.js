@@ -329,6 +329,8 @@ const clearToken = async () => {
             // backgroundColor: "grey",
             alignItems: "center",
           }}
+          onPress={()=>navigation.navigate('appointement')}
+
         >
           <View
             style={{
@@ -373,7 +375,76 @@ const clearToken = async () => {
                 />
               </View>
             </View>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Payments</Text>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Availabilities</Text>
+          </View>
+          <View>
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: "25%",
+            // backgroundColor: "grey",
+            alignItems: "center",
+          }}
+          onPress={()=>navigation.navigate('appointmentDoctor')}
+
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/payment.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Appointements</Text>
           </View>
           <View>
             <AntDesign name="right" size={24} color="#1a998e" />

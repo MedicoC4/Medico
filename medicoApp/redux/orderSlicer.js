@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
     data: [],
+    userOrders:[],
     error: null,
     loading: false,
   };
@@ -74,7 +75,7 @@ const orderSlice = createSlice({
       })
       .addCase(fetchOrdersByUserId.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.userOrders = action.payload;
       })
       .addCase(fetchOrdersByUserId.rejected, (state, action) => {
         state.loading = false;

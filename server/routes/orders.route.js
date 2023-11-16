@@ -3,7 +3,7 @@ const {getAll, create, deleteOne, getByUserId} = require("../controller/orders.c
 
 
 route.get("/getAll",getAll)
-route.get("/getById",getByUserId)
+route.get("/getById/:userId",getByUserId)
 route.post("/createOrder",create)
 route.delete("/deleteOrder/:id",deleteOne)
 

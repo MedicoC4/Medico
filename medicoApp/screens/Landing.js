@@ -35,23 +35,18 @@ const Landing = ({ route }) => {
   const pharmacies = useSelector((state) => state.pharmacy?.data);
   const medicines = useSelector((state) => state.medecine?.data);
   const doctors = useSelector((state) => state.doctor?.data);
-  const orders = useSelector((state) => state.orders?.data)
+  const orders = useSelector((state) => state.orders?.userOrders)
   const verifiedDoctors = doctors.filter(doctor => doctor.isverified)
   const [clients, setClients] = useState('null');
   const [pendingOrders, setPendingOrders] = useState([]);
 
   const retrieve = async () => {
-    const value = await AsyncStorage.getItem('user');
-    if (value !== null) {
-      const user = JSON.parse(value);
-     
-      setClients(user);
-      dispatch(fetchOrdersByUserId(user.id))
-      return user;
-    }
+    const email = auth.currentUser.email
+  dispatch(fetchOrdersByUserId(email))
+    
   }
 
-  const email = auth.currentUser.email
+  
 
 
   const fetch1 = () => {

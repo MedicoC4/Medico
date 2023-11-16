@@ -1,77 +1,105 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   Image,
-  Pressable,
-  TextInput,
   TouchableOpacity,
-  Dimensions,
   StyleSheet,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import {auth} from '../firebase-config'
-import { getUser } from '../constants/userServices'
-import { signOut } from 'firebase/auth';
+import { auth } from "../firebase-config";
+import { getUser } from "../constants/userServices";
+import { signOut } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import { docImage } from "../redux/doctorSlicer";
+import { useDispatch } from "react-redux";
 
-const UserProfilePage = ({navigation}) => {
+
+const UserProfilePage = ({ navigation }) => {
+  const dispatch = useDispatch()
   const [image, setImage] = useState(null);
+  const [user, setUser] = useState([]);
+  const email = auth.currentUser.email;
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+  useEffect(() => {
+    async function fetchData() {
+      const userData = await getUser();
+      if (userData) {
+        setUser(userData);
+      }
+    }
 
-    console.log(result);
+    fetchData();
+  }, []);
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+  const clearToken = async () => {
+    try {
+      const logOutToken = await AsyncStorage.removeItem("token");
+      const logOutType = await AsyncStorage.removeItem("type");
+      console.log("mecanique mnghir awre9", logOutToken, logOutType);
+    } catch (error) {
+      console.error("Error clearing token:", error);
     }
   };
 
-const [user, setUser] = useState([]);
-const email = auth.currentUser.email
-
-
-
-useEffect(() => {
-  async function fetchData() {
-    const userData = await getUser();
-    if (userData) {
-      setUser(userData);
-    }
-  }
-
-  fetchData();
-}, []);
-
-
-const clearToken = async () => {
-  try {
-   const logOutToken= await AsyncStorage.removeItem('token'); 
-   const logOutType= await AsyncStorage.removeItem('type'); 
-   console.log('mecanique mnghir awre9',logOutToken,logOutType);
-
-  } catch (error) {
-    console.error('Error clearing token:', error);
-  }
-};
-
-
-
   const logOut = async () => {
     try {
-      await signOut(auth)
-      await clearToken()
-      navigation.navigate('Login')
+      await signOut(auth);
+      await clearToken();
+      navigation.navigate("Login");
     } catch (error) {
-      console.error('Logout error:', error)
+      console.error("Logout error:", error);
+    }
+  };
+
+  const uploadToCloudinary = async (uri) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", {
+        uri,
+        type: "image/jpeg", 
+        name: "image.jpg", 
+      });
+
+      formData.append("upload_preset", "qyrzp0xv"); 
+      formData.append("cloud_name", "dp42uyqn5"); 
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dp42uyqn5/image/upload",
+        formData
+      );
+
+      
+      const imageUrl = response.data.secure_url;
+      console.log(imageUrl);
+    } catch (error) {
+      console.error("Cloudinary Upload Error:", error);
+    }
+  };
+
+  const pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.cancelled) {
+        setImage(result.assets[0].uri);
+        const imageUrl = await uploadToCloudinary(result.assets[0].uri);
+        
+        const obj = {
+          email,
+          imageUrl,
+        };
+  
+        dispatch(docImage(obj));
+      }
+    } catch (error) {
+      console.error("Image picking error:", error);
     }
   };
 
@@ -306,26 +334,8 @@ const clearToken = async () => {
               Personal Details
             </Text>
           </View>
-          <View
-            style={
-              {
-                // width: 60,
-                // height: 60,
-                // justifyContent: "center",
-                // alignItems: "center",
-                // borderRadius: 100,
-                // shadowColor: "rgba(3, 3, 3, 0.1)",
-                // shadowOffset: { width: 0, height: 2 },
-                // shadowRadius: 4,
-              }
-            }
-          >
-            {/* <Image source={require("../assets/flesh_right.png")}
-            style={{
-                width: 35,
-                height: 35,
-              }}
-            /> */}
+          <View>
+          
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
@@ -343,7 +353,7 @@ const clearToken = async () => {
             width: "100%",
             justifyContent: "space-between",
             height: "25%",
-            // backgroundColor: "grey",
+            
             alignItems: "center",
           }}
         >

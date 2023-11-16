@@ -8,6 +8,7 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PharmacyCard from "../components/PharmacyCard";
@@ -31,7 +32,7 @@ const Landing = ({ route }) => {
   const pharmacies = useSelector((state) => state.pharmacy?.data);
   const medicines = useSelector((state) => state.medecine?.data);
   const doctors = useSelector((state) => state.doctor?.data);
-  const orders = useSelector((state) => state.orders?.userOrders);
+  const orders = useSelector((state) => state.orders.userOrders);
   const verifiedDoctors = doctors.filter((doctor) => doctor.isverified);
   const [clients, setClients] = useState("null");
   const [pendingOrders, setPendingOrders] = useState([]);
@@ -39,10 +40,16 @@ const Landing = ({ route }) => {
   const retrieve = async () => {
     const email = auth.currentUser.email;
     dispatch(fetchOrdersByUserId(email));
+    if (orders) {
+      setPendingOrders(
+        orders.filter((order) => order.orderStatus === "Pending")
+      );
+    }
   };
 
   const fetch1 = () => {
     dispatch(fetchPharmacies());
+
   };
   const fetch2 = () => {
     dispatch(fetchMedicines());
@@ -57,12 +64,8 @@ const Landing = ({ route }) => {
     fetch2();
     fetch3();
     retrieve();
-    if (orders) {
-      setPendingOrders(
-        orders.filter((order) => order.orderStatus === "Pending")
-      );
-    }
-  }, [orders]);
+    
+  }, []);
 
   let topRatedPharmacies = [];
 

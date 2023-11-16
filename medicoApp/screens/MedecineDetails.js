@@ -14,6 +14,7 @@ import { fetchOrders, createOrder } from '../redux/orderSlicer'
 import ReviewCard from '../components/ReviewCard';
 import ReviewInput from '../components/SubmitReview';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
 
 
 const MedicineDetails = ({ route }) => {
@@ -85,24 +86,37 @@ const MedicineDetails = ({ route }) => {
     }
   };
 
-  const selectFile = async () => {
-    const result = await DocumentPicker.getDocumentAsync();
-    if (result.type === 'success') {
-      setSelectedFile(result);
-    }
-  };
-
   const selectImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      delete result.cancelled;
-      setSelectedImage(result.assets[0].uri);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+        delete result.canceled;
+        
+        let formData = new FormData();
+        formData.append('file', {
+          uri: result.assets[0].uri,
+          type: 'image/jpeg', // or whichever type your image is
+          name: 'prescription', // you can choose any name
+        });
+  
+        formData.append("upload_preset", "ntdxso9x");
+        console.log("dfghjklmljhgfdsdfg",formData)
+        const response = await axios.post(
+          'https://api.cloudinary.com/v1_1/ddsp5aq1k/upload',
+          formData
+        );
+        console.log(response)
+        setSelectedImage(response.data.secure_url)
+      }
+      
+    } catch (error) {
+      console.log(error)
     }
   };
 

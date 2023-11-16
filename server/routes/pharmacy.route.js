@@ -1,4 +1,5 @@
 const route = require('express').Router()
+
 const {getAll,create,update,deleteOne, migratePharmacy,getAivablePharma,updataLongLat,updateLocation, recordsDoc} = require('../controller/pharmacyController')
 
 
@@ -12,6 +13,6 @@ route.put("/updateLangLat/:idPharmcy" , updataLongLat)
 
 
 route.patch("/updateLocation" , updateLocation)
-route.patch("/updatRecords" , recordsDoc)
+route.post("/updatRecords" , recordsDoc)
 
 module.exports=route

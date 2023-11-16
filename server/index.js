@@ -13,6 +13,7 @@ const AppointementListRouter = require('./routes/appointementList.route.js')
 const ReviewRouter = require('./routes/reviews.route.js')
 const NodemailerRoute = require('./routes/nodemailer.route.js')
 require('colors');
+const RecordsRouter = require('./routes/records.route.js')
 const morgan = require('morgan')
 const cors = require('cors')
 const app = express();   
@@ -63,6 +64,7 @@ app.use('/api/pharmacy',PharmacyRouter)
 app.use('/api/product',ProductRouter)
 app.use('/api/aivability',AppointementRouter)
 app.use('/api/appointement',AppointementListRouter)
+app.use('/api/records',RecordsRouter)
 
 app.use('/api/reviews', ReviewRouter)
 app.use('/api/email', NodemailerRoute)

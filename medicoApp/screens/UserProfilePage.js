@@ -21,8 +21,6 @@ const UserProfilePage = ({navigation}) => {
 
   const [user, setUser] = useState([]);
 
-  // const userCollectionRef = collection(DB, "users");
-
 const email = auth.currentUser.email
 
 
@@ -40,8 +38,8 @@ useEffect(() => {
 
 const clearToken = async () => {
   try {
-   const logOutToken= await AsyncStorage.removeItem('token'); //clearing token and type when you signout
-   const logOutType= await AsyncStorage.removeItem('type'); //clearing token and type when you signout
+   const logOutToken= await AsyncStorage.removeItem('token'); 
+   const logOutType= await AsyncStorage.removeItem('type'); 
    console.log('mecanique mnghir awre9',logOutToken,logOutType);
 
   } catch (error) {
@@ -66,7 +64,6 @@ const clearToken = async () => {
       style={{
         flex: 1,
         marginHorizontal: 22,
-        // backgroundColor: "white",
         paddingTop: 55,
         paddingBottom: 40,
         flexDirection: "column",
@@ -88,7 +85,7 @@ const clearToken = async () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            // backgroundColor: "blue",
+
             width: "40%",
             height: "100%",
             padding: 0,
@@ -161,7 +158,7 @@ const clearToken = async () => {
           alignItems: "center",
           margin: 3,
           gap: 8,
-          //   backgroundColor: "yellow",
+
         }}
       >
         <View
@@ -190,7 +187,7 @@ const clearToken = async () => {
               shadowRadius: 4,
               backgroundColor: "#EAEAEA",
             }}
-            source={require("../assets/hero3.jpg")}
+            source={require("../assets/user.png")}
           />
           <TouchableOpacity
             style={{
@@ -242,7 +239,6 @@ const clearToken = async () => {
             width: "100%",
             justifyContent: "space-between",
             height: "25%",
-            // backgroundColor: "grey",
             alignItems: "center",
           }}
         >

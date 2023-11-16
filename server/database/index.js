@@ -37,6 +37,7 @@ const AppointementList = require('./models/appointementList.js')(connection, Dat
 const Missing = require('./models/missing.js')(connection, DataTypes)
 
 
+
 Pharmacy.hasOne(User)
 User.belongsTo(Pharmacy)
 

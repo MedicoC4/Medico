@@ -16,11 +16,8 @@ export const fetchUsers = createAsyncThunk('api/fetchUsers', async () => {
 
 export const addUser = createAsyncThunk(
     "addUser",
-    async (input, { dispatch }) => {
-      console.log(input,'this is the body');
-      console.log(process.env.EXPO_PUBLIC_SERVER_IP,"logged");
+    async (input, { dispatch }) => { 
      const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/createUser`, input);
-     console.log(response,"this is from the store");
   return response.data
     }
   );
@@ -40,10 +37,10 @@ const updateUser=createAsyncThunk('api/updateUser',async(id,input,{dispatch})=>{
 export const signIn = createAsyncThunk(
   "getUserfunc",
   async (input, { dispatch }) => {
-    console.log(input,'this is the body');
-    console.log(process.env.EXPO_PUBLIC_SERVER_IP,"logged");
+    
+    ;
    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/signIn`, input);
-   console.log(response.data,"this is from the store");
+   
    await AsyncStorage.setItem('user', JSON.stringify(response.data));
 
   

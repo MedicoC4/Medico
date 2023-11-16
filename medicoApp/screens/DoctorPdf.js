@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Dimensions, Image, FlatList, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useDispatch } from "react-redux";
+import { FontAwesome } from "@expo/vector-icons"; // Import FontAwesome from 'react-native-vector-icons'
 import Button from "../components/Button";
 import COLORS from "../constants/colors";
 import * as DocumentPicker from "expo-document-picker";
-import { updateRecords } from "../redux/doctorSlicer"; 
+import { updateRecords } from "../redux/doctorSlicer";
 import { auth } from "../firebase-config";
 import axios from "axios";
-
-
 
 const { width, height } = Dimensions.get("window");
 
@@ -22,7 +29,8 @@ const DoctorPdf = () => {
       multiple: true,
     });
 
-    const totalSelectedDocuments = result.assets.length + documents.assets.length;
+    const totalSelectedDocuments =
+      result.assets.length + documents.assets.length;
 
     if (totalSelectedDocuments > 6) {
       Alert.alert(
@@ -39,38 +47,52 @@ const DoctorPdf = () => {
   };
 
   const sendDocuments = async () => {
-    const email = auth.currentUser.email
+    const email = auth.currentUser.email;
     documents.assets.map(async (document) => {
-    try {
+      try {
         const formData = new FormData();
-        formData.append('file', document);
+        formData.append("file", document);
         formData.append("upload_preset", "qyrzp0xv");
         const response = await axios.post(
-          `https://api.cloudinary.com/v1_1/dp42uyqn5/upload`, formData
-         
+          `https://api.cloudinary.com/v1_1/dp42uyqn5/upload`,
+          formData
         );
-
-
-
-
 
         const obj = {
           email,
-            type: response.data.format,
+          type: response.data.format,
           file: response.data.secure_url,
           name: document.name,
         };
-  
+
         dispatch(updateRecords(obj));
-    
       } catch (error) {
-        console.error('Error uploading to Cloudinary:');
-        throw error
+        console.error("Error uploading to Cloudinary:");
+        throw error;
       }
-      });
+    });
+  };
 
-
-  
+  const deleteDocument = (index) => {
+    Alert.alert(
+      "Confirm Deletion",
+      "Are you sure you want to delete this document?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => {
+            const updatedDocuments = [...documents.assets];
+            updatedDocuments.splice(index, 1);
+            setDocuments({ assets: updatedDocuments });
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   useEffect(() => {
@@ -118,20 +140,15 @@ const DoctorPdf = () => {
           <FlatList
             data={documents.assets}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => console.log(item.uri)}>
-                <View
-                  style={{
-                    padding: 10,
-                    backgroundColor: COLORS.grey,
-                    borderRadius: 10,
-                    marginVertical: 5,
-                    alignItems: "center",
-                  }}
-                >
+            renderItem={({ item, index }) => (
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", padding: 10, backgroundColor: COLORS.grey, borderRadius: 10, marginVertical: 5 }}>
+                <TouchableOpacity onPress={() => console.log(item.uri)}>
                   <Text>{item.name}</Text>
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => deleteDocument(index)}>
+                  <FontAwesome name="trash-o" size={20} color={COLORS.red} />
+                </TouchableOpacity>
+              </View>
             )}
           />
         )}

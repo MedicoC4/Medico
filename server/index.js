@@ -11,7 +11,6 @@ const AppointementRouter = require('./routes/appointement.route.js')
 const AppointementListRouter = require('./routes/appointementList.route.js')
 const ReviewRouter = require('./routes/reviews.route.js')
 const RecordsRouter = require('./routes/records.route.js')
-const PharmacyRecords = require('./routes/pharmacyRecords.js')
 const morgan = require('morgan')
 const cors = require('cors')
 const app = express();   
@@ -37,7 +36,6 @@ app.use('/api/product',ProductRouter)
 app.use('/api/aivability',AppointementRouter)
 app.use('/api/appointement',AppointementListRouter)
 app.use('/api/records',RecordsRouter)
-app.use('/api/recordsPharmacy',PharmacyRecords)
 
 app.use('/api/reviews', ReviewRouter)
 

@@ -1,4 +1,4 @@
-const {Pharmacy, User, PharmacyRecords} = require('../database/index')
+const {Pharmacy, User, Record} = require('../database/index')
 const { Op } = require("sequelize");
 const pharmacy = require('../database/models/pharmacy');
 
@@ -95,7 +95,7 @@ recordsDoc : async(req , res)=>{
   try {
   const pharmId = await User.findOne({where: {email : req.body.email}});
 
-     await PharmacyRecords.create ({
+     await Record.create ({
               ...req.body,
               PharmacyId : pharmId.id
           })

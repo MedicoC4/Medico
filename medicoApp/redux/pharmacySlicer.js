@@ -8,7 +8,7 @@ const initialState = {
     loading: false,
   };
 
-// Async thunk action for fetching pharmacies
+
 export const fetchPharmacies = createAsyncThunk(
   'pharmacies/fetchPharmacies',
   async () => {

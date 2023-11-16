@@ -1,12 +1,12 @@
-const { Products, Missing , User} = require("../database/index");
+const { Products, Missing , User, Pharmacy} = require("../database/index");
 const missing = require("../database/models/missing");
 
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const getAll = await Products.findAll({
+      const getAll = await Products.findAll({ include:{model:Pharmacy}});
 
-      });
+      
       res.json(getAll);
     } catch (err) {
       console.log("Error al obtener todos los productos", err);

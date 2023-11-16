@@ -59,7 +59,7 @@ const DoctorCard = ({doctor}) => {
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>Dr. {doctor.fullname}</Text>
+            }}>Dr. {doctor.Doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,

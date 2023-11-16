@@ -52,20 +52,16 @@ const calculateAverage=()=>{
   return averageRating
 }
 
-const checkAuth = async () => {
+const checkAuth =  () => {
   const current=auth.currentUser.email
-  try {
-    const authToken = await AsyncStorage.getItem('token');
+    // const authToken = await AsyncStorage.getItem('token');
 
-    if (authToken) {
+    if (current === data.email) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-  } catch (error) {
-    console.error("Error retrieving authentication token", error);
-    setIsLoggedIn(false);
-  }
+
 };
 
 useEffect(() => {
@@ -245,7 +241,7 @@ const renderDoctorProfile = () =>{
                   <Text style={{
                       fontSize:20,
                       fontWeight:600
-                  }}>Dr. {data.fullname}</Text>
+                  }}>Dr. {data.Doctor.fullname}</Text>
                   <Text style={{
                       fontSize:15,
                       fontWeight:400,

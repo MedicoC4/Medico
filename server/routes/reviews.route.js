@@ -1,9 +1,9 @@
 const route = require('express').Router()
-const {getAll,create,update,deleteOne} = require('../controller/review.controller')
+const {getAllForDoctor,createReview,update,deleteOne} = require('../controller/review.controller')
 
 
-route.get('/getAll/:doctorId',getAll)
-route.post('/createRev',create)
+route.get('/getAll/:doctorId',getAllForDoctor)
+route.post('/createRev',createReview)
 route.delete('/deleteRev/:id',deleteOne)
 
 

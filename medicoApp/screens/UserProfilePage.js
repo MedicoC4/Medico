@@ -10,18 +10,34 @@ import {
   StyleSheet,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import {auth,DB} from '../firebase-config'
+import {auth} from '../firebase-config'
 import { getUser } from '../constants/userServices'
 import { signOut } from 'firebase/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
 const UserProfilePage = ({navigation}) => {
+  const [image, setImage] = useState(null);
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
+    console.log(result);
 
-  const [user, setUser] = useState([]);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
+const [user, setUser] = useState([]);
 const email = auth.currentUser.email
+
 
 
 useEffect(() => {
@@ -190,7 +206,7 @@ const clearToken = async () => {
             source={require("../assets/user.png")}
           />
           <TouchableOpacity
-          onPress={()=>{console.log('hello');}}
+          onPress={pickImage}
             style={{
               position: "absolute",
               width: 150,
@@ -394,7 +410,6 @@ const clearToken = async () => {
             width: "100%",
             justifyContent: "space-between",
             height: "25%",
-            // backgroundColor: "grey",
             alignItems: "center",
           
           }}

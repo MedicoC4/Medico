@@ -47,7 +47,7 @@ const DoctorPdf = () => {
     }
   };
 
-  const sendDocuments = async () => {
+    const sendDocuments = async () => {
     const email = auth.currentUser.email;
     const typeLOgger = await AsyncStorage.getItem("type");
 

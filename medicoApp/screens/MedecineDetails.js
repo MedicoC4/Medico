@@ -95,28 +95,29 @@ const MedicineDetails = ({ route }) => {
         quality: 1,
       });
   
+      console.log("here is the result", result);
+  
       if (!result.canceled) {
         delete result.canceled;
-        
+  
         let formData = new FormData();
         formData.append('file', {
           uri: result.assets[0].uri,
-          type: 'image/jpeg', // or whichever type your image is
-          name: 'prescription', // you can choose any name
+          type: "image/jpeg",
+          name: 'prescription'
         });
-  
         formData.append("upload_preset", "ntdxso9x");
-        console.log("dfghjklmljhgfdsdfg",formData)
+        console.log("this is form data", formData);
+  
         const response = await axios.post(
           'https://api.cloudinary.com/v1_1/ddsp5aq1k/upload',
           formData
         );
-        console.log(response)
-        setSelectedImage(response.data.secure_url)
+        console.log("cloudinary response", response);
+        setSelectedImage(response.data.secure_url);
       }
-      
     } catch (error) {
-      console.log(error)
+      console.error("error uploading image", error);
     }
   };
 

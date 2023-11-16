@@ -222,7 +222,7 @@ const AllReviews = ({navigation,route}) => {
             flexGrow:1
             
         }}>
-            {reviews.map((review, index) => (
+            {reviews.reverse().map((review, index) => (
           <ReviewCardDoctor key={review.id} review={review} />
         ))}
         </ScrollView>

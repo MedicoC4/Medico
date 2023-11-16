@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image,TouchableOpacity,Dimensions,ImageBackground,FlatList,ScrollView } from 'react-native'
-import React,{useEffect} from 'react'
+import { StyleSheet, Text, View, Image,TouchableOpacity,Dimensions,ImageBackground,FlatList,ScrollView,TextInput,Modal } from 'react-native'
+import React,{useEffect,useState} from 'react'
 const {width,height}= Dimensions.get('window')
 import Button from '../components/Button'
 import COLORS from '../constants/colors'
@@ -9,24 +9,70 @@ import ReviewCardDoctor from '../components/ReviewCardDoctor'
 import { AntDesign } from "@expo/vector-icons";
 import {fetchDocReviews} from '../redux/docReviewSlicer'
 import { useDispatch, useSelector } from 'react-redux'
-// import { TextInput } from 'react-native-gesture-handler'
+import { createReview } from '../redux/docReviewSlicer';
+import { AirbnbRating } from 'react-native-ratings';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+
 
 
 
 const DocProfileNew = ({navigation,route}) => {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [rating,setRating]=useState('')
+  const [comment,setComment]=useState('')
+  const [client,setClient]=useState(0)
   const dispatch=useDispatch()
-
+  
+  const {data} = route.params
 
   const reviews=useSelector((state)=>state.docRev.data)
+  console.log('is it array ?',reviews);
   const fetchReviews= ()=>{
     dispatch(fetchDocReviews(data.id))
 }
+
+const retrieve = async ()=> {
+  const retrieved = await AsyncStorage.getItem("type")
+  setClient(JSON.parse(retrieved))
+  console.log("retrieved",JSON.parse(retrieved))
+}
+const calculateAverage=()=>{
+  const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0)
+  const averageRating = totalRating / reviews.length | 0
+  console.log('averageRating of this doctour',averageRating)
+  return averageRating
+}
+
 useEffect(() => {
   fetchReviews()
-  
+  retrieve()
+  calculateAverage()
 }, []);
 
-  const {data} = route.params
+const handleReviewAdding = () => {
+  const doctorId =data.doctor.id
+  const userId =client.id
+
+  const newReview = {
+    doctorId,
+    userId,
+  rating,
+    comment:comment,
+  };
+
+  console.log('rev',newReview);
+  dispatch(createReview(newReview));
+
+  setComment('');
+  setRating('')
+};
+
+const toggleModal = () => {
+  setModalVisible(!isModalVisible);
+};
+
 
   return (
     <View style={{
@@ -34,8 +80,57 @@ useEffect(() => {
         flexDirection:'column',
         flex:1,
         alignItems:'center',
+        justifyContent:'center',
         gap:9
     }}>
+
+        <Modal
+                animationType="fade"
+                transparent={true}
+                visible={isModalVisible}
+              >
+                <View style={styles.modalContainer}>
+                  <View style={styles.modalContent}>
+                    <Text style={{
+                      fontSize:20,
+                      fontWeight:600
+                    }}>
+                      Rate Your Doctor
+                    </Text>
+                    <AirbnbRating
+            size={15}
+            reviewSize={25}
+            onFinishRating={(value)=>{
+              setRating(value)
+            }}
+            // Additional props like selectedColor and reviewColor can be added here
+          />
+                          <View>
+                    <TouchableOpacity
+                      
+                      style={{
+                        backgroundColor:COLORS.primary,
+                        width:width*0.2,
+                        height:height*0.05,
+                        alignItems:'center',
+                        justifyContent:'center',
+                        borderRadius:20
+                      }}
+                      onPress={toggleModal}
+                    >
+                      <Text style={{
+                        color:COLORS.white
+                      }}>Close</Text>
+                    </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+
+
+
+
+
         <View style={{
             width:width*1,
             height:height*0.48
@@ -200,6 +295,7 @@ useEffect(() => {
 
 
             </View>
+            
 
 
 
@@ -260,7 +356,6 @@ useEffect(() => {
         {
           data : {
             doctor:data,
-            review:reviews
           }
         }
 
@@ -285,15 +380,97 @@ useEffect(() => {
         </View>
         </ScrollView>
         {/* <TextInput></TextInput> */}
-        
+      <View style={{
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-around',
+        alignItems:'center',
+        gap:15
+      }}>
+        <TouchableOpacity
+            style={{
+                backgroundColor:COLORS.primary,
+            width:width*0.1,
+            height:height*0.05,
+            borderRadius:200,
+            alignItems:'center',
+            justifyContent:'center'
+            }}
+            onPress={toggleModal}
+            >
+                <Image
+                source={require('../assets/plus.png')}
+                style={{
+                    width:width*0.05,
+                    height:height*0.025
+                }}
+                />
+            </TouchableOpacity>
+        <TextInput
+                style={{
+                  height: 44,
+                  width:width*0.7,
+                  backgroundColor: "#fff",
+                  paddingHorizontal: 16,
+                  borderRadius: 12,
+                  fontSize: 15,
+                  fontWeight: "500",
+                  color: "#24262e",
+                }}
+                placeholder='type here...'
+              />
+              <TouchableOpacity
+            style={{
+                backgroundColor:COLORS.primary,
+            width:width*0.1,
+            height:height*0.05,
+            borderRadius:200,
+            alignItems:'center',
+            justifyContent:'center'
+            }}
+            onPress={handleReviewAdding}
+            >
+                <Image
+                source={require('../assets/send.png')}
+                style={{
+                    width:width*0.05,
+                    height:height*0.02
+                }}
+                />
+            </TouchableOpacity>
+              </View>
+         
         
 
      <NavigationBar/>
-     
+          
     </View>
   )
 }
 
 export default DocProfileNew
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    width: width*0.8,
+    height: height*0.25,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+});

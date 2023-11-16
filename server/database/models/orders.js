@@ -32,7 +32,27 @@ module.exports = (Sequelize, DataTypes) => {
     },
     dilevredAt: {
         type:DataTypes.DATE
-    }
+    },
+    phoneNumber: {
+      type: DataTypes.INTEGER,
+      defaultValue: 216,
+    },
+    address: {
+      type: DataTypes.STRING,
+      defaultValue: "Tunis",
+    },
+    pregnant: {
+      type: DataTypes.ENUM("Yes", "No"),
+      allowNull: false,
+    },
+    allergies: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    prescription: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
   return Orders;
 };

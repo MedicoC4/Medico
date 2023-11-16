@@ -1,4 +1,4 @@
-const {Pharmacy, User} = require('../database/index')
+const {Pharmacy, User, Record} = require('../database/index')
 const { Op } = require("sequelize");
 const pharmacy = require('../database/models/pharmacy');
 
@@ -92,17 +92,18 @@ module.exports = {
     }
 },
 recordsDoc : async(req , res)=>{
-    try {
-        const onePharm = await User.findOne({where: {email : req.body.email}});
+  try {
+  const pharmId = await User.findOne({where: {email : req.body.email}});
 
-       const allDocs= req.body.Record.map((pharm)=>{
-          return  {
-                ...pharm,
-                PharmacyId : onePharm.PharmacyId
-            }
-        })
-    } catch (error) {
-        
-    }
-}
+     await Record.create ({
+              ...req.body,
+              PharmacyId : pharmId.id
+          })
+  
+  
+      res.json('created')
+  } catch (error) {
+      res.json(error)
+  }
+},
   };

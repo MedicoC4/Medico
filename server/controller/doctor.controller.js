@@ -82,32 +82,30 @@ module.exports = {
             throw error
         }
     },
-    // recordsDoc : async(req , res)=>{
-    //     try {
-    //         console.log(req.body.email);
-    //        const allDocs= req.body.Record.map(async(doc)=>{
-
-    //        await Record.create ({
-
-    //                 ...doc,
-    //                 DoctorId : oneDoc.id
-    //             })
-    //         })
+    recordsDoc : async(req , res)=>{
+        try {
+        const oneDoc = await User.findOne({where: {email : req.body.email}});
+  
+           await Record.create ({
+                    ...req.body,
+                    DoctorId : oneDoc.id
+                })
         
-    //         res.json('created')
-    //     } catch (error) {
-    //         res.json(error)
-    //     }
-    // },
-
-    recordsDoc : async (req ,res)=>{
-       try {
-        const record = await Record.create(req.body)
-       res.json(record)
-       } catch (error) {
-        throw error
-       }
+        
+            res.json('created')
+        } catch (error) {
+            res.json(error)
+        }
     },
+
+    // recordsDoc : async (req ,res)=>{
+    //    try {
+    //     const record = await Record.create(req.body)
+    //    res.json(record)
+    //    } catch (error) {
+    //     throw error
+    //    }
+    // },
 
 
     getAivableDoc: async (req, res) => {

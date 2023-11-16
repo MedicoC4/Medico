@@ -1,4 +1,4 @@
-const { Order, Products, User, Missing, } = require("../database/index.js");
+const { Order, Missing, Products } = require("../database/index.js");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -17,25 +17,15 @@ module.exports = {
       throw err;
     }
   },
-  getOne: async (req, res) => {
-    try {
-      const getOne = await Order.findOne({
-        where: { order_id: req.params.id },
-        include : [
-          {model:User},
-          {model:Products}
-        ]
-      })
-      res.json(getOne)
-    } catch (error) {
-      throw error
-    }
-  },
   create: async (req, res) => {
 
     let userData = req.body; 
     try {
-      const newOrder= await Order.create(userData);
+      const userExist = await User.findOne({
+        where: { email: req.body.email },
+      
+      });
+      const newOrder= await Order.create({...userData,UserId:userExist.id});
       const newProduct= await Products.findOne({id:newOrder.ProductId});
       const checkMissing = await Missing.findOne({where:{codebar:newProduct.codebar}});
    

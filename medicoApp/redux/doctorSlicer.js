@@ -11,7 +11,6 @@ export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () =>
   const response = await axios.get(
     `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll`
   ); 
-  console.log('this is responsee',response);
   return response.data;
 });
 
@@ -78,6 +77,15 @@ export const updateLocation = createAsyncThunk(
       return responce.data
     }
   )
+  export const updateRecords = createAsyncThunk(
+    "api/updateRecords",
+    async(input)=>{
+      const responce = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/updateRecords`,
+      input
+      )
+      return responce.data
+    }
+  )
 
 const DoctorSlice = createSlice({
   name: "doctor",
@@ -102,6 +110,9 @@ const DoctorSlice = createSlice({
     builder.addCase(updateLocation.fulfilled, (state, action) => {
       state.data = action.payload;
     });
+    // builder.addCase(updateRecords.fulfilled, (state, action) => {
+    //   state.data = action.payload;
+    // });
   },
 });
 export default DoctorSlice.reducer;

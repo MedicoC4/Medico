@@ -8,7 +8,7 @@ const initialState = {
     loading: false,
   };
 
-// Async thunk action for fetching pharmacies
+
 export const fetchPharmacies = createAsyncThunk(
   'pharmacies/fetchPharmacies',
   async () => {
@@ -37,8 +37,16 @@ export const pharmacyLocation = createAsyncThunk(
     return pharm.data;
   }
 )
+export const updateRecordsPharm = createAsyncThunk(
+  "api/updateRecords",
+  async(input)=>{
+    const responce = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/updatRecords`,
+    input
+    )
+    return responce.data
+  }
+)
 
-// Slice
 const pharmaciesSlice = createSlice({
   name: 'pharmacies',
   initialState,

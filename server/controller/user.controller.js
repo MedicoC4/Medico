@@ -1,4 +1,6 @@
-const { User ,Doctor} = require("../database/index");
+const { json } = require("body-parser");
+const { User ,Doctor, Pharmacy} = require("../database/index");
+const { get } = require("dottie");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -8,6 +10,21 @@ module.exports = {
     } catch (err) {
       console.log("Error al obtener todos los usuarios");
       throw err;
+    }
+  },
+  checkUserCredit: async (req, res) => {
+    try {
+      const getOne = await User.findOne({
+        where: {
+          email: req.params.userMail
+        },
+        include: [
+          {model:Pharmacy}
+        ]
+      })
+      res.json(getOne)
+    } catch (error) {
+      throw error
     }
   },
   create: async (req, res) => {

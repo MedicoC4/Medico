@@ -38,14 +38,14 @@ module.exports = (Sequelize, DataTypes) => {
             type: DataTypes.DOUBLE, 
             defaultValue:0
           },
-          phoneNumber: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-          },
-          address: {
-            type: DataTypes.STRING,
-            allowNull: false
-            }
+          // phoneNumber: {
+          //   type: DataTypes.INTEGER,
+          //   allowNull: false
+          // },
+          // address: {
+          //   type: DataTypes.STRING,
+          //   allowNull: false
+          //   }
     })
     return User
 }

@@ -35,13 +35,13 @@ export default function DataGridDemo({ data }) {
       width: 280,
       editable: false,
       renderCell: (params) => {
-        const imageUrl = params.row.productImage;
+        const imageUrl = params.row.imageURL;
         const productName = params.row.productName;
 
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src={imageSrc} 
+              src={imageUrl} 
               alt={productName}
               style={{ width: 60, height: 40, objectFit: "contain" }}
             />

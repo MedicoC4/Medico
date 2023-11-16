@@ -1,14 +1,19 @@
 import "./home.css";
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import SideNav from "../../components/sideNav/SideNav.jsx";
 import moneySVG from "../../assets/images/money.svg";
 import syncIcon from "../../assets/images/sync.svg";
 import arrowUp from "../../assets/images/arrow-up.svg";
 import arrowDown from "../../assets/images/arrow-down.svg";
 import BarChar from "../../components/charts/barChart.jsx";
+import { useUserData } from "../../context/UserDataContext.js";
 
 const LandingPage = () => {
+  const { userData, updateUserData } = useUserData();
+
+  console.log(userData);
+
   return (
     <>
       <Outlet />
@@ -182,6 +187,7 @@ const LandingPage = () => {
           </div> */}
           </div>
         </div>
+        <Outlet />
       </div>
     </>
   );

@@ -190,6 +190,7 @@ const clearToken = async () => {
             source={require("../assets/user.png")}
           />
           <TouchableOpacity
+          onPress={()=>{console.log('hello');}}
             style={{
               position: "absolute",
               width: 150,

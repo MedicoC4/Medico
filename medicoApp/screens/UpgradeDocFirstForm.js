@@ -19,6 +19,8 @@ import { fetchCategories } from "../redux/categorySlicer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
 
+
+
 export default function UpgradeDocFirstForm({ navigation }) {
   const [fullName, setFullName] = useState("");
   const [age, setAge] = useState("");
@@ -31,14 +33,17 @@ export default function UpgradeDocFirstForm({ navigation }) {
   
 
   const mapping = useSelector((state) => state.category.data );
-
-
+  console.log('this is the category',mapping);
   const typeOptions = ["Nurse", "Doctor"];
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchCategories());
+    dispatch(updateSpeciality({
+     email : auth.currentUser.email,
+     specialityId: category
+    }));
   }, []);
   
   
@@ -49,7 +54,6 @@ export default function UpgradeDocFirstForm({ navigation }) {
       fullname: fullName,
       type: type,
       age: age,
-      category: category,
       email: email,
       yx: yoex,
     };

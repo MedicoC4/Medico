@@ -28,7 +28,7 @@ module.exports = {
       },
     getAppointement: async (req,res)=>{
         try {
-          const getUser = await User.findOne({where: {email:req.params.DocidAll}})
+          const getUser = await User.findOne({where: {email:req.params.Docid}})
 
             const getAppointement = await AppointementList.findAll({
                 where: {
@@ -57,6 +57,7 @@ module.exports = {
       },
     getAppointementAll: async (req,res)=>{
         try {
+
           const getUser = await User.findOne({where: {email:req.params.DocidAll}})
             const getAppointement = await AppointementList.findAll({
                 where: {

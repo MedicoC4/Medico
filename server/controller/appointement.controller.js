@@ -1,11 +1,13 @@
-const { Availability, Day, Doctor } = require("../database/index.js");
+const { Availability, Day, Doctor,User } = require("../database/index.js");
 const { Op } = require("sequelize");
 
 module.exports = {
   getAvaibility: async (req, res) => {
     try {
+      const getUser = await User.findOne({where: {email:req.params.dayId}})
+
       const getAllOrders = await Doctor.findOne({
-        where: { id: req.params.dayId },
+        where: { id: getUser.DoctorId },
         include: {
           model: Day,
           include: Availability,

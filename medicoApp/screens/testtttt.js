@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   Modal,
   Button,
   Dimensions,
-} from "react-native";
+} from "react-native"; 
 import { Picker } from "@react-native-picker/picker";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -17,7 +17,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
 const { width, height } = Dimensions.get("window");
 import { auth } from "../firebase-config";
-
 
 import axios from "axios";
 import COLORS from "../constants/colors";
@@ -32,8 +31,6 @@ const AppointementList = () => {
   const [sendEmail, setSendEmail] = useState(false);
   const [idOfHour, setIdOfHour] = useState(0);
   const [idOfAppoint, setIdOfAppoint] = useState(0);
-  const [btnFilterModal, setBtnFilterModal] = useState(false);
-  const dropDownRef = useRef(null);
 
   const [saveData, setSaveData] = useState({
     userName: "",
@@ -68,6 +65,7 @@ const AppointementList = () => {
 
   const updateStatus = async (idH) => {
     try {
+      const email = auth.currentUser.email;
       const response = await axios.put(
         `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/update/${idH}`,
         { availability: 1 }
@@ -106,16 +104,8 @@ const AppointementList = () => {
       <Text style={{ paddingBottom: 40, fontSize: 35, fontWeight: "bold" }}>
         Appointment List
       </Text>
-      <View style={{paddingRight:280,paddingBottom:5}}>
-       <TouchableOpacity onPress={()=>setBtnFilterModal(!btnFilterModal)}>
-        <Image style={{height:45,width:45}} source={require("../assets/filtreOff.png")}/>
-        </TouchableOpacity>
-        </View>
-      <FlatList
-        data={data} 
-        keyExtractor={(appointment) => String(appointment.id)}
-        renderItem={({ item: appointment }) => (
-          <View
+      {data.map((app) => (
+        <View
           style={{
             flex: 1,
             flexDirection: "row",
@@ -293,8 +283,8 @@ const AppointementList = () => {
               >
                 <Badge
                   badgeStyle={{ height: 22, width: 85 }}
-                  value={<Text style={{ color: "white" }}>{appointment.status==="pending"?"Pending":appointment.status==="Accepted"?"Accepted":appointment.status==="Rejected"?"Rejected":null}</Text>}
-                  status={ appointment.status==="pending"?"warning":appointment.status==="Accepted"?"success":appointment.status==="Rejected"?"error":null}
+                  value={<Text style={{ color: "white" }}>{app.status==="pending"?Pending:app.status==="Accepted"?Accepted:app.status==="Rejected"?Rejected:null}</Text>}
+                  status={ app.status==="pending"?"warning":app.status==="Accepted"?"success":app.status==="Rejected"?"error":null}
                 />
               </View>
             </View>
@@ -308,7 +298,7 @@ const AppointementList = () => {
                 flexDirection: "row",
               }}
             >
-           {appointment.status==="pending"?
+           {app.status==="pending"?
            <>  
            <View
                 style={{
@@ -390,7 +380,7 @@ const AppointementList = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              </> :appointment.status==="Accepted"?
+              </> :app.status==="Accepted"?
               <View
               style={{
                 width: "100%",
@@ -445,7 +435,7 @@ const AppointementList = () => {
                   />
                 </TouchableOpacity>
               </View>
-            </View>:appointment.status==="Rejected"?
+            </View>:app.status==="Rejected"?
             <View
             style={{
               width: "100%",
@@ -852,25 +842,11 @@ const AppointementList = () => {
                   </View>
                 </View>
               </Modal>
-              <Modal
-        visible={btnFilterModal}
-        animationIn="slideInLeft"
-        animationOut="slideOutLeft"
-        transparent={true}
-      >
-        <View style={stylessss.modalContainer}>
-            <View style={stylessss.modalContent}>
-          <TouchableOpacity onPress={()=>setBtnFilterModal(false)}>
-            <Text>Hide Modal</Text>
-          </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
             </View>
           </View>
         </View>
-        )}
-      />
+      ))}
+      
       {/* ///////////////////////////////////MODALS//////////////////////////////////////////// */}
     </View>
   );
@@ -882,14 +858,10 @@ const stylesModalSec = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    backgroundColor: 'white',
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    height: 50,
-    width: 90,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
   },
   modalContent: {
     backgroundColor: "white",
@@ -927,54 +899,5 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
 });
-const stylesModFilter = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContainer: {
-    backgroundColor: 'white',
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-  },
-});
-
-const stylessss = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  animatedContainer: {
-    backgroundColor: 'black',
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    height:20
-  },
-  visible: {
-flex:1  },
-  hidden: {
-    display: 'none',
-  },
-  buttonsContainer: {
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  button: {
-    backgroundColor: 'lightblue',
-    padding: 10,
-    borderRadius: 5,
-  },
-});
-
 
 export default AppointementList;

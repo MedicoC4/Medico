@@ -38,6 +38,7 @@ const Landing = ({ route }) => {
   const [pendingOrders, setPendingOrders] = useState([]);
 
   const retrieve = async () => {
+  
     const email = auth.currentUser.email;
     dispatch(fetchOrdersByUserId(email));
     if (orders) {

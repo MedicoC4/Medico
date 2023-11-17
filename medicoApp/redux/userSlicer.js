@@ -35,7 +35,7 @@ const deleteUser = createAsyncThunk('api/deleteUser',async(id, {dispatch})=>{
 
 const updateUser=createAsyncThunk('api/updateUser',async(id,input,{dispatch})=>{
     const response = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateUser/:${id}`,input)
-    dispatch(signIn())
+    // dispatch(signIn())
     return response.data
 })
 
@@ -43,8 +43,7 @@ export const signIn = createAsyncThunk(
   "getUserfunc",
   async (input, { dispatch }) => {
    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/signIn`, input);
-   console.log(response,"this is from the store");
-   await AsyncStorage.setItem('type',JSON.stringify( response.data));
+   console.log(response.data.type,"this is from the store");
 
   
 return response.data

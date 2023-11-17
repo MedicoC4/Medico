@@ -1,10 +1,8 @@
-import { StyleSheet, Text, View, Image,TouchableOpacity,Dimensions,ImageBackground,FlatList,ScrollView,TextInput,Modal } from 'react-native'
+import { StyleSheet, Text, View, Image,TouchableOpacity,Dimensions,ImageBackground,ScrollView,TextInput,Modal } from 'react-native'
 import React,{useEffect,useState} from 'react'
 const {width,height}= Dimensions.get('window')
-import Button from '../components/Button'
 import COLORS from '../constants/colors'
 import NavigationBar from '../components/NavigationBar'
-import Icon from "react-native-vector-icons/FontAwesome";
 import ReviewCardDoctor from '../components/ReviewCardDoctor'
 import { AntDesign } from "@expo/vector-icons";
 import {fetchDocReviews} from '../redux/docReviewSlicer'
@@ -13,14 +11,16 @@ import { createReview } from '../redux/docReviewSlicer';
 import { AirbnbRating } from 'react-native-ratings';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth } from '../firebase-config'
+import { fetchDoctorData } from '../redux/doctorSlicer'
 
 
 
 
 
 
-const DocProfileNew = ({navigation,route}) => {
-
+const DocProfileNew = ({navigation}) => {
+  
+  
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -30,29 +30,40 @@ const DocProfileNew = ({navigation,route}) => {
   const [client,setClient]=useState(0)
   const dispatch=useDispatch()
   
-  const {data} = route.params
+  // const {data} = route.params
 
   console.log('is it included?',data);
-
+  const data = useSelector((state)=>state.doctor.oneDoc)
+  console.log('my data',data);
   const reviews=useSelector((state)=>state.docRev.data)
   console.log('is it array ?',reviews);
   const fetchReviews= ()=>{
     dispatch(fetchDocReviews(data.id))
 }
 
-const retrieve = async ()=> {
-  const retrieved = await AsyncStorage.getItem("type")
-  setClient(JSON.parse(retrieved))
-  console.log("retrieved",JSON.parse(retrieved))
+const fetchData = async()=>{
+    try {
+      const emailUser=auth.currentUser.email
+      dispatch(fetchDoctorData(emailUser))
+      console.log('this is email doctor',emailUser);
+    } catch (error) {
+      console.log(error); 
+    }
 }
+
+// const retrieve = async ()=> {
+//   const retrieved = await AsyncStorage.getItem("type")
+//   setClient(JSON.parse(retrieved))
+//   console.log("retrieved",JSON.parse(retrieved))
+// }
 const calculateAverage=()=>{
   const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0)
   const averageRating = totalRating / reviews.length | 0
-  console.log('averageRating of this doctour',averageRating)
+  // console.log('averageRating of this doctour',averageRating)
   return averageRating
 }
 
-const checkAuth =  () => {
+const checkAuth = async () => {
   const current=auth.currentUser.email
     // const authToken = await AsyncStorage.getItem('token');
 
@@ -66,9 +77,10 @@ const checkAuth =  () => {
 
 useEffect(() => {
   fetchReviews()
-  retrieve()
+  // retrieve()
   calculateAverage()
   checkAuth()
+  fetchData()
 }, []);
 
 
@@ -96,6 +108,16 @@ const toggleModal = () => {
 };
 
 const renderDoctorProfile = () =>{
+  if (isLoggedIn === null|false) {
+    
+    return (
+      <View style={styles.loadingContainer}>
+        
+        <ActivityIndicator size="large" color={COLORS.primary} />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   if(isLoggedIn){
     return (<View style={{
       display:'flex',
@@ -241,7 +263,7 @@ const renderDoctorProfile = () =>{
                   <Text style={{
                       fontSize:20,
                       fontWeight:600
-                  }}>Dr. {data.Doctor.fullname}</Text>
+                  }}>Dr. {data.fullname}</Text>
                   <Text style={{
                       fontSize:15,
                       fontWeight:400,
@@ -267,7 +289,7 @@ const renderDoctorProfile = () =>{
                           />
                           <Text style={{
                               fontWeight:600
-                          }}>Doctor</Text>
+                          }}>{data.type}</Text>
                       </View>
                       <View style={{
                           paddingLeft:20,
@@ -401,7 +423,7 @@ const renderDoctorProfile = () =>{
     </View>
       </View>
       </ScrollView>
-      {/* <TextInput></TextInput> */}
+      
     <View style={{
       display:'flex',
       flexDirection:'row',
@@ -638,7 +660,7 @@ const renderDoctorProfile = () =>{
                           />
                           <Text style={{
                               fontWeight:600
-                          }}>Doctor</Text>
+                          }}>{data.type}</Text>
                       </View>
                       <View style={{
                           paddingLeft:20,
@@ -1017,5 +1039,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "column",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

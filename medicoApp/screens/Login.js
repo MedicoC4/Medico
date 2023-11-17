@@ -1,5 +1,5 @@
 import { View, Text, Image , Pressable, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
@@ -7,7 +7,7 @@ import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../firebase-config';
-import { UseSelector,useDispatch } from 'react-redux';
+import { UseSelector,useDispatch, useSelector } from 'react-redux';
 import {signIn} from '../redux/userSlicer'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -18,11 +18,22 @@ const Login = ({ navigation }) => {
     const [isChecked, setIsChecked] = useState(false);
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('')
-
+    const [updateType,setUpdateType]=useState(false)
+    const getType=useSelector(state=>state.getUser.data)
+    // console.log(getType);
 
     const dispatch = useDispatch()
+// const getCurrentUser=async()=>{
 
+// try {
+//     if(getType) await AsyncStorage.setItem('type',JSON.stringify(getType));
+//     else "token not setted"
+    
+// } catch (error) {
+//     console.log(error);
+// }
 
+// }
     const handleLogin = async () => {
         if (!email || !password) {
           console.log('Please provide an email and password.');
@@ -33,11 +44,18 @@ const Login = ({ navigation }) => {
           // Sign in with email and password
         const hello=  await signInWithEmailAndPassword(auth, email, password);
         if(hello._tokenResponse.idToken){
-            await AsyncStorage.setItem('token', hello._tokenResponse.idToken);
             dispatch(signIn({email}))
+        
+            if(getType?.type){
+                await AsyncStorage.setItem('type',getType?.type);
 
+            }
+
+            setUpdateType(!updateType)
             setEmail('')
             setPassword('')
+            
+            
             
             navigation.navigate('Landing');
         }else {
@@ -48,7 +66,7 @@ const Login = ({ navigation }) => {
           console.error('Error during login:', error);
         }
       };
-    
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <View style={{ flex: 1, marginHorizontal: 22 }}>

@@ -11,6 +11,7 @@ import { save } from '../redux/doctorSlicer';
 
 
 const DoctorCard = ({doctor}) => {
+    console.log('this is the doctor for the card',doctor);
   const navigation = useNavigation();
 const dispatch = useDispatch()
 const handleID=(id)=>{
@@ -64,7 +65,7 @@ const handleID=(id)=>{
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>Dr. {doctor.Doctor.fullname}</Text>
+            }}>Dr. {doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,

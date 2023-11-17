@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore,doc, setDoc, getDoc} from "@firebase/firestore";
 import { getAuth , GoogleAuthProvider } from "firebase/auth";
-
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCX4jPxFJQC5T1zDPzrKz3HRYQdeps2St4",

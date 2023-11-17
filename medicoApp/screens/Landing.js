@@ -26,13 +26,19 @@ import { fetchDoctors } from "../redux/doctorSlicer";
 import { fetchOrdersByUserId } from "../redux/orderSlicer";
 import { auth } from "../firebase-config";
 
+
 const Landing = ({ route }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const pharmacies = useSelector((state) => state.pharmacy?.data);
   const medicines = useSelector((state) => state.medecine?.data);
   const doctors = useSelector((state) => state.doctor?.data);
-  const orders = useSelector((state) => state.orders.userOrders);
+  const orders = useSelector((state) => state.orders?.userOrders);
+
+
+
+
+
   const verifiedDoctors = doctors.filter((doctor) => doctor.isverified);
   const [clients, setClients] = useState("null");
   const [pendingOrders, setPendingOrders] = useState([]);
@@ -46,6 +52,13 @@ const Landing = ({ route }) => {
       );
     }
   };
+
+  const ordersData = pendingOrders.map((order, index) => ({
+    pharmacies: pharmacies[index],
+    userId: clients[index],
+    order: order,
+    email: auth.currentUser.email, 
+  }));
 
   const fetch1 = () => {
     dispatch(fetchPharmacies());
@@ -65,7 +78,7 @@ const Landing = ({ route }) => {
     fetch3();
     retrieve();
     
-  }, []);
+  }, [orders.length]);
 
   let topRatedPharmacies = [];
 
@@ -111,12 +124,18 @@ const Landing = ({ route }) => {
             <Text style={styles.buttonText}>SEE ALL</Text>
           </TouchableOpacity>
         </View>
-        <OrderDetails
-          pharmacies={pharmacies}
-          userId={clients}
-          orders={pendingOrders}
-          email
-        />
+        <FlatList
+  data={ordersData}
+  keyExtractor={(item, index) => index.toString()}
+  renderItem={({ item }) => (
+    <OrderDetails
+      pharmacy={item.pharmacies}
+      userId={item.userId}
+      order={item.order}
+      email={item.email}
+    />
+  )}
+/>
         <View style={styles.secondOrdersContainer}>
           <Text style={styles.ordersText}>Pharmacies near you</Text>
           <TouchableOpacity style={styles.button}>

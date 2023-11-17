@@ -62,7 +62,7 @@ const MedicineDetails = ({ route }) => {
   const handleRefresh = async () => {
     setIsRefreshing(true);
      dispatch(fetchReviews());
-    setIsRefreshing(false); // Closing parenthesis was missing here
+    setIsRefreshing(false);
   };
 
   const toggleModal = () => {
@@ -87,7 +87,7 @@ const MedicineDetails = ({ route }) => {
   };
 
   const selectImage = async () => {
-    try {
+    // try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: false,
@@ -109,18 +109,31 @@ const MedicineDetails = ({ route }) => {
         formData.append("upload_preset", "ntdxso9x");
         console.log("this is form data", formData);
   
-        const response = await axios.post(
-          'https://api.cloudinary.com/v1_1/ddsp5aq1k/upload',
-          formData
-        );
-        console.log("cloudinary response", response);
-        setSelectedImage(response.data.secure_url);
-      }
-    } catch (error) {
-      console.error("error uploading image", error);
-    }
-  };
+    //     const response = await axios.post(
+    //       'https://api.cloudinary.com/v1_1/ddsp5aq1k/upload',
+    //       formData
+    //     );
+    //     console.log("cloudinary response", response);
+    //     setSelectedImage(response.data.secure_url);
+    //   }
+    // } catch (error) {
+    //   console.error("error uploading image", error);
+    // }
 
+    fetch("https://api.cloudinary.com/v1_1/ddsp5aq1k/image/upload",{
+            method:"post",
+            body:formData
+        }).then(res=>res.json()).
+        then(data=>{
+            setSelectedImage(data.url)
+            console.log('this is the image url', data)
+            // setModal(false)
+        }).catch(err=>{
+            Alert.alert("error while uploading")
+            console.log(err)
+        })
+  }
+    }
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
  
   const placeOrder = async () => {

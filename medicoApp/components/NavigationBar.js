@@ -1,19 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import home from '../assets/home.png'
 import lense from '../assets/lense.png'
 import store from '../assets/store.png'
 import account from '../assets/account.png'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NavigationBar = () => {
   const navigation = useNavigation()
   const [selectedTab, setSelectedTab] = useState('')
+  const [userType, setUserType] = useState('');
+
+  useEffect(() => {
+    // Fetch user type from AsyncStorage
+    const fetchUserType = async () => {
+      try {
+        const type = await AsyncStorage.getItem('type');
+        setUserType(type);
+      } catch (error) {
+        console.error('Error fetching user type', error);
+      }
+    };
+
+    fetchUserType();
+  }, []);
 
   const handlePress = (route, tabName) => {
     navigation.navigate(route)
     setSelectedTab(tabName)
   }
+
+  const fetchProfile = () => {
+    if (userType === 'doctor') {
+      
+       navigation.navigate('DocProfileNew')
+    } else {
+  
+      navigation.navigate('userProfilePage')
+    }
+  };
 
   const renderIcon = (source, tabName) => (
     <Image source={source} style={[styles.ic, { tintColor: selectedTab === tabName ? '#2d958c' : '#bdbdbd' }]} />

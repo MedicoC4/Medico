@@ -14,6 +14,7 @@ import Carousel from "react-native-snap-carousel";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { auth } from "../firebase-config";
 
 export default function AppointementClient() {
   const [selectedDate, setSelectedDate] = useState({
@@ -34,10 +35,12 @@ export default function AppointementClient() {
 
   const fetchData = async () => {
     try {
+      const email = auth.currentUser.email
+
       const response = await axios.get(
         `http://${
           process.env.EXPO_PUBLIC_SERVER_IP
-        }:1128/api/appointement/getAppointementUserr/pending/${1}`
+        }:1128/api/appointement/getAppointementUserr/pending/${email}`
       );
       setData(response.data);
     } catch (error) {
@@ -97,13 +100,14 @@ export default function AppointementClient() {
 
   const postAppointment = async () => {
     try {
+      const email = auth.currentUser.email
+
       await axios.post(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/add/`,
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/add/${email}`,
         {
-          DoctorId: includes.id,
-          UserId: 1,
-          AvailabilityId: hourId,
-          DayId: dayId,
+          docId: includes.id,
+          availabId: hourId,
+          dayID: dayId,
         }
       );
       setSuccessMessage("You have successfully booked an appointment!");

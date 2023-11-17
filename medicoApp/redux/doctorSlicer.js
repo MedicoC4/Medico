@@ -3,9 +3,13 @@ import axios from "axios";
 
 const initialState = {
   data: [],
+  idDoc:0,
   error: null,
   loading: false,
 };
+
+
+
 
 export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () => {
   const response = await axios.get(
@@ -108,7 +112,11 @@ export const updateLocation = createAsyncThunk(
 const DoctorSlice = createSlice({
   name: "doctor",
   initialState,
-  reducers: {},
+  reducers: {
+    save:(state,action)=>{
+      state.idDoc=action.payload
+    }
+  },
   extraReducers(builder) {
     builder.addCase(fetchDoctors.fulfilled, (state, action) => {
       state.data = action.payload;
@@ -134,4 +142,5 @@ const DoctorSlice = createSlice({
    
   },
 });
+export const {save}= DoctorSlice.actions;
 export default DoctorSlice.reducer;

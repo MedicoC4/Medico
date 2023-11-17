@@ -63,8 +63,6 @@ const Landing = ({ route }) => {
     fetch1();
     fetch2();
     fetch3();
-    retrieve();
-    
   }, []);
 
   let topRatedPharmacies = [];

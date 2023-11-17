@@ -4,8 +4,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../constants/colors'
 
 const {width,height}= Dimensions.get('window')
+import { useNavigation } from "@react-navigation/native";
+
 
 const DoctorCard = ({doctor}) => {
+  const navigation = useNavigation();
+
+
+
   return (
     <View style={{
         // padding:11,
@@ -53,7 +59,7 @@ const DoctorCard = ({doctor}) => {
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>{doctor.fullname}</Text>
+            }}>Dr. {doctor.Doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,
@@ -106,7 +112,8 @@ const DoctorCard = ({doctor}) => {
                     justifyContent:'center',
                     alignItems:'center',
                     borderBottomLeftRadius:20,
-                }}>
+                }}
+                onPress={()=>navigation.navigate('DocProfileNew',{data:doctor})}>
                     <Text
                     style={{
                         color:COLORS.white,
@@ -144,4 +151,3 @@ const DoctorCard = ({doctor}) => {
 }
 
 export default DoctorCard
-

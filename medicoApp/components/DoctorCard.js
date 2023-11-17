@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 
 const DoctorCard = ({doctor}) => {
+    console.log('this is the doctor for the card',doctor);
   const navigation = useNavigation();
 
 
@@ -59,7 +60,7 @@ const DoctorCard = ({doctor}) => {
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>Dr. {doctor.Doctor.fullname}</Text>
+            }}>Dr. {doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,

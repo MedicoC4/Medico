@@ -95,9 +95,8 @@ module.exports = {
                   include: [
                     {
                       model: Doctor,
-                      include:[{
-                        model:Speciality
-                      }]
+                      include:Speciality
+                
                     },
                     {
                       model: User,
@@ -110,6 +109,7 @@ module.exports = {
                     },
                   ],
               });
+              // const speciality = await Speciality.findAll({where:{id:getAppointement.Doctor.specialityId}})
             res.json(getAppointement)
         } catch (error) {
             throw new Error(error)

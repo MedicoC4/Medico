@@ -26,7 +26,8 @@ import {
   AddRatings,
   PharProf,
   DocProfileNew,
-  AppointementDoctor
+  AppointementDoctor,
+  appointementUserList
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -332,6 +333,13 @@ export default function App() {
           <Stack.Screen
             name="appointmentDoctor"
             component={AppointementDoctor}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="appointUserList"
+            component={appointementUserList}
             options={{
               headerShown: false,
             }}

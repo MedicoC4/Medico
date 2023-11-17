@@ -1,42 +1,31 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
   StyleSheet,
+  TouchableOpacity,
+  Text,
   Modal,
-  Button,
-  Dimensions,
+  FlatList,
+  Image,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
-const { width, height } = Dimensions.get("window");
-import { auth } from "../firebase-config";
-import * as Animatable from 'react-native-animatable';
-
-
 import axios from "axios";
+
+import { auth } from "../firebase-config";
+import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
 import COLORS from "../constants/colors";
-import { firebase } from "@react-native-firebase/database";
-const AppointementList = () => {
+
+
+export default function AppointementUserList() {
+  const [selectedDate, setSelectedDate] = useState({
+    dateString: "",
+    dayId: "",
+  });
+  const [hours, setHours] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState([]);
-  const [refresh, setRefresh] = useState(true);
-  const [isConfirmedModal, setIsConfirmedModal] = useState(false);
-  const [isConfirmedModalSec, setIsConfirmedModalSec] = useState(false);
+  const currentDate = new Date().toISOString().split("T")[0];
   const [isRejectedModal, setIsRejectedModal] = useState(false);
   const [isRejectedModalSec, setIsRejectedModalSec] = useState(false);
-  const [sendEmail, setSendEmail] = useState(false);
-  const [idOfHour, setIdOfHour] = useState(0);
-  const [idOfAppoint, setIdOfAppoint] = useState(0);
-  const [btnFilterModal, setBtnFilterModal] = useState(false);
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const dropdownRef = useRef(null);
-
   const [saveData, setSaveData] = useState({
     userName: "",
     day: "",
@@ -44,33 +33,16 @@ const AppointementList = () => {
     createdDate: "",
     createdHour: "",
   });
+  const [idOfAppoint, setIdOfAppoint] = useState(0);
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/getAppointement/pending/${1}`);
-  //       setData(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching appointments:", error);
-  //       throw new Error(error);
-  //     }
-  //   };
-
-  const toggleDropdown = () => {
-    if (isDropdownVisible) {
-      dropdownRef.current.slideOutLeft(300).then(() => {
-        setDropdownVisible(false);
-      });
-    } else {
-      setDropdownVisible(true);
-      dropdownRef.current.slideInLeft(300);
-    }
-  };
-  const fetchAllData = async () => {
+  const fetchData = async () => {
     try {
-      const email = auth.currentUser.email;
+      const email = auth.currentUser.email
 
       const response = await axios.get(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/getAllDoc/${email}`
+        `http://${
+          process.env.EXPO_PUBLIC_SERVER_IP
+        }:1128/api/appointement/getAppointementUserr/pending/${email}`
       );
       setData(response.data);
     } catch (error) {
@@ -78,76 +50,55 @@ const AppointementList = () => {
       throw new Error(error);
     }
   };
+  const deleteAppoint = async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://${
+          process.env.EXPO_PUBLIC_SERVER_IP
+        }:1128/api/appointement/deleteOfAppoi/${id}`
+      )
+      setRefresh(!refresh)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
 
-  const updateStatus = async (idH) => {
-    try {
-      const response = await axios.put(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/update/${idH}`,
-        { availability: 1 }
-      );
-      setRefresh(!refresh);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-  const updateStatusAppointement = async (idAppoint, body) => {
-    try {
-      const response = await axios.put(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/updateAppoint/${idAppoint}`,
-        body
-      );
-      setRefresh(!refresh);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
+
+
+  // const getAvailability = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${idDocRedux}`
+  //     );
+  //     setAvailability(response.data.Days);
+  //     setIncludes(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching availability:", error);
+  //     throw new Error(error);
+  //   }
+  // };
+
+
+
+
+
+
+
+
 
   useEffect(() => {
-    // fetchData();
-    fetchAllData();
+    fetchData();
   }, [refresh]);
 
+  
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingTop: 80,
-      }}
-    >
-      <Text style={{ paddingBottom: 40, fontSize: 35, fontWeight: "bold" }}>
-        Appointment List
-      </Text>
-      <View style={{paddingRight:280,paddingBottom:5}}>
-       <TouchableOpacity onPress={toggleDropdown}>
-        <Image style={{height:45,width:45}} source={require("../assets/filtreOff.png")}/>
-        </TouchableOpacity>
-        </View>    
-         <Animatable.View
-        ref={dropdownRef}
-        style={{
-          position: 'absolute',
-          top: 170,
-          right: isDropdownVisible ? 0 : -200, // Set the initial position off-screen
-          width: 200,
-          height: 40,
-          backgroundColor: 'white',
-          padding: 10,
-          borderRadius: 5,
-          elevation: 5,
-          justifyContent: 'center',
-        }}
-      >
-        <Text>Dropdown Content</Text>
-        <TouchableOpacity onPress={toggleDropdown}>
-          <Text>Hide Dropdown</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-      <FlatList
+    <View style={styles.container}>
+  <FlatList
         data={data} 
         keyExtractor={(appointment) => String(appointment.id)}
         renderItem={({ item: appointment }) => (
+        <View style={{justifyContent:"center",alignItems:"center"}}>
           <View
           style={{
             flex: 1,
@@ -163,7 +114,7 @@ const AppointementList = () => {
             shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 0.15,
             shadowRadius: 15,
-            elevation: 5, // Elevation for Android
+            // elevation: 5, 
             // backgroundColor: "#dedede",
             // backgroundColor: "#edeaea",
             // borderRadius: 20,
@@ -209,7 +160,7 @@ const AppointementList = () => {
                     }}
                   >
                     <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-                      Dr meg grace
+                    {appointment.Doctor.fullname}
                     </Text>
                     <Text
                       style={{
@@ -218,7 +169,7 @@ const AppointementList = () => {
                         fontWeight: "bold",
                       }}
                     >
-                      Therapist
+                      {appointment.Doctor.type}
                     </Text>
                   </View>
                   <View
@@ -343,45 +294,7 @@ const AppointementList = () => {
             >
            {appointment.status==="pending"?
            <>  
-           <View
-                style={{
-                  width: "40%",
-                  height: "90%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 80,
-                  backgroundColor: COLORS.primary,
-                }}
-              >
-                <TouchableOpacity
-                  onPress={() => {
-                    setIsConfirmedModal(true);
-                    setSaveData({
-                      userName: appointment.User.username,
-                      day: appointment.Day.day,
-                      hour: appointment.Availability.hour,
-                      createdDate: new Date(
-                        appointment.createdAt
-                      ).toLocaleDateString(),
-                      createdHour: new Date(
-                        appointment.createdAt
-                      ).toLocaleTimeString(),
-                    });
-                    setIdOfHour(appointment.Availability.id);
-                    setIdOfAppoint(appointment.id);
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: 22,
-                    }}
-                  >
-                    Accept
-                  </Text>
-                </TouchableOpacity>
-              </View>
+           
               <View
                 style={{
                   width: "40%",
@@ -399,7 +312,7 @@ const AppointementList = () => {
                   onPress={() => {
                     setIsRejectedModal(true);
                     setSaveData({
-                      userName: appointment.User.username,
+                      userName: appointment.Doctor.fullname,
                       day: appointment.Day.day,
                       hour: appointment.Availability.hour,
                       createdDate: new Date(
@@ -419,7 +332,7 @@ const AppointementList = () => {
                       fontSize: 22,
                     }}
                   >
-                    Reject
+                    Delete
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -529,176 +442,10 @@ const AppointementList = () => {
             </View>
           </View>:null
               }
-                <Modal
-                visible={isConfirmedModal}
-                animationType="fade"
-                transparent={true}
-              >
-                <View style={styles.modalContainer}>
-                  <View style={styles.modalContent}>
-                    <Text
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        textAlign: "center",
-                        paddingTop: 20,
-                        fontWeight: "bold",
-                        fontSize: 18,
-                        color: "#677294",
-                      }}
-                    >
-                      Are you sure to confirme the appointement of{" "}
-                      {saveData.userName}, on {saveData.day}, at {saveData.hour}
-                    </Text>
-                    <View style={{ flexDirection: "row", gap: 20 }}>
-                      <View
-                        style={{
-                          width: "45%",
-                          backgroundColor: COLORS.primary,
-                          height: 45,
-                          borderRadius: 50,
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <TouchableOpacity
-                          onPress={() => {
-                            setIsConfirmedModal(false);
-                            setIsConfirmedModalSec(true);
-                            updateStatus(idOfHour);
-                            updateStatusAppointement(idOfAppoint, {
-                              status: "Accepted",
-                            });
-                          }}
-                        >
-                          <Text
-                            style={{
-                              color: "white",
-                              fontWeight: "bold",
-                              fontSize: 20,
-                            }}
-                          >
-                            Confirme
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View
-                        style={{
-                          width: "45%",
-                          backgroundColor: "white",
-                          height: 45,
-                          borderRadius: 50,
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderWidth: 2,
-                          borderColor: "#f20404",
-                          borderStyle: "solid",
-                        }}
-                      >
-                        <TouchableOpacity
-                          style={{}}
-                          onPress={() => setIsConfirmedModal(false)}
-                        >
-                          <Text
-                            style={{
-                              color: "#f20404",
-                              fontWeight: "bold",
-                              fontSize: 20,
-                            }}
-                          >
-                            Close
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
-              <Modal
-                visible={isConfirmedModalSec}
-                animationType="fade"
-                transparent={true}
-              >
-                <View style={stylesModalSec.modalContainer}>
-                  <View style={stylesModalSec.modalContent}>
-                    <View
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "column",
-                        paddingTop: 30,
-                        gap: 16,
-                      }}
-                    >
-                      <Image
-                        style={{ width: 200, height: 200 }}
-                        source={require("../assets/coche.png")}
-                      />
-                      <Text
-                        style={{
-                          color: "#677294",
-                          fontSize: 22,
-                          fontWeight: "bold",
-                          textAlign: "center",
-                        }}
-                      >
-                        The Appointement is Accepted
-                      </Text>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      ></View>
-                    </View>
-                    <Text
-                      style={{
-                        color: "#677294",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                        textAlign: "center",
-                      }}
-                    >
-                      You accepted an appointement with {saveData.userName}, on{" "}
-                      {saveData.day}, at {saveData.hour}
-                    </Text>
-
-                    <View
-                      style={{
-                        width: "45%",
-                        backgroundColor: COLORS.primary,
-                        height: height * 0.08,
-                        borderRadius: 50,
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => setIsConfirmedModalSec(false)}
-                        style={{
-                          width: "45%",
-                          backgroundColor: COLORS.primary,
-                          height: 30,
-                          borderRadius: 50,
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Text
-                          style={{
-                            color: "white",
-                            fontWeight: "bold",
-                            fontSize: 20,
-                          }}
-                        >
-                          Done
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
+            </View>
+          </View>
+        </View>
+          
               <Modal
                 visible={isRejectedModal}
                 animationType="fade"
@@ -715,9 +462,10 @@ const AppointementList = () => {
                         fontWeight: "bold",
                         fontSize: 18,
                         color: "#677294",
+                        paddingBottom:30
                       }}
                     >
-                      Are you sure to reject an appointement with{" "}
+                      Are you sure to delete an appointement with{" "}
                       {saveData.userName}, on {saveData.day}, at {saveData.hour}
                     </Text>
                     <View style={{ flexDirection: "row", gap: 20 }}>
@@ -735,9 +483,7 @@ const AppointementList = () => {
                           onPress={() => {
                             setIsRejectedModal(false);
                             setIsRejectedModalSec(true);
-                            updateStatusAppointement(idOfAppoint, {
-                              status: "Rejected",
-                            });
+                            deleteAppoint(idOfAppoint);
                           }}
                         >
                           <Text
@@ -747,7 +493,7 @@ const AppointementList = () => {
                               fontSize: 20,
                             }}
                           >
-                            Reject
+                            Delete
                           </Text>
                         </TouchableOpacity>
                       </View>
@@ -787,7 +533,7 @@ const AppointementList = () => {
                 animationType="fade"
                 transparent={true}
               >
-                <View style={stylesModalSec.modalContainer}>
+                <View >
                   <View style={stylesModalSec.modalContent}>
                     <View
                       style={{
@@ -822,7 +568,7 @@ const AppointementList = () => {
                         textAlign: "center",
                       }}
                     >
-                      You rejected an appointement with {saveData.userName}, on{" "}
+                      You deleted an appointement with {saveData.userName}, on{" "}
                       {saveData.day}, at {saveData.hour}
                     </Text>
 
@@ -830,7 +576,7 @@ const AppointementList = () => {
                       style={{
                         width: "45%",
                         backgroundColor: COLORS.primary,
-                        height: height * 0.08,
+                        height: 40,
                         borderRadius: 50,
                         justifyContent: "center",
                         alignItems: "center",
@@ -861,153 +607,145 @@ const AppointementList = () => {
                   </View>
                 </View>
               </Modal>
-              <Modal
-                animationType="fade"
-                transparent={true}
-                visible={sendEmail}
-              >
-                <View style={styles.modalContainer}>
-                  <View style={styles.modalContent}>
-                    <Text style={styles.modalText}>
-                      Your Email Content Goes Here
-                    </Text>
-                    <View>
-                      <TouchableOpacity
-                        onPress={() => setSendEmail(false)}
-                        style={styles.modalButton}
-                      >
-                        <Image
-                          style={{ height: 45, width: 45 }}
-                          source={require("../assets/envoyer.png")}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
-              <Modal
-        visible={btnFilterModal}
-        animationIn="slideInLeft"
-        animationOut="slideOutLeft"
-        transparent={true}
-      >
-        <View style={stylessss.modalContainer}>
-            <View style={stylessss.modalContent}>
-          <TouchableOpacity onPress={()=>setBtnFilterModal(false)}>
-            <Text>Hide Modal</Text>
-          </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-            </View>
-          </View>
+        
         </View>
         )}
       />
-      {/* ///////////////////////////////////MODALS//////////////////////////////////////////// */}
     </View>
   );
-};
-const stylesModalSec = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContainer: {
-    backgroundColor: 'white',
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    height: 50,
-    width: 90,
-  },
-  modalContent: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
-    width: 300,
-    height: 520,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-});
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f0f0f0",
+    paddingTop: 50,
+    // paddingHorizontal: 20,
+  },
+  titleContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  title: {
+    fontSize: 24,
+  },
+  detailsContainer: {
+    alignItems: "center",
+    marginTop: 20,
+    backgroundColor: "white",
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
+    height: 420,
+  },
+  dateText: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  carouselContainer: {
+    marginTop: 10,
+  },
+  carouselItem: {
+    width: 120,
+    height: 120,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    shadowColor: "rgba(3, 3, 3, 8)", // Increase shadow opacity
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 6,
+    backgroundColor: "#ecfaf5",
+    marginHorizontal: 5,
+    color: "#09d09e",
+  },
+  selectedCarouselItem: {
+    backgroundColor: "#0ebe7f",
+  },
+  confirmButton: {
+    backgroundColor: "#0ebe7f",
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+    width: "80%",
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
   },
+  confirmText: {
+    color: "#fff",
+    textAlign: "center",
+  },
+  confirmButtonEdit: {
+    backgroundColor: "#ecfaf5",
+    borderRadius: 5,
+    marginTop: 10,
+    width: "15%",
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  confirmTextEdit: {
+    color: "#fff",
+    textAlign: "center",
+  },
+
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.1)",
+    paddingTop:20
   },
   modalContent: {
-    backgroundColor: "white",
-    padding: 20,
+    backgroundColor: "#fff",
+    padding: 30,
     borderRadius: 10,
-    elevation: 5,
-    width: 300,
-    height: 200,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "column",
+    width: "80%"
   },
-});
-const stylesModFilter = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: "center",
   },
-  modalContainer: {
-    backgroundColor: 'white',
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-  },
-});
-
-const stylessss = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  animatedContainer: {
-    backgroundColor: 'black',
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    height:20
-  },
-  visible: {
-flex:1  },
-  hidden: {
-    display: 'none',
-  },
-  buttonsContainer: {
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  button: {
-    backgroundColor: 'lightblue',
-    padding: 10,
+  closeModalButton: {
+    backgroundColor: "#0ebe7f",
     borderRadius: 5,
+    padding: 10,
+    alignItems: "center",
+  },
+  closeModalText: {
+    color: "#fff",
   },
 });
 
-
-export default AppointementList;
+const stylesModalSec = StyleSheet.create({
+    container: {
+      // flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    modalContainer: {
+      backgroundColor: 'grey',
+      padding: 22,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 4,
+      borderColor: 'rgba(0, 0, 0, 0.1)',
+      height: 50,
+      width: 90,
+    },
+    modalContent: {
+      backgroundColor: "white",
+      padding: 20,
+      borderRadius: 10,
+      elevation: 5,
+      width: 300,
+      height: 520,
+      justifyContent: "space-between",
+      alignItems: "center",
+      flexDirection: "column",
+    },
+  });
+  
+ 
+  

@@ -10,10 +10,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createReview } from '../redux/docReviewSlicer';
 import { AirbnbRating } from 'react-native-ratings';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { Storage } from 'expo-storage'
 import { auth } from '../firebase-config'
 import { fetchDoctorData } from '../redux/doctorSlicer'
-
-
+import { signOut } from 'firebase/auth';
+import { logOut } from '../redux/userSlicer'
 
 
 
@@ -29,17 +30,38 @@ const DocProfileNew = ({navigation}) => {
   const [comment,setComment]=useState('')
   const [client,setClient]=useState(0)
   const dispatch=useDispatch()
-  
-  // const {data} = route.params
-
-  console.log('is it included?',data);
   const data = useSelector((state)=>state.doctor.oneDoc)
   console.log('my data',data);
   const reviews=useSelector((state)=>state.docRev.data)
-  console.log('is it array ?',reviews);
+
+
   const fetchReviews= ()=>{
     dispatch(fetchDocReviews(data.id))
 }
+
+const clearToken = async () => {
+  try {
+   const logOutType= await AsyncStorage.removeItem('type');
+   dispatch(logOut())
+ 
+   console.log('mecanique mnghir awre9',logOutType);
+
+  } catch (error) {
+    console.error('Error clearing token:', error);
+  }
+};
+
+
+
+  const logOutUser = async () => {
+    try {
+      await signOut(auth)
+       clearToken()
+      navigation.navigate('Login')
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  };
 
 const fetchData = async()=>{
     try {
@@ -51,35 +73,19 @@ const fetchData = async()=>{
     }
 }
 
-// const retrieve = async ()=> {
-//   const retrieved = await AsyncStorage.getItem("type")
-//   setClient(JSON.parse(retrieved))
-//   console.log("retrieved",JSON.parse(retrieved))
-// }
+
 const calculateAverage=()=>{
   const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0)
   const averageRating = totalRating / reviews.length | 0
-  // console.log('averageRating of this doctour',averageRating)
+
   return averageRating
 }
 
-const checkAuth = async () => {
-  const current=auth.currentUser.email
-    // const authToken = await AsyncStorage.getItem('token');
 
-    if (current === data.email) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-
-};
 
 useEffect(() => {
   fetchReviews()
-  // retrieve()
   calculateAverage()
-  checkAuth()
   fetchData()
 }, []);
 
@@ -938,10 +944,9 @@ const renderDoctorProfile = () =>{
             width: "100%",
             justifyContent: "space-between",
             height: height*0.08,
-            
-            // backgroundColor: "grey",
             alignItems: "center",
           }}
+          onPress={()=>logOutUser()}
         >
           <View
             style={{
@@ -978,20 +983,21 @@ const renderDoctorProfile = () =>{
                 }}
               >
                 <Image
-                  source={require("../assets/support.png")}
+                  source={require("../assets/logout.png")}
                   style={{
-                    width: 27,
-                    height: 27,
+                    width: 28,
+                    height: 28,
                   }}
                 />
               </View>
             </View>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Support</Text>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Log Out</Text>
           </View>
           <View>
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
+        
       </View>
       </ScrollView>
 

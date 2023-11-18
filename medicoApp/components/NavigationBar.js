@@ -6,16 +6,15 @@ import lense from '../assets/lense.png'
 import store from '../assets/store.png'
 import account from '../assets/account.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { Storage } from 'expo-storage'
+
 
 const NavigationBar = () => {
   const navigation = useNavigation()
   const [selectedTab, setSelectedTab] = useState('')
   const [userType, setUserType] = useState('');
 
-  useEffect(() => {
-    // Fetch user type from AsyncStorage
-  fetchUserType();
-  }, []);
+
 
   const handlePress = (route, tabName) => {
     navigation.navigate(route)
@@ -25,6 +24,8 @@ const NavigationBar = () => {
   const fetchUserType = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("type");
+      // const jsonValue = await Storage.getItem({ key: type });
+
     //  jsonValue != null ? JsonValue) : null;
      console.log("see the type",jsonValue);
 
@@ -35,6 +36,10 @@ const NavigationBar = () => {
       console.error('Error fetching user type', error);
     }
   };
+
+  useEffect(() => {
+    fetchUserType();
+    }, []);
   const renderIcon = (source, tabName) => (
     <Image source={source} style={[styles.ic, { tintColor: selectedTab === tabName ? '#2d958c' : '#bdbdbd' }]} />
   )
@@ -58,7 +63,7 @@ const NavigationBar = () => {
         <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
       </TouchableOpacity>}
       
-      {userType!=='doctor' && <TouchableOpacity style={styles.item} onPress={() => handlePress("userProfilePage", "account")}>
+      {userType!=='doctor'  && userType&&<TouchableOpacity style={styles.item} onPress={() => handlePress("userProfilePage", "account")}>
         {renderIcon(account, "account")}
         <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
       </TouchableOpacity>}

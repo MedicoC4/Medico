@@ -14,10 +14,11 @@ import {auth,DB} from '../firebase-config'
 import { getUser } from '../constants/userServices'
 import { signOut } from 'firebase/auth';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { logOut } from "../redux/userSlicer";
+import { useDispatch } from "react-redux";
 const UserProfilePage = ({navigation}) => {
 
-
+const dispatch=useDispatch()
 
   const [user, setUser] = useState([]);
 
@@ -38,9 +39,9 @@ useEffect(() => {
 
 const clearToken = async () => {
   try {
-   const logOutToken= await AsyncStorage.removeItem('token'); 
    const logOutType= await AsyncStorage.removeItem('type'); 
-   console.log('mecanique mnghir awre9',logOutToken,logOutType);
+   dispatch(logOut())
+   console.log('mecanique mnghir awre9',logOutType);
 
   } catch (error) {
     console.error('Error clearing token:', error);
@@ -49,10 +50,10 @@ const clearToken = async () => {
 
 
 
-  const logOut = async () => {
+  const logOutUser = async () => {
     try {
       await signOut(auth)
-      await clearToken()
+       clearToken()
       navigation.navigate('Login')
     } catch (error) {
       console.error('Logout error:', error)
@@ -312,6 +313,9 @@ const clearToken = async () => {
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
+   
+        
+    
         <View
           style={{
             width: "100%",
@@ -329,214 +333,7 @@ const clearToken = async () => {
             // backgroundColor: "grey",
             alignItems: "center",
           }}
-          onPress={()=>navigation.navigate('appointement')}
-
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              width: "55%",
-              gap: 23,
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                width: 60,
-                height: 60,
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 100,
-                shadowColor: "rgba(3, 3, 3, 0.1)",
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                backgroundColor: "#ddf0ee",
-              }}
-            >
-              <View
-                style={{
-                  width: 60,
-                  height: 60,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 100,
-                  shadowColor: "rgba(3, 3, 3, 0.1)",
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowRadius: 4,
-                  backgroundColor: "#ddf0ee",
-                }}
-              >
-                <Image
-                  source={require("../assets/payment.png")}
-                  style={{
-                    width: 30,
-                    height: 30,
-                  }}
-                />
-              </View>
-            </View>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Availabilities</Text>
-          </View>
-          <View>
-            <AntDesign name="right" size={24} color="#1a998e" />
-          </View>
-        </TouchableOpacity>
-        <View
-          style={{
-            width: "100%",
-            height: 2,
-            backgroundColor: "#dedede",
-            borderRadius: 2,
-          }}
-        ></View>
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-between",
-            height: "25%",
-            // backgroundColor: "grey",
-            alignItems: "center",
-          }}
-          onPress={()=>navigation.navigate('appointmentDoctor')}
-
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              width: "55%",
-              gap: 23,
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                width: 60,
-                height: 60,
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 100,
-                shadowColor: "rgba(3, 3, 3, 0.1)",
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                backgroundColor: "#ddf0ee",
-              }}
-            >
-              <View
-                style={{
-                  width: 60,
-                  height: 60,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 100,
-                  shadowColor: "rgba(3, 3, 3, 0.1)",
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowRadius: 4,
-                  backgroundColor: "#ddf0ee",
-                }}
-              >
-                <Image
-                  source={require("../assets/payment.png")}
-                  style={{
-                    width: 30,
-                    height: 30,
-                  }}
-                />
-              </View>
-            </View>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Appointements</Text>
-          </View>
-          <View>
-            <AntDesign name="right" size={24} color="#1a998e" />
-          </View>
-        </TouchableOpacity>
-        <View
-          style={{
-            width: "100%",
-            height: 2,
-            backgroundColor: "#dedede",
-            borderRadius: 2,
-          }}
-        ></View>
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-between",
-            height: "25%",
-            // backgroundColor: "grey",
-            alignItems: "center",
-          
-          }}
-          onPress={()=>navigation.navigate('userProfile')}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              width: "55%",
-              gap: 23,
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                width: 60,
-                height: 60,
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 100,
-                shadowColor: "rgba(3, 3, 3, 0.1)",
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                backgroundColor: "#ddf0ee",
-              }}
-            >
-              <View
-                style={{
-                  width: 60,
-                  height: 60,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 100,
-                  shadowColor: "rgba(3, 3, 3, 0.1)",
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowRadius: 4,
-                  backgroundColor: "#ddf0ee",
-                }}
-              >
-                <Image
-                  source={require("../assets/settings.png")}
-                  style={{
-                    width: 30,
-                    height: 30,
-                  }}
-                />
-              </View>
-            </View>
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Upgrade account</Text>
-          </View>
-          <View>
-            <AntDesign name="right" size={24} color="#1a998e" />
-          </View>
-        </TouchableOpacity>
-        <View
-          style={{
-            width: "100%",
-            height: 2,
-            backgroundColor: "#dedede",
-            borderRadius: 2,
-          }}
-        ></View>
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-between",
-            height: "25%",
-            // backgroundColor: "grey",
-            alignItems: "center",
-          }}
-          onPress={()=>logOut()}
+          onPress={()=>logOutUser()}
         >
           <View
             style={{
@@ -587,6 +384,15 @@ const clearToken = async () => {
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        
       </View>
     </View>
   );

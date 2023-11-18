@@ -34,38 +34,35 @@ const Login = ({ navigation }) => {
 // }
 
 // }
-    const handleLogin = async () => {
-        if (!email || !password) {
-          console.log('Please provide an email and password.');
-          return;
+const handleLogin = async () => {
+    if (!email || !password) {
+      console.log('Please provide an email and password.');
+      return;
+    }
+  
+    try {
+      // Sign in with email and password
+      const hello = await signInWithEmailAndPassword(auth, email, password);
+      if(hello._tokenResponse.idToken){
+        const actionResult = await dispatch(signIn({email}));
+        const userType = actionResult.payload.type;
+  
+        if(userType){
+          await AsyncStorage.setItem('type', userType);
         }
-      
-        try {
-          // Sign in with email and password
-        const hello=  await signInWithEmailAndPassword(auth, email, password);
-        if(hello._tokenResponse.idToken){
-            dispatch(signIn({email}))
-        
-            if(getType?.type){
-                await AsyncStorage.setItem('type',getType?.type);
-
-            }
-
-            setUpdateType(!updateType)
-            setEmail('')
-            setPassword('')
-            
-            
-            
-            navigation.navigate('Landing');
-        }else {
-            alert('failed sign in')
-        }
-          // Redirect to the landing page after successful login
-        } catch (error) {
-          console.error('Error during login:', error);
-        }
-      };
+  
+        setUpdateType(!updateType);
+        setEmail('');
+        setPassword('');
+  
+        navigation.navigate('Landing');
+      } else {
+        alert('failed sign in');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>

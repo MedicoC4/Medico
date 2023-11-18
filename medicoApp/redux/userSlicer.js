@@ -34,9 +34,9 @@ const deleteUser = createAsyncThunk('api/deleteUser',async(id, {dispatch})=>{
 })
 
 const updateUser=createAsyncThunk('api/updateUser',async(id,input,{dispatch})=>{
-    const response = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateUser/:${id}`,input)
-    // dispatch(signIn())
-    return response.data
+  const response = await axios.put(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateUser/${id}`,input)
+  // dispatch(signIn())
+  return response.data
 })
 
 export const signIn = createAsyncThunk(

@@ -9,7 +9,9 @@ import {signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from '../firebase-config';
 import { UseSelector,useDispatch, useSelector } from 'react-redux';
 import {signIn} from '../redux/userSlicer'
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const Login = ({ navigation }) => {
@@ -20,50 +22,52 @@ const Login = ({ navigation }) => {
     const [password,setPassword]=useState('')
     const [updateType,setUpdateType]=useState(false)
     const getType=useSelector(state=>state.getUser.data)
-    // console.log(getType);
+ 
 
     const dispatch = useDispatch()
-// const getCurrentUser=async()=>{
 
-// try {
-//     if(getType) await AsyncStorage.setItem('type',JSON.stringify(getType));
-//     else "token not setted"
-    
-// } catch (error) {
-//     console.log(error);
-// }
-
-// }
-const handleLogin = async () => {
-    if (!email || !password) {
-      console.log('Please provide an email and password.');
-      return;
-    }
-  
-    try {
-      // Sign in with email and password
-      const hello = await signInWithEmailAndPassword(auth, email, password);
-      if(hello._tokenResponse.idToken){
-        const actionResult = await dispatch(signIn({email}));
-        const userType = actionResult.payload.type;
-  
-        if(userType){
-          await AsyncStorage.setItem('type', userType);
+    const handleLogin = async () => {
+        if (!email || !password) {
+          console.log('Please provide an email and password.');
+          return;
         }
-  
-        setUpdateType(!updateType);
-        setEmail('');
-        setPassword('');
-  
-        navigation.navigate('Landing');
-      } else {
-        alert('failed sign in');
+      
+        try {
+        
+        const hello=  await signInWithEmailAndPassword(auth, email, password);
+        if(hello._tokenResponse.idToken){
+            dispatch(signIn({email}))
+        
+            if(getType?.type){
+                    console.log("type ater login",getType );
+                // await AsyncStorage.removeItem('type')
+              const data=  await AsyncStorage.setItem('type',getType?.type);
+              
+              setEmail('')
+              setPassword('')
+              
+              
+              
+              navigation.navigate('Landing');
+            }
+            
+            
+        
+        }else {
+            alert('failed sign in')
+        }
+          
+        } catch (error) {
+          console.error('Error during login:', error);
+        }
+      };
+      const checkType=async()=>{
+        const data=  await AsyncStorage.getItem('type');
+        console.log('this is type ater signout',data);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+useEffect(()=>{
+    checkType()
+},[])
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <View style={{ flex: 1, marginHorizontal: 22 }}>

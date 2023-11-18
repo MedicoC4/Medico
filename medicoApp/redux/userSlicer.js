@@ -55,7 +55,9 @@ return response.data
 const UserSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+     
+    },
     extraReducers(builder) {
       builder.addCase(fetchUsers.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -82,7 +84,11 @@ const UserSlice = createSlice({
       error: null,
       loading: false,
     },
-    reducers: {},
+    reducers: {
+      logOut:(state)=>{
+        state.data={} 
+     }
+    },
     extraReducers(builder) {
       builder.addCase(signIn.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -100,4 +106,5 @@ const UserSlice = createSlice({
      
     }
   });
+  export const { logOut } = getUserSlice.actions
   export default {user:UserSlice.reducer,getUser:getUserSlice.reducer} 

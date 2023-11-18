@@ -105,6 +105,9 @@ const DoctorSlice = createSlice({
   reducers: {
     save:(state,action)=>{
       state.idDoc=action.payload
+    },
+    logOut:(state)=>{
+       state.oneDoc={} 
     }
   },
   extraReducers(builder) {

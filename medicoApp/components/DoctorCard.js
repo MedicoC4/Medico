@@ -5,13 +5,18 @@ import COLORS from '../constants/colors'
 
 const {width,height}= Dimensions.get('window')
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { save } from '../redux/doctorSlicer';
+
 
 
 const DoctorCard = ({doctor}) => {
     console.log('this is the doctor for the card',doctor);
   const navigation = useNavigation();
-
-
+const dispatch = useDispatch()
+const handleID=(id)=>{
+    dispatch(save(id))
+  }
 
   return (
     <View style={{
@@ -132,8 +137,10 @@ const DoctorCard = ({doctor}) => {
                     flexDirection:'row',
                     gap:10,
                     borderBottomRightRadius:20
-
-                }}>
+                }}
+                
+                    onPress={()=>{handleID(doctor.Doctor.id);navigation.navigate('appointmentClient')}}
+                >
                 <Image
                 source={require('../assets/book.png')}
                 style={{

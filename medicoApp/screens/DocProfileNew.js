@@ -13,6 +13,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { Storage } from 'expo-storage'
 import { auth } from '../firebase-config'
 import { fetchDoctorData } from '../redux/doctorSlicer'
+import { Feather } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+
 import { signOut } from 'firebase/auth';
 import { logOut } from '../redux/userSlicer'
 
@@ -788,6 +792,121 @@ const renderDoctorProfile = () =>{
             </View>
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>
               Personal Details
+            </Text>
+          </View>
+          <View
+            style={{}}
+          >
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: height*0.08,
+            alignItems: "center",
+          }}
+          onPress={() =>navigation.navigate('appointement')}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Feather name="calendar" size={28} color="#1a998e" />
+
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Availability
+            </Text>
+          </View>
+          <View
+            style={{}}
+          >
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: height*0.08,
+            alignItems: "center",
+          }}
+          onPress={() =>navigation.navigate('appointmentDoctor')}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <MaterialCommunityIcons name="calendar-multiple-check" size={27} color="#1a998e" />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Appointements
             </Text>
           </View>
           <View

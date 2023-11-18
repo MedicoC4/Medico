@@ -14,6 +14,11 @@ export const fetchUsers = createAsyncThunk('api/fetchUsers', async () => {
   return response.data;
 });
 
+export const fetchUserNames=createAsyncThunk('api/fetchUserName',async(id)=>{
+  const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getUser/${id}`); // Replace with your API endpoint
+  return response.data;
+})
+
 export const addUser = createAsyncThunk(
     "addUser",
     async (input, { dispatch }) => { 
@@ -30,18 +35,15 @@ const deleteUser = createAsyncThunk('api/deleteUser',async(id, {dispatch})=>{
 
 const updateUser=createAsyncThunk('api/updateUser',async(id,input,{dispatch})=>{
     const response = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateUser/:${id}`,input)
-    dispatch(signIn())
+    // dispatch(signIn())
     return response.data
 })
 
 export const signIn = createAsyncThunk(
   "getUserfunc",
   async (input, { dispatch }) => {
-    
-    ;
    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/signIn`, input);
-   
-   await AsyncStorage.setItem('user', JSON.stringify(response.data));
+   console.log(response.data.type,"this is from the store");
 
   
 return response.data
@@ -56,6 +58,9 @@ const UserSlice = createSlice({
     reducers: {},
     extraReducers(builder) {
       builder.addCase(fetchUsers.fulfilled, (state, action) => {
+        state.data = action.payload;
+      });
+      builder.addCase(fetchUserNames.fulfilled, (state, action) => {
         state.data = action.payload;
       });
       builder.addCase(addUser.fulfilled, (state, action) => {

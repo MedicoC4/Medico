@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import home from '../assets/home.png'
 import lense from '../assets/lense.png'
 import store from '../assets/store.png'
 import account from '../assets/account.png'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NavigationBar = () => {
   const navigation = useNavigation()
   const [selectedTab, setSelectedTab] = useState('')
+  const [userType, setUserType] = useState('');
+
+  useEffect(() => {
+    // Fetch user type from AsyncStorage
+  fetchUserType();
+  }, []);
 
   const handlePress = (route, tabName) => {
     navigation.navigate(route)
     setSelectedTab(tabName)
   }
 
+  const fetchUserType = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("type");
+    //  jsonValue != null ? JsonValue) : null;
+     console.log("see the type",jsonValue);
+
+      setUserType(jsonValue);
+      
+
+    } catch (error) {
+      console.error('Error fetching user type', error);
+    }
+  };
   const renderIcon = (source, tabName) => (
     <Image source={source} style={[styles.ic, { tintColor: selectedTab === tabName ? '#2d958c' : '#bdbdbd' }]} />
   )
@@ -33,10 +53,15 @@ const NavigationBar = () => {
         {renderIcon(store, "stores")}
         <Text style={selectedTab === "stores" ? styles.selectedText : styles.text}>Stores</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item} onPress={() => handlePress("userProfilePage", "account")}>
+      {userType==='doctor' &&<TouchableOpacity style={styles.item} onPress={() => handlePress("DocProfileNew", "account")}>
         {renderIcon(account, "account")}
         <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>}
+      
+      {userType!=='doctor' && <TouchableOpacity style={styles.item} onPress={() => handlePress("userProfilePage", "account")}>
+        {renderIcon(account, "account")}
+        <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
+      </TouchableOpacity>}
     </View>
   );
 }

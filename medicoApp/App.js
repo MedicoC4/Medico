@@ -21,9 +21,11 @@ import {
   AppointementClient,
   AppointementList,
   UserMapView,
-  
+  AllReviews,
   AllDoctors,
   AddRatings,
+  PharProf,
+  DocProfileNew,
   AppointementDoctor
 } from "./screens";
 import Landing from "./screens/Landing";
@@ -76,7 +78,8 @@ export default function App() {
       <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Login'
+        // initialRouteName={initialRoute}
+        initialRouteName="Login"
       >
         <Stack.Screen
           name="Welcome"
@@ -99,6 +102,13 @@ export default function App() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="DocProfileNew"
+          component={DocProfileNew}
+          options={{
+            headerShown: false,
+          }}
+        />
           <Stack.Screen
           name="AllMissingProducts"
           component={AllMissingProducts}
@@ -113,9 +123,24 @@ export default function App() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="AllReviews"
+          component={AllReviews}
+          options={{
+            headerShown: false,
+          }}
+        />
 <Stack.Screen
           name="Promotions"
           component={Promotions}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="PharProf"
+          component={PharProf}
           options={{
             headerShown: false,
           }}

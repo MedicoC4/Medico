@@ -24,6 +24,9 @@ import AppointementClient from "./AppointementClient";
 import AppointementList from "./AppointementList";
 import AllDoctors from "./AllDoctors";
 import AddRatings from "./AddRatings";
+import PharProf from "./PharProf";
+import DocProfileNew from "./DocProfileNew";
+import AllReviews from "./AllReviews";
 import AppointementDoctor from "./AppointementDoctor";
 export {
     Login,
@@ -52,6 +55,9 @@ export {
     AppointementList,
     AllDoctors,
     AddRatings,
+    PharProf,
+    DocProfileNew,
+    AllReviews,
     AppointementDoctor
     
 }

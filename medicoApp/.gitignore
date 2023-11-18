@@ -38,3 +38,4 @@ yarn-error.*
 # others
 .package-lock.json
 ```
+.env

@@ -4,11 +4,14 @@ const { Op } = require("sequelize");
 module.exports = {
     getAll: async (req, res) => {
         try{
-            const getAll = await Doctor.findAll({
+            const getAll = await User.findAll({
                 where: {
                   type: "doctor"
-                }
+                },
+                include:Doctor
               })
+              
+
             res.json(getAll)
         }catch(err){
             console.log("Error al obtener todos los usuarios")
@@ -17,7 +20,8 @@ module.exports = {
     },
     getOne : async(req,res)=>{
         try {
-        const oneDoc = await Doctor.findAll({where: {id : req.params.id}}); 
+            const getUser = await User.findOne({where:{email:req.params.email}})
+        const oneDoc = await Doctor.findOne({where: {id:getUser.DoctorId}}); 
             res.json(oneDoc);
         } catch (error) {
             throw error

@@ -33,40 +33,27 @@ const Login = ({ navigation }) => {
         }
       
         try {
-        
-        const hello=  await signInWithEmailAndPassword(auth, email, password);
-        if(hello._tokenResponse.idToken){
-            dispatch(signIn({email}))
-        
-            if(getType?.type){
-                    console.log("type ater login",getType );
-                // await AsyncStorage.removeItem('type')
-              const data=  await AsyncStorage.setItem('type',getType?.type);
-              
-              setEmail('')
-              setPassword('')
-              
-              
-              
+          const hello = await signInWithEmailAndPassword(auth, email, password);
+          if(hello._tokenResponse.idToken){
+            const actionResult = await dispatch(signIn({email}));
+            const userType = actionResult.payload.type;
+      
+            if(userType){
+              console.log("type after login", userType);
+              await AsyncStorage.setItem('type', userType);
+              setEmail('');
+              setPassword('');
               navigation.navigate('Landing');
             }
-            
-            
-        
-        }else {
-            alert('failed sign in')
-        }
-          
+          } else {
+            alert('failed sign in');
+          }
         } catch (error) {
           console.error('Error during login:', error);
         }
       };
-      const checkType=async()=>{
-        const data=  await AsyncStorage.getItem('type');
-        console.log('this is type ater signout',data);
-      }
 useEffect(()=>{
-    checkType()
+    // checkType()
 },[])
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>

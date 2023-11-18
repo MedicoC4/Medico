@@ -19,6 +19,9 @@ import { imageDoc } from "../redux/doctorSlicer";
 
 const UserProfilePage = ({ navigation }) => {
   const dispatch = useDispatch()
+import { logOut } from "../redux/userSlicer";
+import { useDispatch } from "react-redux";
+const UserProfilePage = ({navigation}) => {
 
   const email = auth.currentUser.email;
 
@@ -70,7 +73,7 @@ console.log('this is the img' , oldImg);
     }
   };
 
-  const logOut = async () => {
+  const logOutUser = async () => {
     try {
       await signOut(auth);
       await clearToken();
@@ -520,7 +523,7 @@ console.log('this is the img' , oldImg);
             // backgroundColor: "grey",
             alignItems: "center",
           }}
-          onPress={()=>logOut()}
+          onPress={()=>logOutUser()}
         >
           <View
             style={{
@@ -571,6 +574,15 @@ console.log('this is the img' , oldImg);
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        
       </View>
     </View>
   );

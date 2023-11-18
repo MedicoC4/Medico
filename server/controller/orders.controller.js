@@ -67,15 +67,18 @@ module.exports = {
       throw error;
     }
   },
-  update: async (req, res) => {
-    let id = req.params.id;
-    let dataToUpdate = req.body;
+  updateOrder: async (req, res) => {
+    const { order_id } = req.params; // get the order_id from the request parameters
+    const updatedData = req.body; // the new data for the order
+  
     try {
-      const updatedUser = await Order.update(dataToUpdate, {
-        where: { id: Number(id) },
+      await Order.update(updatedData, {
+        where: { order_id: order_id },
       });
-      res.json(updatedUser);
+  
+      res.json({ message: 'Order updated successfully' });
     } catch (error) {
+      console.log('Error while updating order');
       throw error;
     }
   },

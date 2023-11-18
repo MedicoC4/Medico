@@ -18,6 +18,8 @@ import { save } from '../redux/doctorSlicer';
 const AllDoctors = () => {
   const doctors = useSelector((state) => state.doctor?.data);
 
+  console.log(doctors);
+
 
 
   console.log('this is doctor id hello man',doctors);

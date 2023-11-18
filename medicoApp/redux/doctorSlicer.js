@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   data: [],
+  oneDoc:{},
   idDoc:0,
   error: null,
   loading: false,
@@ -90,6 +91,38 @@ export const updateLocation = createAsyncThunk(
       return responce.data
     }
   )
+
+  export const fetchDoctorData = createAsyncThunk ('api/fetchdetails',
+  async(email)=>{
+    const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getOneDoc/${email}`)
+    return response.data
+  }
+  )
+  export const docImage = createAsyncThunk(
+    "api/updateImage",
+    async(input)=>{
+      const responce = await axios.patch(`http://${process.env.EXPO_PUBLIC_}:1128/api/doctor/updateImage` , 
+      input
+    )
+    return responce.data
+    }  
+  )
+  // export const updatateImgUrlDoc = createAsyncThunk(
+  //   'api/updateImage',
+  //   async(input)=>{
+  //     const responce = await  axios.patch(`http://${process.env.EXPO_PUBLIC_}:1128/api/doctor/updateImage` ,
+  //     input
+  //     )
+  //     return responce.data
+  //   }
+  // )
+
+  export const fetchDoctorData = createAsyncThunk ('api/fetchdetails',
+  async(email)=>{
+    const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getOneDoc/${email}`)
+    return response.data
+  }
+  )
   export const docImage = createAsyncThunk(
     "api/updateImage",
     async(input)=>{
@@ -115,6 +148,9 @@ const DoctorSlice = createSlice({
   reducers: {
     save:(state,action)=>{
       state.idDoc=action.payload
+    },
+    logOut:(state)=>{
+       state.oneDoc={} 
     }
   },
   extraReducers(builder) {
@@ -140,6 +176,12 @@ const DoctorSlice = createSlice({
       state.data = action.payload;
     });
    
+    builder.addCase(fetchDoctorData.fulfilled, (state, action) => {
+      state.oneDoc = action.payload;
+    });
+    // builder.addCase(updateRecords.fulfilled, (state, action) => {
+    //   state.data = action.payload;
+    // });
   },
 });
 export const {save}= DoctorSlice.actions;

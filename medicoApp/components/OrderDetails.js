@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 
 
@@ -23,8 +23,15 @@ const OrderDetails = ({ pharmacy, userId, order }) => {
 
   return (
     <View style={styles.card}>
-      <View style={[styles.processingContainer, { backgroundColor: colors.container }]}>
-        <Text style={[styles.processingText, { color: colors.text }]}>{order.orderStatus}</Text>
+      <View style={styles.statusContainer}>
+        <View style={[styles.processingContainer, { backgroundColor: colors.container }]}>
+          <Text style={[styles.processingText, { color: colors.text }]}>{order.orderStatus}</Text>
+        </View>
+        {order.orderStatus === 'Accepted' && (
+          <TouchableOpacity style={[styles.checkoutButton, { backgroundColor: colors.container }]}>
+            <FontAwesome5 name="credit-card" size={20} color="#198b81" />
+          </TouchableOpacity>
+        )}
       </View>
       <Text style={styles.fromText}>From: {order.Product.Pharmacy.PHname} </Text>
       <View style={styles.separator} />
@@ -71,8 +78,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   fromText: {
-    fontSize: 16,
+    fontSize: 18,
     marginTop: 10,
+    fontWeight: "bold"
   },
   separator: {
     height: 1,
@@ -92,6 +100,7 @@ const styles = StyleSheet.create({
   },
   drugsText: {
     marginLeft: 10,
+    fontWeight: "bold"
   },
   separatorVertical: {
     width: 1,
@@ -100,6 +109,16 @@ const styles = StyleSheet.create({
   },
   totalText: {
     marginLeft: 10,
+    fontWeight: "bold"
+  },
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkoutButton: {
+    borderRadius: 20,
+    padding: 5,
+    marginLeft: 180,
   },
 });
 

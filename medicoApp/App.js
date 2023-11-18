@@ -38,6 +38,7 @@ import PharmSecondStep from "./screens/PharmSecoundStep";
 import UpgradeToPharm from "./screens/UpgradeToPharm";
 import AllMedicines from "./screens/AllMedecines";
 import MedicineDetails from "./screens/MedecineDetails";
+import OrderDet from "./screens/OrderDet"
 import UserMap from "./screens/UserMap";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
@@ -307,6 +308,13 @@ export default function App() {
           <Stack.Screen
             name="appointmentDoctor"
             component={AppointementDoctor}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="orderDetails"
+            component={OrderDet}
             options={{
               headerShown: false,
             }}

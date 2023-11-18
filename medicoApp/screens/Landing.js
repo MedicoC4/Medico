@@ -13,7 +13,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import PharmacyCard from "../components/PharmacyCard";
 import MedicineCard from "../components/MedicineCard";
-import OrderDetails from "../components/OrderDetails";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import NavigationBar from "../components/NavigationBar";
@@ -25,6 +24,7 @@ import DoctorCard from "../components/DrCard";
 import { fetchDoctors } from "../redux/doctorSlicer";
 import { fetchOrdersByUserId } from "../redux/orderSlicer";
 import { auth } from "../firebase-config";
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Landing = ({ route }) => {
@@ -33,33 +33,9 @@ const Landing = ({ route }) => {
   const pharmacies = useSelector((state) => state.pharmacy?.data);
   const medicines = useSelector((state) => state.medecine?.data);
   const doctors = useSelector((state) => state.doctor?.data);
-  const orders = useSelector((state) => state.orders?.userOrders);
-
-
-
-
-
   const verifiedDoctors = doctors.filter((doctor) => doctor.isverified);
-  const [clients, setClients] = useState("null");
-  const [pendingOrders, setPendingOrders] = useState([]);
-
-  const retrieve = async () => {
-    const email = auth.currentUser.email;
-    dispatch(fetchOrdersByUserId(email));
-    if (orders) {
-      setPendingOrders(
-        orders.filter((order) => order.orderStatus === "Pending")
-      );
-    }
-  };
-
-  const ordersData = pendingOrders.map((order, index) => ({
-    pharmacies: pharmacies[index],
-    userId: clients[index],
-    order: order,
-    email: auth.currentUser.email, 
-  }));
-
+  const [clients, setClients] = useState([]);
+ 
   const fetch1 = () => {
     dispatch(fetchPharmacies());
 
@@ -76,9 +52,8 @@ const Landing = ({ route }) => {
     fetch1();
     fetch2();
     fetch3();
-    retrieve();
     
-  }, [orders.length]);
+  }, []);
 
   let topRatedPharmacies = [];
 
@@ -107,35 +82,17 @@ const Landing = ({ route }) => {
                 />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <View style={styles.iconContainer}>
-                <MaterialCommunityIcons
-                  name="cart-outline"
-                  size={25}
-                  color="grey"
-                />
-              </View>
-            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('orderDetails')}>
+  <View style={styles.iconContainer}>
+    <MaterialCommunityIcons
+      name="cart-outline"
+      size={25}
+      color="grey"
+    />
+  </View>
+</TouchableOpacity>
           </View>
         </View>
-        <View style={styles.ordersContainer}>
-          <Text style={styles.ordersText}>Current orders </Text>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>SEE ALL</Text>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-  data={ordersData}
-  keyExtractor={(item, index) => index.toString()}
-  renderItem={({ item }) => (
-    <OrderDetails
-      pharmacy={item.pharmacies}
-      userId={item.userId}
-      order={item.order}
-      email={item.email}
-    />
-  )}
-/>
         <View style={styles.secondOrdersContainer}>
           <Text style={styles.ordersText}>Pharmacies near you</Text>
           <TouchableOpacity style={styles.button}>

@@ -15,6 +15,9 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { auth } from "../firebase-config";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function AppointementClient() {
   const [selectedDate, setSelectedDate] = useState({
@@ -32,7 +35,9 @@ export default function AppointementClient() {
   const [successMessage, setSuccessMessage] = useState("");
   const [userEditModalVisible, setUserEditModalVisible] = useState(false);
   const currentDate = new Date().toISOString().split("T")[0];
-
+  const idDocRedux = useSelector((state) => state.doctor.idDoc)
+  const navigation = useNavigation();
+console.log(idDocRedux);
   const fetchData = async () => {
     try {
       const email = auth.currentUser.email
@@ -76,7 +81,7 @@ export default function AppointementClient() {
   const getAvailability = async () => {
     try {
       const response = await axios.get(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${1}`
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${idDocRedux}`
       );
       setAvailability(response.data.Days);
       setIncludes(response.data);
@@ -241,7 +246,7 @@ export default function AppointementClient() {
             alignItems: "center",
           }}
         >
-          <TouchableOpacity style={styles.confirmButtonEdit} onPress={() => setUserEditModalVisible(true)}>
+          <TouchableOpacity style={styles.confirmButtonEdit} onPress={() =>navigation.navigate('appointUserList')}>
             <View>
               <FontAwesome5 name="user-edit" size={30} color="#09d3a2" />
             </View>

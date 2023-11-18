@@ -117,30 +117,6 @@ export const updateLocation = createAsyncThunk(
   //   }
   // )
 
-  export const fetchDoctorData = createAsyncThunk ('api/fetchdetails',
-  async(email)=>{
-    const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getOneDoc/${email}`)
-    return response.data
-  }
-  )
-  export const docImage = createAsyncThunk(
-    "api/updateImage",
-    async(input)=>{
-      const responce = await axios.patch(`http://${process.env.EXPO_PUBLIC_}:1128/api/doctor/updateImage` , 
-      input
-    )
-    return responce.data
-    }  
-  )
-  // export const updatateImgUrlDoc = createAsyncThunk(
-  //   'api/updateImage',
-  //   async(input)=>{
-  //     const responce = await  axios.patch(`http://${process.env.EXPO_PUBLIC_}:1128/api/doctor/updateImage` ,
-  //     input
-  //     )
-  //     return responce.data
-  //   }
-  // )
 
 const DoctorSlice = createSlice({
   name: "doctor",

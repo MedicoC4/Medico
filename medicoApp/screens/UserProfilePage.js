@@ -16,12 +16,10 @@ import axios from "axios";
 import { docImage } from "../redux/doctorSlicer";
 import { useDispatch , useSelector} from "react-redux";
 import { imageDoc } from "../redux/doctorSlicer";
+import { logOut } from "../redux/userSlicer";
 
 const UserProfilePage = ({ navigation }) => {
   const dispatch = useDispatch()
-import { logOut } from "../redux/userSlicer";
-import { useDispatch } from "react-redux";
-const UserProfilePage = ({navigation}) => {
 
   const email = auth.currentUser.email;
 
@@ -32,11 +30,33 @@ const UserProfilePage = ({navigation}) => {
 
 
   
-  const currDoc = async()=>{
-    try {
-      const email = auth.currentUser.email;
-      console.log(email);
-     const x = await dispatch(imageDoc(email))
+  // const currDoc = async()=>{
+  //   try {
+  //     const email = auth.currentUser.email;
+  //     console.log(email);
+  //    const x = await dispatch(imageDoc(email))
+
+
+
+  //   }
+useEffect(() => {
+  async function fetchData() {
+    const userData = await getUser();
+    if (userData) {
+      setUser(userData);
+    }
+  }
+
+  fetchData();
+}, []);
+
+
+const clearToken = async () => {
+  try {
+   const logOutType= await AsyncStorage.removeItem('type'); 
+   dispatch(logOut())
+   console.log('mecanique mnghir awre9',logOutType);
+
   } catch (error) {
     throw error
   }
@@ -52,32 +72,17 @@ console.log('this is the img' , oldImg);
         setUser(userData);
       }
     }
-    currDoc()
+    // currDoc()
     fetchData();
   }, [imgUrl]);
 
 
 
-
-  
-
- 
-
-  const clearToken = async () => {
-    try {
-      const logOutToken = await AsyncStorage.removeItem("token");
-      const logOutType = await AsyncStorage.removeItem("type");
-      console.log("mecanique mnghir awre9", logOutToken, logOutType);
-    } catch (error) {
-      console.error("Error clearing token:", error);
-    }
-  };
-
   const logOutUser = async () => {
     try {
-      await signOut(auth);
-      await clearToken();
-      navigation.navigate("Login");
+      await signOut(auth)
+       clearToken()
+      navigation.navigate('Login')
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -107,11 +112,11 @@ console.log('this is the img' , oldImg);
       console.error("Cloudinary Upload Error:", error);
     }
   };
-  if (imgUrl === undefined) {
-    console.log(undefined);
-  }else{
-    console.log("this is the cloudiary imagee",imgUrl);
-  }
+  // if (imgUrl === undefined) {
+  //   console.log(undefined);
+  // }else{
+  //   console.log("this is the cloudiary imagee",imgUrl);
+  // }
 // console.log(imgUrl , 'bingo');
   const pickImage = async () => {
     try {
@@ -371,6 +376,9 @@ console.log('this is the img' , oldImg);
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
+   
+        
+    
         <View
           style={{
             width: "100%",

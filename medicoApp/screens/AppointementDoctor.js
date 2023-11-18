@@ -57,12 +57,12 @@ const AppointementList = () => {
 
   const toggleDropdown = () => {
     if (isDropdownVisible) {
-      dropdownRef.current.slideOutLeft(300).then(() => {
+      dropdownRef.current.fadeOutLeftBig(900, { useNativeDriver: true }).then(() => {
         setDropdownVisible(false);
       });
     } else {
       setDropdownVisible(true);
-      dropdownRef.current.slideInLeft(300);
+      dropdownRef.current.slideInLeft(900, { useNativeDriver: true });
     }
   };
 

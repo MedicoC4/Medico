@@ -28,6 +28,7 @@ import PharProf from "./PharProf";
 import DocProfileNew from "./DocProfileNew";
 import AllReviews from "./AllReviews";
 import AppointementDoctor from "./AppointementDoctor";
+import appointementUserList from "./AppointementUserList";
 export {
     Login,
     Welcome,
@@ -58,6 +59,7 @@ export {
     PharProf,
     DocProfileNew,
     AllReviews,
-    AppointementDoctor
+    AppointementDoctor,
+    appointementUserList
     
 }

@@ -80,7 +80,6 @@ module.exports = {
             console.log(req.body);
              const oneDoc = await User.findOne({where: {email : req.body.email}});
              const doc = await Doctor.update({specialityId :req.body.specialityId,},{where: {id : oneDoc.DoctorId}});
-            // const doc = await Doctor.update(req.body, {where: {id : oneDoc.DoctorId}});
             res.send(doc);
         } catch (error) {
             throw error
@@ -102,15 +101,16 @@ module.exports = {
         }
     },
 
-    // recordsDoc : async (req ,res)=>{
-    //    try {
-    //     const record = await Record.create(req.body)
-    //    res.json(record)
-    //    } catch (error) {
-    //     throw error
-    //    }
-    // },
-
+   docImage : async (req, res) => {
+    try {
+    const oneDoc = await User.findOne({where: {email : req.body.email}});
+    const doc = await Doctor.update({imageUrl:req.body.imageUrl},{where: {id : oneDoc.DoctorId}});
+    res.send(doc);
+    } catch (error) {
+        throw error
+    }
+   },
+   
 
     getAivableDoc: async (req, res) => {
         try {

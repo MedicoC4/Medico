@@ -37,7 +37,7 @@ export default function AppointementClient() {
   const currentDate = new Date().toISOString().split("T")[0];
   const idDocRedux = useSelector((state) => state.doctor.idDoc)
   const navigation = useNavigation();
-console.log(idDocRedux,"id doctor");
+console.log(idDocRedux);
   const fetchData = async () => {
     try {
       const email = auth.currentUser.email
@@ -81,7 +81,7 @@ console.log(idDocRedux,"id doctor");
   const getAvailability = async () => {
     try {
       const response = await axios.get(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/get/${idDocRedux}`
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${idDocRedux}`
       );
       setAvailability(response.data.Days);
       setIncludes(response.data);

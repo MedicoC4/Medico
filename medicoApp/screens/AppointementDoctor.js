@@ -65,6 +65,18 @@ const AppointementList = () => {
       dropdownRef.current.slideInLeft(300);
     }
   };
+
+
+
+  const slideInLeft = {
+    from: { left: -200 },
+    to: { left: 0 },
+  };
+
+  const slideOutLeft = {
+    from: { left: 0 },
+    to: { left: -200 },
+  };
   const fetchAllData = async () => {
     try {
       const email = auth.currentUser.email;
@@ -78,6 +90,17 @@ const AppointementList = () => {
       throw new Error(error);
     }
   };
+
+
+  const filterAppoint =async(body)=>{
+    try {
+      const email = auth.currentUser.email
+      const x = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/filter/${body}/${email}`)
+      setData(x.data)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
 
   const updateStatus = async (idH) => {
     try {
@@ -119,31 +142,39 @@ const AppointementList = () => {
       <Text style={{ paddingBottom: 40, fontSize: 35, fontWeight: "bold" }}>
         Appointment List
       </Text>
-      <View style={{paddingRight:280,paddingBottom:5}}>
-       <TouchableOpacity onPress={toggleDropdown}>
+      <View style={{paddingLeft:280,paddingBottom:5}}>
+       {!isDropdownVisible?<TouchableOpacity onPress={toggleDropdown}>
         <Image style={{height:45,width:45}} source={require("../assets/filtreOff.png")}/>
-        </TouchableOpacity>
+        </TouchableOpacity>:<TouchableOpacity onPress={toggleDropdown}>
+        <Image style={{height:45,width:45}} source={require("../assets/filtreOn.png")}/>
+        </TouchableOpacity>}
         </View>    
-         <Animatable.View
-        ref={dropdownRef}
-        style={{
-          position: 'absolute',
-          top: 170,
-          right: isDropdownVisible ? 0 : -200, // Set the initial position off-screen
-          width: 200,
-          height: 40,
-          backgroundColor: 'white',
-          padding: 10,
-          borderRadius: 5,
-          elevation: 5,
-          justifyContent: 'center',
-        }}
-      >
-        <Text>Dropdown Content</Text>
-        <TouchableOpacity onPress={toggleDropdown}>
-          <Text>Hide Dropdown</Text>
-        </TouchableOpacity>
-      </Animatable.View>
+        <Animatable.View
+      ref={dropdownRef}
+      style={{
+        position: 'absolute',
+        top: 150,
+        left: isDropdownVisible ? 0 : -290,
+        width: 290,
+        height: 70,
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 5,
+        elevation: 5,
+        justifyContent: 'center',
+        borderTopRightRadius: 50,
+        borderBottomRightRadius: 50,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 10,
+      }}
+    >
+      <TouchableOpacity onPress={() => fetchAllData()}><Text>All</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => filterAppoint("pending")}><Text>Pending</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => filterAppoint("Accepted")}><Text>Accepted</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => filterAppoint("Rejected")}><Text>Rejected</Text></TouchableOpacity>
+    </Animatable.View>
       <FlatList
         data={data} 
         keyExtractor={(appointment) => String(appointment.id)}

@@ -83,6 +83,35 @@ module.exports = {
             throw new Error(error)
         }
       },
+    getAppointementAllFilter: async (req,res)=>{
+        try {
+
+          const getUser = await User.findOne({where: {email:req.params.DocidEmail}})
+            const getAppointement = await AppointementList.findAll({
+                where: {
+                    DoctorId: { [Op.like]: getUser.DoctorId},
+                    status: { [Op.like]: req.params.statusFilter },
+                  },
+                  include: [
+                    {
+                      model: Doctor,
+                    },
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Availability,
+                    },
+                    {
+                      model: Day,
+                    },
+                  ],
+              });
+            res.json(getAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
     getAppointementUser: async (req,res)=>{
         try {
           const getUser = await User.findOne({where: {email:req.params.userID}})

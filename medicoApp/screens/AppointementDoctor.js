@@ -14,7 +14,7 @@ import { Picker } from "@react-native-picker/picker";
 
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
+// import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
 const { width, height } = Dimensions.get("window");
 import { auth } from "../firebase-config";
 import * as Animatable from 'react-native-animatable';
@@ -355,11 +355,7 @@ const AppointementList = () => {
                   flexDirection: "row",
                 }}
               >
-                <Badge
-                  badgeStyle={{ height: 22, width: 85 }}
-                  value={<Text style={{ color: "white" }}>{appointment.status==="pending"?"Pending":appointment.status==="Accepted"?"Accepted":appointment.status==="Rejected"?"Rejected":null}</Text>}
-                  status={ appointment.status==="pending"?"warning":appointment.status==="Accepted"?"success":appointment.status==="Rejected"?"error":null}
-                />
+              
               </View>
             </View>
             <View

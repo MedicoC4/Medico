@@ -1,30 +1,44 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   Image,
-  Pressable,
-  TextInput,
   TouchableOpacity,
-  Dimensions,
   StyleSheet,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import {auth,DB} from '../firebase-config'
-import { getUser } from '../constants/userServices'
-import { signOut } from 'firebase/auth';
+import { auth } from "../firebase-config";
+import { getUser } from "../constants/userServices";
+import { signOut } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import { docImage } from "../redux/doctorSlicer";
+import { useDispatch , useSelector} from "react-redux";
+import { imageDoc } from "../redux/doctorSlicer";
 import { logOut } from "../redux/userSlicer";
-import { useDispatch } from "react-redux";
-const UserProfilePage = ({navigation}) => {
 
-const dispatch=useDispatch()
+const UserProfilePage = ({ navigation }) => {
+  const dispatch = useDispatch()
 
+  const email = auth.currentUser.email;
+
+  const [image, setImage] = useState(null);
   const [user, setUser] = useState([]);
+  const [imgUrl , setImgUrl] = useState("")
+  
 
-const email = auth.currentUser.email
+
+  
+  // const currDoc = async()=>{
+  //   try {
+  //     const email = auth.currentUser.email;
+  //     console.log(email);
+  //    const x = await dispatch(imageDoc(email))
 
 
+
+  //   }
 useEffect(() => {
   async function fetchData() {
     const userData = await getUser();
@@ -44,9 +58,23 @@ const clearToken = async () => {
    console.log('mecanique mnghir awre9',logOutType);
 
   } catch (error) {
-    console.error('Error clearing token:', error);
+    throw error
   }
-};
+}
+const onDoc = useSelector((state)=> state.doctor.data)
+const oldImg = onDoc[0].imageUrl
+
+console.log('this is the img' , oldImg);
+  useEffect(() => {
+    async function fetchData() {
+      const userData = await getUser();
+      if (userData) {
+        setUser(userData);
+      }
+    }
+    // currDoc()
+    fetchData();
+  }, [imgUrl]);
 
 
 
@@ -56,9 +84,61 @@ const clearToken = async () => {
        clearToken()
       navigation.navigate('Login')
     } catch (error) {
-      console.error('Logout error:', error)
+      console.error("Logout error:", error);
     }
   };
+
+  const uploadToCloudinary = async (uri) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", {
+        uri,
+        type: "image/jpeg", 
+        name: "image.jpg", 
+      });
+
+      formData.append("upload_preset", "qyrzp0xv"); 
+      formData.append("cloud_name", "dp42uyqn5"); 
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dp42uyqn5/image/upload",
+        formData
+      );
+
+      
+      const imageUrl = response.data.secure_url;
+      setImgUrl(response.data.secure_url)
+      console.log(imgUrl , 'hiiiiii');
+    } catch (error) {
+      console.error("Cloudinary Upload Error:", error);
+    }
+  };
+  // if (imgUrl === undefined) {
+  //   console.log(undefined);
+  // }else{
+  //   console.log("this is the cloudiary imagee",imgUrl);
+  // }
+// console.log(imgUrl , 'bingo');
+  const pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      const imageUrl = await uploadToCloudinary(result.assets[0].uri);
+        setImage(imageUrl);
+    } catch (error) {
+      console.error("Image picking error:", error);
+    }
+  };
+  const upImg = async ()=>{
+    const obj = {
+      email , 
+      imageUrl : imgUrl
+    }
+    dispatch(docImage(obj))
+  } 
 
   return (
     <View
@@ -188,9 +268,10 @@ const clearToken = async () => {
               shadowRadius: 4,
               backgroundColor: "#EAEAEA",
             }}
-            source={require("../assets/user.png")}
+            // source={imageUrl}
           />
           <TouchableOpacity
+          onPress={()=>{pickImage() ; upImg() }}
             style={{
               position: "absolute",
               width: 150,
@@ -290,32 +371,149 @@ const clearToken = async () => {
               Personal Details
             </Text>
           </View>
-          <View
-            style={
-              {
-                // width: 60,
-                // height: 60,
-                // justifyContent: "center",
-                // alignItems: "center",
-                // borderRadius: 100,
-                // shadowColor: "rgba(3, 3, 3, 0.1)",
-                // shadowOffset: { width: 0, height: 2 },
-                // shadowRadius: 4,
-              }
-            }
-          >
-            {/* <Image source={require("../assets/flesh_right.png")}
-            style={{
-                width: 35,
-                height: 35,
-              }}
-            /> */}
+          <View>
+          
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
    
         
     
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: "25%",
+            
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/payment.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Payments</Text>
+          </View>
+          <View>
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: "25%",
+            alignItems: "center",
+          
+          }}
+          onPress={()=>navigation.navigate('userProfile')}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Image
+                  source={require("../assets/settings.png")}
+                  style={{
+                    width: 30,
+                    height: 30,
+                  }}
+                />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>Upgrade account</Text>
+          </View>
+          <View>
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
         <View
           style={{
             width: "100%",

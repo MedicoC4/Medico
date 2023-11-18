@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -27,7 +27,8 @@ import {
   PharProf,
   DocProfileNew,
   AppointementDoctor,
-  appointementUserList
+  appointementUserList,
+  UserMap
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -41,8 +42,7 @@ import PharmSecondStep from "./screens/PharmSecoundStep";
 import UpgradeToPharm from "./screens/UpgradeToPharm";
 import AllMedicines from "./screens/AllMedecines";
 import MedicineDetails from "./screens/MedecineDetails";
-import OrderDet from "./screens/OrderDet"
-import UserMap from "./screens/UserMap";
+import OrderDet from "./screens/OrderDet";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
@@ -55,104 +55,100 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [initialRoute, setInitialRoute] = useState('Login');
+  const [initialRoute, setInitialRoute] = useState("Login");
 
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const token = await AsyncStorage.getItem('token')
+        const token = await AsyncStorage.getItem("token");
 
         // Set the initial route based on the token existence
-        setInitialRoute(token ? 'Landing' : 'Login')
+        setInitialRoute(token ? "Landing" : "Login");
       } catch (error) {
-        
-        console.error('Error checking token:', error)   
-         }
-    }
-    checkToken()
+        console.error("Error checking token:", error);
+      }
+    };
+    checkToken();
   }, []);
 
-
   return (
-    
-    
-      <Provider store={store}>
-    <NavigationContainer>
-      <Stack.Navigator
-        // initialRouteName={initialRoute}
-        initialRouteName="Login"
-      >
-        <Stack.Screen
-          name="Welcome"
-          component={Welcome}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="AddRatings"
-          component={AddRatings}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="docProfile"
-          component={DocProfile}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="DocProfileNew"
-          component={DocProfileNew}
-          options={{
-            headerShown: false,
-          }}
-        />
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          // initialRouteName={initialRoute}
+          initialRouteName="Login"
+        >
           <Stack.Screen
-          name="AllMissingProducts"
-          component={AllMissingProducts}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="AllDoctors"
-          component={AllDoctors}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="AllReviews"
-          component={AllReviews}
-          options={{
-            headerShown: false,
-          }}
-        />
-<Stack.Screen
-          name="Promotions"
-          component={Promotions}
-          options={{
-            headerShown: false,
-          }}
-        />
+            name="Welcome"
+            component={Welcome}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AddRatings"
+            component={AddRatings}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="docProfile"
+            component={DocProfile}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="DocProfileNew"
+            component={DocProfileNew}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllMissingProducts"
+            component={AllMissingProducts}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllDoctors"
+            component={AllDoctors}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllReviews"
+            component={AllReviews}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Promotions"
+            component={Promotions}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="PharProf"
-          component={PharProf}
-          options={{
-            headerShown: false,
-          }}
-        />
-         <Stack.Screen
-          name="BestSellers"
-          component={BestSellers}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="PharProf"
+            component={PharProf}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="BestSellers"
+            component={BestSellers}
+            options={{
+              headerShown: false,
+            }}
+          />
 
           <Stack.Screen
             name="PharmacyProfile"
@@ -338,25 +334,29 @@ export default function App() {
               headerShown: false,
             }}
           />
-         <Stack.Screen
+          <Stack.Screen
             name="appointUserList"
             component={appointementUserList}
             options={{
               headerShown: false,
             }}
           />
-<Stack.Screen
-name="orderDetails"
-component={OrderDet}
-options={{
-  headerShown: false,
-}}
-/>
-       
-      </Stack.Navigator>
-
-      
-    </NavigationContainer>
+          <Stack.Screen
+            name="orderDetails"
+            component={OrderDet}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="userMap"
+            component={UserMap}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }

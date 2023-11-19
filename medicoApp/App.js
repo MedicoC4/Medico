@@ -27,7 +27,8 @@ import {
   PharProf,
   DocProfileNew,
   AppointementDoctor,
-  appointementUserList
+  appointementUserList,
+  ProfileDocStatic
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -80,7 +81,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         // initialRouteName={initialRoute}
-        initialRouteName="Login"
+        initialRouteName="FirstStep"
       >
         <Stack.Screen
           name="Welcome"
@@ -142,6 +143,13 @@ export default function App() {
         <Stack.Screen
           name="PharProf"
           component={PharProf}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileDocStatic"
+          component={ProfileDocStatic}
           options={{
             headerShown: false,
           }}

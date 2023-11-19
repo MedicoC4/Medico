@@ -20,6 +20,9 @@ import { useNavigation } from "@react-navigation/native";
 
 
 export default function AppointementClient() {
+  const idDocRedux = useSelector((state) => state.doctor.idDoc)
+  console.log("this is the doctor id in appointment clinet ", idDocRedux);
+  
   const [selectedDate, setSelectedDate] = useState({
     dateString: "",
     dayId: "",
@@ -35,7 +38,6 @@ export default function AppointementClient() {
   const [successMessage, setSuccessMessage] = useState("");
   const [userEditModalVisible, setUserEditModalVisible] = useState(false);
   const currentDate = new Date().toISOString().split("T")[0];
-  const idDocRedux = useSelector((state) => state.doctor.idDoc)
   const navigation = useNavigation();
 console.log(idDocRedux);
   const fetchData = async () => {
@@ -80,8 +82,11 @@ console.log(idDocRedux);
 
   const getAvailability = async () => {
     try {
+  console.log("this is the doctor id in appointment clinet ", idDocRedux);
+
+      console.log();
       const response = await axios.get(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${idDocRedux}`
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/get/${idDocRedux}`
       );
       setAvailability(response.data.Days);
       setIncludes(response.data);

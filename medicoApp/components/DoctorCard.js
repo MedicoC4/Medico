@@ -11,11 +11,13 @@ import { save } from '../redux/doctorSlicer';
 
 
 const DoctorCard = ({doctor}) => {
+
     console.log('this is the doctor for the card',doctor);
   const navigation = useNavigation();
 const dispatch = useDispatch()
-const handleID=(id)=>{
-    dispatch(save(id))
+const handleID=()=>{
+    console.log("this is the doctor id doctor card ", doctor.id);
+    dispatch(save(doctor.id))
   }
 
   return (
@@ -65,7 +67,7 @@ const handleID=(id)=>{
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>Dr. {doctor.fullname}</Text>
+            }}>Dr. {doctor.Doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,
@@ -119,7 +121,7 @@ const handleID=(id)=>{
                     alignItems:'center',
                     borderBottomLeftRadius:20,
                 }}
-                onPress={()=>navigation.navigate('DocProfileNew',{data:doctor})}>
+                onPress={()=>navigation.navigate('ProfileDocStatic',{data:doctor})}>
                     <Text
                     style={{
                         color:COLORS.white,
@@ -139,7 +141,7 @@ const handleID=(id)=>{
                     borderBottomRightRadius:20
                 }}
                 
-                    onPress={()=>{handleID(doctor.Doctor.id);navigation.navigate('appointmentClient')}}
+                    onPress={()=>{handleID();navigation.navigate('appointmentClient')}}
                 >
                 <Image
                 source={require('../assets/book.png')}

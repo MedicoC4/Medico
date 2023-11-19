@@ -29,6 +29,7 @@ import DocProfileNew from "./DocProfileNew";
 import AllReviews from "./AllReviews";
 import AppointementDoctor from "./AppointementDoctor";
 import appointementUserList from "./AppointementUserList";
+import ProfileDocStatic from "./ProfileDocStatic";
 export {
     Login,
     Welcome,
@@ -60,6 +61,7 @@ export {
     DocProfileNew,
     AllReviews,
     AppointementDoctor,
-    appointementUserList
+    appointementUserList,
+    ProfileDocStatic
     
 }

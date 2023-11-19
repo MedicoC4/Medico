@@ -83,7 +83,7 @@ const AllDoctors = () => {
             <DoctorCard/>
             <DoctorCard/> */}
             {doctors && doctors.map((doctor) => (
-        <DoctorCard key={doctor.id} doctor={doctor} handleID={handleID(doctor.id)} />
+        <DoctorCard key={doctor.id} doctor={doctor} />
       ))}
 
 

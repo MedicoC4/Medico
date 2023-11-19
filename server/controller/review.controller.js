@@ -1,3 +1,4 @@
+const { orderBy } = require('lodash');
 const {Review,Doctor,User} = require('../database/index')
 
 
@@ -8,8 +9,11 @@ module.exports = {
         const doctorId = req.params.doctorId;
         const reviews = await Review.findAll({
           where: { doctorId: doctorId },
-          include : User
-        });
+          include : User,
+          order:[['createdAt','DESC']]
+        }
+      
+        );
         res.json(reviews);
       } catch (error) {
         console.error(error);
@@ -18,17 +22,23 @@ module.exports = {
     
     },
     createReview: async (req, res) => {
-      const { doctorId, userId, rating, comment } = req.body
+      const { doctorId, email, rating, comment} = req.body
 
       try {
+
+      const user = await User.findOne({
+        where : {
+          email : email
+        }
+      })
         const newReview = await Review.create({
           DoctorId: doctorId,
-          UserId: userId,
+          UserId: user.id,
           review: comment,
           rating: rating,
         });
     
-        res.status(201).json(newReview.toJSON());
+        res.json(newReview);
       } catch (error) {
         console.error('Error adding review:', error);
         res.status(500).json({ error: 'Internal server error' });

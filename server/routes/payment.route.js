@@ -1,5 +1,7 @@
 const route = require("express").Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const {Payment} = require("../database/index.js")
+
 
 route.post("/intents", async (req, res) => {
   try {
@@ -9,6 +11,15 @@ route.post("/intents", async (req, res) => {
       automatic_payment_methods: {
         enabled: true,
       },
+    });
+
+    // Create a new payment in your database
+    const payment = await Payment.create({
+      order_id: req.body.order_Id,
+      amount: req.body.amount,
+      currency: "usd",
+      paymentIntentId: paymentIntent.id,
+      status: paymentIntent.status,
     });
 
     res.json({ paymentIntent: paymentIntent.client_secret });

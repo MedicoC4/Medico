@@ -62,9 +62,9 @@ const clearToken = async () => {
   }
 }
 const onDoc = useSelector((state)=> state.doctor.data)
-const oldImg = onDoc[0].imageUrl
+// const oldImg = onDoc[0].imageUrl
 
-console.log('this is the img' , oldImg);
+// console.log('this is the img' , oldImg);
   useEffect(() => {
     async function fetchData() {
       const userData = await getUser();
@@ -118,27 +118,27 @@ console.log('this is the img' , oldImg);
   //   console.log("this is the cloudiary imagee",imgUrl);
   // }
 // console.log(imgUrl , 'bingo');
-  const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-      const imageUrl = await uploadToCloudinary(result.assets[0].uri);
-        setImage(imageUrl);
-    } catch (error) {
-      console.error("Image picking error:", error);
-    }
-  };
-  const upImg = async ()=>{
-    const obj = {
-      email , 
-      imageUrl : imgUrl
-    }
-    dispatch(docImage(obj))
-  } 
+  // const pickImage = async () => {
+  //   try {
+  //     let result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //       allowsEditing: true,
+  //       aspect: [4, 3],
+  //       quality: 1,
+  //     });
+  //     const imageUrl = await uploadToCloudinary(result.assets[0].uri);
+  //       setImage(imageUrl);
+  //   } catch (error) {
+  //     console.error("Image picking error:", error);
+  //   }
+  // };
+  // const upImg = async ()=>{
+  //   const obj = {
+  //     email , 
+  //     imageUrl : imgUrl
+  //   }
+  //   dispatch(docImage(obj))
+  // } 
 
   return (
     <View
@@ -271,7 +271,7 @@ console.log('this is the img' , oldImg);
             // source={imageUrl}
           />
           <TouchableOpacity
-          onPress={()=>{pickImage() ; upImg() }}
+          // onPress={()=>{pickImage() ; upImg() }}
             style={{
               position: "absolute",
               width: 150,

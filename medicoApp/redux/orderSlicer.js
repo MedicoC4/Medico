@@ -58,6 +58,7 @@ export const createPaymentIntent = createAsyncThunk(
 
     
     const { email, orderId,...rest } = orderData
+    console.log({ email, orderId,...rest }); // Add this line
     try {
       const response = await axios.post(
         `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/payment/intents`,
@@ -110,6 +111,17 @@ const orderSlice = createSlice({
         state.userOrders = action.payload;
       })
       .addCase(fetchOrdersByUserId.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(createPaymentIntent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createPaymentIntent.fulfilled, (state, action) => {
+        state.loading = false;
+        // handle the fulfilled state as per your requirements
+      })
+      .addCase(createPaymentIntent.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

@@ -26,7 +26,9 @@ const Checkout = ({ route }) => {
 
   const onCheckout = async () => {
     const email = auth.currentUser.email;
-    const response = await dispatch(createPaymentIntent({amount: Math.floor(orders.total * 100), email}));
+    const orderId = orders.order_id; // Assuming orders object has an id property
+    console.log(orders.order_id)
+    const response = await dispatch(createPaymentIntent({amount: Math.floor(orders.total * 100), email, orderId}));
   
     if (response.error){
       Alert.alert('something went wrong');
@@ -49,6 +51,8 @@ const Checkout = ({ route }) => {
     }
   
     await presentPaymentSheet();
+
+    navigation.navigate("Landing")
   }
   
 

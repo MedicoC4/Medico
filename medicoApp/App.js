@@ -74,7 +74,7 @@ export default function App() {
   }, []);
 
   return (
-    <StripeProvider publishableKey={process.env.STRIPE_PUBLIC_KEY}>
+    <StripeProvider publishableKey="pk_test_51ODoKPCkrKQqUqCAjYKGnbLVZjf9PG0yXfHILgFPQgirdXJHl4tSnJxmuZtNF1esZOoqcVE6qiHDnC0QfaKRTN4J00qMvLzssR">
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator

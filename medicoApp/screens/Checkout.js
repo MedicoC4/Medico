@@ -7,6 +7,7 @@ import {
   FlatList,
   ScrollView,
   RefreshControl,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,13 +40,13 @@ const Checkout = ({ route }) => {
       paymentIntentClientSecret: response.payload.paymentIntent,
     });
   
-    // console.log('initResponse: ', initResponse)
+    console.log('initResponse: ', initResponse)
   
-    // if (initResponse.error){
-    //   console.log(initResponse.error)
-    //   Alert.alert('something went wrong');
-    //   return;
-    // }
+    if (initResponse.error){
+      console.log(initResponse.error)
+      Alert.alert('something went wrong');
+      return;
+    }
   
     await presentPaymentSheet();
   }

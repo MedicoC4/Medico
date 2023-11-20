@@ -14,8 +14,8 @@ const DoctorCard = ({doctor}) => {
     console.log('this is the doctor for the card',doctor);
   const navigation = useNavigation();
 const dispatch = useDispatch()
-const handleID=(id)=>{
-    dispatch(save(id))
+const handleID=()=>{
+    dispatch(save(doctor.id))
   }
 
   return (
@@ -139,7 +139,7 @@ const handleID=(id)=>{
                     borderBottomRightRadius:20
                 }}
                 
-                    onPress={()=>{handleID(doctor.Doctor.id);navigation.navigate('appointmentClient')}}
+                    onPress={()=>{handleID();navigation.navigate('appointmentClient')}}
                 >
                 <Image
                 source={require('../assets/book.png')}

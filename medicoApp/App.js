@@ -355,6 +355,13 @@ export default function App() {
               headerShown: false,
             }}
           />
+          <Stack.Screen
+            name="mapDirection"
+            component={UserMapView}
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

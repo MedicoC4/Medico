@@ -21,7 +21,6 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-
 import axios from "axios";
 
 const UserMap = () => {
@@ -161,7 +160,7 @@ const UserMap = () => {
         longitude: e.longitude,
         type: e.type,
         name: e.fullname || e.PHname,
-        id:e.id
+        id: e.id,
         // imageUrl: e.imageUrl,
       });
     });
@@ -333,108 +332,72 @@ const UserMap = () => {
       >
         <View style={styling.modalContainer}>
           <View style={styling.modal}>
-            <View style={styling.modalContent}>
-              <View style={styling.modalHeader}>
-                <View style={styling.modalImage}>
-                  <Image
-                    source={{ uri: selectedMarker?.imageUrl }}
-                    style={styling.imageHw}
-                  />
-                </View>
-                <View style={{ gap: 10 }}>
-                  <Text style={styling.modalText}>
-                    Name: {selectedMarker?.name}
-                  </Text>
-                  <Text style={styling.modalText}>
-                    Type: {selectedMarker?.type}
-                  </Text>
-                  <Text style={styling.modalText}>
-                    {/* Specialty: {selectedMarker?.specialty} */}
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <View>
-                  {/* <View
-                    style={{ flexDirection: "row", justifyContent: "center" }}
-                  >
-                    
-                    <Text style={styling.modalText}>Estimated Duration:</Text>
-                  </View> */}
+            <View
+              style={{
+                backgroundColor: "red",
+                height: "65%",
+                width: "100%",
+                alignItems: "center",
+                paddingTop: 10,
+                justifyContent: "space-between",
+                flexDirection: "column",
+                paddingBottom:20
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: "yellow",
+                  height: 150,
+                  width: 150,
+                  borderRadius: 200,
+                }}
+              ></View>
+              <View
+                style={{
+                  backgroundColor: "yellow",
+                  height: "25%",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexDirection:"column",
+                }}
+              >
+                <View
+                  style={{ backgroundColor: "green", height: "50%", width: "100%",justifyContent:"center",alignItems:"center" }}
+                >
+                  <Text style={{textAlign:"center",fontSize:27,fontWeight:"bold"}}>Anna Williams</Text>
+                  </View>
                   <View
-                    style={{
-                      flexDirection: "row",
-                      gap: 8,
-                      position: "absolute",
-                      left: 70,
-                      top: 5,
-                    }}
+                    style={{ backgroundColor: "blue", height: "50%", width: "100%",justifyContent:"center",alignItems:"center" }}
                   >
-                    <Ionicons
-                      name="md-timer-outline"
-                      size={24}
-                      color="#0bc991"
-                    />
-                    <Text style={styling.modalText}>
-                      Estimated Duration: {duration}
-                    </Text>
+                    <Text style={{textAlign:"center",fontSize:22}}>anna.williams@com</Text>
+                  </View>
+              </View>
+            </View>
+                <View style={{backgroundColor:"pink",height:"20%",flexDirection:"row"}}>
+                  <View style={{backgroundColor:"yellow",height:"100%",width:"55%",justifyContent:"space-around"}}>
+                    <View style={{backgroundColor:"pink",height:"40%",paddingLeft:30,alignItems:"center",flexDirection:"row"}}>
+                      <View style={{paddingRight:13}}><MaterialCommunityIcons name="map-marker-distance"size={27}color="#0bc991"/></View>
+                      <Text style={{paddingRight:5,fontSize:14}} >Distance:</Text>
+                      <Text fontSize={{fontSize:14}}>50 Km</Text>
+                    </View>
+                    <View style={{backgroundColor:"blue",height:"40%",paddingLeft:30,alignItems:"center",flexDirection:"row"}}>
+                    <View style={{paddingRight:13}}><MaterialIcons name="timer" size={27} color="#0bc991" /></View>
+                      <Text style={{paddingRight:28,fontSize:14}}>Time:</Text>
+                      <Text fontSize={{fontSize:14}} >26 min</Text>
+                    </View>
+                  </View>
+                  <View style={{backgroundColor:"green",height:"100%",width:"45%",justifyContent:"center",alignItems:"center"}}>
+                    <TouchableOpacity style={{height:"70%",width:"90%",backgroundColor:"pink",borderRadius:70,justifyContent:"center",alignItems:"center"}}><Text>Go Profile</Text></TouchableOpacity>
                   </View>
                 </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    gap: 8,
-                    position: "absolute",
-                    left: 70,
-                    top: 40,
-                  }}
-                >
-                  <MaterialCommunityIcons
-                    name="map-marker-distance"
-                    size={24}
-                    color="#0bc991"
-                  />
-                  <Text style={styling.modalText}>
-                    Estimated Distance: {distance}
-                  </Text>
+                <View style={{backgroundColor:"grey",height:"15%",alignItems:"center",justifyContent:"center"}}>
+                  <TouchableOpacity style={{backgroundColor:"green",height:"90%",width:"45%",borderRadius:70,justifyContent:"center",alignItems:"center"}}><Text>Close</Text></TouchableOpacity>
                 </View>
-              </View>
-            </View>
-            <View style={styling.modalActions}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#0ebe7f",
-                  padding: 15,
-                  borderRadius: 10,
-                  flex: 1,
-                  marginLeft: 5,
-                }}
-                onPress={() => setMarkId(selectedMarker?.id)}
-              >
-                <Text
-                  style={{ color: "white", textAlign: "center", fontSize: 16 }}
-                >
-                  Go To
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <Button
-              title="Close"
-              onPress={() => {
-                setModalVisible(false);
-              }}
-              style={{
-                backgroundColor: "#0ebe7f",
-                padding: 15,
-                borderRadius: 10,
-                flex: 1,
-                marginLeft: 5,
-              }}
-            />
+           
           </View>
         </View>
       </Modal>
-      
     </View>
   );
 };
@@ -448,13 +411,15 @@ const styling = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
-    height: "50%",
+    height: "60%",
     width: "100%",
     backgroundColor: "white",
     padding: 20,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    position: "relative",
+    flexDirection:"column"
+
+    // position: "relative",
   },
   modalContent: {
     flex: 1,

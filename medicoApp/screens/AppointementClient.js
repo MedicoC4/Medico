@@ -81,7 +81,7 @@ console.log(idDocRedux);
   const getAvailability = async () => {
     try {
       const response = await axios.get(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${idDocRedux}`
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/get/${idDocRedux}`
       );
       setAvailability(response.data.Days);
       setIncludes(response.data);

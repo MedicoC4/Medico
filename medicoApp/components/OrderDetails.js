@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 
 
 const OrderDetails = ({ pharmacy, userId, order }) => {
+  const navigation = useNavigation();
   if (!order) {
     return null; // or return a loading spinner, or some fallback UI
   }
@@ -28,8 +30,9 @@ const OrderDetails = ({ pharmacy, userId, order }) => {
           <Text style={[styles.processingText, { color: colors.text }]}>{order.orderStatus}</Text>
         </View>
         {order.orderStatus === 'Accepted' && (
-          <TouchableOpacity style={[styles.checkoutButton, { backgroundColor: colors.container }]}>
-            <FontAwesome5 name="credit-card" size={20} color="#198b81" />
+          <TouchableOpacity style={[styles.checkoutButton, { backgroundColor: colors.container }]} onPress={() => navigation.navigate('checkout', { orders: order })}>
+            <Text style={[styles.processingText, { color: colors.text }]}>Checkout</Text>
+            {/* <FontAwesome5 name="credit-card" size={20} color="#198b81" /> */}
           </TouchableOpacity>
         )}
       </View>
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
   checkoutButton: {
     borderRadius: 20,
     padding: 5,
-    marginLeft: 180,
+    marginLeft: 150,
   },
 });
 

@@ -52,6 +52,26 @@ export const createOrder = createAsyncThunk(
   }
 );
 
+export const createPaymentIntent = createAsyncThunk(
+  "orders/createPaymentIntent",
+  async (orderData, { dispatch }) => {
+
+    
+    const { email, orderId,...rest } = orderData
+    try {
+      const response = await axios.post(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/payment/intents`,
+        { email, orderId,...rest }
+      );
+      dispatch(fetchOrdersByUserId(email));
+      console.log("this is the response",response.data)
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "order",
   initialState,

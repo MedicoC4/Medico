@@ -3,6 +3,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const initialState = {
   data: [],
+  userInfo:{},
   error: null,
   loading: false,
 };
@@ -56,6 +57,9 @@ const UserSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
+      save:(state,action)=>{
+        state.userInfo=action.payload
+      },
      
     },
     extraReducers(builder) {
@@ -106,5 +110,7 @@ const UserSlice = createSlice({
      
     }
   });
+  
+  export const {save}= UserSlice.actions;
   export const { logOut } = getUserSlice.actions
   export default {user:UserSlice.reducer,getUser:getUserSlice.reducer} 

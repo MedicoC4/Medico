@@ -3,18 +3,59 @@ import { StyleSheet, View, Text, TouchableOpacity, Animated } from 'react-native
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
+import { useDispatch, useSelector } from "react-redux";
+import * as Animatable from 'react-native-animatable';
+import COLORS from "../constants/colors";
+
 
 const UserMapView = () => {
- const [destination, setDestination] = useState({
-   latitude: 36.463734,
-   longitude: 10.808571,
- });
+  const appointCoords = useSelector((state) => state.doctor?.userInfo);
+  const [destination, setDestination] = useState({
+    latitude: appointCoords.latitude,
+    longitude: appointCoords.longitude,
+  });
+  
+  const [userLocation, setUserLocation] = useState(null);
+  const [following, setFollowing] = useState(false);
+  // const [speed, setSpeed] = useState(0);
+  const [estimatedDuration, setEstimatedDuration] = useState(null);
+  const [isDistance, setIsDistance] = useState(null);
+  const [isModeVisible, setModeVisible] = useState(true);
+  const [displayBtn, setDisplayBtn] = useState(true);
 
- const [userLocation, setUserLocation] = useState(null);
- const [following, setFollowing] = useState(false);
-
- const mapRef = useRef(null);
- const markerRef = useRef(null);
+  const { speed } = userLocation || {};
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const dropdownModeRef = useRef(null);
+  
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  
+  
+    console.log(userLocation);
+    const showDropdown = () => {
+  setDropdownVisible(true);
+  dropdownRef.current.slideInUp(900);
+};
+const hideDropdown = () => {
+  dropdownRef.current.fadeOutDownBig(900).then(() => {
+    setDropdownVisible(false);
+  });
+};
+    const showDropdownMode = () => {
+      setModeVisible(true);
+  dropdownModeRef.current.slideInLeft(900);
+};
+const hideDropdownMode = () => {
+  dropdownModeRef.current.fadeOutLeftBig(900).then(() => {
+    setModeVisible(false);
+  });
+};
+const showButton = () => {
+  setTimeout(() => {
+    setDisplayBtn(true);
+  }, 900);
+};
 
  const getLocation = async () => {
    let { status } = await Location.requestForegroundPermissionsAsync();
@@ -25,6 +66,7 @@ const UserMapView = () => {
 
    let currentLocation = await Location.getCurrentPositionAsync({});
    setUserLocation(currentLocation.coords);
+  //  setSpeed(currentLocation.coords.speed);
 
    if (following) {
      animateToRegion(currentLocation.coords);
@@ -32,7 +74,7 @@ const UserMapView = () => {
  };
 
  const startIteniraire = () => {
-   getLocation(); // Call immediately to get the initial location
+   getLocation(); 
    setFollowing(true);
  };
 
@@ -83,12 +125,74 @@ const UserMapView = () => {
    return heading;
  };
 
+
+ const getTime = async () => {
+  try {
+    if (!userLocation) {
+      console.warn("User location is not available");
+      return;
+    }
+
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/directions/json?origin=${userLocation.latitude},${userLocation.longitude}&destination=${appointCoords.latitude},${appointCoords.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+    );
+    const data = await response.json();
+
+    if (data.status === "OK" && data.routes.length > 0 && data.routes[0].legs.length > 0) {
+      const duration = data.routes[0].legs[0].duration.text;
+      setEstimatedDuration(duration);
+    } else if (data.status === "ZERO_RESULTS") {
+      console.warn("No route found between the specified points.");
+      setEstimatedDuration(null);
+    } else {
+      console.error("Error calculating route: ", data.status);
+    }
+  } catch (error) {
+    console.error("Error fetching route data: ", error);
+  }
+};
+
+const calculateDistanceMap = async () => {
+  try {
+    if (!userLocation) {
+      console.warn("User location is not available");
+      return;
+    }
+
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation.latitude},${userLocation.longitude}&destinations=${appointCoords.latitude},${appointCoords.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+    );
+    const data = await response.json();
+
+    if (
+      data.status === "OK" &&
+      data.rows.length > 0 &&
+      data.rows[0].elements.length > 0 &&
+      data.rows[0].elements[0].distance
+    ) {
+      const distance = data.rows[0].elements[0].distance.text;
+      setIsDistance(distance);
+    } else if (data.status === "ZERO_RESULTS") {
+      console.warn("No distance information available between the specified points.");
+      setIsDistance(null); 
+    } else {
+      console.error("Error calculating distance: ", data.status);
+    }
+  } catch (error) {
+    console.error("Error fetching distance data: ", error);
+  }
+};
+
+
+
  useEffect(() => {
    if (following) {
      const id = setInterval(getLocation, 500);
      return () => clearInterval(id);
-   }
-   getLocation()
+    }
+    getLocation()
+   calculateDistanceMap()
+   getTime()
  }, [following]);
 
  return (
@@ -107,10 +211,10 @@ const UserMapView = () => {
        showsTraffic={true}
        addressForCoordinate={true}
        initialRegion={{
-         latitude: 33.8869, 
-         longitude: 9.5375, 
-         latitudeDelta: 4, 
-         longitudeDelta: 4, 
+        latitude: 37.097689,
+        longitude: 9.961015,
+        latitudeDelta: 4,
+        longitudeDelta: 4,
        }}
      >
        <MapViewDirections
@@ -119,24 +223,92 @@ const UserMapView = () => {
          apikey="AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y"
          strokeWidth={10}
          strokeColor="grey"
-         mode={'WALKING'}
+         mode={'DRIVING'}
        />
        {userLocation && (
          <Marker.Animated
            ref={markerRef}
            coordinate={userLocation}
-           title="Current Location"
+           title={appointCoords.dotorName}
            // image={require('./path/to/navigate_marker.png')} // Replace with your navigate marker image
          />
        )}
-       <Marker coordinate={destination} title="Destination Point" />
+       <Marker coordinate={destination} title={appointCoords.name} />
      </MapView>
-     <TouchableOpacity onPress={() => startIteniraire()}>
-       <Text>START</Text>
-     </TouchableOpacity>
-     <TouchableOpacity onPress={() => stopIteniraire()}>
+     <View>
+     <Animatable.View
+      ref={dropdownModeRef}
+      style={{
+        position: 'absolute',
+        top: 150,
+        left: displayBtn ? 0 : -290,
+        width: 290,
+        height: 70,
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 5,
+        elevation: 5,
+        justifyContent: 'center',
+        borderTopRightRadius: 50,
+        borderBottomRightRadius: 50,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 10,
+      }}
+    >
+  
+    </Animatable.View>
+    
+     <Animatable.View
+  ref={dropdownRef}
+  style={{
+    position: 'absolute',
+    bottom: isDropdownVisible ? -20 : -200,
+    left: -195,
+    width: "100%",
+    height: 150,
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    elevation: 5,
+    justifyContent: 'center',
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding:30
+  }}
+>
+  <View style={{}}>
+     <TouchableOpacity  onPress={() => {stopIteniraire();hideDropdown();showDropdownMode();showButton()}}>
        <Text>STOP</Text>
      </TouchableOpacity>
+     </View>
+    
+     <View>
+     <Text>{speed !== undefined ? speed.toFixed(2) : '0'}</Text>
+     <Text>Km/h</Text>
+     </View>
+     <View>
+      <Text>{isDistance}</Text>
+     </View>
+     <View>
+      <Text>{estimatedDuration}</Text>
+     </View>
+
+</Animatable.View>
+     </View>
+     <TouchableOpacity
+  style={[styles.button, !displayBtn ? { display: 'none' } : null]}
+  onPress={() => { startIteniraire(); showDropdown(); hideDropdownMode();hideDropdownMode();setDisplayBtn(false) }}
+>
+  <Text style={{color: "white",
+                      fontWeight: "bold",
+                      fontSize: 18,}}>START</Text>
+</TouchableOpacity>
+
    </View>
  );
 };
@@ -151,6 +323,16 @@ const styles = StyleSheet.create({
  map: {
    ...StyleSheet.absoluteFillObject,
  },
+ button:{
+  width: "40%",
+  height: 50,
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: 80,
+  backgroundColor: COLORS.primary,
+  position: "absolute",
+bottom:25
+}
 });
 const customMapStyle = [
   {

@@ -5,6 +5,7 @@ const initialState = {
   data: [],
   oneDoc:{},
   idDoc:0,
+  userInfo:{},
   error: null,
   loading: false,
 };
@@ -106,6 +107,9 @@ const DoctorSlice = createSlice({
     save:(state,action)=>{
       state.idDoc=action.payload
     },
+    saveMap:(state,action)=>{
+      state.userInfo=action.payload
+    },
     logOut:(state)=>{
        state.oneDoc={} 
     }
@@ -138,4 +142,5 @@ const DoctorSlice = createSlice({
   },
 });
 export const {save}= DoctorSlice.actions;
+export const {saveMap}= DoctorSlice.actions;
 export default DoctorSlice.reducer;

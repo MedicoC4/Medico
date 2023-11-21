@@ -278,9 +278,6 @@ const MedicineDetails = ({ route }) => {
             <TouchableOpacity style={[styles.modalOption, pregnant === 'no' && styles.selectedOption2]} onPress={() => setPregnant('no')}>
               <Text style={pregnant === 'no' && styles.selectedOptionText}>No</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.modalOption, pregnant === "I don't know" && styles.selectedOption2]} onPress={() => setPregnant("I don't know")}>
-              <Text style={pregnant === "I don't know" && styles.selectedOptionText}>I don't know</Text>
-            </TouchableOpacity>
           </View>
           {/* Add more questions and options as needed */}
           <Text style={styles.modalQuestion}>Please upload prescription:</Text>

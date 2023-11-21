@@ -73,7 +73,7 @@ module.exports = {
   
     try {
       await Order.update(updatedData, {
-        where: { order_id: order_id },
+        where: { id: order_id },
       });
   
       res.json({ message: 'Order updated successfully' });

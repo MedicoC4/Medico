@@ -34,9 +34,9 @@ const deleteUser = createAsyncThunk('api/deleteUser',async(id, {dispatch})=>{
 })
 
 const updateUser=createAsyncThunk('api/updateUser',async(id,input,{dispatch})=>{
-  const response = await axios.put(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateUser/${id}`,input)
-  // dispatch(signIn())
-  return response.data
+    const response = await axios.delete(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateUser/:${id}`,input)
+    // dispatch(signIn())
+    return response.data
 })
 
 export const signIn = createAsyncThunk(
@@ -55,9 +55,7 @@ return response.data
 const UserSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {
-     
-    },
+    reducers: {},
     extraReducers(builder) {
       builder.addCase(fetchUsers.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -84,11 +82,7 @@ const UserSlice = createSlice({
       error: null,
       loading: false,
     },
-    reducers: {
-      logOut:(state)=>{
-        state.data={} 
-     }
-    },
+    reducers: {},
     extraReducers(builder) {
       builder.addCase(signIn.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -106,5 +100,4 @@ const UserSlice = createSlice({
      
     }
   });
-  export const { logOut } = getUserSlice.actions
   export default {user:UserSlice.reducer,getUser:getUserSlice.reducer} 

@@ -271,7 +271,7 @@ const onDoc = useSelector((state)=> state.doctor.data)
             // source={image}
           />
           <TouchableOpacity
-          onPress={()=>{pickImage() ; upImg() }}
+          // onPress={()=>{pickImage() ; upImg() }}
             style={{
               position: "absolute",
               width: 150,

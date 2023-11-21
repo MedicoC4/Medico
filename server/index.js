@@ -69,7 +69,6 @@ app.use('/api/payment', PaymentRouter)
 app.use('/api/reviews', ReviewRouter)
 app.use('/api/email', NodemailerRoute)
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

@@ -13,6 +13,22 @@ module.exports = {
       res.status(500).json({ error: "Error al obtener todos los productos" });
     }
   },
+  getProductByCodebar: async (req, res) => {
+    let codebar = req.params.codebar;
+    try {
+      const product = await Products.findOne({
+        where: { codebar: Number(codebar) },
+      });
+      if (product) {
+        res.json(product);
+      } else {
+        res.status(404).json({ error: "Product not found" });
+      }
+    } catch (error) {
+      console.log("Error in server", error);
+      res.status(500).json({ error: "Error in server" });
+    }
+  },
   create: async (req, res) => {
     let product = req.body;
     try {

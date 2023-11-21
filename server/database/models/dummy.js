@@ -10,6 +10,8 @@ const dummyOrders = [
     total: 50.99,
     acceptedAt: null,
     dilevredAt: null,
+    ProductId:1,
+    UserId:1
   },
   {
     quantityOrdered: 3,
@@ -19,6 +21,8 @@ const dummyOrders = [
     total: 30.49,
     acceptedAt: new Date("2023-01-15"),
     dilevredAt: null,
+    ProductId:2,
+    UserId:2
   },
   {
     quantityOrdered: 7,
@@ -28,6 +32,8 @@ const dummyOrders = [
     total: 70.25,
     acceptedAt: null,
     dilevredAt: null,
+    ProductId:3,
+    UserId:3
   },
   {
     quantityOrdered: 2,
@@ -37,6 +43,8 @@ const dummyOrders = [
     total: 20.99,
     acceptedAt: new Date("2023-02-10"),
     dilevredAt: new Date("2023-02-12"),
+    ProductId:4,
+    UserId:4
   },
   {
     quantityOrdered: 4,

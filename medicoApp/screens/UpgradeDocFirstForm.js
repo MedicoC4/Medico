@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Button from "../components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-const { width } = Dimensions.get("window");
+const { width,height } = Dimensions.get("window");
 import COLORS from "../constants/colors";
 import { auth } from "../firebase-config";
 import { useSelector, useDispatch } from "react-redux";
@@ -76,6 +76,9 @@ export default function UpgradeDocFirstForm({ navigation }) {
 
         <KeyboardAwareScrollView>
           <View style={styles.form}>
+            <View style={{
+              alignItems:'center'
+            }}>
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Full Name</Text>
 
@@ -143,6 +146,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
                 style={styles.inputControl}
               />
             </View>
+            </View>
 
             <View style={styles.formAction}>
               <Button
@@ -198,6 +202,7 @@ const styles = StyleSheet.create({
   formAction: {
     marginVertical: 24,
     zIndex: 0,
+    alignItems:'center'
   },
   formFooter: {
     fontSize: 15,
@@ -220,6 +225,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: "#24262e",
+    borderWidth:1,
+    width:width*0.9
   },
   btnText: {
     fontSize: 17,

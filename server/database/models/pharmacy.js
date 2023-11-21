@@ -33,6 +33,10 @@ module.exports = (Sequelize, DataTypes) => {
       isverified:{
         type: DataTypes.BOOLEAN,
         defaultValue: false
+      },
+      rating : {
+        type:DataTypes.DOUBLE, 
+        defaultValue:null
       }
     });
     return Pharmacy;

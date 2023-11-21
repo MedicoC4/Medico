@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View,Image,TouchableOpacity,Dimensions,ImageBackground,ScrollView,TextInput,Modal,FlatList } from 'react-native'
-import React,{useState} from 'react'
+import React,{ useState , useEffect} from 'react'
 import Button from '../components/Button'
 const {width,height}= Dimensions.get('window')
 import COLORS from '../constants/colors'
@@ -7,15 +7,56 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { AirbnbRating } from 'react-native-ratings';
 import NavigationBar from '../components/NavigationBar'
 import PharmacyCardProfile from '../components/PharmacyCardProfile'
+import axios from 'axios'
+import {auth} from '../firebase-config'
 
 
 
-const PharProf = () => {
+
+const PharProf = ({route}) => {
+
+  const data= route.params.pharmacy
+
+  console.log('pharmacy jeeet',data);
 
   const [comment,setComment]=useState('')
   const [rating,setRating]=useState('')
 
+  const fetchReviewsForPhar=async()=>{
+    try {
+      const get= await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAll/${data.id}`)
+    return get.data
+    } catch (error) {
+      throw error
+    }
+  }
 
+  const handleReviewsCreation=async(e)=>{
+    e.preventDefault()
+    console.log(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRevPh`);
+    // console.log("this is the review",comment);
+      try {
+        const pharmacyId =data.id
+        let email = auth.currentUser.email
+      
+        const newReview = {
+          pharmacyId,
+          email,
+        rating,
+          comment
+      }
+      console.log('this is the pharmacy new Review',newReview);
+      const create = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRevPh`,newReview)
+      console.log('this is the creation data',create.data); 
+      } catch (error) {
+        console.log(error);
+      }
+
+}
+
+  useEffect(()=>{
+    fetchReviewsForPhar()
+  },[])
 
   const medicines = [
     {
@@ -53,7 +94,7 @@ const PharProf = () => {
                     fontSize:20,
                     fontWeight:600
                   }}>
-                    Rate Your Doctor
+                    Rate Your Pharmacy
                   </Text>
                   <AirbnbRating
           size={15}
@@ -92,7 +133,7 @@ const PharProf = () => {
           height:height*0.3,
       }}>
       <ImageBackground
-      source={require('../assets/pharmacyTest.jpg')}
+      source={data.iimageUrl}
       resizeMode="cover"
       style={{width:width*1,
           height:height*0.37,
@@ -173,14 +214,14 @@ const PharProf = () => {
                       fontSize:20,
                       fontWeight:600,
                       textAlign:'center'
-                  }}>Foulen's Pharmacy </Text>
+                  }}>{data.PHname}'s Pharmacy</Text>
                   <Text style={{
                       fontSize:15,
                       fontWeight:400,
                       textAlign:'center',
 
                       color:COLORS.grey
-                  }}>123 Main Street, Anytown, USA 12345</Text>
+                  }}>{data.adress}</Text>
                   </View>
 
                   <View style={{
@@ -207,7 +248,7 @@ const PharProf = () => {
             <Icon name="star" size={19} color="#FFD700" />
                           <Text style={{
                               fontWeight:600
-                          }}>3.5</Text>
+                          }}>{(data.rating).toFixed(1)}</Text>
                       </View>
                       </TouchableOpacity>
                       <TouchableOpacity>
@@ -336,7 +377,8 @@ const PharProf = () => {
             alignItems:'center',
             justifyContent:'center'
             }}
-            // onPress={handleReviewAdding}
+            onPress={(e)=> handleReviewsCreation(e)}
+            
             >
                 <Image
                 source={require('../assets/send.png')}

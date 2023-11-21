@@ -28,7 +28,8 @@ import {
   DocProfileNew,
   AppointementDoctor,
   appointementUserList,
-  ProfileDocStatic
+  ProfileDocStatic,
+  SendingDoc
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -86,6 +87,13 @@ export default function App() {
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SendingDoc"
+          component={SendingDoc}
           options={{
             headerShown: false,
           }}

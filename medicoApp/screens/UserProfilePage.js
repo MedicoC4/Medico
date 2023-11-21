@@ -25,7 +25,7 @@ const UserProfilePage = ({ navigation }) => {
 
   const [image, setImage] = useState(null);
   const [user, setUser] = useState([]);
-  const [imgUrl , setImgUrl] = useState("")
+  // const [imgUrl , setImgUrl] = useState("")
   
 
 
@@ -62,9 +62,9 @@ const clearToken = async () => {
   }
 }
 const onDoc = useSelector((state)=> state.doctor.data)
-const oldImg = onDoc[0].imageUrl
+// const oldImg = onDoc[0].imageUrl
 
-console.log('this is the img' , oldImg);
+// console.log('this is the img' , oldImg);
   useEffect(() => {
     async function fetchData() {
       const userData = await getUser();
@@ -74,7 +74,7 @@ console.log('this is the img' , oldImg);
     }
     // currDoc()
     fetchData();
-  }, [imgUrl]);
+  }, []);
 
 
 
@@ -88,57 +88,57 @@ console.log('this is the img' , oldImg);
     }
   };
 
-  const uploadToCloudinary = async (uri) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", {
-        uri,
-        type: "image/jpeg", 
-        name: "image.jpg", 
-      });
+  // const uploadToCloudinary = async (uri) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("file", {
+  //       uri,
+  //       type: "image/jpeg", 
+  //       name: "image.jpg", 
+  //     });
 
-      formData.append("upload_preset", "qyrzp0xv"); 
-      formData.append("cloud_name", "dp42uyqn5"); 
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dp42uyqn5/image/upload",
-        formData
-      );
+  //     formData.append("upload_preset", "qyrzp0xv"); 
+  //     formData.append("cloud_name", "dp42uyqn5"); 
+  //     const response = await axios.post(
+  //       "https://api.cloudinary.com/v1_1/dp42uyqn5/image/upload",
+  //       formData
+  //     );
 
       
-      const imageUrl = response.data.secure_url;
-      setImgUrl(response.data.secure_url)
-      console.log(imgUrl , 'hiiiiii');
-    } catch (error) {
-      console.error("Cloudinary Upload Error:", error);
-    }
-  };
+  //     const imageUrl = response.data.secure_url;
+  //     setImgUrl(response.data.secure_url)
+  //     console.log(imgUrl , 'hiiiiii');
+  //   } catch (error) {
+  //     console.error("Cloudinary Upload Error:", error);
+  //   }
+  // };
   // if (imgUrl === undefined) {
   //   console.log(undefined);
   // }else{
   //   console.log("this is the cloudiary imagee",imgUrl);
   // }
 // console.log(imgUrl , 'bingo');
-  const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-      const imageUrl = await uploadToCloudinary(result.assets[0].uri);
-        setImage(imageUrl);
-    } catch (error) {
-      console.error("Image picking error:", error);
-    }
-  };
-  const upImg = async ()=>{
-    const obj = {
-      email , 
-      imageUrl : imgUrl
-    }
-    dispatch(docImage(obj))
-  } 
+  // const pickImage = async () => {
+  //   try {
+  //     let result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //       allowsEditing: true,
+  //       aspect: [4, 3],
+  //       quality: 1,
+  //     });
+  //     const imageUrl = await uploadToCloudinary(result.assets[0].uri);
+  //       setImage(imageUrl);
+  //   } catch (error) {
+  //     console.error("Image picking error:", error);
+  //   }
+  // };
+  // const upImg = async ()=>{
+  //   const obj = {
+  //     email , 
+  //     imageUrl : imgUrl
+  //   }
+  //   dispatch(docImage(obj))
+  // } 
 
   return (
     <View
@@ -268,7 +268,7 @@ console.log('this is the img' , oldImg);
               shadowRadius: 4,
               backgroundColor: "#EAEAEA",
             }}
-            source={imageUrl}
+            // source={image}
           />
           <TouchableOpacity
           onPress={()=>{pickImage() ; upImg() }}

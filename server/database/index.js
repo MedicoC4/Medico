@@ -106,7 +106,7 @@ Day.hasMany(AppointementList)
 AppointementList.belongsTo(Day)
 
 // connection
-//   .sync({force: true })
+//   .sync({alter: true })
 //   .then(() => console.log("tables created"))
 //   .catch((error) => {throw error;});
 

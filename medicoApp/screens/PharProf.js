@@ -47,6 +47,9 @@ const PharProf = ({route}) => {
       }
       console.log('this is the pharmacy new Review',newReview);
       const create = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRevPh`,newReview)
+      fetchReviewsForPhar()
+      setComment('');
+      setRating('')
       console.log('this is the creation data',create.data); 
       } catch (error) {
         console.log(error);

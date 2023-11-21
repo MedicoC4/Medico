@@ -8,7 +8,7 @@ export default function ProductDetail() {
   return (
     <>
       <Helmet>
-        <title> Products | Minimal UI </title>
+        <title> Product Details </title>
       </Helmet>
 
       <ProductDetails />

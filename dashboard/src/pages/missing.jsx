@@ -8,7 +8,7 @@ export default function MissingProds() {
   return (
     <>
       <Helmet>
-        <title> 404 Page Not Found </title>
+        <title> Missing Products </title>
       </Helmet>
 
       <MissingProd />

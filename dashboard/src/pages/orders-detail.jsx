@@ -8,7 +8,7 @@ export default function OrderDetail() {
   return (
     <>
       <Helmet>
-        <title> 404 Page Not Found </title>
+        <title> Order Details </title>
       </Helmet>
 
       <OrderDetails />

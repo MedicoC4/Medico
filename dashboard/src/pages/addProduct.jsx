@@ -8,7 +8,7 @@ export default function AddProducts() {
   return (
     <>
       <Helmet>
-        <title> 404 Page Not Found </title>
+        <title> Add Products </title>
       </Helmet>
 
       <AddProduct />

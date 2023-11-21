@@ -9,6 +9,7 @@ module.exports = {
         const doctorId = req.params.doctorId;
         const reviews = await Review.findAll({
           where: { doctorId: doctorId },
+          
           include : User,
           order:[['createdAt','DESC']]
         }
@@ -23,7 +24,9 @@ module.exports = {
     },
     createReview: async (req, res) => {
       const { doctorId, email, rating, comment} = req.body
+    //  const { id} = req.body
 
+// console.log(id);
       try {
 
       const user = await User.findOne({
@@ -37,8 +40,22 @@ module.exports = {
           review: comment,
           rating: rating,
         });
-    
-        res.json(newReview);
+        const getReviews=await Doctor.findOne({
+          where:{id:doctorId},
+           include: { model: Review }
+
+        })
+        const updatedRating =
+        getReviews.Reviews.reduce((acc, review) => acc + review.rating, 0) /
+        getReviews.Reviews.length;
+
+    const updateDoctorRating=await Doctor.update({
+      rating:updatedRating
+      
+    },{
+      where:{id:doctorId}
+    })
+        res.json(getReviews);
       } catch (error) {
         console.error('Error adding review:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -55,5 +72,6 @@ module.exports = {
       } catch (error) {
         throw error;
       }
-    }
+    },
+
   };

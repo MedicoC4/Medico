@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Image,TouchableOpacity,Dimensions,ImageBackground,ScrollView,TextInput,Modal } from 'react-native'
+import { StyleSheet, Text, View,Image,TouchableOpacity,Dimensions,ImageBackground,ScrollView,TextInput,Modal,FlatList } from 'react-native'
 import React,{useState} from 'react'
 import Button from '../components/Button'
 const {width,height}= Dimensions.get('window')
@@ -6,10 +6,29 @@ import COLORS from '../constants/colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AirbnbRating } from 'react-native-ratings';
 import NavigationBar from '../components/NavigationBar'
+import PharmacyCardProfile from '../components/PharmacyCardProfile'
 
 
 
 const PharProf = () => {
+
+  const [comment,setComment]=useState('')
+  const [rating,setRating]=useState('')
+
+
+
+  const medicines = [
+    {
+      name: 'Doliprane 1000',
+      image: 'https://www.med.tn/image-medicament-9816dd007411506ab2ce1249e99d2c8c.jpg', // Replace with actual image URL
+    },
+    {
+      name: 'Gripex',
+      image: 'https://galpharma.tn/wp-content/uploads/2019/09/Gripex-Adulte-12.jpg', // Replace with actual image URL
+    },
+    
+  ];
+
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -21,7 +40,7 @@ const PharProf = () => {
       // flex:1,
       alignItems:'center',
       justifyContent:'center',
-      gap:9
+      gap:3
   }}>
     <Modal
               animationType="fade"
@@ -65,9 +84,12 @@ const PharProf = () => {
                 </View>
               </View>
             </Modal>
+            <View style={{
+              height:height*0.94
+            }}>
         <View style={{
           width:width*1,
-          height:height*0.52,
+          height:height*0.3,
       }}>
       <ImageBackground
       source={require('../assets/pharmacyTest.jpg')}
@@ -121,7 +143,7 @@ const PharProf = () => {
           </TouchableOpacity>
           </View>
       </ImageBackground>
-      
+      </View>
       <View
           style={{
               width:width*1,
@@ -131,9 +153,9 @@ const PharProf = () => {
               elevation: 10,
               justifyContent:'center',
               alignItems:'center',
-  shadowColor: 'grey',
-  display:'flex',
-  flexDirection:'row'
+              shadowColor: 'grey',
+              display:'flex',
+              flexDirection:'column',
           }}
           >
               <View 
@@ -145,7 +167,6 @@ const PharProf = () => {
               >
                   <View style={{
                       paddingTop:12,
-                      // paddingLeft:27
                       gap:10
                   }}>
                   <Text style={{
@@ -213,152 +234,122 @@ const PharProf = () => {
                       </View>
                       </TouchableOpacity>
                       
-                  </View>
-                  
-                  
-    
-       
-      
-
-                  
+                  </View> 
               </View>
-              
-
+            
           </View>
-          {/* <View contentContainerStyle={{
-          paddingLeft:20,
-          paddingRight:20,
-          width:width*1,
-          height:height*1,
-          flex:1,
-          alignItems:'center',
-          
-      }}>
-          <View style={{
-              alignItems:'center',
-              gap:10
-          }}>
-          <View style={{
-              gap:15
-          }}>
-          <Text style={{
-              fontSize:30,
-              fontWeight:600
-          }}>About Doctor</Text>
-          <Text style={{
-              color:COLORS.black,
-              fontSize:18,
-              // fontWeight:600
-          }}>Hello, My name is Dr. Name. I'm specialized In hello whatever it says we gonna kill it </Text>
-          </View>
-          
-          <Text style={{
-            fontSize:20,
-            fontWeight:600
-          }}>Recent Reviews</Text>
-    <View style={{
-      // alignItems:'center',
-      gap:15
-    }}>
-      <View style={{
-        flexDirection: "row",
-  justifyContent: "flex-end",
-  alignItems: "center",
-  // marginTop: 40,
-  paddingRight:20
-      }}>
-
-      <TouchableOpacity style={{
-        backgroundColor: "#ddf0ee",
-        borderRadius: 20,
-        paddingVertical: 3.5,
-        paddingHorizontal: 13
-      }}
-      // onPress={()=>navigation.navigate('AllReviews',
-      // {
-      //   data : {
-      //     doctor:data,
-      //   }
-      // }
-
-      // )}
-      >
-          <Text style={{
-            color: "#2d958c",
-            fontSize: 15,
-          }}>SEE ALL</Text>
+          <ScrollView style={{
+                height:height*0.6}}>
+                    
+        <View style={styles.secondOrdersContainer}>
+        <Text style={styles.ordersText}>Missing Products</Text>
+        <TouchableOpacity style={styles.button}
+        onPress={()=>navigation.navigate('AllMissingProducts')}>
+          <Text style={styles.buttonText}>SEE ALL</Text>
         </TouchableOpacity>
       </View>
+        <FlatList
+        data={medicines}
+        renderItem={({ item }) => <PharmacyCardProfile pharmacy={item} />}
+        keyExtractor={(item, index) => index.toString()}
+        horizontal={true} // Make the list horizontal
+        />
 
-          <View style={{
+                <View style={styles.secondOrdersContainer}>
+        <Text style={styles.ordersText}>Client's Choice</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>SEE ALL</Text>
+        </TouchableOpacity>
+      </View>
+        <FlatList
+        data={medicines}
+        renderItem={({ item }) => <PharmacyCardProfile pharmacy={item} />}
+        keyExtractor={(item, index) => index.toString()}
+        horizontal={true} // Make the list horizontal
+        />
+
+    <View style={styles.secondOrdersContainer}>
+        <Text style={styles.ordersText}>Promotions</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>SEE ALL</Text>
+        </TouchableOpacity>
+      </View>
+        <FlatList
+        data={medicines}
+        renderItem={({ item }) => <PharmacyCardProfile pharmacy={item} />}
+        keyExtractor={(item, index) => index.toString()}
+        horizontal={true} // Make the list horizontal
+        />
+        
+</ScrollView>
+<View style={{
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-around',
+        alignItems:'center',
+        gap:15,
+        height:height*0.06
+      }}>
+        <TouchableOpacity
+            style={{
+                backgroundColor:COLORS.primary,
+            width:width*0.1,
+            height:height*0.05,
+            borderRadius:200,
             alignItems:'center',
-            gap:20
-          }}>
+            justifyContent:'center'
+            }}
+            onPress={toggleModal}
+            >
+                <Image
+                source={require('../assets/plus.png')}
+                style={{
+                    width:width*0.05,
+                    height:height*0.025
+                }}
+                />
+            </TouchableOpacity>
+        <TextInput
+                style={{
+                  height: height*0.05,
+                  width:width*0.7,
+                  backgroundColor: "#fff",
+                  paddingHorizontal: 16,
+                  borderRadius: 12,
+                  fontSize: 15,
+                  fontWeight: "500",
+                  color: "#24262e",
+                }}
+                value={comment}
+                placeholder='type here...'
+                onChangeText={(text)=>{
+                    setComment(text)
+                }}
+                
+              />
+              <TouchableOpacity
+            style={{
+                backgroundColor:COLORS.primary,
+            width:width*0.1,
+            height:height*0.05,
+            borderRadius:200,
+            alignItems:'center',
+            justifyContent:'center'
+            }}
+            // onPress={handleReviewAdding}
+            >
+                <Image
+                source={require('../assets/send.png')}
+                style={{
+                    width:width*0.05,
+                    height:height*0.02
+                }}
+                />
+            </TouchableOpacity>
+              </View>
 </View>
-    </View>
-      </View>
-      </View> */}
-      {/* <View style={{
-      display:'flex',
-      flexDirection:'row',
-      justifyContent:'space-around',
-      alignItems:'center',
-      gap:15
-    }}>
-      <TouchableOpacity
-          style={{
-              backgroundColor:COLORS.primary,
-          width:width*0.1,
-          height:height*0.05,
-          borderRadius:200,
-          alignItems:'center',
-          justifyContent:'center'
-          }}
-          onPress={toggleModal}
-          >
-              <Image
-              source={require('../assets/plus.png')}
-              style={{
-                  width:width*0.05,
-                  height:height*0.025
-              }}
-              />
-          </TouchableOpacity>
-      <TextInput
-              style={{
-                height: 44,
-                width:width*0.7,
-                backgroundColor: "#fff",
-                paddingHorizontal: 16,
-                borderRadius: 12,
-                fontSize: 15,
-                fontWeight: "500",
-                color: "#24262e",
-              }}
-              placeholder='type here...'
-            />
-            <TouchableOpacity
-          style={{
-              backgroundColor:COLORS.primary,
-          width:width*0.1,
-          height:height*0.05,
-          borderRadius:200,
-          alignItems:'center',
-          justifyContent:'center'
-          }}
-          // onPress={handleReviewAdding}
-          >
-              <Image
-              source={require('../assets/send.png')}
-              style={{
-                  width:width*0.05,
-                  height:height*0.02
-              }}
-              />
-          </TouchableOpacity>
-            </View> */}
-      </View>
-   {/* <NavigationBar/> */}
+      
+   <NavigationBar/>
     </View>
   )
 }
@@ -367,9 +358,12 @@ export default PharProf
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    display:'flex',
+    flexDirection:'column',
+    // flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    gap:9
   },
   modalContainer: {
     flex: 1,
@@ -388,4 +382,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
   },
+  secondOrdersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 40,
+    paddingLeft:7,
+    paddingRight:7
+  },
+  button: {
+    backgroundColor: '#ddf0ee',
+    borderRadius: 20,
+    paddingVertical: 3.5,
+    paddingHorizontal: 13,  
+  },
+  buttonText: {
+    color: '#2d958c',
+    fontSize: 15,
+  },
+  ordersText: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  
 });

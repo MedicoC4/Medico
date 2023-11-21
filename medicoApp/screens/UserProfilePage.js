@@ -268,7 +268,7 @@ console.log('this is the img' , oldImg);
               shadowRadius: 4,
               backgroundColor: "#EAEAEA",
             }}
-            // source={imageUrl}
+            source={imageUrl}
           />
           <TouchableOpacity
           onPress={()=>{pickImage() ; upImg() }}

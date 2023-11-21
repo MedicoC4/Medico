@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import ReviewCardDoctor from '../components/ReviewCardDoctor'
 import NavigationBar from '../components/NavigationBar'
 import { auth } from '../firebase-config'
-import { fetchDoctorData } from '../redux/doctorSlicer'
 import { useNavigation } from '@react-navigation/native';
+
 
 
 
@@ -27,20 +27,12 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
   const [comment,setComment]=useState('')
   const reviews=useSelector((state)=>state.docRev.data)
 
-  console.log('these are the reviews',reviews);
+
   const dispatch=useDispatch()
 
 
   const fetchReviews= ()=>{
     dispatch(fetchDocReviews(data.Doctor.id))
-}
-
-
-const calculateAverage=()=>{
-  const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0)
-  const averageRating = totalRating / reviews.length | 0
-
-  return averageRating.toFixed(1)
 }
 
 
@@ -63,7 +55,8 @@ const calculateAverage=()=>{
   
     console.log('rev',newReview);
     dispatch(createReview(newReview));
-  
+    fetchReviews()
+    
     setComment('');
     setRating('')
   };
@@ -102,7 +95,6 @@ const calculateAverage=()=>{
             onFinishRating={(value)=>{
               setRating(value)
             }}
-            // Additional props like selectedColor and reviewColor can be added here
           />
                           <View>
                     <TouchableOpacity
@@ -284,12 +276,15 @@ const calculateAverage=()=>{
                             color:COLORS.white,
                             fontSize:20,
                             fontWeight:600
-                        }}>{calculateAverage()}</Text>
+                        }}>{(data.Doctor.rating).toFixed(1)}</Text>
                     </View>
                     <Text style={{
                         color:COLORS.grey,
                         fontWeight:600
                     }}>{reviews.length} Reviews</Text>
+                    
+
+
                 </View>
   
   

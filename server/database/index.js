@@ -51,6 +51,9 @@ Review.belongsTo(User)
 Doctor.hasMany(Review)
 Review.belongsTo(Doctor)
 
+Pharmacy.hasMany(Review)
+Review.belongsTo(Pharmacy)
+
 Categories.hasMany(Products)
 Products.belongsTo(Categories)
 

@@ -9,6 +9,12 @@ module.exports = (Sequelize, DataTypes) => {
         "https://cdn2.iconfinder.com/data/icons/website-icons/512/User_Avatar-512.png",
     },
 
+
+    rating : {
+        type:DataTypes.DOUBLE, 
+        defaultValue:null
+      },
+  
     type: {
       type: DataTypes.ENUM("night", "day"),
       defaultValue: "day",

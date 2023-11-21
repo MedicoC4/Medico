@@ -26,10 +26,13 @@ module.exports = {
 
       try {
         const pharmacyId = req.params.pharmacyId;
-        const reviews = await Review.findAll({
-          where: { PharmacyId: pharmacyId },
+        const reviews = await Pharmacy.findOne({
+          where: { id: pharmacyId },
           
-          include : Pharmacy,
+          include : [{model:Review,
+          include:User
+          
+          }],
           order:[['createdAt','DESC']]
         }
       

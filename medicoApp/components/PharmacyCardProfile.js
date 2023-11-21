@@ -83,7 +83,8 @@ const PharmacyCardProfile = ({ pharmacy }) => {
     width:width*0.15,
     height:height*0.06,
     alignItems:'center',
-    justifyContent:'center'
+    justifyContent:'center',
+    paddingRight:45
 }}>
           <Image source={require('../assets/add.png')}
           style={{height:height*0.045,

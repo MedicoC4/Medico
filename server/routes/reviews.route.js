@@ -3,7 +3,7 @@ const {getAllForDoctor,createReview,update,deleteOne, getAllForPharmacy, createR
 
 
 route.get('/getAll/:doctorId',getAllForDoctor)
-route.get('/getAll/:pharmacyId',getAllForPharmacy)
+route.get('/getAllPh/:pharmacyId',getAllForPharmacy)
 route.post('/createRev',createReviewForDoctor)
 route.post('/createRevPh',createReviewForPharmacy)
 route.delete('/deleteRev/:id',deleteOne)

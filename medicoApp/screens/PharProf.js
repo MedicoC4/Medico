@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View,Image,TouchableOpacity,Dimensions,ImageBackground,ScrollView,TextInput,Modal,FlatList } from 'react-native'
+import { StyleSheet, Text, View,Image,TouchableOpacity,Dimensions,ImageBackground,ScrollView,TextInput,Modal,FlatList,KeyboardAvoidingView} from 'react-native'
 import React,{ useState , useEffect} from 'react'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Button from '../components/Button'
 const {width,height}= Dimensions.get('window')
 import COLORS from '../constants/colors'
@@ -9,11 +10,17 @@ import NavigationBar from '../components/NavigationBar'
 import PharmacyCardProfile from '../components/PharmacyCardProfile'
 import axios from 'axios'
 import {auth} from '../firebase-config'
+import { useNavigation } from '@react-navigation/native';
+import ReviewCardPhar from '../components/ReviewCardPhar'
+
 
 
 
 
 const PharProf = ({route}) => {
+
+  const navigation=useNavigation()
+
 
   const data= route.params.pharmacy
 
@@ -21,20 +28,24 @@ const PharProf = ({route}) => {
 
   const [comment,setComment]=useState('')
   const [rating,setRating]=useState('')
+  const [allReviews,setAllReviews]=useState([])
 
   const fetchReviewsForPhar=async()=>{
     try {
-      const get= await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAll/${data.id}`)
-    return get.data
+      const get= await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAllPh/${data.id}`)
+      const reviews=get.data
+      setAllReviews(reviews)
     } catch (error) {
       throw error
     }
   }
+  console.log('these are all reviews from the phar prof',allReviews.Reviews);
+
+  
 
   const handleReviewsCreation=async(e)=>{
     e.preventDefault()
-    console.log(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRevPh`);
-    // console.log("this is the review",comment);
+
       try {
         const pharmacyId =data.id
         let email = auth.currentUser.email
@@ -42,7 +53,7 @@ const PharProf = ({route}) => {
         const newReview = {
           pharmacyId,
           email,
-        rating,
+          rating,
           comment
       }
       console.log('this is the pharmacy new Review',newReview);
@@ -78,6 +89,7 @@ const PharProf = ({route}) => {
     setModalVisible(!isModalVisible);
   };
   return (
+    <KeyboardAwareScrollView>
     <View style={{
       display:'flex',
       flexDirection:'column',
@@ -251,7 +263,7 @@ const PharProf = ({route}) => {
             <Icon name="star" size={19} color="#FFD700" />
                           <Text style={{
                               fontWeight:600
-                          }}>{(data.rating).toFixed(1)}</Text>
+                          }}>{(data.rating?(data.rating).toFixed(1):"No rating yet")}</Text>
                       </View>
                       </TouchableOpacity>
                       <TouchableOpacity>
@@ -286,15 +298,15 @@ const PharProf = ({route}) => {
                 height:height*0.6}}>
                     
         <View style={styles.secondOrdersContainer}>
-        <Text style={styles.ordersText}>Missing Products</Text>
+        <Text style={styles.ordersText}>Recent Ratings</Text>
         <TouchableOpacity style={styles.button}
         onPress={()=>navigation.navigate('AllMissingProducts')}>
           <Text style={styles.buttonText}>SEE ALL</Text>
         </TouchableOpacity>
       </View>
         <FlatList
-        data={medicines}
-        renderItem={({ item }) => <PharmacyCardProfile pharmacy={item} />}
+        data={allReviews.Reviews}
+        renderItem={({ item }) => <ReviewCardPhar allReviews={item} />}
         keyExtractor={(item, index) => index.toString()}
         horizontal={true} // Make the list horizontal
         />
@@ -332,7 +344,8 @@ const PharProf = ({route}) => {
         justifyContent:'space-around',
         alignItems:'center',
         gap:15,
-        height:height*0.06
+        height:height*0.06,
+       
       }}>
         <TouchableOpacity
             style={{
@@ -380,6 +393,7 @@ const PharProf = ({route}) => {
             alignItems:'center',
             justifyContent:'center'
             }}
+           
             onPress={(e)=> handleReviewsCreation(e)}
             
             >
@@ -396,6 +410,7 @@ const PharProf = ({route}) => {
       
    <NavigationBar/>
     </View>
+    </KeyboardAwareScrollView>
   )
 }
 

@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { docImage } from "../redux/doctorSlicer";
+import { setSelectedImage, updateUser} from "../redux/userSlicer";
 import { useDispatch , useSelector} from "react-redux";
 import { imageDoc } from "../redux/doctorSlicer";
 import { logOut } from "../redux/userSlicer";
@@ -22,10 +23,12 @@ const UserProfilePage = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const email = auth.currentUser.email;
+  const uid = auth.currentUser.uid;
 
   const [image, setImage] = useState(null);
   const [user, setUser] = useState([]);
-  // const [imgUrl , setImgUrl] = useState("")
+  const [localSelectedImage , setLocalSelectedImage] = useState("")
+  
   
 
 
@@ -62,7 +65,7 @@ const clearToken = async () => {
   }
 }
 const onDoc = useSelector((state)=> state.doctor.data)
-// const oldImg = onDoc[0].imageUrl
+// const oldImg = onDoc[0].localSelectedImage
 
 // console.log('this is the img' , oldImg);
   useEffect(() => {
@@ -74,7 +77,7 @@ const onDoc = useSelector((state)=> state.doctor.data)
     }
     // currDoc()
     fetchData();
-  }, []);
+  }, [localSelectedImage]);
 
 
 
@@ -88,58 +91,43 @@ const onDoc = useSelector((state)=> state.doctor.data)
     }
   };
 
-  // const uploadToCloudinary = async (uri) => {
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("file", {
-  //       uri,
-  //       type: "image/jpeg", 
-  //       name: "image.jpg", 
-  //     });
+  const selectImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    if (!result.canceled) {
+      let formData = new FormData();
+      formData.append('file', {
+        uri: result.uri,
+        type: "image/jpeg",
+        name: 'profilePic'
+      });
+      formData.append("upload_preset", "ntdxso9x");
+  
+      fetch("https://api.cloudinary.com/v1_1/ddsp5aq1k/image/upload", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      setLocalSelectedImage(data.secure_url);
+      dispatch(setSelectedImage(data.secure_url));
 
-  //     formData.append("upload_preset", "qyrzp0xv"); 
-  //     formData.append("cloud_name", "dp42uyqn5"); 
-  //     const response = await axios.post(
-  //       "https://api.cloudinary.com/v1_1/dp42uyqn5/image/upload",
-  //       formData
-  //     );
-
-      
-  //     const imageUrl = response.data.secure_url;
-  //     setImgUrl(response.data.secure_url)
-  //     console.log(imgUrl , 'hiiiiii');
-  //   } catch (error) {
-  //     console.error("Cloudinary Upload Error:", error);
-  //   }
-  // };
-  // if (imgUrl === undefined) {
-  //   console.log(undefined);
-  // }else{
-  //   console.log("this is the cloudiary imagee",imgUrl);
-  // }
-// console.log(imgUrl , 'bingo');
-  // const pickImage = async () => {
-  //   try {
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.All,
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //       quality: 1,
-  //     });
-  //     const imageUrl = await uploadToCloudinary(result.assets[0].uri);
-  //       setImage(imageUrl);
-  //   } catch (error) {
-  //     console.error("Image picking error:", error);
-  //   }
-  // };
-  // const upImg = async ()=>{
-  //   const obj = {
-  //     email , 
-  //     imageUrl : imgUrl
-  //   }
-  //   dispatch(docImage(obj))
-  // } 
-
+      dispatch(updateUser(uid));
+      console.log(uid);
+    })
+    .catch(error => {
+      console.error("Error uploading image: ", error);
+    });
+  }
+};
+  
+console.log(localSelectedImage , 'bingo');
+ 
   return (
     <View
       style={{
@@ -256,22 +244,23 @@ const onDoc = useSelector((state)=> state.doctor.data)
             position: "relative",
           }}
         >
-          <Image
-            style={{
-              width: 150,
-              height: 150,
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 100,
-              shadowColor: "rgba(3, 3, 3, 0.1)",
-              shadowOffset: { width: 0, height: 2 },
-              shadowRadius: 4,
-              backgroundColor: "#EAEAEA",
-            }}
-            // source={image}
-          />
-          <TouchableOpacity
-          // onPress={()=>{pickImage() ; upImg() }}
+          {localSelectedImage ? (
+  <Image 
+    source={{uri: localSelectedImage}}
+    style={{
+      width: 150,
+      height: 150,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 100,
+      shadowColor: "rgba(3, 3, 3, 0.1)",
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 4,
+      backgroundColor: "#EAEAEA",
+    }}
+  />
+) : null}
+          <TouchableOpacity onPress={selectImage}
             style={{
               position: "absolute",
               width: 150,

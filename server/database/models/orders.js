@@ -9,7 +9,7 @@ module.exports = (Sequelize, DataTypes) => {
       defaultValue: "Pending",
     },
     livraisonStatus: {
-        type: DataTypes.ENUM('Pending', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'),
+        type: DataTypes.ENUM('Pending', 'Processing', 'Out for Delivery', 'Delivered'),
         defaultValue: "Pending",
     },
     tracking_number: {

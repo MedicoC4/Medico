@@ -29,7 +29,46 @@ const PharProf = ({route}) => {
   const [comment,setComment]=useState('')
   const [rating,setRating]=useState('')
   const [allReviews,setAllReviews]=useState([])
+  const [isDistance,setIsDistance]=useState(0)
 
+
+  
+
+  
+  
+  
+  const calculateDistanceMap = async () => {
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longtitude}&destinations=${allReviews.Reviews.User.latitude},${allReviews.Reviews.User.longtitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+        );
+        const data = await response.json();
+        
+        if (
+          data.status === "OK" &&
+        data.rows.length > 0 &&
+        data.rows[0].elements.length > 0 &&
+        data.rows[0].elements[0].distance
+        ) {
+          const distance = data.rows[0].elements[0].distance.text;
+          setIsDistance(distance);
+        } else if (data.status === "ZERO_RESULTS") {
+        console.warn("No distance information available between the specified points.");
+        setIsDistance(null); // Reset the distance
+      } else {
+        console.error("Error calculating distance: ", data.status);
+      }
+    } catch (error) {
+      console.error("Error fetching distance data: ", error);
+    }
+  };
+  
+  
+  
+  
+  
+  
+  
   const fetchReviewsForPhar=async()=>{
     try {
       const get= await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAllPh/${data.id}`)
@@ -39,8 +78,9 @@ const PharProf = ({route}) => {
       throw error
     }
   }
-  console.log('these are all reviews from the phar prof',allReviews.Reviews);
-
+  // console.log('these are all reviews from the phar prof',allReviews.Reviews);
+  
+  console.log(allReviews,'where is user in allReviews');
   
 
   const handleReviewsCreation=async(e)=>{
@@ -286,7 +326,7 @@ const PharProf = ({route}) => {
                           />
                           <Text style={{
                               fontWeight:600
-                          }}>1.6 km</Text>
+                          }}>{(isDistance).toFixed(1)}</Text>
                       </View>
                       </TouchableOpacity>
                       

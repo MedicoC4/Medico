@@ -1,6 +1,7 @@
 const { User ,Doctor} = require("../database/index");
 
 module.exports = {
+
   getAll: async (req, res) => {
     try {
       const getAll = await User.findAll({});
@@ -8,6 +9,16 @@ module.exports = {
     } catch (err) {
       console.log("Error al obtener todos los usuarios");
       throw err;
+    }
+  },
+  getOne:async(req,res)=>{
+    try {
+      const getOne=await User.findOne({
+        where:{email:req.params.email}
+      })
+      res.json(getOne)
+    } catch (error) {
+      
     }
   },
   create: async (req, res) => {

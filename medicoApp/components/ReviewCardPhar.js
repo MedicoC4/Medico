@@ -4,7 +4,6 @@ import React from 'react'
 import COLORS from '../constants/colors'
 const {width,height}= Dimensions.get('window')
 const ReviewCardPhar = ({allReviews}) => {
-    console.log('review from the card',allReviews);
   return (
     <View style={{
         width:width*0.45,
@@ -12,15 +11,15 @@ const ReviewCardPhar = ({allReviews}) => {
         backgroundColor:COLORS.white,
         borderRadius:20,
         elevation: 10,
-shadowColor: 'grey',
-display:'flex',
-flexDirection:'row',
-alignItems:'center',
-padding:15,
-gap:15,
-marginTop:20,
-marginLeft:8,
-marginBottom:8
+        shadowColor: 'grey',
+        display:'flex',     
+        flexDirection:'row',
+        alignItems:'center',
+        padding:15,
+        gap:15,
+        marginTop:20,
+        marginLeft:8,
+        marginBottom:8
 // justifyContent:'center'
     }}>
         <View style={{

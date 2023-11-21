@@ -35,6 +35,7 @@ const Speciality = require('./models/speciality.js')(connection, DataTypes)
 const Availability = require('./models/availabilty.js')(connection, DataTypes)
 const AppointementList = require('./models/appointementList.js')(connection, DataTypes)
 const Missing = require('./models/missing.js')(connection, DataTypes)
+const Payment = require('./models/payment.js')(connection, DataTypes)
 
 
 
@@ -68,29 +69,29 @@ Products.belongsTo(Pharmacy)
 Products.hasMany(Order)
 Order.belongsTo(Products)
 
-User.hasMany(Order);
-Order.belongsTo(User);
+User.hasMany(Order)
+Order.belongsTo(User)
 
-Doctor.hasMany(Day);
-Day.belongsTo(Doctor);
+Doctor.hasMany(Day)
+Day.belongsTo(Doctor)
 
 
 Speciality.hasMany(Doctor)
 Doctor.belongsTo(Speciality)
 
-Day.hasMany(Availability);
-Availability.belongsTo(Day);
+Day.hasMany(Availability)
+Availability.belongsTo(Day)
 
 Doctor.hasMany(AppointementList)
 AppointementList.belongsTo(Doctor)
-User.belongsToMany(Review, { through: 'UserReview' });
-Review.belongsToMany(User, { through: 'UserReview' });
+// User.belongsToMany(Review, { through: 'UserReview' })
+// Review.belongsToMany(User, { through: 'UserReview' })
 
-Products.belongsToMany(Review, { through: 'ProductReview' });
-Review.belongsToMany(Products, { through: 'ProductReview' });
+Products.belongsToMany(Review, { through: 'ProductReview' })
+Review.belongsToMany(Products, { through: 'ProductReview' })
 
-Doctor.belongsToMany(Review, { through: 'DoctorReview' });
-Review.belongsToMany(Doctor, { through: 'DoctorReview' });
+// Doctor.belongsToMany(Review, { through: 'DoctorReview' })
+// Review.belongsToMany(Doctor, { through: 'DoctorReview' })
 
 
 User.hasMany(AppointementList)
@@ -102,9 +103,12 @@ AppointementList.belongsTo(Availability)
 Day.hasMany(AppointementList)
 AppointementList.belongsTo(Day)
 
+Order.hasOne(Payment)
+Payment.belongsTo(Order)
+
 // connection
-//   .sync({alter: true })
+//   .sync({force: true })
 //   .then(() => console.log("tables created"))
 //   .catch((error) => {throw error;});
 
-module.exports = {User, Products, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality, Missing};
+module.exports = {Payment,User, Products, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality, Missing};

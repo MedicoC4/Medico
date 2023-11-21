@@ -91,5 +91,24 @@ module.exports = {
     } catch (error) {
       throw new Error(error)
     }
+  },
+  getUserNameById:async(req,res)=>{
+    const userId = req.params.id; // Assuming the user ID is part of the route params
+
+    try {
+      const user = await User.findOne({
+        attributes: ['username'],
+        where: { id: userId },
+      });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.json({ username: user.username });
+    } catch (error) {
+      console.error('Error fetching username:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   }
 };

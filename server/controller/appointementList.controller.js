@@ -1,4 +1,4 @@
-const { AppointementList,Doctor,User,Availability,Day } = require("../database/index");
+const { AppointementList,Doctor,User,Availability,Day,Speciality } = require("../database/index");
 const { Op } = require("sequelize");
 
 
@@ -13,7 +13,14 @@ module.exports = {
       },
     postAppointement: async (req,res)=>{
         try {
-            const addAppointement = await AppointementList.create(req.body)
+          const getUser = await User.findOne({where: {email:req.params.userPost}})
+          const{docId,availabId,dayID}=req.body
+            const addAppointement = await AppointementList.create({
+              DoctorId:docId,
+              UserId:getUser.id,
+              AvailabilityId:availabId,
+              DayId:dayID
+            })
             res.json(addAppointement)
         } catch (error) {
             throw new Error(error)
@@ -21,10 +28,69 @@ module.exports = {
       },
     getAppointement: async (req,res)=>{
         try {
+          const getUser = await User.findOne({where: {email:req.params.Docid}})
+
             const getAppointement = await AppointementList.findAll({
                 where: {
                     status: { [Op.like]: req.params.status },
-                    DoctorId: { [Op.like]: req.params.Docid },
+                    DoctorId: { [Op.like]: getUser.DoctorId },
+                  },
+                  include: [
+                    {
+                      model: Doctor,
+                    },
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Availability,
+                    },
+                    {
+                      model: Day,
+                    },
+                  ],
+              });
+            res.json(getAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
+    getAppointementAll: async (req,res)=>{
+        try {
+
+          const getUser = await User.findOne({where: {email:req.params.DocidAll}})
+            const getAppointement = await AppointementList.findAll({
+                where: {
+                    DoctorId: { [Op.like]: getUser.DoctorId}
+                  },
+                  include: [
+                    {
+                      model: Doctor,
+                    },
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Availability,
+                    },
+                    {
+                      model: Day,
+                    },
+                  ],
+              });
+            res.json(getAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
+    getAppointementAllFilter: async (req,res)=>{
+        try {
+
+          const getUser = await User.findOne({where: {email:req.params.DocidEmail}})
+            const getAppointement = await AppointementList.findAll({
+                where: {
+                    DoctorId: { [Op.like]: getUser.DoctorId},
+                    status: { [Op.like]: req.params.statusFilter },
                   },
                   include: [
                     {
@@ -48,14 +114,18 @@ module.exports = {
       },
     getAppointementUser: async (req,res)=>{
         try {
+          const getUser = await User.findOne({where: {email:req.params.userID}})
+
             const getAppointement = await AppointementList.findAll({
                 where: {
                     status: { [Op.like]: req.params.Statu },
-                    UserId: { [Op.like]: req.params.userID },
+                    UserId: { [Op.like]: getUser.id },
                   },
                   include: [
                     {
                       model: Doctor,
+                      include:Speciality
+                
                     },
                     {
                       model: User,
@@ -68,6 +138,7 @@ module.exports = {
                     },
                   ],
               });
+              // const speciality = await Speciality.findAll({where:{id:getAppointement.Doctor.specialityId}})
             res.json(getAppointement)
         } catch (error) {
             throw new Error(error)

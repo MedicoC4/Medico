@@ -1,4 +1,4 @@
-const {Day,Availability} = require('../database/index')
+const {Day,Availability,User} = require('../database/index')
 const createHours =async (dayId)=>{
     for (let index = 9; index <= 23; index++) {
         let hour = `${index}:00`
@@ -6,17 +6,19 @@ const createHours =async (dayId)=>{
     }
 }
 module.exports ={
+    
     dayAvailability: async (req, res) => {
         try{
+            const getUser = await User.findOne({where: {email:req.params.doctorId}})
             console.log(req.body);
             const x = req.body.map(async(day)=>{
-                const createDay = await Day.create({day:day.day,DoctorId:req.params.doctorId})
+                const createDay = await Day.create({day:day.day,DoctorId:getUser.DoctorId})
                 createHours(createDay.id)
             })
             res.json("created")
 
         }catch(err){
-            console.log("Error al obtener todos los usuarios")
+            console.log("Days not created")
             throw err;
         }
     },

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Modal, ScrollView } from "react-native";
 import { Calendar } from "react-native-calendars";
 import axios from "axios";
+import { auth } from "../firebase-config";
+
 
 export default function DateSelection() {
   const [selectedDates, setSelectedDates] = useState([]);
@@ -19,12 +21,13 @@ export default function DateSelection() {
     if (newDates.length > 0) {
       const data = newDates.map((date) => ({ day: date }));
       try {
+        const email = auth.currentUser.email;
         await axios.post(
-          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/1`,
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/day/${email}`,
           data
         );
         const updatedData = await axios.get(
-          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${1}`
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${email}`
         );
         setDocDate(updatedData.data.Days);
         setSelectedDates([]);
@@ -78,10 +81,12 @@ export default function DateSelection() {
   useEffect(() => {
     const getAllDates = async () => {
       try {
+        const email = auth.currentUser.email;
         const data = await axios.get(
-          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${1}`
+          `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${email}`
         );
         setDocDate(data.data.Days);
+        console.log(data.data.Days);
       } catch (error) {
         console.error("Error fetching appointments:", error);
         throw new Error(error);

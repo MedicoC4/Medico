@@ -35,30 +35,30 @@ module.exports = {
       throw error;
     }
   },
-  create: async (req, res) => {
-    let userData = req.body;
-    try {
-      const userExist = await User.findOne({
-        where: { email: req.body.email },
-      });
-      const newOrder = await Order.create({
-        ...userData,
-        UserId: userExist.id,
-      });
-      const newProduct = await Products.findOne({ id: newOrder.ProductId });
-      const checkMissing = await Missing.findOne({
-        where: { codebar: newProduct.codebar },
-      });
+  // create: async (req, res) => {
+  //   let userData = req.body;
+  //   try {
+  //     const userExist = await User.findOne({
+  //       where: { email: req.body.email },
+  //     });
+  //     const newOrder = await Order.create({
+  //       ...userData,
+  //       UserId: userExist.id,
+  //     });
+  //     const newProduct = await Products.findOne({ id: newOrder.ProductId });
+  //     const checkMissing = await Missing.findOne({
+  //       where: { codebar: newProduct.codebar },
+  //     });
 
-      await checkMissing.update({ order: checkMissing.order + 1 });
-      checkMissing.quota = checkMissing.quantity / checkMissing.order;
-      await checkMissing.save();
+  //     await checkMissing.update({ order: checkMissing.order + 1 });
+  //     checkMissing.quota = checkMissing.quantity / checkMissing.order;
+  //     await checkMissing.save();
 
-      res.json(newOrder);
-    } catch (error) {
-      throw error;
-    }
-  },
+  //     res.json(newOrder);
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // },
   getByUserId: async (req, res) => {
     try {
       const { userId } = req.params;
@@ -84,31 +84,42 @@ module.exports = {
     }
   },
 
-  update: async (req, res) => {
-    let id = req.params.id;
-    let { orderStatus } = req.body; // Assuming you only want to update the orderStatus field
 
+  create: async (req, res) => {
+
+    let userData = req.body; 
     try {
-      const updatedOrder = await Order.update(
-        req.body,
-        {
-          where: { order_id: id },
-          returning: true, // This ensures that the updated order is returned
-        }
-      );
-
-      if (updatedOrder[0] === 0) {
-        // If no rows were updated, it means the order with the given id was not found
-        res.status(404).json({ success: false, message: "Order not found" });
-        return;
-      }
-
-      res.json(updatedOrder[1][0]); // Return the updated order
+      const userExist = await User.findOne({
+        where: { email: req.body.email },
+      
+      });
+      const newOrder= await Order.create({...userData,UserId:userExist.id});
+      const newProduct= await Products.findOne({id:newOrder.ProductId});
+      const checkMissing = await Missing.findOne({where:{codebar:newProduct.codebar}});
+   
+      
+        await checkMissing.update({order: checkMissing.order + 1});
+        checkMissing.quota = checkMissing.quantity / checkMissing.order;
+        await checkMissing.save();
+      
+      res.json(newOrder);
     } catch (error) {
-      console.error("Error updating order:", error.message);
-      res
-        .status(500)
-        .json({ success: false, message: "Internal Server Error" });
+      throw error;
+    }
+  },
+  updateOrder: async (req, res) => {
+    const { order_id } = req.params; // get the order_id from the request parameters
+    const updatedData = req.body; // the new data for the order
+  
+    try {
+      await Order.update(updatedData, {
+        where: { id: order_id },
+      });
+  
+      res.json({ message: 'Order updated successfully' });
+    } catch (error) {
+      console.log('Error while updating order');
+      throw error;
     }
   },
 

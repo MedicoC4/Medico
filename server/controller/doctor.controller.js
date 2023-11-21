@@ -4,11 +4,14 @@ const { Op } = require("sequelize");
 module.exports = {
     getAll: async (req, res) => {
         try{
-            const getAll = await Doctor.findAll({
+            const getAll = await User.findAll({
                 where: {
                   type: "doctor"
-                }
+                },
+                include:Doctor
               })
+              
+
             res.json(getAll)
         }catch(err){
             console.log("Error al obtener todos los usuarios")
@@ -17,7 +20,8 @@ module.exports = {
     },
     getOne : async(req,res)=>{
         try {
-        const oneDoc = await Doctor.findAll({where: {id : req.params.id}}); 
+            const getUser = await User.findOne({where:{email:req.params.email}})
+        const oneDoc = await Doctor.findOne({where: {id:getUser.DoctorId}}); 
             res.json(oneDoc);
         } catch (error) {
             throw error
@@ -76,7 +80,6 @@ module.exports = {
             console.log(req.body);
              const oneDoc = await User.findOne({where: {email : req.body.email}});
              const doc = await Doctor.update({specialityId :req.body.specialityId,},{where: {id : oneDoc.DoctorId}});
-            // const doc = await Doctor.update(req.body, {where: {id : oneDoc.DoctorId}});
             res.send(doc);
         } catch (error) {
             throw error
@@ -98,15 +101,16 @@ module.exports = {
         }
     },
 
-    // recordsDoc : async (req ,res)=>{
-    //    try {
-    //     const record = await Record.create(req.body)
-    //    res.json(record)
-    //    } catch (error) {
-    //     throw error
-    //    }
-    // },
-
+   docImage : async (req, res) => {
+    try {
+    const oneDoc = await User.findOne({where: {email : req.body.email}});
+    const doc = await Doctor.update({imageUrl:req.body.imageUrl},{where: {id : oneDoc.DoctorId}});
+    res.send(doc);
+    } catch (error) {
+        throw error
+    }
+   },
+   
 
     getAivableDoc: async (req, res) => {
         try {

@@ -1,5 +1,5 @@
 import "./cardList.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import SideNav from "../../components/sideNav/SideNav";
 import axios from "axios";
@@ -8,6 +8,27 @@ import axios from "axios";
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [disabledButtons, setDisabledButtons] = useState(false);
+
+  const [activeItem, setActiveItem] = useState(0);
+  const indicatorRef = useRef(null);
+
+  const handleIndicator = (index, el) => {
+    setActiveItem(index);
+
+    if (indicatorRef.current) {
+      indicatorRef.current.style.width = `${el.offsetWidth}px`;
+      indicatorRef.current.style.left = `${el.offsetLeft}px`;
+      indicatorRef.current.style.backgroundColor = el.getAttribute('active-color');
+    }
+  };
+
+  const items = [
+    { label: 'Home', color: 'orange' },
+    { label: 'About', color: 'green' },
+    { label: 'Testimonials', color: 'blue' },
+    { label: 'Blog', color: 'red' },
+    { label: 'Contact', color: 'rebeccapurple' },
+  ];
 
   console.log(orders);
 
@@ -30,7 +51,25 @@ const OrderList = () => {
           orderStatus: newStatus,
         }
       );
-      fetchOrders(); // Refresh the order list after updating the status
+
+      const getOrderQ = await axios.get(
+        `http://127.0.0.1:1128/api/orders/oneOrder/${orderId}`
+      );
+      console.log(getOrderQ.data.ProductId);
+      const pID = getOrderQ.data.ProductId;
+      const getProductQ = await axios.get(
+        `http://127.0.0.1:1128/api/Product/getOne/${pID}`
+      );
+      let orderQ = getOrderQ.data.quantityOrdered;
+      let prodQ = getProductQ.data.stock - orderQ;
+
+      if (getOrderQ.data.orderStatus === "Accepted") {
+        await axios.patch(
+          `http://127.0.0.1:1128/api/product/updateProductQuantity/${pID}`,
+          { stock: prodQ }
+        );
+      }
+      fetchOrders();
     } catch (error) {
       console.error("Error updating order status:", error.message);
     }
@@ -41,9 +80,9 @@ const OrderList = () => {
   }, []);
 
   return (
-    <div className="main_order_container" >
+    <div className="main_order_container">
       <SideNav />
-      <div className="order-content" style={{padding:'2rem'}}>
+      <div className="order-content" style={{ padding: "2rem" }}>
         <div className="grid-container">
           <div className="grid-item header">Order ID</div>
           <div className="grid-item header">Product Name</div>
@@ -55,7 +94,14 @@ const OrderList = () => {
           <div className="grid-item header">Action</div>
           {orders.map((order, index) => (
             <React.Fragment key={index}>
-              <div className="grid-item"><Link to={`/order-details/${order.order_id}`} className="orders_link">{order.tracking_number}</Link></div>
+              <div className="grid-item">
+                <Link
+                  to={`/order-details/${order.order_id}`}
+                  className="orders_link"
+                >
+                  {order.tracking_number}
+                </Link>
+              </div>
               <div className="grid-item">Product A</div>
               <div className="grid-item">
                 <img
@@ -76,12 +122,12 @@ const OrderList = () => {
                   accept
                 </button>
                 <button
-                  onClick={() => {updateOrderStatus(order.order_id, "Rejected")
-                  if (order.orderStatus === "Rejected") {
-                    setDisabledButtons(true)
-                  }
-                }}
-                  
+                  onClick={() => {
+                    updateOrderStatus(order.order_id, "Rejected");
+                    if (order.orderStatus === "Rejected") {
+                      setDisabledButtons(true);
+                    }
+                  }}
                   disabled={disabledButtons}
                   className={disabledButtons ? "disabled" : ""}
                 >
@@ -90,6 +136,24 @@ const OrderList = () => {
               </div>
             </React.Fragment>
           ))}
+        </div>
+        <div>
+          <nav className="nav">
+            {items.map((item, index) => (
+              <a
+                key={index}
+                href="#"
+                className={`nav-item ${
+                  index === activeItem ? "is-active" : ""
+                }`}
+                active-color={item.color}
+                onClick={(e) => handleIndicator(index, e.currentTarget)}
+              >
+                {item.label}
+              </a>
+            ))}
+            <span ref={indicatorRef} className="nav-indicator"></span>
+          </nav>
         </div>
       </div>
     </div>

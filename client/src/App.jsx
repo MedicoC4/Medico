@@ -18,6 +18,7 @@ import { AuthContext } from "./context/AuthContext.js";
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 // Lazy-loaded components
+const Layout = lazy(() => import("./layouts/layouts.jsx"));
 const Landing = lazy(() => import("./pages/landingPage/landing"));
 const Home = lazy(() => import("./pages/dashboard/LandingPage"));
 const AddProduct = lazy(() => import("./pages/addProduct/AddProduct.jsx"));
@@ -33,6 +34,9 @@ const ResetePassword = lazy(() =>
 );
 const Ordering = lazy(() => import("./pages/ordering/OrderList.jsx"));
 const OderDetails = lazy(() => import("./pages/ordering/OderDetails.jsx"));
+const MissingProd = lazy(() =>
+  import("./pages/missingProducts/MissingProd.jsx")
+);
 
 const App = () => {
   const location = useLocation();
@@ -79,24 +83,30 @@ const App = () => {
           >
             <Routes>
               <Route path="/" element={<Landing />} />
-              <Route
-                path="/dashboard"
-                element={
-                  <RequireAuth>
-                    <Home />
-                  </RequireAuth>
-                }
-              />
-              <Route path="add-product" element={<AddProduct />} />
-              <Route path="products" element={<ProductOverview />} />
-              <Route
-                path="product-detail/:productId"
-                element={<ProductDetails />}
-              />
-              <Route path="statistics" element={<Statistics />} />
-              <Route path="reset-password" element={<ResetePassword />} />
-              <Route path="orders" element={<Ordering />} />
-              <Route path="order-details/:orderId" element={<OderDetails />} />
+              <Route path="homee" element={<Layout />}>
+                <Route
+                  path="dashboard"
+                  element={
+                    <RequireAuth>
+                      <Home />
+                    </RequireAuth>
+                  }
+                />
+                <Route path="add-product" element={<AddProduct />} />
+                <Route path="products" element={<ProductOverview />} />
+                <Route
+                  path="product-detail/:productId"
+                  element={<ProductDetails />}
+                />
+                <Route path="statistics" element={<Statistics />} />
+                <Route path="reset-password" element={<ResetePassword />} />
+                <Route path="orders" element={<Ordering />} />
+                <Route
+                  path="order-details/:orderId"
+                  element={<OderDetails />}
+                />
+                <Route path="missing-products" element={<MissingProd />} />
+              </Route>
             </Routes>
           </Suspense>
         </CSSTransition>

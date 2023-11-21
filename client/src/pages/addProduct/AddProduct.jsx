@@ -125,6 +125,8 @@ const AddProduct = () => {
           setFile(response.data.secure_url)
   };
 
+  console.log(auth.currentUser.email, "usersssssssssssssssss");
+
   const addProduct = () => {
     if (!file) {
       alert("Please upload an Image!");

@@ -2,7 +2,7 @@ import "./cardList.css";
 import React, { useState, useEffect } from "react";
 import SideNav from "../../components/sideNav/SideNav";
 import MasterCardIcon from "../../assets/images/mastercard.svg";
-import { Divider, Steps, Dropdown, Space, Typography } from "antd";
+import { Divider, Steps, Dropdown, Space, Typography, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -10,15 +10,20 @@ import axios from "axios";
 const OderDetails = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
+  const [orderStatus, setOrderStatus] = useState("");
+  const [refresh, setRefrech] = useState(false);
+  const handleStatusChange = (selectedStatus) => {
+    setOrderStatus(selectedStatus);
+  };
 
-  console.log(order);
-
+  console.log(orderStatus);
   const fetchOrdersDetails = async () => {
     try {
       const response = await axios.get(
         `http://127.0.0.1:1128/api/orders/oneOrder/${orderId}`
       );
       setOrder(response.data);
+      setOrderStatus(response.data?.livraisonStatus);
     } catch (error) {
       console.log(error);
     }
@@ -26,22 +31,44 @@ const OderDetails = () => {
 
   useEffect(() => {
     fetchOrdersDetails();
-  }, [orderId]);
+  }, [refresh]);
 
   const items = [
     {
       key: "1",
-      label: "Completed",
+      label: "Pending",
     },
     {
       key: "2",
-      label: "Item 2",
+      label: "Processing",
     },
     {
       key: "3",
-      label: "Item 3",
+      label: "Out for Delivery",
+    },
+    {
+      key: "4",
+      label: "Delivered",
     },
   ];
+
+  const updateDeliveryStatus = async (selectedStatus) => {
+    try {
+      await axios.patch(
+        `http://127.0.0.1:1128/api/orders/updateOrder/${orderId}`,
+        {
+          livraisonStatus: selectedStatus,
+        }
+      );
+
+      // If the request is successful, update the local state
+      setOrderStatus(selectedStatus);
+      // Trigger a re-render by toggling the refresh state
+      setRefrech((prevRefresh) => !prevRefresh);
+    } catch (error) {
+      console.error("Error updating delivery status:", error);
+    }
+  };
 
   return (
     <div style={{ display: "flex", gap: "2rem" }}>
@@ -65,17 +92,26 @@ const OderDetails = () => {
                 <div>
                   {/* <p style={{ margin: "0" }}>Completed</p> */}
                   <Dropdown
-                    menu={{
-                      items,
-                      selectable: true,
-                      defaultSelectedKeys: ["3"],
-                    }}
-                    trigger={['click']}
+                    overlay={
+                      <Menu
+                        onClick={(e) => {
+                          updateDeliveryStatus(e.key);
+                        }}
+                        selectedKeys={[orderStatus]}
+                      >
+                        {items.map((item) => (
+                          <Menu.Item key={item.label}>{item.label}</Menu.Item>
+                        ))}
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
                     <Typography.Link>
                       <Space>
-                      <p style={{ margin: "0", color:'black' }}>Completed</p>
-                        <DownOutlined style={{color:'black'}} />
+                        <p style={{ margin: "0", color: "black" }}>
+                          {order?.livraisonStatus}
+                        </p>
+                        <DownOutlined style={{ color: "black" }} />
                       </Space>
                     </Typography.Link>
                   </Dropdown>
@@ -130,24 +166,24 @@ const OderDetails = () => {
                     <div className="order_tracking">
                       <Steps
                         progressDot
-                        current={-1}
+                        current={items.findIndex((item) => item.label === order?.livraisonStatus)}
                         direction="vertical"
                         items={[
                           {
-                            title: "Delivery successful",
+                            title: "Order has been created",
                             description:
                               "This is a description. This is a description.",
-                          },
-                          {
-                            title: "Transporting to [1]",
-                            description: "This is a description.",
                           },
                           {
                             title: "The shipping unit has picked up the goods",
                             description: "This is a description.",
                           },
                           {
-                            title: "Order has been created",
+                            title: "Transporting to [1]",
+                            description: "This is a description.",
+                          },
+                          {
+                            title: "Delivery successful",
                             description:
                               "This is a description. This is a description.",
                           },
@@ -211,9 +247,9 @@ const OderDetails = () => {
                   <h2>Shipping</h2>
                   <div>
                     <p>Address</p>
-                    <p>19034 Verna Unions Apt. 164 - Honolulu, RI / 87535</p>
+                    <p>{order?.address}</p>
                     <p>Phone number</p>
-                    <p>365-374-4961</p>
+                    <p>{order?.phoneNumber}</p>
                   </div>
                 </div>
                 <div className="order_divider"></div>

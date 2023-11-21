@@ -1,10 +1,12 @@
 const route = require('express').Router()
-const {getAll, getOne, create, update, deleteOne} = require("../controller/products.controller")
+const {getAll, getOne, pharmacyProduct, create, update, deleteOne, updateQ} = require("../controller/products.controller")
 
 route.get("/getAll", getAll)
 route.get("/getOne/:id", getOne)
+route.get("/phProduct/:email", pharmacyProduct)
 route.post("/createProduct", create)
-route.put("/updateProduct/:id", update)
+route.patch("/updateProduct/:id", update)
+route.patch("/updateProductQuantity/:id", updateQ)
 route.delete("/deleteProduct/:id", deleteOne)
 
 module.exports = route

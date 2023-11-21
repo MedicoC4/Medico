@@ -56,55 +56,60 @@ const OrderDet = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView style={styles.container} refreshControl={
+      <FlatList
+        data={ordersData}
+        keyExtractor={(item) => item.order.order_id}
+        renderItem={({ item }) => (
+          <OrderDetails
+            pharmacy={item.pharmacies}
+            order={item.order}
+            email={item.email}
+          />
+        )}
+        contentContainerStyle={{ paddingBottom: 50 }}
+        refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-        <View style={styles.header}>
-          <View style={styles.greeting}>
-            <Text style={styles.helloText}>Orders</Text>
-          </View>
-          <View style={styles.icons}>
-            <TouchableOpacity>
-              <View style={styles.iconContainer}>
-                <Icon
-                  name="bell-o"
-                  size={25}
-                  color="grey"
-                  style={styles.icon}
-                />
+        }
+        ListHeaderComponent={
+          <>
+            <View style={styles.header}>
+              <View style={styles.greeting}>
+                <Text style={styles.helloText}>Orders</Text>
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('orderDetails')}>
-              <View style={styles.iconContainer}>
-                <MaterialCommunityIcons
-                  name="cart-outline"
-                  size={25}
-                  color="grey"
-                />
+              <View style={styles.icons}>
+                <TouchableOpacity>
+                  <View style={styles.iconContainer}>
+                    <Icon
+                      name="bell-o"
+                      size={25}
+                      color="grey"
+                      style={styles.icon}
+                    />
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('orderDetails')}>
+                  <View style={styles.iconContainer}>
+                    <MaterialCommunityIcons
+                      name="cart-outline"
+                      size={25}
+                      color="grey"
+                    />
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.ordersContainer}>
-          <Text style={styles.ordersText}>Orders History </Text>
-        </View>
-        <FlatList
-          data={ordersData}
-          keyExtractor={(item) => item.order.order_id}
-          renderItem={({ item }) => (
-            <OrderDetails
-              pharmacy={item.pharmacies}
-              order={item.order}
-              email={item.email}
-            />
-          )}
-          contentContainerStyle={{ paddingBottom: 50 }}
-        />
-        <View style={{ height: 40 }} />
-      </ScrollView>
+            </View>
+            <View style={styles.ordersContainer}>
+              <Text style={styles.ordersText}>Orders History </Text>
+            </View>
+          </>
+        }
+        ListFooterComponent={
+          <View style={{ height: 40 }} />
+        }
+      />
       <NavigationBar />
     </View>
-  );
+  );;
 };
 
 const styles = StyleSheet.create({
@@ -124,6 +129,7 @@ const styles = StyleSheet.create({
     helloText: {
       fontSize: 40,
       fontWeight: "bold",
+      paddingLeft: 10,
     },
     userName: {
       fontWeight: "bold",
@@ -155,6 +161,7 @@ const styles = StyleSheet.create({
     ordersText: {
       fontSize: 18,
       fontWeight: "bold",
+      padding: 10,
     },
     button: {
       backgroundColor: "#ddf0ee",

@@ -12,38 +12,20 @@ module.exports = {
       res.status(500).json({ error: "Error al obtener todos los productos" });
     }
   },
-  pharmacyProduct: async (req, res) => {
+  getProductByCodebar: async (req, res) => {
+    let codebar = req.params.codebar;
     try {
-      const users = await User.findAll({
-        where: { email: req.params.email },
+      const product = await Products.findOne({
+        where: { codebar: Number(codebar) },
       });
-
-      if (users.length === 0) {
-        return res.status(404).json({ error: "User not found." });
+      if (product) {
+        res.json(product);
+      } else {
+        res.status(404).json({ error: "Product not found" });
       }
-
-      const pharmacyId = users[0].PharmacyId; // Assuming there's only one user with the given email
-
-      const products = await Products.findAll({
-        where: {
-          PharmacyId: pharmacyId,
-        },
-      });
-
-      res.json(products);
     } catch (error) {
-      console.error("Error fetching pharmacy products:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  },
-  getOne: async (req, res) => {
-    try {
-      const getOne = await Products.findOne({
-        where: { id: req.params.id },
-      });
-      res.json(getOne);
-    } catch (error) {
-      throw error;
+      console.log("Error in server", error);
+      res.status(500).json({ error: "Error in server" });
     }
   },
   create: async (req, res) => {

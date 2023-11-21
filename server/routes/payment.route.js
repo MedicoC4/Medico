@@ -15,7 +15,7 @@ route.post("/intents", async (req, res) => {
 
     // Create a new payment in your database
     const payment = await Payment.create({
-      order_id: req.body.order_Id,
+      OrderId: req.body.orderId,
       amount: req.body.amount,
       currency: "usd",
       paymentIntentId: paymentIntent.id,

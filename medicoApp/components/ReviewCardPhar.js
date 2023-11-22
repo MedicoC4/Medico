@@ -38,7 +38,6 @@ const ReviewCardPhar = ({allReviews}) => {
         }}
         />
         </View>
-        {/* <Text>hello</Text> */}
         <View style={{
             display:'flex',
             flexDirection:'column',
@@ -61,7 +60,7 @@ const ReviewCardPhar = ({allReviews}) => {
             gap:5
         }}>
         <Icon name="star" size={15} color="#FFD700" />
-        <Text >{allReviews.rating}</Text>
+        <Text >{allReviews?.rating}</Text>
         </View>
         </View>
         <Text style={{

@@ -23,9 +23,7 @@ const store = configureStore({
     category : categorySlicer,
     docRev:docReviewSlicer,
     // reviews: reviewSlicer
-    orders: orderSlicer,
-    user : adminSlicer,
-    speciality : specialitySlicer
+    orders: orderSlicer
   },
 })
 

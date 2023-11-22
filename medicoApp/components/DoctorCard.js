@@ -20,7 +20,7 @@ const dispatch = useDispatch()
 
 
 const handleID=()=>{
-    dispatch(save(doctor.id))
+    dispatch(save(doctor.DoctorId))
   }
 
   return (
@@ -51,7 +51,7 @@ const handleID=()=>{
 
             }}>
             <Image
-            source={require('../assets/hero3.jpg')}
+            source={{ uri: doctor.Doctor.imageUrl }}
             style={{width: width*0.2,
                 height: height*0.09,
                 justifyContent: "center",

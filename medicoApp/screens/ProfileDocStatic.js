@@ -127,7 +127,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
             height:height*0.48
         }}>
         <ImageBackground
-        source={require('../assets/doctoura.jpg')}
+        source={{ uri: data.Doctor.imageUrl }}
         resizeMode="cover"
         style={{width:width*1,
             height:height*0.37,
@@ -145,22 +145,24 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                 justifyContent:'space-between'
             }}>
             <TouchableOpacity
-            style={{
-                backgroundColor:COLORS.white,
-            width:width*0.1,
-            height:height*0.05,
-            borderRadius:200,
-            alignItems:'center',
-            justifyContent:'center'
-            }}>
-                <Image
-                source={require('../assets/arrowback.png')}
-                style={{
-                    width:width*0.07,
-                    height:height*0.02
-                }}
-                />
-            </TouchableOpacity>
+      style={{
+        backgroundColor: COLORS.white,
+        width: width * 0.1,
+        height: height * 0.05,
+        borderRadius: 200,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      onPress={() => navigation.goBack()}
+    >
+      <Image
+        source={require('../assets/arrowback.png')}
+        style={{
+          width: width * 0.07,
+          height: height * 0.02,
+        }}
+      />
+    </TouchableOpacity>
   
             <TouchableOpacity
             style={{
@@ -321,7 +323,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                 color:COLORS.black,
                 fontSize:18,
                 // fontWeight:600
-            }}>Hello, My name is Dr. Name. I'm specialized In hello whatever it says we gonna kill it </Text>
+            }}>Hello, My name is Dr. {data.Doctor.fullname}. I'm specialized In hello whatever it says we gonna kill it </Text>
             </View>
             
             <Text style={{

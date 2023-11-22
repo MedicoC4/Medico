@@ -188,7 +188,7 @@ const PharProf = ({route}) => {
           height:height*0.3,
       }}>
       <ImageBackground
-      source={data.iimageUrl}
+       source={{ uri: data.imageUrl  }}
       resizeMode="cover"
       style={{width:width*1,
           height:height*0.37,
@@ -203,22 +203,24 @@ const PharProf = ({route}) => {
               justifyContent:'space-between'
           }}>
           <TouchableOpacity
-          style={{
-              backgroundColor:COLORS.white,
-          width:width*0.1,
-          height:height*0.05,
-          borderRadius:200,
-          alignItems:'center',
-          justifyContent:'center'
-          }}>
-              <Image
-              source={require('../assets/arrowback.png')}
-              style={{
-                  width:width*0.07,
-                  height:height*0.02
-              }}
-              />
-          </TouchableOpacity>
+      style={{
+        backgroundColor: COLORS.white,
+        width: width * 0.1,
+        height: height * 0.05,
+        borderRadius: 200,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      onPress={() => navigation.goBack()}
+    >
+      <Image
+        source={require('../assets/arrowback.png')}
+        style={{
+          width: width * 0.07,
+          height: height * 0.02,
+        }}
+      />
+    </TouchableOpacity>
 
           <TouchableOpacity
           style={{

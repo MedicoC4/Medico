@@ -70,6 +70,20 @@ module.exports = {
       throw new Error(error);
     }
   },
+  getAivablePharmaDayNight: async (req, res) => {
+    try {
+      const getPharma = await Pharmacy.findAll({
+        where: {
+        isBlocked: { [Op.like]: req.params.isBlockPharma },
+        isverified: { [Op.like]: req.params.isVerefPharma },
+        type:{[Op.like]: req.params.typeDN}
+        },
+      });
+      res.status(200).send(getPharma)
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   updataLongLat:async (req, res) => {
     try {
       const longLat = await Pharmacy.update(req.body,{where:{id:req.params.idPharmcy}})

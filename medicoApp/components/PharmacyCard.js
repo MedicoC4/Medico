@@ -8,6 +8,7 @@ const PharmacyCard = ({ pharmacy }) => {
 
   return (
     <TouchableOpacity
+    activeOpacity={1}
     onPress={()=>navigation.navigate('PharProf',{pharmacy:pharmacy})}
     >
     <View style={styles.card}

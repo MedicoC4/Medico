@@ -22,10 +22,11 @@ import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchReviews } from "../redux/reviewSlicer";
 import { fetchOrders, createOrder } from "../redux/orderSlicer";
-import ReviewCard from "../components/ReviewCard";
-import ReviewInput from "../components/SubmitReview";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 const MedicineDetails = ({ route }) => {
   const { medicine } = route.params;
@@ -52,11 +53,9 @@ const MedicineDetails = ({ route }) => {
   };
 
   const dispatch = useDispatch();
-  const reviews = useSelector((state) => state.reviews.data);
   const orders = useSelector((state) => state.orders.data);
 
   useEffect(() => {
-    dispatch(fetchReviews());
     dispatch(fetchOrders());
     requestPermissions();
   }, []);
@@ -64,13 +63,11 @@ const MedicineDetails = ({ route }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchReviews());
     requestPermissions();
   }, []);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-     dispatch(fetchReviews());
     setIsRefreshing(false);
   };
 
@@ -224,18 +221,33 @@ const MedicineDetails = ({ route }) => {
       >
         <View style={styles.container}>
           <LinearGradient
-            colors={["transparent", "rgba(0, 0, 0, 0.3)"]} // Adjust the alpha for transparency
+            colors={["transparent", "rgba(0, 0, 0, 0.3)"]} 
             style={styles.imageContainer}
           >
             <Image source={{ uri: medicine.imageURL }} style={styles.image} />
           </LinearGradient>
-          <Text style={styles.name}>{medicine.productName}</Text>
-          <Text style={styles.info}>Strength: {medicine.strength}</Text>
-          <Text style={styles.info}>Manufacturer: {medicine.manufacturer}</Text>
-          <Text style={styles.info}>Packaging: {medicine.packaging}</Text>
-          <Text style={styles.info}>Description: {medicine.description}</Text>
+          <View style={{ borderBottomWidth: 1, borderBottomColor: 'grey', paddingBottom: 10 }}>
+  <Text style={styles.name}>{medicine.productName}</Text>
+</View>
+<View style={{ borderBottomWidth: 1, borderBottomColor: 'grey', paddingBottom: 10 }}>
+  <Text style={styles.info}>Strength: {medicine.strength}</Text>
+</View>
+<View style={{ borderBottomWidth: 1, borderBottomColor: 'grey', paddingBottom: 10 }}>
+  <Text style={styles.info}>Manufacturer: {medicine.manufacturer}</Text>
+</View>
+<View style={{ borderBottomWidth: 1, borderBottomColor: 'grey', paddingBottom: 10 }}>
+  <Text style={styles.info}>Packaging: {medicine.packaging}</Text>
+</View>
+<View style={{ borderBottomWidth: 1, borderBottomColor: 'grey', paddingBottom: 10 }}>
+  <Text style={styles.info}>Description: {medicine.description}</Text>
+</View>
+<View style={{ borderBottomWidth: 1, borderBottomColor: 'grey', paddingBottom: 10 }}>
+            <Text style={styles.info}>Price : {medicine.price} TND</Text>
+          </View>
           <View style={styles.priceAndQuantityContainer}>
-            <Text style={styles.price}>Price : {medicine.price} TND</Text>
+          <Text style={styles.subtotal}>
+            Sub total : {medicine.price * quantity} TND
+          </Text>
             <View style={styles.quantityContainer}>
               <TouchableOpacity onPress={decrementQuantity}>
                 <View style={styles.minusButton}>
@@ -249,25 +261,14 @@ const MedicineDetails = ({ route }) => {
                 </View>
               </TouchableOpacity>
             </View>
-          </View>
-          <Text style={styles.subtotal}>
-            Sub total : {medicine.price * quantity} TND
-          </Text>
-          <Text style={styles.contraindicationsTitle}>Reviews:</Text>
-          {reviews.map((review) => (
-            <ReviewCard review={review.review} key={review.id} />
-          ))}
-          <ReviewInput productId={medicine.id} />
+            </View>
         </View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.addToCartButton}>
-          <Text style={styles.addToCartText}>Add to Cart</Text>
-        </TouchableOpacity>
+      
         <TouchableOpacity style={styles.buyNowButton} onPress={toggleModal}>
           <Text style={styles.buyNowText}>Place order</Text>
         </TouchableOpacity>
-      </View>
+      
       <Modal isVisible={isModalVisible}>
         <View style={styles.modalContainer}>
           <Text style={styles.modalQuestion}>
@@ -306,7 +307,6 @@ const MedicineDetails = ({ route }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          {/* Add more questions and options as needed */}
           <Text style={styles.modalQuestion}>Please upload prescription:</Text>
           <TouchableOpacity style={styles.uploadButton} onPress={selectImage}>
             <Text style={styles.uploadButtonText}>Upload Image</Text>
@@ -334,7 +334,7 @@ const MedicineDetails = ({ route }) => {
             onChangeText={setPhoneNumber}
             value={phoneNumber}
             placeholder="+216 XX XXX XXX"
-            keyboardType="phone-pad" // This will bring up a numeric keypad
+            keyboardType="phone-pad" 
           />
           <View style={styles.modalButtonContainer}>
             <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
@@ -358,39 +358,39 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginTop: 50,
+    marginTop: height * 0.05, 
   },
   detailsText: {
     fontWeight: "bold",
-    fontSize: 35,
-    marginLeft: 10,
+    fontSize: width * 0.08,  
+    marginLeft: width * 0.03, 
   },
   icons: {
     flexDirection: "row",
     position: "absolute",
-    right: 0,
+    right: width * 0.03, 
   },
   iconContainer: {
     borderWidth: 1,
-    borderRadius: 50,
-    padding: 7,
-    marginRight: 10,
+    borderRadius: width * 0.06, 
+    padding: width * 0.02,
+    marginRight: width * 0.04, 
     backgroundColor: "#E8E8E8",
     borderColor: "#D3D3D3",
   },
   container: {
     flex: 1,
-    padding: 10,
+    padding: width * 0.04, 
     alignItems: "center",
   },
   image: {
     width: "100%",
-    height: 200,
+    height: height * 0.3, 
   },
   name: {
-    fontSize: 24,
+    fontSize: width * 0.05, 
     fontWeight: "bold",
-    marginTop: 10,
+    marginTop: height * 0.02, 
     alignSelf: "flex-start",
   },
   priceAndQuantityContainer: {
@@ -398,46 +398,38 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    marginTop: 10,
+    marginTop: height * 0.02, 
   },
   price: {
-    fontSize: 18,
+    fontSize: width * 0.05, 
     fontWeight: "bold",
   },
   subtotal: {
-    fontSize: 18,
-    marginTop: 10,
+    fontSize: width * 0.065, 
+    marginTop: height * 0.02, 
     alignSelf: "flex-start",
     fontWeight: "bold",
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingHorizontal: width * 0.03, 
+    paddingTop: height * 0.02, 
+    paddingBottom: height * 0.02, 
     backgroundColor: "#D3D3D3",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  addToCartButton: {
-    backgroundColor: "#bebebe",
-    padding: 10,
-    width: "45%",
-    alignItems: "center",
-    borderRadius: 20,
-  },
-  addToCartText: {
-    color: "white",
+    borderTopLeftRadius: width * 0.06, 
+    borderTopRightRadius: width * 0.06, 
   },
   buyNowButton: {
     backgroundColor: "#4CAF50",
-    padding: 10,
+    padding: width * 0.04, 
     width: "45%",
     alignItems: "center",
-    borderRadius: 20,
+    borderRadius: width * 0.06, 
+    alignSelf: "center",
+    marginBottom: height * 0.02, // Add this line
   },
   buyNowText: {
     color: "white",
@@ -449,138 +441,138 @@ const styles = StyleSheet.create({
   },
   minusButton: {
     backgroundColor: "lightgray",
-    borderRadius: 15, // Reduced from 20
-    width: 25, // Reduced from 30
-    height: 25, // Reduced from 30
+    borderRadius: width * 0.08, 
+    width: width * 0.08, 
+    height: width * 0.08, 
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 10,
+    marginRight: width * 0.03, 
   },
   plusButton: {
     backgroundColor: "#4CAF50",
-    borderRadius: 15, // Reduced from 20
-    width: 25, // Reduced from 30
-    height: 25, // Reduced from 30
+    borderRadius: width * 0.08, 
+    width: width * 0.08, 
+    height: width * 0.08, 
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10,
+    marginLeft: width * 0.03, 
   },
   quantityChange: {
-    fontSize: 20,
+    fontSize: width * 0.05, 
     color: "white",
   },
   quantity: {
-    fontSize: 18,
+    fontSize: width * 0.07, 
   },
   contraindicationsTitle: {
-    fontSize: 24,
-    marginTop: 40,
+    fontSize: width * 0.06, 
+    marginTop: height * 0.05, 
     alignSelf: "flex-start",
     fontWeight: "bold",
   },
   contraindication: {
-    fontSize: 16,
-    marginTop: 10,
+    fontSize: width * 0.04, 
+    marginTop: height * 0.01, 
     alignSelf: "flex-start",
   },
   modalContainer: {
     backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
+    padding: width * 0.05, 
+    borderRadius: width * 0.03, 
   },
 
   modalOptions: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: height * 0.01, 
   },
   uploadButton: {
     backgroundColor: "#4CAF50",
-    padding: 10,
-    width: "45%",
+    padding: width * 0.03, 
+    width: "45%", 
     alignItems: "center",
-    borderRadius: 20,
-    marginTop: 10,
-    marginBottom: 10,
+    borderRadius: width * 0.05, 
+    marginTop: height * 0.01, 
+    marginBottom: height * 0.01, 
   },
   uploadButtonText: {
     color: "white",
   },
   selectedImage: {
-    width: 100,
-    height: 100,
-    marginTop: 10,
+    width: width * 0.25, 
+    height: height * 0.15, 
+    marginTop: height * 0.01, 
   },
   modalButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
+    marginTop: height * 0.02, 
   },
   placeOrderButton: {
     backgroundColor: "#4CAF50",
-    padding: 10,
-    width: "45%",
+    padding: width * 0.03, 
+    width: "45%", 
     alignItems: "center",
-    borderRadius: 20,
+    borderRadius: width * 0.05, 
   },
   placeOrderText: {
     color: "white",
   },
   closeButton: {
     backgroundColor: "#bebebe",
-    padding: 10,
-    width: "45%",
+    padding: width * 0.03, 
+    width: "45%", 
     alignItems: "center",
-    borderRadius: 20,
+    borderRadius: width * 0.05, 
   },
   closeText: {
     color: "white",
   },
   modalQuestion: {
     fontWeight: "bold",
-    display: "flex", // Add this line
-    flexWrap: "wrap", // Add this line
+    display: "flex",
+    flexWrap: "wrap",
   },
   modalOption: {
-    padding: 10, // Increase padding
-    borderRadius: 20, // Increase border radius
-    marginRight: 10,
-    alignItems: "center", // Center the text
+    padding: width * 0.03, 
+    borderRadius: width * 0.05, 
+    marginRight: width * 0.03, 
+    alignItems: "center",
   },
   selectedOption: {
     backgroundColor: "#4CAF50",
-    color: "white", // Make the text white
+    color: "white",
   },
   selectedOptionText: {
-    color: "white", // Make the text white
+    color: "white",
   },
   selectedOption2: {
     backgroundColor: "#4CAF50",
-    color: "white", // Make the text white
+    color: "white",
   },
   info: {
     fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 10,
+    fontSize: width * 0.04, 
+    marginTop: height * 0.01, 
     alignSelf: "flex-start",
   },
   imageContainer: {
-    width: "100%",
-    height: 200,
+    width: "100%", 
+    height: height * 0.25, 
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: "100%", 
+    height: "100%", 
   },
   input: {
-    height: 50,
-    margin: 12,
-    marginLeft: -2,
-    marginRight: -2,
-    borderWidth: 1,
-    borderRadius: 20,
-    padding: 10,
-    paddingLeft: 15,
+    height: height * 0.06, 
+    margin: width * 0.03, 
+    marginLeft: -width * 0.005, 
+    marginRight: -width * 0.005, 
+    borderWidth: 1, 
+    borderRadius: width * 0.05, 
+    padding: width * 0.025, 
+    paddingLeft: width * 0.0375, 
   },
 });
 export default MedicineDetails;

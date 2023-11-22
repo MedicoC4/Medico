@@ -58,7 +58,13 @@ return response.data
   }
 );
 
-
+export const logOut = createAsyncThunk(
+  "logOut",
+  async (_, { dispatch }) => {
+    await signOut(auth);
+    await clearToken();
+  }
+);
 
 const UserSlice = createSlice({
     name: "user",
@@ -88,7 +94,9 @@ const UserSlice = createSlice({
       builder.addCase(deleteUser.fulfilled, (state, action) => {
         state.data = action.payload;
       })
-     
+      builder.addCase(logOut.fulfilled, (state, action) => {
+        state.userInfo = {};
+      });
     }
   });
   const getUserSlice = createSlice({
@@ -118,5 +126,5 @@ const UserSlice = createSlice({
   });
   
   export const {save}= UserSlice.actions;
-  export const { logOut } = getUserSlice.actions
+  // export const { logOut } = getUserSlice.actions
   export default {user:UserSlice.reducer,getUser:getUserSlice.reducer} 

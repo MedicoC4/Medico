@@ -20,7 +20,7 @@ const dispatch = useDispatch()
 
 
 const handleID=()=>{
-    dispatch(save(doctor.id))
+    dispatch(save(doctor.DoctorId))
   }
 
   return (

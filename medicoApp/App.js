@@ -46,7 +46,6 @@ import UpgradeToPharm from "./screens/UpgradeToPharm";
 import AllMedicines from "./screens/AllMedecines";
 import MedicineDetails from "./screens/MedecineDetails";
 import OrderDet from "./screens/OrderDet";
-import UserMap from "./screens/UserMap";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
@@ -112,34 +111,6 @@ export default function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="DocProfileNew"
-          component={DocProfileNew}
-          options={{
-            headerShown: false,
-          }}
-        />
-          <Stack.Screen
-            name="Welcome"
-            component={Welcome}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="AddRatings"
-            component={AddRatings}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="docProfile"
-            component={DocProfile}
-            options={{
-              headerShown: false,
-            }}
-          />
           <Stack.Screen
             name="DocProfileNew"
             component={DocProfileNew}

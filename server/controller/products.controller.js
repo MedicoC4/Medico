@@ -1,5 +1,7 @@
 const { Products, Missing, User, Pharmacy } = require("../database/index");
 const missing = require("../database/models/missing");
+const { Op,Sequelize } = require("sequelize");
+
 
 module.exports = {
   getAll: async (req, res) => {
@@ -126,4 +128,28 @@ module.exports = {
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
+  searchByName: async (req, res) => {
+    try {
+      const result = await Products.findAll({
+        where: {
+          [Op.and]: [
+            Sequelize.where(
+              Sequelize.fn('LOWER', Sequelize.col('productName')),
+              'LIKE',
+              `%${req.params.searchByProdName.toLowerCase()}%`
+            ),
+            { stock: { [Op.gt]: 0 } },
+          ],
+        },
+        include: [
+          {
+            model: Pharmacy,
+          },
+        ],
+      });
+      res.json(result);
+    } catch (error) {
+    throw new Error(error)
+    }
+  }
 };

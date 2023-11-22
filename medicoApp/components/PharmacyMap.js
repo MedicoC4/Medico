@@ -13,50 +13,22 @@ import axios from "axios";
 
 const PharmacyMap = ({dataPharmacies}) => {
     const[data,setData] = useState([])
-    console.log("DDDDDAAAAATTTTTTAAAAA",data);
     const getPharmacys = async ()=>{
-        try {
-          const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/pharmaLocation/1/0`)
-          setData(dataPharma.data)
-          let structeredData = []
-          data.forEach((e)=>{
-            structeredData.push({
-                id: e.id,
-                name:e.PHname,
-                imageUrl: e.iimageUrl,
-                type: "Pharmacy",
-                availability: e.type,
-                latitude: e.latitude,
-                longitude: e.longitude,
-                adress: e.adress,
-                speciality:""
-            })
-          })
-          dataPharmacies(structeredData)
-
+      try {
+        const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/pharmaLocationMapped/1/0`)
+        setData(dataPharma.data)
+          dataPharmacies(dataPharma.data)
         } catch (error) {
           throw new Error(error)
         }
       }
+    
     const getPharmacysDN = async (type)=>{
         try {
           const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/getAllDN/1/0/${type}`)
           setData(dataPharma.data)
-          let structeredData = []
-          data.forEach((e)=>(
-            structeredData.push({
-                id: e.id,
-                name:e.PHname,
-                imageUrl: e.iimageUrl,
-                type: "Pharmacy",
-                availability: e.type,
-                latitude: e.latitude,
-                longitude: e.longitude,
-                adress: e.adress,
-                speciality:""
-            })
-          ))
-          dataPharmacies(structeredData)
+      
+          dataPharmacies(dataPharma.data)
 
         } catch (error) {
           throw new Error(error)

@@ -279,7 +279,7 @@ const hideDropdownMode = () => {
   console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ", coordinatesData);
 
 
-
+  console.log("doctorsWithinRadius:", doctorsWithinRadius);
 
   
   useEffect(() => {
@@ -319,14 +319,21 @@ const hideDropdownMode = () => {
               getTime(doct.latitude, doct.longitude);
               calculateDistanceMap(doct.latitude, doct.longitude);
             }}
-            pinColor={
-              doct.type === "doctor"
-                ? "red"
-                : doct.type === "nurse"
-                ? "blue"
-                : "yellow"
-            }
-          />
+            // pinColor="blue"
+          //   pinColor={
+          //     doct.type === "Pharmacy"
+          //       ? "red"
+          //       : doct.type === "doctor"
+          //       ? "blue"
+          //       :doct.type === "nurse"?"yellow":null
+          //   }
+          // />
+          pinColor={
+            doct.type === "Pharmacy" ? "red" :
+            doct.type === "doctor" ? "blue" :
+            doct.type === "nurse" ? "yellow" : null
+          }
+        />
         ))}
         <Marker coordinate={location} pinColor="green" />
       </MapView>
@@ -518,9 +525,9 @@ const hideDropdownMode = () => {
           </View>
                 <View style={{height:315,width:"100%",paddingTop:10}}>
                 <ScrollView>
-                {conditionFilter === "doctor" ? <DoctorMap/>:
+                {conditionFilter === "doctor" ? <DoctorMap dataPharmacies={dataPharmacies}/>:
                 conditionFilter === "pharmacy" ? <PharmacyMap dataPharmacies={dataPharmacies}/>:
-                conditionFilter === "product" ? <ProductMap/> : null
+                conditionFilter === "product" ? <ProductMap dataPharmacies={dataPharmacies}/> : null
                 }
                 </ScrollView>
                 </View>

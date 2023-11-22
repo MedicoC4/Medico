@@ -30,11 +30,23 @@ const PharProf = ({route}) => {
   const [rating,setRating]=useState('')
   const [allReviews,setAllReviews]=useState([])
   const [isDistance,setIsDistance]=useState(0)
+  const [loggedIn,setLoggedIn]=useState({})
 
 
-  
+  console.log('this is the logged in user',loggedIn);
 
-  
+
+
+
+  const getLoggedIn=async()=>{
+    const loggedMail=auth.currentUser.email
+    try {
+      const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
+        setLoggedIn(response.data)
+    } catch (error) {
+      error
+    }
+  }
   
   
   const calculateDistanceMap = async () => {

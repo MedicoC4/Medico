@@ -4,6 +4,7 @@ import Button from '../components/Button'
 import { useNavigation } from "@react-navigation/native";
 import COLORS from '../constants/colors';
 const {width,height}= Dimensions.get('window')
+import AnimatedLottieView from "lottie-react-native";
 
 const SendingDoc = () => {
     const navigation=useNavigation()
@@ -26,11 +27,11 @@ const SendingDoc = () => {
 
                 display:'flex',
                 textAlign:'center',
-                fontSize: 40,
+                fontSize: 42,
                 fontWeight: 800,
                 color: COLORS.black,
 
-                }}>Find Medicines</Text>
+                }}>Request has been sent !</Text>
                             <Text style={{  
                                 padding:20,
                                 display:'flex',
@@ -39,15 +40,15 @@ const SendingDoc = () => {
                                 fontWeight: 500,
                                 color: COLORS.black,
 
-                            }}>Easily find your prescribed medicines
-                            from a variety of registered pharmacies, no matter
-                            where you are. </Text>
+                            }}>Your request to upgrade your account
+                            has been sent to the admins successfully.
+                            You'll continue as a user until we notify you.</Text>
                             </View>
                     
                     <Image
-                        source={require("../assets/firststep.png")}
+                        source={require("../assets/success.png")}
                         style={{
-                            height: height*0.35,
+                            height: height*0.3,
                             width: width*0.7,
                             borderRadius: 10,
                         }}
@@ -60,7 +61,7 @@ const SendingDoc = () => {
              }}
             title="Continue"
             filled
-            onPress={() => navigation.navigate("SecondStep")}
+            onPress={() => navigation.navigate("Landing")}
             style={{
                             width: width*0.85,
                             backgroundColor: COLORS.primary,

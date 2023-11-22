@@ -28,10 +28,13 @@ import {
   DocProfileNew,
   AppointementDoctor,
   appointementUserList,
-  UserMap
+  UserMap,
+  ProfileDocStatic,
+  SendingDoc
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
+import Checkout from "./screens/Checkout";
 import DocFirstStep from "./screens/docFirstStep";
 import DocSecondStep from "./screens/docSecounStep";
 import UpgradeDocFirstForm from "./screens/UpgradeDocFirstForm";
@@ -43,6 +46,7 @@ import UpgradeToPharm from "./screens/UpgradeToPharm";
 import AllMedicines from "./screens/AllMedecines";
 import MedicineDetails from "./screens/MedecineDetails";
 import OrderDet from "./screens/OrderDet";
+import UserMap from "./screens/UserMap";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
@@ -51,6 +55,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 // import { AppointementList } from "../server/database";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -72,12 +77,48 @@ export default function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator
-          // initialRouteName={initialRoute}
-          initialRouteName="Login"
-        >
+    <StripeProvider publishableKey="pk_test_51ODoKPCkrKQqUqCAjYKGnbLVZjf9PG0yXfHILgFPQgirdXJHl4tSnJxmuZtNF1esZOoqcVE6qiHDnC0QfaKRTN4J00qMvLzssR">
+      <Provider store={store}>
+    <NavigationContainer>
+      <Stack.Navigator
+        // initialRouteName={initialRoute}
+        initialRouteName="Login"
+      >
+        <Stack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SendingDoc"
+          component={SendingDoc}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="AddRatings"
+          component={AddRatings}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="docProfile"
+          component={DocProfile}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="DocProfileNew"
+          component={DocProfileNew}
+          options={{
+            headerShown: false,
+          }}
+        />
           <Stack.Screen
             name="Welcome"
             component={Welcome}
@@ -135,220 +176,234 @@ export default function App() {
             }}
           />
 
-          <Stack.Screen
-            name="PharProf"
-            component={PharProf}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="BestSellers"
-            component={BestSellers}
-            options={{
-              headerShown: false,
-            }}
-          />
+        <Stack.Screen
+          name="PharProf"
+          component={PharProf}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileDocStatic"
+          component={ProfileDocStatic}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="BestSellers"
+          component={BestSellers}
+          options={{
+            headerShown: false,
+          }}
+        />
 
-          <Stack.Screen
-            name="PharmacyProfile"
-            component={PharmacyProfile}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="DoctorPdf"
-            component={DoctorPdf}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="FinishSignUp"
-            component={FinishSignUp}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={Signup}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="FirstStep"
-            component={FirstStep}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="SecondStep"
-            component={SecondStep}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="ThirdStep"
-            component={ThirdStep}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Landing"
-            component={Landing}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="userProfile"
-            component={UserProfile}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="userProfilePage"
-            component={UserProfilePage}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="DocFirstStep"
-            component={DocFirstStep}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="DocSecoundStep"
-            component={DocSecondStep}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="upgradeToDoc"
-            component={UpgradeDocFirstForm}
-            options={{
-              headerShown: false,
-            }}
-          />
+            <Stack.Screen
+              name="PharmacyProfile"
+              component={PharmacyProfile}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="DoctorPdf"
+              component={DoctorPdf}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="FinishSignUp"
+              component={FinishSignUp}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={Signup}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="FirstStep"
+              component={FirstStep}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="SecondStep"
+              component={SecondStep}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="ThirdStep"
+              component={ThirdStep}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Landing"
+              component={Landing}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="userProfile"
+              component={UserProfile}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="userProfilePage"
+              component={UserProfilePage}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="DocFirstStep"
+              component={DocFirstStep}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="DocSecoundStep"
+              component={DocSecondStep}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="upgradeToDoc"
+              component={UpgradeDocFirstForm}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          <Stack.Screen
-            name="map"
-            component={MapLocation}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="AllPharmacies"
-            component={AllPharmacies}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="AllMedicines"
-            component={AllMedicines}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="MedicineDetails"
-            component={MedicineDetails}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="pharmFirstStep"
-            component={PharmFirstStep}
-            options={{
-              headerShown: false,
-            }}
-          />
+            <Stack.Screen
+              name="map"
+              component={MapLocation}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="AllPharmacies"
+              component={AllPharmacies}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="AllMedicines"
+              component={AllMedicines}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="MedicineDetails"
+              component={MedicineDetails}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="pharmFirstStep"
+              component={PharmFirstStep}
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          <Stack.Screen
-            name="PharmSecoundStep"
-            component={PharmSecondStep}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="UpgradeToPharm"
-            component={UpgradeToPharm}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="PharmSecoundForm"
-            component={PharmSecoundForm}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="PharmFirstForm"
-            component={PharmFirstForm}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="appointement"
-            component={Appointment}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="appointmentClient"
-            component={AppointementClient}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="appointmentDoctor"
-            component={AppointementDoctor}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="appointUserList"
-            component={appointementUserList}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="orderDetails"
-            component={OrderDet}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
+            <Stack.Screen
+              name="PharmSecoundStep"
+              component={PharmSecondStep}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="UpgradeToPharm"
+              component={UpgradeToPharm}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="PharmSecoundForm"
+              component={PharmSecoundForm}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="PharmFirstForm"
+              component={PharmFirstForm}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="appointement"
+              component={Appointment}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="appointmentClient"
+              component={AppointementClient}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="appointmentDoctor"
+              component={AppointementDoctor}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="appointUserList"
+              component={appointementUserList}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="orderDetails"
+              component={OrderDet}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="checkout"
+              component={Checkout}
+              options={{
+                headerShown: false,
+              }}
+            />
+             <Stack.Screen
             name="userMap"
             component={UserMap}
             options={{
@@ -362,8 +417,9 @@ export default function App() {
               headerShown: false,
             }}
           />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </StripeProvider>
   );
 }

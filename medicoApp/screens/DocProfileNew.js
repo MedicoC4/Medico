@@ -39,6 +39,7 @@ const DocProfileNew = ({navigation}) => {
   const reviews=useSelector((state)=>state.docRev.data)
 
 
+
   const fetchReviews= ()=>{
     dispatch(fetchDocReviews(data.id))
 }

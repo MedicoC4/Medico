@@ -113,6 +113,7 @@
     "simple-update-notifier": "^2.0.0",
     "sqlstring": "^2.3.3",
     "statuses": "^2.0.1",
+    "stripe": "^14.5.0",
     "supports-color": "^5.5.0",
     "swagger-ui-express": "^5.0.0",
     "to-regex-range": "^5.0.1",

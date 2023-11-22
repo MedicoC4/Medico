@@ -1,4 +1,10 @@
-const { Order, Missing, Products, User, Pharmacy } = require("../database/index.js");
+const {
+  Order,
+  Missing,
+  Products,
+  User,
+  Pharmacy,
+} = require("../database/index.js");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -9,6 +15,7 @@ module.exports = {
         // where: {
         //   order_id: id,
         // },
+        include: [{ model: User }, { model: Products }],
       });
 
       res.json(getAll);
@@ -17,13 +24,46 @@ module.exports = {
       throw err;
     }
   },
+  getOne: async (req, res) => {
+    try {
+      const getOne = await Order.findOne({
+        where: { order_id: req.params.id },
+        include: [{ model: User }, { model: Products }],
+      });
+      res.json(getOne);
+    } catch (error) {
+      throw error;
+    }
+  },
+  // create: async (req, res) => {
+  //   let userData = req.body;
+  //   try {
+  //     const userExist = await User.findOne({
+  //       where: { email: req.body.email },
+  //     });
+  //     const newOrder = await Order.create({
+  //       ...userData,
+  //       UserId: userExist.id,
+  //     });
+  //     const newProduct = await Products.findOne({ id: newOrder.ProductId });
+  //     const checkMissing = await Missing.findOne({
+  //       where: { codebar: newProduct.codebar },
+  //     });
 
+  //     await checkMissing.update({ order: checkMissing.order + 1 });
+  //     checkMissing.quota = checkMissing.quantity / checkMissing.order;
+  //     await checkMissing.save();
+
+  //     res.json(newOrder);
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // },
   getByUserId: async (req, res) => {
     try {
       const { userId } = req.params;
       const userExist = await User.findOne({
         where: { email: userId },
-      
       });
       const userOrders = await Order.findAll({
         where: {
@@ -36,7 +76,7 @@ module.exports = {
           },
         },
       });
-  
+
       res.json(userOrders);
     } catch (err) {
       console.log("Error while fetching orders for user");
@@ -73,7 +113,7 @@ module.exports = {
   
     try {
       await Order.update(updatedData, {
-        where: { order_id: order_id },
+        where: { id: order_id },
       });
   
       res.json({ message: 'Order updated successfully' });
@@ -82,6 +122,7 @@ module.exports = {
       throw error;
     }
   },
+
   deleteOne: async (req, res) => {
     let id = req.params.id;
     try {
@@ -89,22 +130,6 @@ module.exports = {
         where: { order_id: id },
       });
       res.json(deletedUser);
-    } catch (error) {
-      throw error;
-    }
-  },
-  SignIn: async (req, res) => {
-    let userData = req.body;
-
-    try {
-      const emailExist = await Order.findOne({
-        where: { email: userData.email },
-        include: Doctor,
-      });
-      if (!emailExist) {
-        return res.status(400).send({ message: "email is not valid" });
-      }
-      res.json(emailExist);
     } catch (error) {
       throw error;
     }

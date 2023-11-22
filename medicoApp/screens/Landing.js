@@ -51,8 +51,7 @@ const Landing = ({ route }) => {
   useEffect(() => {
     fetch1();
     fetch2();
-    fetch3();
-    
+    fetch3(); 
   }, []);
 
   let topRatedPharmacies = [];

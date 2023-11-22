@@ -6,11 +6,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const DoctorCard = ({doctor}) => {
     return (
       <View style={styles.card}>
-        {/* <Image source={{ uri: doctor.imageUrl }} style={styles.image} /> */}
+        <Image source={{ uri: doctor.Doctor.imageUrl }} style={styles.image} />
         <View style={styles.infoContainer}>
           <View style={styles.nameRatingContainer}>
-            <Text style={styles.name}>{doctor.fullname}</Text>
-            {doctor.isverified && (
+            <Text style={styles.name}>{doctor.Doctor.fullname}</Text>
+            {doctor.Doctor.isverified && (
               <View style={styles.ratingContainer}>
                 <Icon name="check-circle" size={15} color="#2d958c" />
                 <Text style={styles.rating}>Verified</Text>

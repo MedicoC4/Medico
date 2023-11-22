@@ -106,4 +106,15 @@ recordsDoc : async(req , res)=>{
       res.json(error)
   }
 },
+verficationPharm : async (req, res) => {
+  try {
+      const onePharm = await User.findOne({where: {email : req.body.email}});
+      const docc = await Pharmacy.findOne({where: {id : onePharm.PharmacyId}})
+      console.log('========>',docc.isverified);
+      const doc = await Pharmacy.update({isverified:!docc.isverified},{where: {id : onePharm.PharmacyId}});
+      res.json(doc)
+  } catch (error) {
+      throw error
+  }
+}
   };

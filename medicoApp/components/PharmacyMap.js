@@ -43,7 +43,7 @@ const PharmacyMap = ({dataPharmacies}) => {
           const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/getAllDN/1/0/${type}`)
           setData(dataPharma.data)
           let structeredData = []
-          data.forEach((e)=>{
+          data.forEach((e)=>(
             structeredData.push({
                 id: e.id,
                 name:e.PHname,
@@ -55,7 +55,7 @@ const PharmacyMap = ({dataPharmacies}) => {
                 adress: e.adress,
                 speciality:""
             })
-          })
+          ))
           dataPharmacies(structeredData)
 
         } catch (error) {

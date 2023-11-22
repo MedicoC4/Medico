@@ -20,6 +20,9 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useDispatch } from 'react-redux';
 import { fetchMedicineByCodebar } from '../redux/medecineSlicer';
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 const AllMedicines = ({ route }) => {
   const navigation = useNavigation();
@@ -127,18 +130,18 @@ const AllMedicines = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: width * 0.02,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 50,
+    marginTop: height * 0.05,
   },
   medicinesText: {
     fontWeight: "bold",
-    fontSize: 35,
-    marginLeft: 20,
+    fontSize: width * 0.09,
+    marginLeft: width * 0.05,
   },
   icons: {
     flexDirection: "row",
@@ -146,8 +149,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     borderWidth: 1,
     borderRadius: 50,
-    padding: 7,
-    marginRight: 10,
+    padding: width * 0.02,
+    marginRight: width * 0.03,
     backgroundColor: "#E8E8E8",
     borderColor: "#D3D3D3",
   },
@@ -156,21 +159,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#E8E8E8",
     borderRadius: 20,
-    marginTop: 40,
-    marginLeft: 30,
-    marginRight: 30,
+    marginTop: height * 0.04,
+    marginLeft: width * 0.08,
+    marginRight: width * 0.08,
   },
   searchIcon: {
-    width: 20,
-    height: 20,
-    marginLeft: 10,
+    width: width * 0.05,
+    height: height * 0.03,
+    marginLeft: width * 0.03,
   },
   searchBar: {
     flex: 1,
-    padding: 10,
+    padding: width * 0.03,
   },
   qrCodeIcon: {
-    paddingRight: 10,
+    paddingRight: width * 0.03,
   },
 });
 

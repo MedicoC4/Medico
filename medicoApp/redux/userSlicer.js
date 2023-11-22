@@ -3,6 +3,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const initialState = {
   data: [],
+  userInfo:{},
   error: null,
   loading: false,
   selectedImage: null, // Add this line
@@ -62,7 +63,12 @@ return response.data
 const UserSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+      save:(state,action)=>{
+        state.userInfo=action.payload
+      },
+     
+    },
     extraReducers(builder) {
       builder.addCase(fetchUsers.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -110,4 +116,7 @@ const UserSlice = createSlice({
      
     }
   });
-  export default { user: UserSlice.reducer, getUser: getUserSlice.reducer };
+  
+  export const {save}= UserSlice.actions;
+  export const { logOut } = getUserSlice.actions
+  export default {user:UserSlice.reducer,getUser:getUserSlice.reducer} 

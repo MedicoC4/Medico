@@ -28,6 +28,7 @@ import {
   DocProfileNew,
   AppointementDoctor,
   appointementUserList,
+  UserMap,
   ProfileDocStatic,
   SendingDoc
 } from "./screens";
@@ -45,7 +46,6 @@ import UpgradeToPharm from "./screens/UpgradeToPharm";
 import AllMedicines from "./screens/AllMedecines";
 import MedicineDetails from "./screens/MedecineDetails";
 import OrderDet from "./screens/OrderDet";
-import UserMap from "./screens/UserMap";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
@@ -111,41 +111,41 @@ export default function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="DocProfileNew"
-          component={DocProfileNew}
-          options={{
-            headerShown: false,
-          }}
-        />
           <Stack.Screen
-          name="AllMissingProducts"
-          component={AllMissingProducts}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="AllDoctors"
-          component={AllDoctors}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="AllReviews"
-          component={AllReviews}
-          options={{
-            headerShown: false,
-          }}
-        />
-<Stack.Screen
-          name="Promotions"
-          component={Promotions}
-          options={{
-            headerShown: false,
-          }}
-        />
+            name="DocProfileNew"
+            component={DocProfileNew}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllMissingProducts"
+            component={AllMissingProducts}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllDoctors"
+            component={AllDoctors}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllReviews"
+            component={AllReviews}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Promotions"
+            component={Promotions}
+            options={{
+              headerShown: false,
+            }}
+          />
 
         <Stack.Screen
           name="PharProf"
@@ -374,6 +374,20 @@ export default function App() {
                 headerShown: false,
               }}
             />
+             <Stack.Screen
+            name="userMap"
+            component={UserMap}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="mapDirection"
+            component={UserMapView}
+            options={{
+              headerShown: false,
+            }}
+          />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

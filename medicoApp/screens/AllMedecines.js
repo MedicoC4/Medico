@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  Button,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -15,21 +16,46 @@ import NavigationBar from "../components/NavigationBar";
 import { useNavigation } from "@react-navigation/native";
 import MedicineCard from "../components/MedicineCard";
 import lense from "../assets/lense.png";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useDispatch } from 'react-redux';
+import { fetchMedicineByCodebar } from '../redux/medecineSlicer';
 
-const AllMedicines = ({route}) => {
+const AllMedicines = ({ route }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const { medicines } = route.params;
 
   const [search, setSearch] = useState("");
   const [filteredMedicines, setFilteredMedicines] = useState([]);
 
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
+  const [isScannerVisible, setIsScannerVisible] = useState(false);
+  const [barcodeSearch, setBarcodeSearch] = useState("");
+  
+
   useEffect(() => {
     setFilteredMedicines(
-      medicines.filter((medecine) =>
-        medecine.productName.toLowerCase().includes(search.toLowerCase())
+      medicines.filter((medicine) =>
+        medicine.productName.toLowerCase().includes(search.toLowerCase()) ||
+        medicine.codebar.toString().includes(search)
       )
     );
   }, [search]);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    setIsScannerVisible(false);
+    setSearch(data); // Set the search state to the scanned data
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -58,9 +84,25 @@ const AllMedicines = ({route}) => {
           style={styles.searchBar}
           placeholder="Search..."
           onChangeText={(text) => setSearch(text)}
-          value={search}
+          defaultValue={barcodeSearch}
         />
+        <MaterialIcons
+  name="qr-code"
+  size={25}
+  color="grey"
+  style={styles.qrCodeIcon}
+  onPress={() => setIsScannerVisible(true)}
+/>
       </View>
+      {isScannerVisible && (
+        <View style={styles.container}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={StyleSheet.absoluteFillObject}
+          />
+          {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+        </View>
+      )}
       <ScrollView style={styles.container}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           {filteredMedicines.map((medecine, index) => (
@@ -126,6 +168,9 @@ const styles = StyleSheet.create({
   searchBar: {
     flex: 1,
     padding: 10,
+  },
+  qrCodeIcon: {
+    paddingRight: 10,
   },
 });
 

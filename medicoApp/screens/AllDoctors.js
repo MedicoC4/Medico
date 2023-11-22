@@ -15,8 +15,16 @@ import { save } from '../redux/doctorSlicer';
 
 
 
+
 const AllDoctors = () => {
+
+
   const doctors = useSelector((state) => state.doctor?.data);
+  console.log(doctors,"=====");
+
+ 
+  
+  
 
   console.log(doctors);
 
@@ -83,7 +91,7 @@ const AllDoctors = () => {
             <DoctorCard/>
             <DoctorCard/> */}
             {doctors && doctors.map((doctor) => (
-        <DoctorCard key={doctor.id} doctor={doctor} handleID={handleID(doctor.id)} />
+        <DoctorCard key={doctor.id} doctor={doctor} />
       ))}
 
 

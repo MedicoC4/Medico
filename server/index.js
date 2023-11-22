@@ -1,6 +1,6 @@
 const express = require('express');
 require('dotenv').config()
-
+const PaymentRouter = require('./routes/payment.route.js')
 const UserRouter = require('./routes/user.route.js')
 const DoctorRouter = require('./routes/doctor.route.js')
 const specialityRoute = require('./routes/specialities.js')
@@ -65,11 +65,10 @@ app.use('/api/product',ProductRouter)
 app.use('/api/aivability',AppointementRouter)
 app.use('/api/appointement',AppointementListRouter)
 app.use('/api/records',RecordsRouter)
-
+app.use('/api/payment', PaymentRouter)
 app.use('/api/reviews', ReviewRouter)
 app.use('/api/email', NodemailerRoute)
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

@@ -5,6 +5,7 @@ const initialState = {
   data: [],
   error: null,
   loading: false,
+  selectedImage: null, // Add this line
 };
 
 
@@ -33,11 +34,17 @@ const deleteUser = createAsyncThunk('api/deleteUser',async(id, {dispatch})=>{
     return response.data
 })
 
-const updateUser=createAsyncThunk('api/updateUser',async(id,input,{dispatch})=>{
-  const response = await axios.put(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateUser/${id}`,input)
-  // dispatch(signIn())
-  return response.data
-})
+export const setSelectedImage = createAsyncThunk('setSelectedImage', async (imageUrl) => {
+  return imageUrl;
+});
+
+export const updateUser = createAsyncThunk('api/updateUser', async (id, { getState }) => {
+  const { selectedImage } = getState().user; 
+  const input = { imgUrl: selectedImage }; 
+
+  const response = await axios.put(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateUser/${id}`, input);
+  return response.data;
+});
 
 export const signIn = createAsyncThunk(
   "getUserfunc",
@@ -55,9 +62,7 @@ return response.data
 const UserSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {
-     
-    },
+    reducers: {},
     extraReducers(builder) {
       builder.addCase(fetchUsers.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -67,6 +72,9 @@ const UserSlice = createSlice({
       });
       builder.addCase(addUser.fulfilled, (state, action) => {
         state.data = action.payload;
+      });
+      builder.addCase(setSelectedImage.fulfilled, (state, action) => {
+        state.selectedImage = action.payload;
       });
       builder.addCase(updateUser.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -84,11 +92,7 @@ const UserSlice = createSlice({
       error: null,
       loading: false,
     },
-    reducers: {
-      logOut:(state)=>{
-        state.data={} 
-     }
-    },
+    reducers: {},
     extraReducers(builder) {
       builder.addCase(signIn.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -106,5 +110,4 @@ const UserSlice = createSlice({
      
     }
   });
-  export const { logOut } = getUserSlice.actions
-  export default {user:UserSlice.reducer,getUser:getUserSlice.reducer} 
+  export default { user: UserSlice.reducer, getUser: getUserSlice.reducer };

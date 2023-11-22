@@ -34,7 +34,7 @@ module.exports = (Sequelize, DataTypes) => {
     },
     isverified: {
       type:DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     // speciality: {
     //   type: DataTypes.ENUM("Generalist" ,'Cardiologist', 'Dermatologist', "Orthopedic Surgeon", "Gastroenterologist", "Ophthalmologist", "Neurologist", "Psychiatrist", "Rheumatologist"),

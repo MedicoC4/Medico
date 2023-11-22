@@ -8,6 +8,7 @@ import reviewSlicer from './reviewSlicer.js';
 import categorySlicer from './categorySlicer.js';
 import orderSlicer from './orderSlicer.js';
 import docReviewSlicer from './docReviewSlicer.js';
+import adminSlicer from './adminSlicer.js';
 
 
 
@@ -22,7 +23,8 @@ const store = configureStore({
     category : categorySlicer,
     docRev:docReviewSlicer,
     // reviews: reviewSlicer
-    orders: orderSlicer
+    orders: orderSlicer,
+    user : adminSlicer
   },
 })
 

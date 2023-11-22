@@ -23,12 +23,16 @@ function TablesTableRow(props) {
 
   const dispatch = useDispatch();
 
-  const fetch = () => {
-    dispatch(fetchDoctors());
-  };
-
   useEffect(() => {
-    fetch();
+   
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchDoctors());
+      } catch (error) {
+        console.error('Error fetching doctors:', error);
+      }
+    };
+    fetchData();
   }, []);
 
   return (

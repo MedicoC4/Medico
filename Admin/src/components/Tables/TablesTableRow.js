@@ -23,16 +23,12 @@ function TablesTableRow(props) {
 
   const dispatch = useDispatch();
 
+  const fetch = () => {
+    dispatch(fetchDoctors());
+  };
+
   useEffect(() => {
-   
-    const fetchData = async () => {
-      try {
-        await dispatch(fetchDoctors());
-      } catch (error) {
-        console.error('Error fetching doctors:', error);
-      }
-    };
-    fetchData();
+    fetch();
   }, []);
 
   return (
@@ -82,8 +78,8 @@ function TablesTableRow(props) {
             </Td>
             <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
               <Badge
-                bg={doctor.Doctor.isverified === true ? "green.400" : bgStatus}
-                color={doctor.Doctor.isverified === true ? "white" : "white"}
+                bg={doctor.Doctor.isverified === false ? "green.400" : bgStatus}
+                color={doctor.Doctor.isverified === false ? "white" : "white"}
                 fontSize="16px"
                 p="3px 10px"
                 borderRadius="8px"

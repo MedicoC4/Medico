@@ -79,7 +79,7 @@ module.exports = {
         try {
             console.log(req.body);
              const oneDoc = await User.findOne({where: {email : req.body.email}});
-             const doc = await Doctor.update({specialityId :req.body.specialityId,},{where: {id : oneDoc.DoctorId}});
+             const doc = await Doctor.update({specialityId :req.body},{where: {id : oneDoc.DoctorId}});
             res.send(doc);
         } catch (error) {
             throw error

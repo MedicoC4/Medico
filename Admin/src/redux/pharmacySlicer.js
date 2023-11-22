@@ -12,7 +12,7 @@ const initialState = {
 export const fetchPharmacies = createAsyncThunk(
   'pharmacies/fetchPharmacies',
   async () => {
-    const response = await axios.get(`http://localhost:1128/api/pharmacy/getAll`);
+    const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/getAll`);
     return response.data;
   }
 );

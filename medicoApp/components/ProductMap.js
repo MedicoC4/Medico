@@ -23,7 +23,7 @@ const ProductMap = ({dataPharmacies}) => {
   const [isScannerVisible, setIsScannerVisible] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [changeView, setChangeView] = useState("")
-console.log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",inputValBarcode);
+console.log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",typeof inputValBarcode);
  
 const changeV = (e)=>{
   setChangeView(e)

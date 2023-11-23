@@ -38,21 +38,29 @@ const PharmacyMap = ({dataPharmacies}) => {
     
 
   return (
-    <View>
-<View>
+    <View style={{flex:1,flexDirection:"row",backgroundColor:"red",gap:20,height:300,justifyContent:"center",alignItems:"center"}}>
+<View style={{flexDirection:"column",justifyContent:"center",alignContent:"center"}}>
+<View style={{width:120,height:50,justifyContent:"center",alignItems:"center",borderRadius:15,borderRadius:8,backgroundColor:"#ffffff",shadowOffset:{width:5,height:0},shadowOpacity:0.5,shadowRadius:5,elevation:5}}>
     <TouchableOpacity onPress={()=>getPharmacys()}>
       <Text>All Pharmacies</Text>  
     </TouchableOpacity>
 </View>
-<View>
+<View style={{flex:1,flexDirection:"row", width:120,height:50,justifyContent:"space-between",alignItems:"center",borderRadius:15,borderRadius:8,backgroundColor:"#ffffff",shadowOffset:{width:5,height:0},shadowOpacity:0.5,shadowRadius:5,elevation:5,padding:10}}>
     <TouchableOpacity onPress={()=>getPharmacysDN("day")}>
-      <Text>Day</Text>  
+      <Text style={{fontWeight:"bold",fontSize:16}}>Day</Text> 
+      <View style={{width:40,height:40,borderRadius:100,backgroundColor:"green"}}>
+      <Image style={{width:40,height:40,borderRadius:100,backgroundColor:"green"}} />  
+      </View> 
     </TouchableOpacity>
 </View>
-<View>
+<View style={{ flex:1, width:120,height:50,justifyContent:"space-between",alignItems:"center",borderRadius:15,borderRadius:8,backgroundColor:"#ffffff",shadowOffset:{width:5,height:0},shadowOpacity:0.5,shadowRadius:5,elevation:5,flexDirection:"row",padding:10}}>
     <TouchableOpacity onPress={()=>getPharmacysDN("night")}>
-      <Text>Night</Text>  
+      <Text style={{fontWeight:"bold",fontSize:16}} >Night</Text>
+    <View style={{width:40,height:40,borderRadius:100,backgroundColor:"green"}}>
+      <Image style={{width:40,height:40,borderRadius:100,backgroundColor:"green"}} />  
+      </View>
     </TouchableOpacity>
+</View>
 </View>
     </View>
   )

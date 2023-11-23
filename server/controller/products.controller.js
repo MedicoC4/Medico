@@ -266,7 +266,7 @@ module.exports = {
             speciality:e.imageURL
         }
       })
-      res.json(structeredData);
+      res.status(200).send(structeredData);
     } catch (error) {
     throw new Error(error)
     }

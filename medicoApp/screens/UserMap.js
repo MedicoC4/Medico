@@ -229,8 +229,10 @@ const dataPharmacies = (e)=>{
     return haversine(start, end, { unit: "meter" });
   };
   const doctorsWithinRadius = coordinatesData.filter((doc) => {
-    const distance = calculateDistance(location, doc);
+    const distance = calculateDistance(location, {latitude:doc.latitude,longitude:doc.longitude});
+    console.log("===============>",distance <= radiusInMeters);
     return distance <= radiusInMeters;
+
   });
 
   const handleMarkerPress = (marker) => {
@@ -284,7 +286,7 @@ const hideDropdownMode = () => {
   
   useEffect(() => {
     getLocation();
-    getData();
+    // getData();
     // structureData();
   }, [location]);
   return (
@@ -305,6 +307,7 @@ const hideDropdownMode = () => {
         initialRegion={mapRegion}
       >
         {doctorsWithinRadius.map((doct, i) => (
+          
           <Marker
             key={i}
             coordinate={doct}

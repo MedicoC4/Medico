@@ -27,8 +27,9 @@ const [dataFetch,setDataFetch] = useState([])
 
       const getAll = async (code)=>{
         try {
-            const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/product/getCodeBarNoDup/${code}`)
+            const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/product/getAllCodeBarNoDup/${code}`)
             dataPharmacies(response.data)
+            console.log("=====>====>======>====>",response.data);
         } catch (error) {
             throw new Error(error)
         }
@@ -42,7 +43,7 @@ const [dataFetch,setDataFetch] = useState([])
     <View >
        {dataFetch.map((e)=>(
             <View key={e.codebar} style={{justifyContent:"center",width:220,height:220,alignItems:"center",justifyContent:"center",gap:5,flexDirection:"column"}}>
-            <TouchableOpacity onPress={()=>getAll(e.codebar)} style={{height:210,width:250,flexDirection:"column",justifyContent:"ceter",gap:20,alignItems:"center",borderRadius:8,backgroundColor:"#ffffff",shadowOffset:{width:5,height:0},shadowOpacity:0.5,shadowRadius:5,elevation:5}} >
+            <TouchableOpacity onPress={()=>getAll(Number(e.codebar))} style={{height:210,width:250,flexDirection:"column",justifyContent:"ceter",gap:20,alignItems:"center",borderRadius:8,backgroundColor:"#ffffff",shadowOffset:{width:5,height:0},shadowOpacity:0.5,shadowRadius:5,elevation:5}} >
                 <View style={{width:100,height:100,borderRadius:100}}>
                     <Image source={{uri:e.imageURL}}  style={{width:100,height:100,borderRadius:100}}/>
                 </View>

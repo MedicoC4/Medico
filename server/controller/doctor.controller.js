@@ -30,7 +30,7 @@ module.exports = {
             await Doctor.destroy({where:{ id: req.params.id}})
             res.json('Deleted')
         } catch (error) {
-            throw err;
+            throw error;
         }
       },
       change : async(req,res)=>{

@@ -34,6 +34,9 @@ const PharmacyMap = ({dataPharmacies}) => {
           throw new Error(error)
         }
       }
+
+    
+
   return (
     <View>
 <View>

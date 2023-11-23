@@ -66,7 +66,7 @@ const UserMap = () => {
   const [mapData, setMapData] = useState([]);
   const dropdownRefFilter = useRef(null);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-
+console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",coordinatesData);
 
   /////////////////////////////////////////////////////////////////////////
 const dataPharmacies = (e)=>{
@@ -331,7 +331,8 @@ const hideDropdownMode = () => {
           pinColor={
             doct.type === "Pharmacy" ? "red" :
             doct.type === "doctor" ? "blue" :
-            doct.type === "nurse" ? "yellow" : null
+            doct.type === "nurse" ? "yellow" : 
+            doct.type === "Product"?"black":null
           }
         />
         ))}
@@ -527,7 +528,7 @@ const hideDropdownMode = () => {
                 <ScrollView>
                 {conditionFilter === "doctor" ? <DoctorMap dataPharmacies={dataPharmacies}/>:
                 conditionFilter === "pharmacy" ? <PharmacyMap dataPharmacies={dataPharmacies}/>:
-                conditionFilter === "product" ? <ProductMap dataPharmacies={dataPharmacies}/> : null
+                conditionFilter === "product" ? <ProductMap dataPharmacies={dataPharmacies} closeModal={closeModal} openModal={openModal}/> : null
                 }
                 </ScrollView>
                 </View>

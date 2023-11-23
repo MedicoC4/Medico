@@ -1,6 +1,6 @@
 const route = require("express").Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const {Payment} = require("../database/index.js")
+const {Payment, Order} = require("../database/index.js")
 
 
 route.post("/intents", async (req, res) => {
@@ -8,8 +8,9 @@ route.post("/intents", async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: req.body.amount,
       currency: "usd",
+      payment_method_types: ['card'],
       automatic_payment_methods: {
-        enabled: true,
+        enabled: false,
       },
     });
 
@@ -22,7 +23,21 @@ route.post("/intents", async (req, res) => {
       status: paymentIntent.status,
     });
 
+    await Order.update({ isPayed: true }, {
+      where: { id: req.body.orderId },
+    });
+
     res.json({ paymentIntent: paymentIntent.client_secret });
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error);
+  }
+});
+
+route.get("/getAll", async (req, res) => {
+  try {
+    const payments = await Payment.findAll();
+    res.json(payments);
   } catch (error) {
     res.status(500).send(error);
     console.log(error);

@@ -86,22 +86,24 @@ module.exports = {
 
 
   create: async (req, res) => {
-
     let userData = req.body; 
     try {
       const userExist = await User.findOne({
         where: { email: req.body.email },
-      
       });
       const newOrder= await Order.create({...userData,UserId:userExist.id});
       const newProduct= await Products.findOne({id:newOrder.ProductId});
-      const checkMissing = await Missing.findOne({where:{codebar:newProduct.codebar}});
-   
-      
-        await checkMissing.update({order: checkMissing.order + 1});
-        checkMissing.quota = checkMissing.quantity / checkMissing.order;
-        await checkMissing.save();
-      
+  
+      // Fetch all Missing records
+      const allMissing = await Missing.findAll();
+  
+      // Update each Missing record
+      for (const missing of allMissing) {
+        await missing.update({order: missing.order + 1});
+        missing.quota = missing.quantity / missing.order;
+        await missing.save();
+      }
+  
       res.json(newOrder);
     } catch (error) {
       throw error;

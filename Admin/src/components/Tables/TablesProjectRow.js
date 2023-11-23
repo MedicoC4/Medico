@@ -7,36 +7,66 @@ import {
   Text,
   Tr,
   useColorModeValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPharmacies } from "../../redux/pharmacySlicer";
+import { fetchPharmacies, verificationPharm } from "../../redux/pharmacySlicer";
+import { useState } from "react";
 
-function DashboardTableRow(props) {
+function TablesTableRow(props) {
   const { isLast } = props;
   const textColor = useColorModeValue("gray.500", "white");
   const titleColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
+  const dispatch = useDispatch();
+  const [refresh, setRefresh] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [rejectedDoctorEmail, setRejectedDoctorEmail] = useState(null); 
+
 
   const pharmacies = useSelector((state) => state.pharmacy.data);
 
-  const dispatch = useDispatch();
+  const fetch = async () => {
+    await dispatch(fetchPharmacies());
+  };
 
-  const fetch = () => {
-    dispatch(fetchPharmacies());
+  const verific = async (email) => {
+    await dispatch(verificationPharm({ email }));
+    console.log("===============>Done");
+    setRefresh((prevRefresh) => !prevRefresh);
+  };
+  const handleRejectClick = (email) => {
+    setRejectedDoctorEmail(email);
+    setShowConfirmationModal(true);
+  };
+
+  const handleConfirmReject = () => {
+   
+    verific(rejectedDoctorEmail);
+    setShowConfirmationModal(false);
+  };
+
+  const handleCancelReject = () => {
+    setShowConfirmationModal(false);
   };
 
   useEffect(() => {
     fetch();
-  }, []);
+  }, [refresh]);
 
   return (
     <Tr>
-      {pharmacies.map((pharmacy) => {
-        console.log('======>' , pharmacy);
-        return (
-          <Tr>
+      {Array.isArray(pharmacies) &&
+        pharmacies.map((pharmacy) => (
+          <Tr key={pharmacy.email}>
             <Td
               minWidth={{ sm: "250px" }}
               pl="0px"
@@ -45,7 +75,7 @@ function DashboardTableRow(props) {
             >
               <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
                 <Avatar
-                  src={pharmacy.imageUrl}
+                  src={pharmacy?.Pharmacy?.imageUrl}
                   w="50px"
                   borderRadius="12px"
                   me="18px"
@@ -57,7 +87,10 @@ function DashboardTableRow(props) {
                     fontWeight="bold"
                     minWidth="100%"
                   >
-                    {pharmacy.PHname}
+                    {pharmacy?.Pharmacy?.PHname}
+                  </Text>
+                  <Text fontSize="sm" color="gray.400" fontWeight="normal">
+                    {pharmacy.email}
                   </Text>
                 </Flex>
               </Flex>
@@ -73,15 +106,24 @@ function DashboardTableRow(props) {
                 </Text>
               </Flex>
             </Td>
+
             <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
               <Badge
-                bg={pharmacy.isverified === true ? "green.400" : bgStatus}
-                color={pharmacy.isverified === true ? "white" : "white"}
+                bg={
+                  pharmacy?.Pharmacy?.isverified === true
+                    ? "green.400"
+                    : bgStatus
+                }
+                color={
+                  pharmacy?.Pharmacy?.isverified === true ? "white" : "white"
+                }
                 fontSize="16px"
                 p="3px 10px"
                 borderRadius="8px"
               >
-                {"Not Verified"}
+                {pharmacy?.Pharmacy?.isverified === true
+                  ? "Verified"
+                  : "Not Verified"}
               </Badge>
             </Td>
 
@@ -95,6 +137,7 @@ function DashboardTableRow(props) {
                 {pharmacy.createdAt}
               </Text>
             </Td>
+
             <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
               <Button p="0px" bg="transparent" variant="no-effects">
                 <Td
@@ -105,7 +148,9 @@ function DashboardTableRow(props) {
                 >
                   <button
                     type="button"
-                    // onClick={() => rejected function}
+                    onClick={(e) => {
+                      verific(pharmacy.email);
+                    }}
                     style={{
                       backgroundColor: "#22C55E",
                       color: "white",
@@ -119,7 +164,8 @@ function DashboardTableRow(props) {
                   </button>
                   <button
                     type="button"
-                    // onClick={() => rejected function}
+                    onClick={(e) => handleRejectClick(pharmacy.email)}
+                    className="reject-button"
                     style={{
                       backgroundColor: "#FF5630",
                       color: "white",
@@ -135,10 +181,28 @@ function DashboardTableRow(props) {
               </Button>
             </Td>
           </Tr>
-        );
-      })}
+        ))}
+         {showConfirmationModal && (
+        <Modal isOpen={showConfirmationModal} onClose={handleCancelReject}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Confirmation</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              Are you sure you want to reject this doctor?
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={handleConfirmReject}>
+                Confirm
+              </Button>
+              <Button onClick={handleCancelReject}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+        )}
     </Tr>
   );
 }
 
-export default DashboardTableRow;
+export default TablesTableRow;

@@ -59,6 +59,8 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
     
     setComment('');
     setRating('')
+    setModalVisible(!isModalVisible);
+
   };
 
   useEffect(() => {
@@ -76,47 +78,100 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
         gap:9
     }}>
   
-        <Modal
-                animationType="fade"
-                transparent={true}
-                visible={isModalVisible}
-              >
-                <View style={styles.modalContainer}>
-                  <View style={styles.modalContent}>
-                    <Text style={{
-                      fontSize:20,
-                      fontWeight:600
-                    }}>
-                      Rate Your Doctor
-                    </Text>
-                    <AirbnbRating
-            size={15}
-            reviewSize={25}
-            onFinishRating={(value)=>{
-              setRating(value)
+  <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={{
+                    fontSize:20,
+                    fontWeight:600
+                  }}>
+                    Rate Your Doctor
+                  </Text>
+                  <AirbnbRating
+          size={15}
+          reviewSize={25}
+          onFinishRating={(value)=>{
+            setRating(value)
+          }}
+          // Additional props like selectedColor and reviewColor can be added here
+        />
+                        <View style={{
+                          alignItems:'center',
+                          gap:20
+                        }}>
+                          <View style={{
+                            flexDirection:'row',
+                            width:width*0.8,
+                            alignItems:'center',
+                            justifyContent:"center",
+                            gap:10
+                          }}>
+                        <TextInput
+                style={{
+                  height: height*0.05,
+                  width:width*0.6,
+                  backgroundColor: "#fff",
+                  paddingHorizontal: 16,
+                  borderRadius: 12,
+                  fontSize: 15,
+                  fontWeight: "500",
+                  color: "#24262e",
+                  borderWidth:1
+                }}
+                value={comment}
+                placeholder='type here...'
+                onChangeText={(text)=>{
+                    setComment(text)
+                }}
+                
+              />
+              <TouchableOpacity
+            style={{
+                backgroundColor:COLORS.primary,
+            width:width*0.1,
+            height:height*0.05,
+            borderRadius:200,
+            alignItems:'center',
+            justifyContent:'center'
             }}
-          />
-                          <View>
-                    <TouchableOpacity
-                      
-                      style={{
-                        backgroundColor:COLORS.primary,
-                        width:width*0.2,
-                        height:height*0.05,
-                        alignItems:'center',
-                        justifyContent:'center',
-                        borderRadius:20
-                      }}
-                      onPress={toggleModal}
-                    >
-                      <Text style={{
-                        color:COLORS.white
-                      }}>Close</Text>
-                    </TouchableOpacity>
-                    </View>
+           
+            onPress={(e)=> handleReviewAdding(e)}
+            
+            >
+              
+                <Image
+                source={require('../assets/send.png')}
+                style={{
+                    width:width*0.05,
+                    height:height*0.02
+                }}
+                />
+            </TouchableOpacity>
+            </View>
+                  <TouchableOpacity
+                    
+                    style={{
+                      backgroundColor:COLORS.primary,
+                      width:width*0.2,
+                      height:height*0.05,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderRadius:20
+                    }}
+                    onPress={toggleModal}
+                  >
+                    <Text style={{
+                      color:COLORS.white
+                    }}>Close</Text>
+                  </TouchableOpacity>
                   </View>
                 </View>
-              </Modal>
+              </View>
+            </Modal>
   
   
   
@@ -397,43 +452,6 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                 }}
                 />
             </TouchableOpacity>
-        <TextInput
-                style={{
-                  height: 44,
-                  width:width*0.7,
-                  backgroundColor: "#fff",
-                  paddingHorizontal: 16,
-                  borderRadius: 12,
-                  fontSize: 15,
-                  fontWeight: "500",
-                  color: "#24262e",
-                }}
-                value={comment}
-                placeholder='type here...'
-                onChangeText={(text)=>{
-                    setComment(text)
-                }}
-                
-              />
-              <TouchableOpacity
-            style={{
-                backgroundColor:COLORS.primary,
-            width:width*0.1,
-            height:height*0.05,
-            borderRadius:200,
-            alignItems:'center',
-            justifyContent:'center'
-            }}
-            onPress={handleReviewAdding}
-            >
-                <Image
-                source={require('../assets/send.png')}
-                style={{
-                    width:width*0.05,
-                    height:height*0.02
-                }}
-                />
-            </TouchableOpacity>
               </View>
          
         
@@ -464,7 +482,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 5,
     width: width*0.8,
-    height: height*0.25,
+    height: height*0.35,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "column",

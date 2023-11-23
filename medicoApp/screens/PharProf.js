@@ -29,11 +29,17 @@ const PharProf = ({route}) => {
   const [comment,setComment]=useState('')
   const [rating,setRating]=useState('')
   const [allReviews,setAllReviews]=useState([])
-  const [isDistance,setIsDistance]=useState(0)
+  const [isDistance,setIsDistance]=useState(null)
   const [loggedIn,setLoggedIn]=useState({})
 
 
   console.log('this is the logged in user',loggedIn);
+
+  console.log(isDistance,'this is distance between you and pharmacy');
+
+
+  console.log(data.latitude,data.longitude);
+  console.log(loggedIn.latitude,loggedIn.longitude);
 
 
 
@@ -47,12 +53,28 @@ const PharProf = ({route}) => {
       error
     }
   }
+
+
+  // useEffect(() => {
+  //   const fetchProduct = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://127.0.0.1:1128/api/Product/phProduct/${usersaa.data.email}`
+  //       );
+  //       setData(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error.message);
+  //     }
+  //   };
+  //   fetchProduct();
+  // }, [usersaa.data.email]);
+
   
   
   const calculateDistanceMap = async () => {
     try {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longtitude}&destinations=${allReviews.Reviews.User.latitude},${allReviews.Reviews.User.longtitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longitude}&destinations=${loggedIn.latitude},${loggedIn.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
         );
         const data = await response.json();
         
@@ -66,7 +88,6 @@ const PharProf = ({route}) => {
           setIsDistance(distance);
         } else if (data.status === "ZERO_RESULTS") {
         console.warn("No distance information available between the specified points.");
-        setIsDistance(null); // Reset the distance
       } else {
         console.error("Error calculating distance: ", data.status);
       }
@@ -92,7 +113,7 @@ const PharProf = ({route}) => {
   }
   // console.log('these are all reviews from the phar prof',allReviews.Reviews);
   
-  console.log(allReviews,'where is user in allReviews');
+  // console.log(allReviews,'where is user in allReviews');
   
 
   const handleReviewsCreation=async(e)=>{
@@ -108,12 +129,14 @@ const PharProf = ({route}) => {
           rating,
           comment
       }
-      console.log('this is the pharmacy new Review',newReview);
+      // console.log('this is the pharmacy new Review',newReview);
       const create = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/createRevPh`,newReview)
       fetchReviewsForPhar()
       setComment('');
       setRating('')
-      console.log('this is the creation data',create.data); 
+    setModalVisible(!isModalVisible);
+
+      // console.log('this is the creation data',create.data); 
       } catch (error) {
         console.log(error);
       }
@@ -122,6 +145,8 @@ const PharProf = ({route}) => {
 
   useEffect(()=>{
     fetchReviewsForPhar()
+    getLoggedIn()
+    calculateDistanceMap()
   },[])
 
   const medicines = [
@@ -171,7 +196,59 @@ const PharProf = ({route}) => {
           }}
           // Additional props like selectedColor and reviewColor can be added here
         />
-                        <View>
+                        <View style={{
+                          alignItems:'center',
+                          gap:20
+                        }}>
+                          <View style={{
+                            flexDirection:'row',
+                            width:width*0.8,
+                            alignItems:'center',
+                            justifyContent:"center",
+                            gap:10
+                          }}>
+                        <TextInput
+                style={{
+                  height: height*0.05,
+                  width:width*0.6,
+                  backgroundColor: "#fff",
+                  paddingHorizontal: 16,
+                  borderRadius: 12,
+                  fontSize: 15,
+                  fontWeight: "500",
+                  color: "#24262e",
+                  borderWidth:1
+                }}
+                value={comment}
+                placeholder='type here...'
+                onChangeText={(text)=>{
+                    setComment(text)
+                }}
+                
+              />
+              <TouchableOpacity
+            style={{
+                backgroundColor:COLORS.primary,
+            width:width*0.1,
+            height:height*0.05,
+            borderRadius:200,
+            alignItems:'center',
+            justifyContent:'center'
+            }}
+           
+            onPress={(e)=> handleReviewsCreation(e)}
+            
+            >
+              
+                <Image
+                source={require('../assets/send.png')}
+                style={{
+                    width:width*0.05,
+                    height:height*0.02
+                }}
+                />
+            </TouchableOpacity>
+            </View>
                   <TouchableOpacity
                     
                     style={{
@@ -340,7 +417,7 @@ const PharProf = ({route}) => {
                           />
                           <Text style={{
                               fontWeight:600
-                          }}>{(isDistance).toFixed(1)}</Text>
+                          }}>{isDistance}</Text>
                       </View>
                       </TouchableOpacity>
                       
@@ -365,32 +442,9 @@ const PharProf = ({route}) => {
         horizontal={true} // Make the list horizontal
         />
 
-                <View style={styles.secondOrdersContainer}>
-        <Text style={styles.ordersText}>Client's Choice</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>SEE ALL</Text>
-        </TouchableOpacity>
-      </View>
-        <FlatList
-        data={medicines}
-        renderItem={({ item }) => <PharmacyCardProfile pharmacy={item} />}
-        keyExtractor={(item, index) => index.toString()}
-        horizontal={true} // Make the list horizontal
-        />
+      
 
-    <View style={styles.secondOrdersContainer}>
-        <Text style={styles.ordersText}>Promotions</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>SEE ALL</Text>
-        </TouchableOpacity>
-      </View>
-        <FlatList
-        data={medicines}
-        renderItem={({ item }) => <PharmacyCardProfile pharmacy={item} />}
-        keyExtractor={(item, index) => index.toString()}
-        horizontal={true} // Make the list horizontal
-        />
-        
+  
 </ScrollView>
 <View style={{
         display:'flex',
@@ -420,45 +474,7 @@ const PharProf = ({route}) => {
                 }}
                 />
             </TouchableOpacity>
-        <TextInput
-                style={{
-                  height: height*0.05,
-                  width:width*0.7,
-                  backgroundColor: "#fff",
-                  paddingHorizontal: 16,
-                  borderRadius: 12,
-                  fontSize: 15,
-                  fontWeight: "500",
-                  color: "#24262e",
-                }}
-                value={comment}
-                placeholder='type here...'
-                onChangeText={(text)=>{
-                    setComment(text)
-                }}
-                
-              />
-              <TouchableOpacity
-            style={{
-                backgroundColor:COLORS.primary,
-            width:width*0.1,
-            height:height*0.05,
-            borderRadius:200,
-            alignItems:'center',
-            justifyContent:'center'
-            }}
-           
-            onPress={(e)=> handleReviewsCreation(e)}
-            
-            >
-                <Image
-                source={require('../assets/send.png')}
-                style={{
-                    width:width*0.05,
-                    height:height*0.02
-                }}
-                />
-            </TouchableOpacity>
+
               </View>
 </View>
       
@@ -491,7 +507,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 5,
     width: width*0.8,
-    height: height*0.25,
+    height: height*0.35,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "column",

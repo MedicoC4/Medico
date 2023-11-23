@@ -1,31 +1,32 @@
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import React, { useState ,useEffect } from 'react';
 
 import { auth } from 'src/firebase-config';
 
-const AddProduct = () => {
+const UpdateProdut = () => {
   const [catregories, setCategories] = useState([]);
+  const [product, setProduct] = useState({})
+
+  const { productId } = useParams();
+//   console.log(productId);
 
   const [inputs, setInputs] = useState({
-    productName: '',
-    price: '',
-    stock: '',
-    description: '',
-    manufacturer: '',
-    activeIngredients: '',
-    dosageForm: '',
-    strength: '',
-    packaging: '',
-    expiryDate: '',
-    imageURL:
-      'https://www.parafendri.tn/2330-medium_default/svr-sun-secure-blur-creme-mousse-spf50.jpg',
-    sideEffect: '',
-    codebar: '',
-    // PharmacyId: userData.Pharmacy.id,
-    CategoryId: '',
+    productName: product.productName || '',
+    price: product.price || '',
+    stock: product.stock || '',
+    description: product.description || '',
+    manufacturer: product.manufacturer || '',
+    activeIngredients: product.activeIngredients || '',
+    dosageForm: product.dosageForm || '',
+    strength: product.strength || '',
+    packaging: product.packaging || '',
+    expiryDate: product.expiryDate || '',
+    imageURL: product.imageURL || 'https://www.parafendri.tn/2330-medium_default/svr-sun-secure-blur-creme-mousse-spf50.jpg',
+    sideEffect: product.sideEffect || '',
+    codebar: product.codebar || '',
+    CategoryId: product.CategoryId || '',
   });
-
-  console.log(inputs);
 
   const [file, setFile] = useState(null);
   console.log(file);
@@ -51,27 +52,6 @@ const AddProduct = () => {
 
     console.log(auth.currentUser.email, "usersssssssssssssssss");
 
-  const addProduct = () => {
-    if (!file) {
-      alert('Please upload an Image!');
-      return;
-    }
-
-    const user = auth.currentUser;
-    axios
-      .post('http://127.0.0.1:1128/api/Product/createProduct', {
-        ...inputs,
-        imageURL: file,
-        email: user.email,
-      })
-      .then((response) => {
-        console.log('Product added successfully', response.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
   console.log(catregories);
 
   useEffect(() => {
@@ -79,16 +59,59 @@ const AddProduct = () => {
         const response = await axios.get('http://127.0.0.1:1128/api/category/getAll');
         setCategories(response.data);
     };
-  
     categories();
   }, []);
 
+  const updateProducts = async (data) => {
+    try {
+      await axios.patch(`http://127.0.0.1:1128/api/product/updateProduct/${productId}`, data);
+      console.log('Product updated successfully');
+      // Additional actions or state updates after successful update
+    } catch (error) {
+      console.error('Error updating product:', error.message);
+      // Handle error or display an error message to the user
+    }
+  };
+
+  const fetchProduct = async (id) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:1128/api/product/getOne/${id}`);
+      setProduct(response.data)
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching product:', error.message);
+      // Handle the error as needed
+    }
+  }
+  
+  useEffect(() => {
+    fetchProduct(productId);
+  }, [productId]);
+
+  useEffect(() => {
+    setInputs({
+      productName: product.productName || '',
+      price: product.price || '',
+      stock: product.stock || '',
+      description: product.description || '',
+      manufacturer: product.manufacturer || '',
+      activeIngredients: product.activeIngredients || '',
+      dosageForm: product.dosageForm || '',
+      strength: product.strength || '',
+      packaging: product.packaging || '',
+      expiryDate: product.expiryDate || '',
+      imageURL: product.imageURL || 'https://www.parafendri.tn/2330-medium_default/svr-sun-secure-blur-creme-mousse-spf50.jpg',
+      sideEffect: product.sideEffect || '',
+      codebar: product.codebar || '',
+      CategoryId: product.CategoryId || '',
+    });
+  }, [product]);
+
   return (
     <div style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-      <h2>Create a new product</h2>
       <div className="biggest_container_ever">
         <div className="left_div_add_details">
-          <h1>Add Products</h1>
+          <h1>Update Products</h1>
           <div className="product_information_add">
             <p className="addproduct_title">Product Information</p>
             <div className="addproduct_input_div">
@@ -98,7 +121,7 @@ const AddProduct = () => {
                 placeholder="Enter product name"
                 className="big_add_inputs"
                 name="productName"
-                // value={formData.productName}
+                value={inputs.productName}
                 onChange={handleInputChange}
               />
             </div>
@@ -109,7 +132,7 @@ const AddProduct = () => {
                 placeholder="Enter a brief description"
                 className="big_add_inputs"
                 name="productDescription"
-                // value={formData.productDescription}
+                value={inputs.description}
                 onChange={handleInputChange}
               />
             </div>
@@ -122,7 +145,7 @@ const AddProduct = () => {
                     placeholder="Enter Manufacturer Name"
                     className="big_add_inputs"
                     name="manufacturer"
-                    // value={formData.productDescription}
+                    value={inputs.manufacturer}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -133,7 +156,7 @@ const AddProduct = () => {
                     placeholder="Enter Packaging Type"
                     className="big_add_inputs"
                     name="packaging"
-                    // value={formData.productDescription}
+                    value={inputs.packaging}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -144,7 +167,7 @@ const AddProduct = () => {
                     placeholder="Enter Active Ingredients"
                     className="big_add_inputs"
                     name="activeIngredients"
-                    // value={formData.productDescription}
+                    value={inputs.activeIngredients}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -155,7 +178,7 @@ const AddProduct = () => {
                     placeholder="Enter Expiry Date"
                     className="big_add_inputs"
                     name="expiryDate"
-                    // value={formData.productDescription}
+                    value={inputs.expiryDate}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -183,7 +206,7 @@ const AddProduct = () => {
                     placeholder="Enter Price"
                     className="big_add_inputs"
                     name="price"
-                    // value={formData.productDescription}
+                    value={product.price}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -194,7 +217,7 @@ const AddProduct = () => {
                     placeholder="Enter Stock"
                     className="big_add_inputs"
                     name="stock"
-                    // value={formData.productDescription}
+                    value={product.stock}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -205,7 +228,7 @@ const AddProduct = () => {
                     placeholder="Enter Strength"
                     className="big_add_inputs"
                     name="strength"
-                    // value={formData.productDescription}
+                    value={product.strength}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -216,7 +239,7 @@ const AddProduct = () => {
                     placeholder="Enter The Codebar"
                     className="big_add_inputs"
                     name="codebar"
-                    // value={formData.productDescription}
+                    value={product.codebar}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -230,7 +253,7 @@ const AddProduct = () => {
               placeholder="Enter Dosage Form"
               className="big_add_inputs"
               name="dosageForm"
-              // value={formData.productDescription}
+              value={product.dosageForm}
               onChange={handleInputChange}
             />
           </div>
@@ -240,10 +263,10 @@ const AddProduct = () => {
               id="category"
               className="big_add_inputs"
               name="CategoryId"
-              value={inputs.CategoryId}
+              value={product.CategoryId}
               onChange={handleInputChange}
             >
-              <option value="">Select a category</option>
+              <option value={product.CategoryId}>Select a category</option>
               {catregories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -259,28 +282,18 @@ const AddProduct = () => {
               <i className="material-icons">&#xe5d0;</i>
             </div>
             <img src="" alt="" className="image_preview_holder" />
-            <div className="bottom_preview_add_image">
-              <p className="addproduct_title">Article Details</p>
-              <button type="button" className="save_draft_image">
-                Save
-              </button>
-            </div>
           </div>
           <div className="product_information_add">
             <div className="buttons_save_add_collection">
               <button
               type='button'
-                onClick={addProduct}
-                // disabled={perc !== null && perc < 100}
+                onClick={() => {
+                    updateProducts(inputs)
+                }}
                 className="saving_buttons_add"
-                // onClick={handleSubmit}
               >
-                Publish
+                Update
               </button>
-              <button type="button" className="saving_buttons_add">Schedule</button>
-              <p className="addproduct_title" id="belong_to_buttons">
-                Save Draft
-              </p>
             </div>
           </div>
         </div>
@@ -289,4 +302,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProdut;

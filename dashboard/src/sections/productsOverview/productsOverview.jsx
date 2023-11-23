@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -8,6 +8,7 @@ import './productOverview.css';
 import plus from '../../../public/assets/icons/navbar/plus.svg';
 
 const ProductsOverview = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   console.log(data);
 
@@ -25,6 +26,16 @@ const ProductsOverview = () => {
     };
     fetchProduct();
   }, [usersaa.data.email]);
+
+  const handleUpdate = (id) => {
+    axios
+      .get(`http://127.0.0.1:1128/api/product/getOne/${id}`)
+      .then((res) => {
+        console.log(res);
+        navigate(`updateProd/${id}`);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const handleDelete = (id) => {
     axios
@@ -111,7 +122,16 @@ const ProductsOverview = () => {
       width: 100,
       editable: false,
       headerClassName: 'custom-header-class',
-      renderCell: ({ row }) => <button type="button">Update</button>,
+      renderCell: ({ row }) => (
+        <button
+          type="button"
+          onClick={() => {
+            handleUpdate(row.id);
+          }}
+        >
+          Update
+        </button>
+      ),
     },
     {
       field: 'delete',

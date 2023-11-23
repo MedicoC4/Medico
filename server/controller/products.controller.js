@@ -1,5 +1,6 @@
 const { Products, Missing, User, Pharmacy } = require("../database/index");
 const missing = require("../database/models/missing");
+const {Op, where} = require("sequelize")
 
 module.exports = {
   getAll: async (req, res) => {
@@ -144,4 +145,43 @@ module.exports = {
       res.status(500).json({ error: "Error en el servidor" });
     }
   },
+  findOneMissing: async (req, res) => {
+    try {
+      const pharmacy = await User.findOne({where:{email:req.params.emailpharmacyOne}})
+      res.json(pharmacy)
+    } catch (error) {
+      throw error
+    }
+  },
+  
+  controlMissing: async (req, res) => {
+    try {
+      const {productName, price, stock, description, manufacturer, activeIngredients, dosageForm, strength, packaging, expiryDate, imageURL, sideEffect, codebar, CategoryId } = req.body;
+      const pharmacy = await User.findOne({where:{email:req.params.emailpharmacy}})
+      const checkProduct = await Products.findOne({where:{ 
+        PharmacyId: {[Op.like]:pharmacy.PharmacyId},
+        codebar: {[Op.like]:req.params.codebarMissing},
+        // stock: {[Op.lte]: 0}
+      }
+      })
+      // if(checkProduct) {
+      //   if (checkProduct.stock <= 0) {
+      //     const update = await Products.update({stock: stock}, {where: {PharmacyId: pharmacy.PharmacyId}})
+      //     res.json(update)
+      //   } 
+      // } 
+      // if (!checkProduct) {
+      //   const create = await Products.create({productName:productName, price:price, description:description; manufacturer:manufacturer, activeIngredients:activeIngredients, dosageForm:dosageForm, strength:strength, packaging:packaging,expiryDate:expiryDate,  imageURL:imageURL,sideEffect:sideEffect, codebar:codebar, CategoryId:CategoryId, PharmacyId:pharmacy.PharmacyId})
+      //   res.json(create)
+      // }
+      // if (checkProduct) {
+      //   res.json(true)
+      // } else {
+      //   res.json(false)
+      // }
+      res.json(checkProduct)
+    } catch (error) {
+      throw error
+    }
+  }
 };

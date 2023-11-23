@@ -22,8 +22,8 @@ const OrdersView = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(`http://127.0.0.1:1128/api/orders/getAll`);
-      const rowsWithIds = response.data.map((row, index) => ({ id: index + 1, ...row }));
-      setData(rowsWithIds);
+      // const rowsWithIds = response.data.map((row, index) => ({ id: index + 1, ...row }));
+      setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error.message);
     }
@@ -38,9 +38,10 @@ const OrdersView = () => {
 
 
   const updateOrderStatus = async (orderId, newStatus) => {
+    console.log(orderId, newStatus)
     try {
       await axios.patch(
-        `http://127.0.0.1:1128/api/orders/updateOrder/${orderId}`,
+        `http://127.0.0.1:1128/api/orders/update/${orderId}`,
         {
           orderStatus: newStatus,
         }
@@ -81,7 +82,7 @@ const OrdersView = () => {
       width: 150,
       editable: false,
       renderCell: ({ row }) => (
-        <Link to={`/orders/orders-detail/${row.order_id}`} className='prod_details'>
+        <Link to={`/orders/orders-detail/${row.id}`} className='prod_details'>
           {row.tracking_number}
         </Link>
       ),
@@ -138,7 +139,7 @@ const OrdersView = () => {
         <div style={{display:'flex', justifyContent:'center', alignItems:'center', gap:'1rem'}}>
           <button
             type="button"
-            onClick={() => updateOrderStatus(row.order_id, "Accepted")}
+            onClick={() => updateOrderStatus(row.id, "Accepted")}
             style={{
               backgroundColor: '#22C55E',
               color: 'white',
@@ -152,7 +153,7 @@ const OrdersView = () => {
           </button>
           <button
             type="button"
-            onClick={() => updateOrderStatus(row.order_id, "Rejected")}
+            onClick={() => updateOrderStatus(row.id, "Rejected")}
             style={{
               backgroundColor: '#FF5630',
               color: 'white',

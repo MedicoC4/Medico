@@ -55,7 +55,7 @@ const OrderDetails = () => {
 
   const updateDeliveryStatus = async (selectedStatus) => {
     try {
-      await axios.patch(`http://127.0.0.1:1128/api/orders/updateOrder/${id}`, {
+      await axios.patch(`http://127.0.0.1:1128/api/orders/update/${id}`, {
         livraisonStatus: selectedStatus,
       });
 

@@ -107,7 +107,7 @@ Order.hasOne(Payment)
 Payment.belongsTo(Order)
 
 // connection
-//   .sync({force: true })
+//   .sync({alter: true })
 //   .then(() => console.log("tables created"))
 //   .catch((error) => {throw error;});
 

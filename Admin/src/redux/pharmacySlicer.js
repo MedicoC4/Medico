@@ -12,40 +12,21 @@ const initialState = {
 export const fetchPharmacies = createAsyncThunk(
   'pharmacies/fetchPharmacies',
   async () => {
-    const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/getAll`);
+    const response = await axios.get(`http://localhost:1128/api/pharmacy/fetch`);
     return response.data;
   }
 );
-export const migratePharmacy = createAsyncThunk(
-  "api/migratePharmacy",
-  async (input) => {
-    const doc = await axios.post(
-      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/migratePharm`,
-      input
-    );
-    return doc.data;
-  }
-);
-
-export const pharmacyLocation = createAsyncThunk(
-  "api/pharmacyLocation",
-  async (input) => {
-    const pharm = await axios.patch(
-      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/updateLocation`,
-      input
-    );
-    return pharm.data;
-  }
-)
-export const updateRecordsPharm = createAsyncThunk(
-  "api/updateRecords",
+export const verificationPharm = createAsyncThunk(
+  "api/verificationPharm" , 
   async(input)=>{
-    const responce = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/updatRecords`,
+    const responce = await axios.patch(`http://localhost:1128/api/pharmacy/verficationPharm` , 
     input
     )
     return responce.data
   }
-)
+  )
+
+
 
 const pharmaciesSlice = createSlice({
   name: 'pharmacies',
@@ -55,13 +36,11 @@ const pharmaciesSlice = createSlice({
     builder.addCase(fetchPharmacies.fulfilled, (state, action) => {
         state.data = action.payload;
     });
-    builder.addCase(migratePharmacy.fulfilled, (state, action) => {
-        state.data = action.payload;
-    });
-    builder.addCase(pharmacyLocation.fulfilled, (state, action) => {
+    builder.addCase(verificationPharm.fulfilled, (state, action) => {
         state.data = action.payload;
     });
   },
+
 });
 
 export default pharmaciesSlice.reducer;

@@ -34,7 +34,7 @@ module.exports = (Sequelize, DataTypes) => {
     },
     isverified: {
       type:DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     rating: {
       type: DataTypes.DOUBLE,

@@ -5,6 +5,7 @@ const initialState = {
   data: [],
   oneDoc:{},
   idDoc:0,
+  docId : 0,
   error: null,
   loading: false,
 };
@@ -19,14 +20,12 @@ export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () =>
   return response.data;
 });
 
-const deleteDoctor = createAsyncThunk(
+export const deleteDoctor = createAsyncThunk(
   "api/deleteDoctor",
   async (id, { dispatch }) => {
     const response = await axios.delete(
       `http://localhost:1128/api/doctor/deleteDoc/:${id}`
     );
-    dispatch(fetchDoctors());
-    return response.data;
   }
 );
 
@@ -42,6 +41,7 @@ export const verificationDoc = createAsyncThunk(
 
 
 
+
 const DoctorSlice = createSlice({
   name: "doctor",
   initialState,
@@ -51,6 +51,9 @@ const DoctorSlice = createSlice({
     },
     logOut:(state)=>{
        state.oneDoc={} 
+    },
+    docIdd : (state,action)=>{
+      state.docId = action.payload
     }
   },
   extraReducers(builder) {
@@ -66,5 +69,5 @@ const DoctorSlice = createSlice({
     });
   },
 });
-export const {save}= DoctorSlice.actions;
+export const {save , docIdd}= DoctorSlice.actions;
 export default DoctorSlice.reducer;

@@ -203,52 +203,7 @@ export const tablesTableData = [
     domain: "Organization",
     status: "Online",
     date: "14/06/21",
-  },
-  {
-    logo: avatar2,
-    name: "Alexa Liras",
-    email: "laurent@simmmple.com",
-    subdomain: "Programmer",
-    domain: "Developer",
-    status: "Offline",
-    date: "12/05/21",
-  },
-  {
-    logo: avatar3,
-    name: "Laurent Michael",
-    email: "laurent@simmmple.com",
-    subdomain: "Executive",
-    domain: "Projects",
-    status: "Online",
-    date: "07/06/21",
-  },
-  {
-    logo: avatar4,
-    name: "Freduardo Hill",
-    email: "freduardo@simmmple.com",
-    subdomain: "Manager",
-    domain: "Organization",
-    status: "Online",
-    date: "14/11/21",
-  },
-  {
-    logo: avatar5,
-    name: "Daniel Thomas",
-    email: "daniel@simmmple.com",
-    subdomain: "Programmer",
-    domain: "Developer",
-    status: "Offline",
-    date: "21/01/21",
-  },
-  {
-    logo: avatar7,
-    name: "Mark Wilson",
-    email: "mark@simmmple.com",
-    subdomain: "Designer",
-    domain: "UI/UX Design",
-    status: "Offline",
-    date: "04/09/20",
-  },
+  }
 ];
 
 export const tablesProjectData = [
@@ -258,35 +213,8 @@ export const tablesProjectData = [
     budget: "$14,000",
     status: "Working",
     progression: 60,
-  },
-  {
-    logo: AtlassianLogo,
-    name: "Add Progress Track",
-    budget: "$3,000",
-    status: "Canceled",
-    progression: 10,
-  },
-  {
-    logo: SlackLogo,
-    name: "Fix Platform Errors",
-    budget: "Not set",
-    status: "Done",
-    progression: 100,
-  },
-  {
-    logo: SpotifyLogo,
-    name: "Launch our Mobile App",
-    budget: "$32,000",
-    status: "Done",
-    progression: 100,
-  },
-  {
-    logo: JiraLogo,
-    name: "Add the New Pricing Page",
-    budget: "$400",
-    status: "Working",
-    progression: 25,
-  },
+  }
+
 ];
 
 export const invoicesData = [

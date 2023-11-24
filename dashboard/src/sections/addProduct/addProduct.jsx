@@ -115,11 +115,11 @@ const AddProduct = () => {
         gap: '2rem',
       }}
     >
-      <h1 style={{ paddingBottom: '1rem' }}>Create a new product</h1>
+      <h2 style={{ paddingBottom: '1rem' }}>Create a new product</h2>
       <div style={{ display: 'flex', height: 'auto' }}>
         <div
           style={{
-            width: '70%',
+            width: '55%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
@@ -155,7 +155,7 @@ const AddProduct = () => {
       <div style={{ display: 'flex', height: 'auto' }}>
         <div
           style={{
-            width: '70%',
+            width: '55%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
@@ -253,7 +253,7 @@ const AddProduct = () => {
       <div style={{ display: 'flex', height: 'auto' }}>
         <div
           style={{
-            width: '70%',
+            width: '55%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',

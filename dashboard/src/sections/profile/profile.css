@@ -1,0 +1,19 @@
+.profile_info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.profile_info p {
+    margin: 0;
+}
+.profile_info p span {
+    font-weight: 700;
+}
+
+.profile_inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 1rem;
+}

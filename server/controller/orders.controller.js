@@ -7,19 +7,26 @@ const {
   Payment,
 } = require("../database/index.js");
 const { Op } = require('sequelize');
+const { use } = require("../routes/orders.route.js");
+const pharmacy = require("../database/models/pharmacy.js");
+const { includes } = require("lodash");
+const { get } = require("dottie");
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const { id } = req.params;
-
-      const getAll = await Order.findAll({
-        // where: {
-        //   order_id: id,
-        // },
-        include: [{ model: User }, { model: Products }],
+      const users = await User.findOne({
+        where: { email: req.params.email },
+        include: {model: Pharmacy}
       });
-
-      res.json(getAll);
+      
+      const getAll = await Products.findAll({
+        where: {
+          PharmacyId: users.Pharmacy.id
+        },
+        include: [{ model: Order , include:{model: Products}}],
+      });
+      const orders = getAll.map((item) => item.Orders).flat();
+      res.json(orders);
     } catch (err) {
       console.log("Error al obtener todos los usuarios");
       throw err;

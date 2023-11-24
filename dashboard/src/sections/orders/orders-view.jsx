@@ -1,7 +1,7 @@
 import axios from 'axios'; // Move 'axios' above '@ant-design/icons'
 import { Tabs } from 'antd';
 import { Link } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -13,27 +13,26 @@ const OrdersView = () => {
   const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState('1');
   const [disable, setDisable] = useState(false)
-  console.log(data);
 
   const onChange = (key) => {
     console.log(key);
     setActiveTab(key);
   };
 
-  const fetchOrders = async () => {
+  const userId = JSON.parse(localStorage.getItem('userData'))
+
+  const fetchOrders = useCallback(async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:1128/api/orders/getAll`);
-      // const rowsWithIds = response.data.map((row, index) => ({ id: index + 1, ...row }));
+      const response = await axios.get(`http://127.0.0.1:1128/api/orders/getAll/${userId.data.email}`);
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error.message);
     }
-  };
-
+  }, [userId.data.email]);
+  
   useEffect(() => {
-
     fetchOrders();
-  }, []);
+  }, [fetchOrders]);
 
   
 
@@ -56,10 +55,10 @@ const OrdersView = () => {
       const getProductQ = await axios.get(
         `http://127.0.0.1:1128/api/Product/getOne/${pID}`
       );
-      const orderQ = getOrderQ.data.quantityOrdered;
+      const orderQ = getOrderQ?.data.quantityOrdered;
       const prodQ = getProductQ.data.stock - orderQ;
 
-      if (getOrderQ.data.orderStatus === "Accepted") {
+      if (getOrderQ?.data?.orderStatus === "Accepted") {
         await axios.patch(
           `http://127.0.0.1:1128/api/product/updateProductQuantity/${pID}`,
           { stock: prodQ }

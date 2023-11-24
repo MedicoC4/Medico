@@ -15,6 +15,7 @@ export const ProductsOverview = lazy(() => import('src/pages/productsOverview'))
 export const ProductDetails = lazy(() => import('src/pages/productDetails'))
 export const AddProduct = lazy(() => import('src/pages/addProduct'));
 export const UpdataProd = lazy(() => import('src/pages/updateProduct'));
+export const Profile = lazy(() => import('src/pages/profile'))
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
@@ -57,6 +58,7 @@ export default function Router() {
         { path: 'missing-product', element: <MissingProd /> },
         // { path: 'product-overview', element: <ProductsOverview /> },
         { path: 'product-details/:id', element: <ProductsOverview /> },
+        { path: '/profile', element: <Profile /> }
 
         // { path: 'add-product', element: <AddProduct /> }
       ],

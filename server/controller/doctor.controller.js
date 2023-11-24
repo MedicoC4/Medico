@@ -1,4 +1,4 @@
-const {Doctor, User , Record} = require('../database/index')
+const {Doctor, User ,Speciality, Record} = require('../database/index')
 const { Op } = require("sequelize");
 
 module.exports = {
@@ -136,6 +136,87 @@ module.exports = {
           res.status(200).send(getDoc)
         } catch (error) {
           throw new Error(error);
+        }
+      },
+      getAivableDocMapeed: async (req, res) => {
+        try {
+          const getAll = await User.findAll({
+            where: {
+              type: "doctor",
+            },
+            include: [
+              {
+                model: Doctor,
+                where: {
+                  isVerified: {[Op.like]:req.params.verifyDoctorr},
+                  isBlocked: {[Op.like]:req.params.blockDoctorr},
+                  type: {[Op.like]:req.params.mapDocType}
+                },
+                include: [
+                  {
+                    model: Speciality,
+                  },
+                ],
+              },
+            ],
+          });
+          const structeredData = getAll.map((e)=>{
+            return{
+                id: e.id,
+                name:e.Doctor.fullname,
+                imageUrl: e.Doctor.imageUrl,
+                type: e.Doctor.type,
+                availability: true,
+                latitude: e.Doctor.latitude,
+                longitude: e.Doctor.longitude,
+                adress: e.email,
+                speciality:e.Doctor.speciality.name
+            }
+          })
+      
+          res.json(structeredData);
+        } catch (err) {
+            throw new Error(err)
+        }
+      },
+      getAivableDocMapeedAll: async (req, res) => {
+        try {
+          const getAll = await User.findAll({
+            where: {
+              type: "doctor",
+            },
+            include: [
+              {
+                model: Doctor,
+                where: {
+                  isVerified: {[Op.like]:req.params.verifyDoctorrAll},
+                  isBlocked: {[Op.like]:req.params.blockDoctorrAll},
+                },
+                include: [
+                  {
+                    model: Speciality,
+                  },
+                ],
+              },
+            ],
+          });
+          const structeredData = getAll.map((e)=>{
+            return{
+                id: e.id,
+                name:e.Doctor.fullname,
+                imageUrl: e.Doctor.imageUrl,
+                type: e.Doctor.type,
+                availability: true,
+                latitude: e.Doctor.latitude,
+                longitude: e.Doctor.longitude,
+                adress: e.email,
+                speciality:e.Doctor.speciality.name
+            }
+          })
+      
+          res.json(structeredData);
+        } catch (err) {
+            throw new Error(err)
         }
       },
       verficationDoc: async (req, res) => {

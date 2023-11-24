@@ -1,7 +1,6 @@
 
 import {
   Avatar,
-  AvatarGroup,
   Box,
   Button,
   Flex,
@@ -9,25 +8,19 @@ import {
   Icon,
   Image,
   Link,
-  Switch,
   Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import avatar2 from "assets/img/avatars/avatar2.png";
-import avatar3 from "assets/img/avatars/avatar3.png";
-import avatar4 from "assets/img/avatars/avatar4.png";
-import avatar5 from "assets/img/avatars/avatar5.png";
-import avatar6 from "assets/img/avatars/avatar6.png";
+
 import ImageArchitect1 from "assets/img/ImageArchitect1.png";
-import ImageArchitect2 from "assets/img/ImageArchitect2.png";
-import ImageArchitect3 from "assets/img/ImageArchitect3.png";
+
 
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FaCube,
   FaFacebook,
@@ -36,17 +29,42 @@ import {
   FaPlus,
   FaTwitter,
 } from "react-icons/fa";
-import { IoDocumentsSharp } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { doctorDetails } from "redux/doctorSlicer";
+import { pharmacyDetails } from "redux/pharmacySlicer";
 
 function Profile() {
   const { colorMode } = useColorMode();
 
 
+  
+
+  
   const textColor = useColorModeValue("gray.700", "white");
   const iconColor = useColorModeValue("blue.500", "white");
   const bgProfile = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
   const borderProfileColor = useColorModeValue("white", "transparent");
   const emailColor = useColorModeValue("gray.400", "gray.300");
+
+  const dispatch = useDispatch()
+
+  const oneDocc =  useSelector((state)=>state.doctor.oneDoc)
+  const onePharmacy =  useSelector((state)=>state.pharmacy.onePharm)
+  
+
+    const idd = useSelector((state)=>state.doctor.docId)
+    const phEmail = useSelector((state)=>state.pharmacy.pharmaEmail)
+
+  console.log('>>>>>>>>>>>' , idd);
+  console.log('>>>>>>>>>>>' , phEmail);
+useEffect(()=>{ 
+  dispatch(doctorDetails(idd))
+  dispatch(pharmacyDetails(phEmail))
+  console.log('obj========>',oneDocc);
+  console.log('obj========>',onePharmacy);
+
+  },[])
+     
 
   return (
     <Flex direction='column' pt={{ base: "120px", md: "75px", lg: "100px" }}>
@@ -71,7 +89,7 @@ function Profile() {
           textAlign={{ sm: "center", md: "start" }}>
           <Avatar
             me={{ md: "22px" }}
-            src={avatar5}
+            src={oneDocc.imageUrl}
             w='80px'
             h='80px'
             borderRadius='15px'
@@ -82,14 +100,9 @@ function Profile() {
               color={textColor}
               fontWeight='bold'
               ms={{ sm: "8px", md: "0px" }}>
-              Doctor Name
+             {oneDocc.fullname}
             </Text>
-            <Text
-              fontSize={{ sm: "sm", md: "md" }}
-              color={emailColor}
-              fontWeight='semibold'>
-              Doctor@email.com
-            </Text>
+            
           </Flex>
         </Flex>
         <Flex
@@ -109,10 +122,10 @@ function Profile() {
           <CardBody px='5px'>
             <Flex direction='column'>
               <Text fontSize='md' color='gray.400' fontWeight='400' mb='30px'>
-                Hi, I’m Esthera Jackson, Decisions: If you can’t decide, the
-                answer is no. If two equally difficult paths, choose the one
-                more painful in the short term (pain avoidance is creating an
-                illusion of equality).
+              Hello, I'm Dr.{oneDocc.fullname} and my approach to healthcare is guided by a philosophy rooted in decisive action. 
+              In the realm of medical decision-making, my principle is clear: when faced with uncertainty, 
+              choosing not to proceed is a valid decision. It's a belief that underscores the importance of making definitive 
+              choices in the best interest of patient well-being.
               </Text>
               <Flex align='center' mb='18px'>
                 <Text
@@ -120,10 +133,10 @@ function Profile() {
                   color={textColor}
                   fontWeight='bold'
                   me='10px'>
-                  Full Name:{" "}
+                  Full Name:{''}
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400'>
-                  Esthera Jackson
+                  {oneDocc.fullname}
                 </Text>
               </Flex>
               <Flex align='center' mb='18px'>
@@ -132,10 +145,10 @@ function Profile() {
                   color={textColor}
                   fontWeight='bold'
                   me='10px'>
-                  Mobile:{" "}
+                  Type:{" "}
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400'>
-                  (44) 123 1234 123
+                  {oneDocc.type}
                 </Text>
               </Flex>
               <Flex align='center' mb='18px'>
@@ -144,10 +157,10 @@ function Profile() {
                   color={textColor}
                   fontWeight='bold'
                   me='10px'>
-                  Email:{" "}
+                  Years Of Experience:{" "}
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400'>
-                  esthera@simmmple.com
+                  {oneDocc.yx}
                 </Text>
               </Flex>
               <Flex align='center' mb='18px'>
@@ -159,7 +172,7 @@ function Profile() {
                   Location:{" "}
                 </Text>
                 <Text fontSize='md' color='gray.400' fontWeight='400'>
-                  United States
+                  Tunisia
                 </Text>
               </Flex>
               <Flex align='center' mb='18px'>

@@ -17,8 +17,9 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPharmacies, verificationPharm } from "../../redux/pharmacySlicer";
+import { fetchPharmacies, verificationPharm ,pharmEmail} from "../../redux/pharmacySlicer";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 function TablesTableRow(props) {
   const { isLast } = props;
@@ -58,6 +59,14 @@ function TablesTableRow(props) {
     setShowConfirmationModal(false);
   };
 
+  const setWithClick = (pharmacy) => {
+    setDocEmail(pharmacy)
+  }
+
+  const takeIEmail = (email)=>{
+    dispatch(pharmEmail(email))
+  }
+
   useEffect(() => {
     fetch();
   }, [refresh]);
@@ -74,12 +83,17 @@ function TablesTableRow(props) {
               borderBottom={isLast ? "none" : null}
             >
               <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-                <Avatar
+              <NavLink to='/admin/profile'>
+              <Avatar
                   src={pharmacy?.Pharmacy?.imageUrl}
                   w="50px"
                   borderRadius="12px"
                   me="18px"
+                  onClick={()=>{takeIEmail(pharmacy.email)}}
+
                 />
+              
+              </NavLink>
                 <Flex direction="column">
                   <Text
                     fontSize="md"
@@ -102,7 +116,7 @@ function TablesTableRow(props) {
                   {pharmacy.type}
                 </Text>
                 <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                  {"subdomain"}
+                  {pharmacy.Pharmacy.type}
                 </Text>
               </Flex>
             </Td>

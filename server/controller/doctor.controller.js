@@ -16,15 +16,30 @@ module.exports = {
             throw err;
         }
     },
-    getOne : async(req,res)=>{
+    getOne: async (req, res) => {
         try {
-            const getUser = await User.findOne({where:{email:req.params.email}})
-        const oneDoc = await Doctor.findOne({where: {id:getUser.DoctorId}}); 
-            res.json(oneDoc);
+          const getUser = await User.findOne({ where: { email: req.params.email } });
+      
+          if (!getUser) {
+            return res.status(404).json({ message: 'User not found' });
+          }
+      
+          if (!getUser.DoctorId) {
+            return res.status(400).json({ message: 'User does not have a DoctorId' });
+          }
+      
+          const oneDoc = await Doctor.findOne({ where: { id: getUser.DoctorId } });
+      
+          if (!oneDoc) {
+            return res.status(404).json({ message: 'Doctor not found' });
+          }
+      
+          res.json(oneDoc);
         } catch (error) {
-            throw error
+          console.error(error);
+          res.status(500).json({ message: 'Internal Server Error' });
         }
-    },
+      },
     drop : async(req , res)=>{
         try {
             await Doctor.destroy({where:{ id: req.params.id}})

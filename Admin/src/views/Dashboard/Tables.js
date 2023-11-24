@@ -24,6 +24,10 @@ function Tables() {
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
+
+
+ 
+
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">

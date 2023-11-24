@@ -13,6 +13,30 @@ module.exports = {
         throw err;
       }
     },
+    getOne: async (req, res) => {
+      try {
+        const getUser = await User.findOne({ where: { email: req.params.email } });
+    
+        if (!getUser) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+    
+        if (!getUser.PharmacyId) {
+          return res.status(400).json({ message: 'User does not have a PharmacyId' });
+        }
+    
+        const onePharm = await Pharmacy.findOne({ where: { id: getUser.PharmacyId } });
+    
+        if (!onePharm) {
+          return res.status(404).json({ message: 'pharmacy not found' });
+        }
+    
+        res.json(onePharm);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+    },
     create: async (req, res) => {
       let pharmacyData = req.body;
      

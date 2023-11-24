@@ -1,6 +1,6 @@
 const route = require('express').Router()
 
-const {getAll,create,update,deleteOne, migratePharmacy,getAivablePharma,updataLongLat,updateLocation, recordsDoc,getAivablePharmaDayNight, verficationPharm, fetchAll} = require('../controller/pharmacyController')
+const {getAll,create,update,deleteOne, migratePharmacy,getAivablePharma,updataLongLat,updateLocation, recordsDoc,getAivablePharmaDayNight, verficationPharm, fetchAll, getOne} = require('../controller/pharmacyController')
 
 
 route.get('/getAll',getAll)
@@ -15,5 +15,6 @@ route.patch("/updateLocation" , updateLocation)
 route.post("/updatRecords" , recordsDoc)
 route.patch("/verficationPharm" , verficationPharm)
 route.get("/fetch" , fetchAll)
+route.get("/getOnePharm/:email" , getOne)
 
 module.exports=route

@@ -14,6 +14,8 @@ import * as Location from "expo-location";
 import Slider from "@react-native-community/slider";
 import haversine from "haversine";
 import MapViewDirections from "react-native-maps-directions";
+import COLORS from "../constants/colors";
+import MarkerProd from "../components/MarkerProd.js";
 import SwipeableModal from "../components/SwipeableModal";
 // import Config from 'react-native-config'
 import { Ionicons } from "@expo/vector-icons";
@@ -29,6 +31,12 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import DoctorMap from "../components/DoctorMap.js"
 import ProductMap from "../components/ProductMap.js"
 import PharmacyMap from "../components/PharmacyMap.js"
+import markDoctor from "../assets/markDoctor.png"
+import markMe from "../assets/markMe.png"
+import markMe1 from "../assets/markMe1.png"
+import markNurse from "../assets/markNurse.png"
+import markPharma from "../assets/markPharma.png"
+import markProduct from "../assets/markProduct.png"
 
 
 const UserMap = () => {
@@ -283,7 +291,42 @@ const hideDropdownMode = () => {
 
   console.log("doctorsWithinRadius:", doctorsWithinRadius);
 
-  
+  const CustomMarkerProduct = ({ imageUrl }) => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/markProduct.png')} style={{ width: 60, height: 60 ,position:"relative"}} />
+      <Image source={{ uri: imageUrl }} style={{ width: 30, height: 30, position: "absolute", top: 11, left: 14 }} />
+    </View>
+    );
+  };
+  const CustomMarkerDoctor = () => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/markDoctor.png')} style={{ width: 50, height: 50 }} />
+    </View>
+    );
+  };
+  const CustomMarkerNurse = () => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/markNurse.png')} style={{ width: 50, height: 50 }} />
+    </View>
+    );
+  };
+  const CustomMarkerPharma = () => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/markPharma.png')} style={{ width: 50, height: 50 }} />
+    </View>
+    );
+  };
+  const CustomMarkerFlag = () => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/flagMarker.png')} style={{ width: 70, height: 70 }} />
+    </View>
+    );
+  };
   useEffect(() => {
     getLocation();
     // getData();
@@ -310,8 +353,23 @@ const hideDropdownMode = () => {
           
           <Marker
             key={i}
+            title={doct.name}
+            opacity={0.9}
+            tooltip={true}
             coordinate={doct}
-            onPress={() => {
+            // image={
+            //   doct.type === 'doctor'
+            //   ? <CustomMarkerDoctor  />
+            //     : doct.type === 'nurse'
+            //     ? <CustomMarkerNurse  />
+            //     : doct.type === 'Pharmacy'
+            //     ? <CustomMarkerPharma  />
+            //     : doct.type === 'Product'
+            //     ?  <CustomMarkerProduct imageUrl={doct.imageUrl} />
+                
+            //     : require('../assets/markMe1.png')
+            //   }              
+              onPress={() => {
               handleMarkerPress(doct);
               setDestination({
                 latitude: doct.latitude,
@@ -322,24 +380,23 @@ const hideDropdownMode = () => {
               getTime(doct.latitude, doct.longitude);
               calculateDistanceMap(doct.latitude, doct.longitude);
             }}
-            // pinColor="blue"
-          //   pinColor={
-          //     doct.type === "Pharmacy"
-          //       ? "red"
-          //       : doct.type === "doctor"
-          //       ? "blue"
-          //       :doct.type === "nurse"?"yellow":null
-          //   }
-          // />
-          pinColor={
-            doct.type === "Pharmacy" ? "red" :
-            doct.type === "doctor" ? "blue" :
-            doct.type === "nurse" ? "yellow" : 
-            doct.type === "Product"?"black":null
-          }
-        />
-        ))}
-        <Marker coordinate={location} pinColor="green" />
+         
+          >
+            {
+              doct?.type === 'doctor'
+              ? <CustomMarkerDoctor  />
+                : doct?.type === 'nurse'
+                ? <CustomMarkerNurse  />
+                : doct?.type === 'Pharmacy'
+                ? <CustomMarkerPharma  />
+                : doct?.type === 'Product'
+                ?  <CustomMarkerProduct imageUrl={doct.speciality} />
+                
+                : require('../assets/markMe1.png')
+              }  
+          </Marker>
+          ))}
+        <Marker coordinate={location} tooltip={true} ><CustomMarkerFlag/></Marker>
       </MapView>
       {isNavigation && location && (
         <MapViewDirections
@@ -427,12 +484,13 @@ const hideDropdownMode = () => {
             >
               <View
                 style={{
-                  backgroundColor: "yellow",
                   height: 150,
                   width: 150,
                   borderRadius: 200,
                 }}
-              ></View>
+              >
+                <Image  style={{height:150,width:150,borderRadius:200}} source={{uri:selectedMarker?.type==="Product"?selectedMarker?.speciality:selectedMarker?.imageUrl}} />
+              </View>
               <View
                 style={{
                   height: "25%",
@@ -445,12 +503,12 @@ const hideDropdownMode = () => {
                 <View
                   style={{  height: "50%", width: "100%",justifyContent:"center",alignItems:"center" }}
                 >
-                  <Text style={{textAlign:"center",fontSize:27,fontWeight:"bold"}}>Anna Williams</Text>
+                  <Text style={{textAlign:"center",fontSize:27,fontWeight:"bold"}}>{selectedMarker?.type==="Product"?selectedMarker?.imageUrl:selectedMarker?.name}</Text>
                   </View>
                   <View
                     style={{  height: "50%", width: "100%",justifyContent:"center",alignItems:"center" }}
                   >
-                    <Text style={{textAlign:"center",fontSize:22}}>anna.williams@com</Text>
+                    <Text style={{textAlign:"center",fontSize:22}}>{selectedMarker?.adress}</Text>
                   </View>
               </View>
             </View>
@@ -459,20 +517,42 @@ const hideDropdownMode = () => {
                     <View style={{height:"40%",paddingLeft:30,alignItems:"center",flexDirection:"row"}}>
                       <View style={{paddingRight:13}}><MaterialCommunityIcons name="map-marker-distance"size={27}color="#0bc991"/></View>
                       <Text style={{paddingRight:5,fontSize:14}} >Distance:</Text>
-                      <Text fontSize={{fontSize:14}}>50 Km</Text>
+                      <Text fontSize={{fontSize:14}}>{distance}</Text>
                     </View>
                     <View style={{height:"40%",paddingLeft:30,alignItems:"center",flexDirection:"row"}}>
                     <View style={{paddingRight:13}}><MaterialIcons name="timer" size={27} color="#0bc991" /></View>
                       <Text style={{paddingRight:28,fontSize:14}}>Time:</Text>
-                      <Text fontSize={{fontSize:14}} >26 min</Text>
+                      <Text fontSize={{fontSize:14}} >{duration}</Text>
                     </View>
                   </View>
                   <View style={{height:"100%",width:"45%",justifyContent:"center",alignItems:"center"}}>
-                    <TouchableOpacity style={{height:"70%",width:"90%",backgroundColor:"pink",borderRadius:70,justifyContent:"center",alignItems:"center"}}><Text>Go Profile</Text></TouchableOpacity>
+                    <TouchableOpacity style={{    width: "40%",
+                  height: "65%",
+                  width:"80%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 80,
+                  backgroundColor: COLORS.primary}}><Text   style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  }} >Go Profile</Text></TouchableOpacity>
                   </View>
                 </View>
                 <View style={{height:"15%",alignItems:"center",justifyContent:"center"}}>
-                  <TouchableOpacity style={{backgroundColor:"green",height:"90%",width:"45%",borderRadius:70,justifyContent:"center",alignItems:"center"}}><Text>Close</Text></TouchableOpacity>
+                  <TouchableOpacity  onPress={() => setModalVisible(false)} style={{width: "45%",
+                          backgroundColor: "white",
+                          height: 50,
+                          borderRadius: 50,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderWidth: 2,
+                          borderColor: "#f20404",
+                          borderStyle: "solid",}}><Text  style={{
+                            color: "#f20404",
+                            fontWeight: "bold",
+                            fontSize: 20,
+                          }}>Close</Text></TouchableOpacity>
                 </View>
            
           </View>
@@ -617,12 +697,12 @@ const styling = StyleSheet.create({
   modal: {
     height: "60%",
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: "#e5f6df",
     padding: 20,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     flexDirection:"column",
-    backgroundColor:"rgba(0,140,0)"
+    // backgroundColor:"rgba(0,140,0)"
 
     // position: "relative",
   },

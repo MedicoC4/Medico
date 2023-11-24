@@ -235,5 +235,46 @@ module.exports = {
         } catch (error) {
           throw error;
         }
-      }
+      },
+      getAllCategory: async (req, res) => {
+        try {
+          const getAll = await User.findAll({
+            where: {
+              type: "doctor",
+            },
+            include: [
+              {
+                model: Doctor,
+                where: {
+                  isVerified: {[Op.like]:req.params.verifyDoctorrAllCategory},
+                  isBlocked: {[Op.like]:req.params.blockDoctorrAllCategory},
+                  specialityId : {[Op.like]:req.params.specialDocAll}
+                },
+                include: [
+                  {
+                    model: Speciality,
+                  },
+                ],
+              },
+            ],
+          });
+          const structeredData = getAll.map((e)=>{
+            return{
+                id: e.id,
+                name:e.Doctor.fullname,
+                imageUrl: e.Doctor.imageUrl,
+                type: e.Doctor.type,
+                availability: true,
+                latitude: e.Doctor.latitude,
+                longitude: e.Doctor.longitude,
+                adress: e.email,
+                speciality:e.Doctor.speciality.name
+            }
+          })
+      
+          res.json(structeredData);
+        } catch (err) {
+            throw new Error(err)
+        }
+      },
 }

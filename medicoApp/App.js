@@ -49,6 +49,7 @@ import MedicineDetails from "./screens/MedecineDetails";
 import OrderDet from "./screens/OrderDet";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
+import MarkerProd from "./components/MarkerProd.js";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
 import PharmFirstForm from "./screens/PharmFirstForm";
 import { Provider } from "react-redux";
@@ -392,6 +393,13 @@ export default function App() {
           <Stack.Screen
             name="pay"
             component={Payments}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="mark"
+            component={MarkerProd}
             options={{
               headerShown: false,
             }}

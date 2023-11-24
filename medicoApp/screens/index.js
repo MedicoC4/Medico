@@ -31,6 +31,7 @@ import AppointementDoctor from "./AppointementDoctor";
 import appointementUserList from "./AppointementUserList";
 import ProfileDocStatic from "./ProfileDocStatic";
 import SendingDoc from "./SendingDoc";
+import MarkerProd from "../components/MarkerProd.js";
 export {
     Login,
     Welcome,
@@ -64,6 +65,7 @@ export {
     AppointementDoctor,
     appointementUserList,
     ProfileDocStatic,
-    SendingDoc
+    SendingDoc,
+    MarkerProd
    
 }

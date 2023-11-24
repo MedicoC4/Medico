@@ -9,6 +9,7 @@ import ReviewCardDoctor from '../components/ReviewCardDoctor'
 import NavigationBar from '../components/NavigationBar'
 import { auth } from '../firebase-config'
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 
 
@@ -112,6 +113,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
 
   useEffect(() => {
     fetchReviews()
+    calculateDistanceMap()
   }, []);
   
 

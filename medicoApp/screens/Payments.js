@@ -29,26 +29,23 @@ const Payments = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.orders?.userOrders);
-
-    const retrieve = async () => {
+  
+    useEffect(() => {
       const email = auth.currentUser.email;
       dispatch(fetchOrdersByUserId(email));
-      if (orders) {
-        setPendingOrders(orders);
-      }
-    };
-
+    }, [dispatch]);
+  
     useEffect(() => {
-        const fetchPayments = async () => {
-          try {
-            const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/payment/getAll`);
-            setPayment(response.data);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-
-        fetchPayments();
+      const fetchPayments = async () => {
+        try {
+          const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/payment/getAll`);
+          setPayment(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchPayments();
     }, []);
   
   return (
@@ -83,9 +80,9 @@ const Payments = () => {
           <View style={styles.ordersContainer}>
             <Text style={styles.ordersText}>Payments History </Text>
             <FlatList
-          data={payment}
+          data={orders}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <PaymentCard payment={item} orders={orders}  />}
+          renderItem={({ item }) => <PaymentCard order={item} />}
         />
           </View>
     </View>

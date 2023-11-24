@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const initialState = {
     data: [],
+    onePharm: {},
+    pharmaEmail: '',
     error: null,
     loading: false,
   };
@@ -25,13 +27,25 @@ export const verificationPharm = createAsyncThunk(
     return responce.data
   }
   )
-
+  export const pharmacyDetails = createAsyncThunk(
+    "api/pharmacyDetails",
+    async (id) => {
+      const response = await axios.get(
+        `http://localhost:1128/api/pharmacy/getOnePharm/${id}`
+      );
+      return response.data
+    }
+  );
 
 
 const pharmaciesSlice = createSlice({
   name: 'pharmacies',
   initialState,
-  reducers: {},
+  reducers: {
+    pharmEmail : (state,action)=>{
+      state.pharmaEmail = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchPharmacies.fulfilled, (state, action) => {
         state.data = action.payload;
@@ -39,8 +53,11 @@ const pharmaciesSlice = createSlice({
     builder.addCase(verificationPharm.fulfilled, (state, action) => {
         state.data = action.payload;
     });
+    builder.addCase(pharmacyDetails.fulfilled, (state, action) => {
+        state.onePharm = action.payload;
+    });
   },
 
 });
-
+export const {pharmEmail}= pharmaciesSlice.actions;
 export default pharmaciesSlice.reducer;

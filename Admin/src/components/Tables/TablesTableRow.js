@@ -19,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDoctors, verificationDoc , docIdd} from "../../redux/doctorSlicer";
 import axios from "axios";
-
+import { NavLink } from "react-router-dom";
 
 function TablesTableRow(props) {
   const { isLast } = props;
@@ -28,6 +28,7 @@ function TablesTableRow(props) {
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const [docId , setDocId] = useState(0)
+  
 
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState(false);
@@ -102,14 +103,16 @@ function TablesTableRow(props) {
             borderBottom={isLast ? "none" : null}
           >
             <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
+            <NavLink to='/admin/profile'>
               <Avatar
                 src={doctor?.Doctor?.imageUrl}
                 w="50px"
                 borderRadius="12px"
                 me="18px"
-                
-                onClick={()=>{takeId(doctor.DoctorId) ; }}
+                onClick={()=>{takeId(doctor.email) ; }}
+  
               />
+              </NavLink>
               <Flex direction="column">
                 <Text
                   fontSize="md"

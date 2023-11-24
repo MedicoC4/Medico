@@ -5,7 +5,7 @@ const initialState = {
   data: [],
   oneDoc:{},
   idDoc:0,
-  docId : 0,
+  docId : '',
   error: null,
   loading: false,
 };
@@ -38,6 +38,15 @@ export const verificationDoc = createAsyncThunk(
     return responce.data
   }
   )
+  export const doctorDetails = createAsyncThunk(
+    "api/doctorDetails",
+    async (id) => {
+      const response = await axios.get(
+        `http://localhost:1128/api/doctor/getOneDoc/${id}`
+      );
+      return response.data
+    }
+  );
 
 
 
@@ -66,6 +75,9 @@ const DoctorSlice = createSlice({
 
     builder.addCase(verificationDoc.fulfilled, (state, action) => {
       state.data = action.payload;
+    });
+    builder.addCase(doctorDetails.fulfilled, (state, action) => {
+      state.oneDoc= action.payload;
     });
   },
 });

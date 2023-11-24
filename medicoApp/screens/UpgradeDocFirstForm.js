@@ -32,8 +32,8 @@ export default function UpgradeDocFirstForm({ navigation }) {
   const [type, setType] = useState(null);
   
 
-  const mapping = useSelector((state) => state.speciality.data );
-  console.log('this is the category',mapping);
+  // const mapping = useSelector((state) => state.speciality.data );
+  // console.log('this is the category',mapping);
   const typeOptions = ["Nurse", "Doctor"];
 
   const dispatch = useDispatch();
@@ -121,7 +121,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
             </View>
             <View style={{ width: width * 0.9, gap: 10, zIndex: 2, paddingBottom: 20 }}>
               <Text>Enter Your speciality :</Text>
-              <DropDownPicker
+              {/* <DropDownPicker
                 items={mapping.map((category) => ({
                   label: category.name,
                   value: category.id,
@@ -134,7 +134,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
                   e.preventDefault();
                 }}
                 onPress={() => updateSpeciality(category)}
-              />
+              /> */}
             </View>
 
             <View style={styles.input}>

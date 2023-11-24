@@ -7,6 +7,9 @@ import store from '../assets/store.png'
 import account from '../assets/account.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Storage } from 'expo-storage'
+import { Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 
 const NavigationBar = () => {
@@ -76,9 +79,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor:'white',
-    borderRadius:5,
-    height:70,
-    paddingHorizontal:7,
+    borderRadius: width * 0.0125,
+    height: height * 0.0875,
+    paddingHorizontal: width * 0.0175,
     width: '100%', 
   },
   item: {
@@ -86,18 +89,18 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   ic: {
-    paddingLeft: 25,
-    width: 25, 
-    height: 25, 
+    paddingLeft: width * 0.0625,
+    width: width * 0.0625, 
+    height: width * 0.0625, 
   },
   text: {
-    fontSize: 15,
-    marginTop: 10,
+    fontSize: width * 0.0375,
+    marginTop: height * 0.0125,
     color: '#bdbdbd' 
   },
   selectedText: {
-    fontSize: 15,
-    marginTop: 10,
+    fontSize: width * 0.0375,
+    marginTop: height * 0.0125,
     color: '#2d958c'
   }
 });

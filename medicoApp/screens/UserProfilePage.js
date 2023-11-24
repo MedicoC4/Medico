@@ -384,6 +384,7 @@ console.log(localSelectedImage , 'bingo');
             
             alignItems: "center",
           }}
+          onPress={() => navigation.navigate('pay')}
         >
           <View
             style={{

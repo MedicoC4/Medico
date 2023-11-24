@@ -46,6 +46,10 @@ module.exports = (Sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isPayed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
   return Orders;
 };

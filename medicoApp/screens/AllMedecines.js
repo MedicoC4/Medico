@@ -70,7 +70,7 @@ const AllMedicines = ({ route }) => {
               <Icon name="bell-o" size={25} color="grey" style={styles.icon} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('orderDetails')}>
             <View style={styles.iconContainer}>
               <MaterialCommunityIcons
                 name="cart-outline"

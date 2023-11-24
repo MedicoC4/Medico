@@ -35,6 +35,7 @@ import {
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
 import Checkout from "./screens/Checkout";
+import Payments from "./screens/Payments";
 import DocFirstStep from "./screens/docFirstStep";
 import DocSecondStep from "./screens/docSecounStep";
 import UpgradeDocFirstForm from "./screens/UpgradeDocFirstForm";
@@ -384,6 +385,13 @@ export default function App() {
           <Stack.Screen
             name="mapDirection"
             component={UserMapView}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="pay"
+            component={Payments}
             options={{
               headerShown: false,
             }}

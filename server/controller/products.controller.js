@@ -15,20 +15,54 @@ module.exports = {
       res.status(500).json({ error: "Error al obtener todos los productos" });
     }
   },
-  getProductByCodebar: async (req, res) => {
-    let codebar = req.params.codebar;
+  getOne: async (req, res) => {
     try {
-      const product = await Products.findOne({
-        where: { codebar: Number(codebar) },
+      const getOne = await Products.findOne({
+        where: { id: req.params.id },
       });
-      if (product) {
-        res.json(product);
-      } else {
-        res.status(404).json({ error: "Product not found" });
-      }
+      res.json(getOne);
     } catch (error) {
-      console.log("Error in server", error);
-      res.status(500).json({ error: "Error in server" });
+      throw error;
+    }
+  },
+  // getProductByCodebar: async (req, res) => {
+  //   let codebar = req.params.codebar;
+  //   try {
+  //     const product = await Products.findOne({
+  //       where: { codebar: Number(codebar) },
+  //     });
+  //     if (product) {
+  //       res.json(product);
+  //     } else {
+  //       res.status(404).json({ error: "Product not found" });
+  //     }
+  //   } catch (error) {
+  //     console.log("Error in server", error);
+  //     res.status(500).json({ error: "Error in server" });
+  //   }
+  // },
+  pharmacyProduct: async (req, res) => {
+    try {
+      const users = await User.findAll({
+        where: { email: req.params.email },
+      });
+
+      if (users.length === 0) {
+        return res.status(404).json({ error: "User not found." });
+      }
+
+      const pharmacyId = users[0].PharmacyId; 
+
+      const products = await Products.findAll({
+        where: {
+          PharmacyId: pharmacyId,
+        },
+      });
+
+      res.json(products);
+    } catch (error) {
+      console.error("Error fetching pharmacy products:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
   create: async (req, res) => {
@@ -127,6 +161,45 @@ module.exports = {
     } catch (error) {
       console.log("Error en el servidor", error);
       res.status(500).json({ error: "Error en el servidor" });
+    }
+  },
+  findOneMissing: async (req, res) => {
+    try {
+      const pharmacy = await User.findOne({where:{email:req.params.emailpharmacyOne}})
+      res.json(pharmacy)
+    } catch (error) {
+      throw error
+    }
+  },
+  
+  controlMissing: async (req, res) => {
+    try {
+      const {productName, price, stock, description, manufacturer, activeIngredients, dosageForm, strength, packaging, expiryDate, imageURL, sideEffect, codebar, CategoryId } = req.body;
+      const pharmacy = await User.findOne({where:{email:req.params.emailpharmacy}})
+      const checkProduct = await Products.findOne({where:{ 
+        PharmacyId: {[Op.like]:pharmacy.PharmacyId},
+        codebar: {[Op.like]:req.params.codebarMissing},
+        // stock: {[Op.lte]: 0}
+      }
+      })
+      // if(checkProduct) {
+      //   if (checkProduct.stock <= 0) {
+      //     const update = await Products.update({stock: stock}, {where: {PharmacyId: pharmacy.PharmacyId}})
+      //     res.json(update)
+      //   } 
+      // } 
+      // if (!checkProduct) {
+      //   const create = await Products.create({productName:productName, price:price, description:description; manufacturer:manufacturer, activeIngredients:activeIngredients, dosageForm:dosageForm, strength:strength, packaging:packaging,expiryDate:expiryDate,  imageURL:imageURL,sideEffect:sideEffect, codebar:codebar, CategoryId:CategoryId, PharmacyId:pharmacy.PharmacyId})
+      //   res.json(create)
+      // }
+      // if (checkProduct) {
+      //   res.json(true)
+      // } else {
+      //   res.json(false)
+      // }
+      res.json(checkProduct)
+    } catch (error) {
+      throw error
     }
   },
   searchByName: async (req, res) => {

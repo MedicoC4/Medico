@@ -73,7 +73,7 @@ const PharProf = ({route}) => {
   const calculateDistanceMap = async () => {
     
 
-    if(data.latitude && data.longitude){
+    if(data.Doctor.latitude && data.Doctor.longitude){
 
       
       try {
@@ -82,7 +82,7 @@ const PharProf = ({route}) => {
         const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
 
   
-        console.log(loggedUser);
+        console.log('doctor prof',loggedUser);
         const response = await axios.get(
           `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
           );
@@ -166,17 +166,7 @@ const PharProf = ({route}) => {
     fetchReviewsForPhar()
   },[])
 
-  const medicines = [
-    {
-      name: 'Doliprane 1000',
-      image: 'https://www.med.tn/image-medicament-9816dd007411506ab2ce1249e99d2c8c.jpg', // Replace with actual image URL
-    },
-    {
-      name: 'Gripex',
-      image: 'https://galpharma.tn/wp-content/uploads/2019/09/Gripex-Adulte-12.jpg', // Replace with actual image URL
-    },
-    
-  ];
+
 
   const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
@@ -294,7 +284,7 @@ const PharProf = ({route}) => {
           height:height*0.3,
       }}>
       <ImageBackground
-       source={{ uri: data.imageUrl  }}
+       source={{ uri: data?.imageUrl  }}
       resizeMode="cover"
       style={{width:width*1,
           height:height*0.37,

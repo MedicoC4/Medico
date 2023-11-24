@@ -25,6 +25,8 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
   const [isModalVisible, setModalVisible] = useState(false);
   const [rating,setRating]=useState('')
   const [comment,setComment]=useState('')
+  const [isDistance,setIsDistance]=useState(0)
+
   const reviews=useSelector((state)=>state.docRev.data)
 
 
@@ -38,6 +40,51 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+
+
+  const calculateDistanceMap = async () => {
+    
+
+    if(data.latitude && data.longitude){
+
+      
+      try {
+        const loggedMail=auth.currentUser.email
+        
+        const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
+
+  
+        console.log(loggedUser);
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.Doctor.latitude},${data.Doctor.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+          );
+  
+          
+          if (
+            response.data.status === "OK" &&
+          response.data.rows.length > 0 &&
+          response.data.rows[0].elements.length > 0 &&
+          response.data.rows[0].elements[0].distance
+          ) {
+            const distance = response.data.rows[0].elements[0].distance.text;
+            setIsDistance(distance);
+          } else if (response.data.status === "ZERO_RESULTS") {
+          console.warn("No distance information available between the specified points.");
+        } else {
+          console.error("Error calculating distance: ", data.status);
+        }
+      } catch (error) {
+        console.error("Error fetching distance data: ", error);
+      }
+      
+
+
+    }else {
+      console.log('latitude is not coming');
+    }
+
   };
 
 
@@ -309,7 +356,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                             />
                             <Text style={{
                                 fontWeight:600
-                            }}>1.6 km</Text>
+                            }}>{isDistance}</Text>
                         </View>
                     </View>
                     

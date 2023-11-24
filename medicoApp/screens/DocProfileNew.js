@@ -238,7 +238,7 @@ const renderDoctorProfile = () =>{
               <Image
               source={require('../assets/menu.png')}
               style={{
-                  width:width*0.08,
+                  width:width*0.1,
                   height:height*0.03
               }}
               />
@@ -340,7 +340,7 @@ const renderDoctorProfile = () =>{
                           color:COLORS.white,
                           fontSize:20,
                           fontWeight:600
-                      }}>5.0</Text>
+                      }}>{data.rating}</Text>
                   </View>
                   <Text style={{
                       color:COLORS.grey,
@@ -363,7 +363,7 @@ const renderDoctorProfile = () =>{
           paddingLeft:20,
           paddingRight:20,
           width:width*1,
-          height:height*0.5,
+          height:height*2.5,
           // alignItems:'center',
           
       }}>
@@ -734,7 +734,7 @@ const renderDoctorProfile = () =>{
           paddingLeft:20,
           paddingRight:20,
           width:width*1,
-          height:height*0.5,
+          height:height*0.6,
           // alignItems:'center',
           
       }}>
@@ -744,7 +744,7 @@ const renderDoctorProfile = () =>{
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-between",
-            height: height*0.08,
+            height: height*0.1,
             alignItems: "center",
           }}
         >
@@ -801,12 +801,20 @@ const renderDoctorProfile = () =>{
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
         <TouchableOpacity
           style={{
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-between",
-            height: height*0.08,
+            height: height*0.1,
             alignItems: "center",
           }}
           onPress={() =>navigation.navigate('appointement')}
@@ -859,12 +867,20 @@ const renderDoctorProfile = () =>{
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
         <TouchableOpacity
           style={{
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-between",
-            height: height*0.08,
+            height: height*0.1,
             alignItems: "center",
           }}
           onPress={() =>navigation.navigate('appointmentDoctor')}
@@ -929,7 +945,7 @@ const renderDoctorProfile = () =>{
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-between",
-            height: height*0.08,
+            height: height*0.1,
             alignItems: "center",
           }}
         >
@@ -995,7 +1011,7 @@ const renderDoctorProfile = () =>{
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-between",
-            height: height*0.08,
+            height: height*0.1,
             
             alignItems: "center",
           }}
@@ -1063,7 +1079,7 @@ const renderDoctorProfile = () =>{
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-between",
-            height: height*0.08,
+            height: height*0.1,
             alignItems: "center",
           }}
           onPress={()=>logOutUser()}

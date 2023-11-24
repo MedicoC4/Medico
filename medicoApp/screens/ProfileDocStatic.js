@@ -9,6 +9,7 @@ import ReviewCardDoctor from '../components/ReviewCardDoctor'
 import NavigationBar from '../components/NavigationBar'
 import { auth } from '../firebase-config'
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 
 
@@ -25,6 +26,8 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
   const [isModalVisible, setModalVisible] = useState(false);
   const [rating,setRating]=useState('')
   const [comment,setComment]=useState('')
+  const [isDistance,setIsDistance]=useState(0)
+
   const reviews=useSelector((state)=>state.docRev.data)
 
 
@@ -38,6 +41,51 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+
+
+  const calculateDistanceMap = async () => {
+    
+
+    if(data.latitude && data.longitude){
+
+      
+      try {
+        const loggedMail=auth.currentUser.email
+        
+        const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
+
+  
+        console.log(loggedUser);
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.Doctor.latitude},${data.Doctor.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+          );
+  
+          
+          if (
+            response.data.status === "OK" &&
+          response.data.rows.length > 0 &&
+          response.data.rows[0].elements.length > 0 &&
+          response.data.rows[0].elements[0].distance
+          ) {
+            const distance = response.data.rows[0].elements[0].distance.text;
+            setIsDistance(distance);
+          } else if (response.data.status === "ZERO_RESULTS") {
+          console.warn("No distance information available between the specified points.");
+        } else {
+          console.error("Error calculating distance: ", data.status);
+        }
+      } catch (error) {
+        console.error("Error fetching distance data: ", error);
+      }
+      
+
+
+    }else {
+      console.log('latitude is not coming');
+    }
+
   };
 
 
@@ -59,10 +107,13 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
     
     setComment('');
     setRating('')
+    setModalVisible(!isModalVisible);
+
   };
 
   useEffect(() => {
     fetchReviews()
+    calculateDistanceMap()
   }, []);
   
 
@@ -76,47 +127,100 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
         gap:9
     }}>
   
-        <Modal
-                animationType="fade"
-                transparent={true}
-                visible={isModalVisible}
-              >
-                <View style={styles.modalContainer}>
-                  <View style={styles.modalContent}>
-                    <Text style={{
-                      fontSize:20,
-                      fontWeight:600
-                    }}>
-                      Rate Your Doctor
-                    </Text>
-                    <AirbnbRating
-            size={15}
-            reviewSize={25}
-            onFinishRating={(value)=>{
-              setRating(value)
+  <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={{
+                    fontSize:20,
+                    fontWeight:600
+                  }}>
+                    Rate Your Doctor
+                  </Text>
+                  <AirbnbRating
+          size={15}
+          reviewSize={25}
+          onFinishRating={(value)=>{
+            setRating(value)
+          }}
+          // Additional props like selectedColor and reviewColor can be added here
+        />
+                        <View style={{
+                          alignItems:'center',
+                          gap:20
+                        }}>
+                          <View style={{
+                            flexDirection:'row',
+                            width:width*0.8,
+                            alignItems:'center',
+                            justifyContent:"center",
+                            gap:10
+                          }}>
+                        <TextInput
+                style={{
+                  height: height*0.05,
+                  width:width*0.6,
+                  backgroundColor: "#fff",
+                  paddingHorizontal: 16,
+                  borderRadius: 12,
+                  fontSize: 15,
+                  fontWeight: "500",
+                  color: "#24262e",
+                  borderWidth:1
+                }}
+                value={comment}
+                placeholder='type here...'
+                onChangeText={(text)=>{
+                    setComment(text)
+                }}
+                
+              />
+              <TouchableOpacity
+            style={{
+                backgroundColor:COLORS.primary,
+            width:width*0.1,
+            height:height*0.05,
+            borderRadius:200,
+            alignItems:'center',
+            justifyContent:'center'
             }}
-          />
-                          <View>
-                    <TouchableOpacity
-                      
-                      style={{
-                        backgroundColor:COLORS.primary,
-                        width:width*0.2,
-                        height:height*0.05,
-                        alignItems:'center',
-                        justifyContent:'center',
-                        borderRadius:20
-                      }}
-                      onPress={toggleModal}
-                    >
-                      <Text style={{
-                        color:COLORS.white
-                      }}>Close</Text>
-                    </TouchableOpacity>
-                    </View>
+           
+            onPress={(e)=> handleReviewAdding(e)}
+            
+            >
+              
+                <Image
+                source={require('../assets/send.png')}
+                style={{
+                    width:width*0.05,
+                    height:height*0.02
+                }}
+                />
+            </TouchableOpacity>
+            </View>
+                  <TouchableOpacity
+                    
+                    style={{
+                      backgroundColor:COLORS.primary,
+                      width:width*0.2,
+                      height:height*0.05,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderRadius:20
+                    }}
+                    onPress={toggleModal}
+                  >
+                    <Text style={{
+                      color:COLORS.white
+                    }}>Close</Text>
+                  </TouchableOpacity>
                   </View>
                 </View>
-              </Modal>
+              </View>
+            </Modal>
   
   
   
@@ -254,7 +358,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                             />
                             <Text style={{
                                 fontWeight:600
-                            }}>1.6 km</Text>
+                            }}>{isDistance}</Text>
                         </View>
                     </View>
                     
@@ -397,43 +501,6 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                 }}
                 />
             </TouchableOpacity>
-        <TextInput
-                style={{
-                  height: 44,
-                  width:width*0.7,
-                  backgroundColor: "#fff",
-                  paddingHorizontal: 16,
-                  borderRadius: 12,
-                  fontSize: 15,
-                  fontWeight: "500",
-                  color: "#24262e",
-                }}
-                value={comment}
-                placeholder='type here...'
-                onChangeText={(text)=>{
-                    setComment(text)
-                }}
-                
-              />
-              <TouchableOpacity
-            style={{
-                backgroundColor:COLORS.primary,
-            width:width*0.1,
-            height:height*0.05,
-            borderRadius:200,
-            alignItems:'center',
-            justifyContent:'center'
-            }}
-            onPress={handleReviewAdding}
-            >
-                <Image
-                source={require('../assets/send.png')}
-                style={{
-                    width:width*0.05,
-                    height:height*0.02
-                }}
-                />
-            </TouchableOpacity>
               </View>
          
         
@@ -464,7 +531,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 5,
     width: width*0.8,
-    height: height*0.25,
+    height: height*0.35,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "column",

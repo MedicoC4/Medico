@@ -124,7 +124,7 @@ module.exports = {
                   include: [
                     {
                       model: Doctor,
-                      include:Speciality
+                      include:{model:Speciality}
                 
                     },
                     {

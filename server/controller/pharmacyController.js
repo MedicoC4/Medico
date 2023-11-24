@@ -84,6 +84,33 @@ module.exports = {
       throw new Error(error);
     }
   },
+  getAivablePharmaDayNightMapped: async (req, res) => {
+    try {
+      const getPharma = await Pharmacy.findAll({
+        where: {
+        isBlocked: { [Op.like]: req.params.isBlockPharmaMapped },
+        isverified: { [Op.like]: req.params.isVerefPharmaMapped },
+        type:{[Op.like]: req.params.typeDNMapped}
+        },
+      });
+      const structeredData = getPharma.map((e)=>{
+        return{         
+          id: e.id,
+          name:e.PHname,
+          imageUrl: e.iimageUrl,
+          type: "Pharmacy",
+          availability: e.type,
+          latitude: e.latitude,
+          longitude: e.longitude,
+          adress: e.adress,
+          speciality:""
+        }
+      })
+      res.status(200).send(structeredData)
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   updataLongLat:async (req, res) => {
     try {
       const longLat = await Pharmacy.update(req.body,{where:{id:req.params.idPharmcy}})
@@ -118,6 +145,32 @@ recordsDoc : async(req , res)=>{
       res.json('created')
   } catch (error) {
       res.json(error)
+  }
+},
+getAivablePharmaMapped: async (req, res) => {
+  try {
+    const getPharma = await Pharmacy.findAll({
+      where: {
+      isBlocked: { [Op.like]: req.params.blockPharmaMapped },
+      isverified: { [Op.like]: req.params.verefPharmaMapped },
+      },
+    });
+    const structeredData = getPharma.map((e)=>{
+      return{         
+        id: e.id,
+        name:e.PHname,
+        imageUrl: e.iimageUrl,
+        type: "Pharmacy",
+        availability: e.type,
+        latitude: e.latitude,
+        longitude: e.longitude,
+        adress: e.adress,
+        speciality:""
+      }
+    })
+    res.status(200).send(structeredData)
+  } catch (error) {
+    throw new Error(error);
   }
 },
 verficationPharm: async (req, res) => {

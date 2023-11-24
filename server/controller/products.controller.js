@@ -1,6 +1,8 @@
+const { result } = require("lodash");
 const { Products, Missing, User, Pharmacy } = require("../database/index");
-// const missing = require("../database/models/missing");
-const {Op} = require("sequelize")
+const missing = require("../database/models/missing");
+const { Op,Sequelize } = require("sequelize");
+
 
 module.exports = {
   getAll: async (req, res) => {
@@ -199,5 +201,149 @@ module.exports = {
     } catch (error) {
       throw error
     }
-  }
+  },
+  searchByName: async (req, res) => {
+    try {
+      const result = await Products.findAll({
+        where: {
+          [Op.and]: [
+            Sequelize.where(
+              Sequelize.fn('LOWER', Sequelize.col('productName')),
+              'LIKE',
+              `%${req.params.searchByProdName.toLowerCase()}%`
+            ),
+            { stock: { [Op.gt]: 0 } },
+          ],
+        },
+        include: [
+          {
+            model: Pharmacy,
+          },
+        ],
+      });
+      let uniqueProductNames = new Set();
+      let arrayWithoutDuplicates = result.filter(obj => {
+        if (!uniqueProductNames.has(obj.productName)) {
+          uniqueProductNames.add(obj.productName);
+          return true;
+        }
+        return false;
+      });
+      res.json(arrayWithoutDuplicates);
+    } catch (error) {
+    throw new Error(error)
+    }
+  },
+  searchNameLike : async (req,res)=>{
+    try {
+      const result = await Products.findAll({
+        where:{
+          [Op.and] :[
+            { stock: { [Op.gt]: 0 } },
+            {productName : {[Op.like]: req.params.searchLike}}
+          ]
+        },
+        include: [
+          {
+            model: Pharmacy,
+          },
+        ],
+      })
+      const structeredData = result.map((e)=>{
+        return{
+            id: e.Pharmacy.id,
+            name:e.productName,
+            imageUrl: e.Pharmacy.imageUrl,
+            type: "Product",
+            availability: true,
+            latitude: e.Pharmacy.latitude,
+            longitude: e.Pharmacy.longitude,
+            adress: e.Pharmacy.adress,
+            speciality:e.imageURL
+        }
+      })
+      res.json(structeredData)
+    } catch (error) {
+      throw new Error (error)
+    }
+  },
+  searchByBarcode : async (req,res)=>{
+    try {
+      const result = await Products.findAll({
+        where:{
+          [Op.and] :[
+            { stock: { [Op.gt]: 0 } },
+            {codebar : {[Op.like]: req.params.codebarSearch}}
+          ]
+        }
+      })
+      res.json(result)
+    } catch (error) {
+      throw new Error (error)
+    }
+  },
+
+  searchByBarcodeNoDup: async (req, res) => {
+    try {
+      const result = await Products.findAll({
+        where: {
+          [Op.and]: [
+            {codebar :{[Op.like]:req.params.codeBarNoDup}},
+            { stock: { [Op.gt]: 0 } },
+          ],
+        },
+        include: [
+          {
+            model: Pharmacy,
+          },
+        ],
+      });
+      let codebar = new Set();
+      let arrayWithoutDuplicates = result.filter(obj => {
+        if (!codebar.has(obj.codebar)) {
+          codebar.add(obj.codebar);
+          return true;
+        }
+        return false;
+      });
+      res.json(arrayWithoutDuplicates);
+    } catch (error) {
+    throw new Error(error)
+    }
+  },
+  searchAllByBarcodeNoDup: async (req, res) => {
+    try {
+      const result = await Products.findAll({
+        where: {
+          [Op.and]: [
+            {codebar :{[Op.like]:req.params.codeBarAllNoDup}},
+            { stock: { [Op.gt]: 0 } },
+          ],
+        },
+        include: [
+          {
+            model: Pharmacy,
+          },
+        ],
+      });
+      const structeredData = result.map((e)=>{
+        return{
+            id: e.Pharmacy.id,
+            name:e.productName,
+            imageUrl: e.Pharmacy.imageUrl,
+            type: "Product",
+            availability: true,
+            latitude: e.Pharmacy.latitude,
+            longitude: e.Pharmacy.longitude,
+            adress: e.Pharmacy.adress,
+            speciality:e.imageURL
+        }
+      })
+      res.status(200).send(structeredData);
+    } catch (error) {
+    throw new Error(error)
+    }
+  },
+
+
 };

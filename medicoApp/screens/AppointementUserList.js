@@ -186,7 +186,7 @@ export default function AppointementUserList() {
                         fontWeight: "bold",
                       }}
                     >
-                      Test test
+                      {appointment.Doctor.speciality.name}
                     </Text>
                   </View>
                 </View>
@@ -200,13 +200,14 @@ export default function AppointementUserList() {
                 >
                   <View
                     style={{
-                      backgroundColor: "blue",
                       height: 89,
                       width: 89,
                       borderRadius: 15,
                     }}
                   >
-                    <Image />
+                    <Image style={{height: 89,
+                      width: 89,
+                      borderRadius: 15,}} source={{uri: appointment.Doctor.imageUrl}}/>
                   </View>
                 </View>
               </View>

@@ -1,11 +1,34 @@
 import axios from 'axios';
-import React, { useState ,useEffect } from 'react';
+import dayjs from 'dayjs';
+import React, { useState, useEffect } from 'react';
+
+import { Button } from '@mui/material';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { auth } from 'src/firebase-config';
 
+import './addProduct.css';
+
 const AddProduct = () => {
   const [catregories, setCategories] = useState([]);
-
+  const [valuee, setValuee] = React.useState(dayjs());
+  console.log(catregories);
+  
+  const formattedExpiryDate = `${
+    valuee.$d.getMonth() + 1
+  }-${valuee.$d.getDate()}-${valuee.$d.getFullYear()}`;
+  
+  console.log(formattedExpiryDate);
   const [inputs, setInputs] = useState({
     productName: '',
     price: '',
@@ -16,9 +39,7 @@ const AddProduct = () => {
     dosageForm: '',
     strength: '',
     packaging: '',
-    expiryDate: '',
-    imageURL:
-      'https://www.parafendri.tn/2330-medium_default/svr-sun-secure-blur-creme-mousse-spf50.jpg',
+    expiryDate: formattedExpiryDate,
     sideEffect: '',
     codebar: '',
     // PharmacyId: userData.Pharmacy.id,
@@ -35,6 +56,7 @@ const AddProduct = () => {
     setInputs((prevInputs) => ({
       ...prevInputs,
       [name]: value,
+
     }));
   };
 
@@ -45,11 +67,11 @@ const AddProduct = () => {
     formData.append('file', selectedFile);
     formData.append('upload_preset', 'qyrzp0xv');
     const response = await axios.post('https://api.cloudinary.com/v1_1/dp42uyqn5/upload', formData);
-    console.log(response.data.secure_url);
-    setFile(response.data.secure_url);
+    console.log(response?.data?.secure_url);
+    setFile(response?.data?.secure_url);
   };
 
-    console.log(auth.currentUser.email, "usersssssssssssssssss");
+  console.log(auth?.currentUser?.email, 'usersssssssssssssssss');
 
   const addProduct = () => {
     if (!file) {
@@ -57,15 +79,15 @@ const AddProduct = () => {
       return;
     }
 
-    const user = auth.currentUser;
+    const user = auth?.currentUser;
     axios
       .post('http://127.0.0.1:1128/api/Product/createProduct', {
         ...inputs,
         imageURL: file,
-        email: user.email,
+        email: user?.email,
       })
       .then((response) => {
-        console.log('Product added successfully', response.data);
+        console.log('Product added successfully', response?.data);
       })
       .catch((err) => {
         console.error(err);
@@ -76,214 +98,207 @@ const AddProduct = () => {
 
   useEffect(() => {
     const categories = async () => {
-        const response = await axios.get('http://127.0.0.1:1128/api/Categories/getAll');
-        setCategories(response.data);
+      const response = await axios.get('http://127.0.0.1:1128/api/category/getAll');
+      setCategories(response?.data);
     };
-  
+
     categories();
   }, []);
 
   return (
-    <div style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-      <h2>Create a new product</h2>
-      <div className="biggest_container_ever">
-        <div className="left_div_add_details">
-          <h1>Add Products</h1>
-          <div className="product_information_add">
-            <p className="addproduct_title">Product Information</p>
-            <div className="addproduct_input_div">
-              <p className="input_title_add">Product Name</p>
-              <input
-                type="text"
-                placeholder="Enter product name"
-                className="big_add_inputs"
-                name="productName"
-                // value={formData.productName}
+    <div
+      style={{
+        paddingLeft: '1.8rem',
+        paddingRight: '1.8rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2rem',
+      }}
+    >
+      <h1 style={{ paddingBottom: '1rem' }}>Create a new product</h1>
+      <div style={{ display: 'flex', height: 'auto' }}>
+        <div
+          style={{
+            width: '70%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          }}
+        >
+          <h2 style={{ margin: '0' }}>Details</h2>
+          <p>Title, short description, image...</p>
+        </div>
+        <div className="prod_Propreties">
+          <TextField
+            id="outlined-basic"
+            label="Product Name"
+            variant="outlined"
+            name="productName"
+            onChange={handleInputChange}
+          />
+          <TextField
+            id="outlined-multiline-static"
+            label="Description"
+            multiline
+            rows={5}
+            variant="outlined"
+            name="description"
+            onChange={handleInputChange}
+          />
+          <div className="img_upload">
+            <input type="file" onChange={handleFileChange} />
+            <img src={file} alt="" />
+          </div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', height: 'auto' }}>
+        <div
+          style={{
+            width: '70%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          }}
+        >
+          <h2 style={{ margin: '0' }}>Properties</h2>
+          <p>Additional functions and attributes...</p>
+        </div>
+        <div className="prod_Propreties">
+          <div className="prod_Propretiess">
+            <TextField
+              id="outlined-basic"
+              label="Manufacturer"
+              variant="outlined"
+              name="manufacturer"
+              onChange={handleInputChange}
+            />
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Category</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={inputs.CategoryId}
+                name="CategoryId"
+                label="Category"
                 onChange={handleInputChange}
-              />
-            </div>
-            <div className="addproduct_input_div">
-              <p className="input_title_add">Product Description</p>
-              <input
-                type="text"
-                placeholder="Enter a brief description"
-                className="big_add_inputs"
-                name="productDescription"
-                // value={formData.productDescription}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="add_side_effects">
-              <div className="side_effects_inputs">
-                <div className="addproduct_input_div">
-                  <p className="input_title_add">Manufacturer</p>
-                  <input
-                    type="text"
-                    placeholder="Enter Manufacturer Name"
-                    className="big_add_inputs"
-                    name="manufacturer"
-                    // value={formData.productDescription}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="addproduct_input_div">
-                  <p className="input_title_add">Packaging</p>
-                  <input
-                    type="text"
-                    placeholder="Enter Packaging Type"
-                    className="big_add_inputs"
-                    name="packaging"
-                    // value={formData.productDescription}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="addproduct_input_div">
-                  <p className="input_title_add">Active Ingredients</p>
-                  <input
-                    type="text"
-                    placeholder="Enter Active Ingredients"
-                    className="big_add_inputs"
-                    name="activeIngredients"
-                    // value={formData.productDescription}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="addproduct_input_div">
-                  <p className="input_title_add">Expiry Date</p>
-                  <input
-                    type="date"
-                    placeholder="Enter Expiry Date"
-                    className="big_add_inputs"
-                    name="expiryDate"
-                    // value={formData.productDescription}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="product_information_add">
-            <p className="addproduct_title">Add Product Image</p>
-            <div className="image_container_and_title">
-              <div className="white_image_holder">
-                <div>
-                  <input type="file" onChange={handleFileChange} id="" />
-                  {/* <ImgUpload file={file} FileAdd={handleFileChange} /> */}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="product_information_add">
-            <div className="add_side_effects">
-              <div className="side_effects_inputs">
-                <div className="addproduct_input_div">
-                  <p className="input_title_add">Price</p>
-                  <input
-                    type="text"
-                    placeholder="Enter Price"
-                    className="big_add_inputs"
-                    name="price"
-                    // value={formData.productDescription}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="addproduct_input_div">
-                  <p className="input_title_add">Stock</p>
-                  <input
-                    type="text"
-                    placeholder="Enter Stock"
-                    className="big_add_inputs"
-                    name="stock"
-                    // value={formData.productDescription}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="addproduct_input_div">
-                  <p className="input_title_add">Strength</p>
-                  <input
-                    type="text"
-                    placeholder="Enter Strength"
-                    className="big_add_inputs"
-                    name="strength"
-                    // value={formData.productDescription}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="addproduct_input_div">
-                  <p className="input_title_add">Codebar</p>
-                  <input
-                    type="text"
-                    placeholder="Enter The Codebar"
-                    className="big_add_inputs"
-                    name="codebar"
-                    // value={formData.productDescription}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="addproduct_input_div">
-            <p className="input_title_add">Dosage Form</p>
-            <input
-              type="text"
-              placeholder="Enter Dosage Form"
-              className="big_add_inputs"
+              >
+                {catregories.map((category) => (
+                  <MenuItem key={category?.id} value={category?.id}>{category?.name}</MenuItem>
+                  ))}
+                {/* <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem> */}
+              </Select>
+            </FormControl>
+            <TextField
+              id="outlined-basic"
+              label="Strength"
+              variant="outlined"
+              name="strength"
+              onChange={handleInputChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Dosage Form"
+              variant="outlined"
               name="dosageForm"
-              // value={formData.productDescription}
+              onChange={handleInputChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Active Ingredients"
+              variant="outlined"
+              name="activeIngredients"
+              onChange={handleInputChange}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker']}>
+                <DatePicker
+                  label="Expiry Date"
+                  style={{ width: '100%' }}
+                  name='expiryDaate'
+                  slotProps={{
+                    textField: {
+                      helperText: 'MM/DD/YYYY',
+                    },
+                  }}
+                  value={valuee}
+                  onChange={(newValue) => setValuee(newValue)}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </div>
+          <div className="second_sec">
+            <TextField
+              id="outlined-basic"
+              label="Side Effect"
+              variant="outlined"
+              style={{ width: '100%' }}
+              name="sideEffect"
+              onChange={handleInputChange}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Packaging"
+              variant="outlined"
+              name="packaging"
+              style={{ width: '100%' }}
               onChange={handleInputChange}
             />
           </div>
-          <div className="addproduct_input_div">
-            <p className="input_title_add">Category</p>
-            <select
-              id="category"
-              className="big_add_inputs"
-              name="CategoryId"
-              value={inputs.CategoryId}
+        </div>
+      </div>
+      <div style={{ display: 'flex', height: 'auto' }}>
+        <div
+          style={{
+            width: '70%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          }}
+        >
+          <h2 style={{ margin: '0' }}>Pricing</h2>
+          <p>Price related inputs</p>
+        </div>
+        <div className="prod_Propreties">
+          <FormControl>
+            <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+            <OutlinedInput
+              name="price"
               onChange={handleInputChange}
-            >
-              <option value="">Select a category</option>
-              {catregories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
+              id="outlined-adornment-amount"
+              startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              label="Amount"
+            />
+          </FormControl>
+          <TextField
+            id="outlined-basic"
+            label="Quantity"
+            name="stock"
+            onChange={handleInputChange}
+            variant="outlined"
+          />
+          <TextField
+            id="outlined-basic"
+            label="Code bar"
+            variant="outlined"
+            name="codebar"
+            onChange={handleInputChange}
+          />
         </div>
-        <div className="right_div_add_details" style={{ marginTop: '5.85rem' }}>
-          <div className="product_information_add">
-            <div className="top_preview_add_image">
-              <p className="addproduct_title">Product Preview</p>
-              <i className="material-icons">&#xe5d0;</i>
-            </div>
-            <img src="" alt="" className="image_preview_holder" />
-            <div className="bottom_preview_add_image">
-              <p className="addproduct_title">Article Details</p>
-              <button type="button" className="save_draft_image">
-                Save
-              </button>
-            </div>
-          </div>
-          <div className="product_information_add">
-            <div className="buttons_save_add_collection">
-              <button
-              type='button'
-                onClick={addProduct}
-                // disabled={perc !== null && perc < 100}
-                className="saving_buttons_add"
-                // onClick={handleSubmit}
-              >
-                Publish
-              </button>
-              <button type="button" className="saving_buttons_add">Schedule</button>
-              <p className="addproduct_title" id="belong_to_buttons">
-                Save Draft
-              </p>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div className="publish_button">
+        <Button
+          style={{ width: '10rem', backgroundColor: '#212B36' }}
+          size="large"
+          variant="contained"
+          onClick={addProduct}
+        >
+          Create Product
+        </Button>
       </div>
     </div>
   );

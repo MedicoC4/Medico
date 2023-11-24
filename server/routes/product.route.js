@@ -1,13 +1,16 @@
-const route = require('express').Router();
-const {getAll, create, update, deleteOne, getProductByCodebar,searchByName,searchNameLike,searchByBarcodeNoDup,searchAllByBarcodeNoDup} = require("../controller/products.controller");
+const route = require('express').Router()
+const {getAll, getOne, findOneMissing,pharmacyProduct, controlMissing,create, update, deleteOne, updateQ} = require("../controller/products.controller")
 
-route.get("/getAllCodeBarNoDup/:codeBarAllNoDup",searchAllByBarcodeNoDup)
-route.get("/getAll", getAll);
-route.post("/createProduct", create);
-route.put("/updateProduct/:id", update);
-route.delete("/deleteProduct/:id", deleteOne);
-route.get("/getProductByCodebar/:codebar", getProductByCodebar);
-route.get("/getProductByName/:searchByProdName", searchByName);
-route.get("/getProductLike/:searchLike", searchNameLike);
-route.get("/getCodeBarNoDup/:codeBarNoDup",searchByBarcodeNoDup)
+route.get("/getAll", getAll)
+
+route.get("/getOne/:id", getOne)
+route.get("/phProduct/:email", pharmacyProduct)
+
+route.get('/checkOne/:emailpharmacy/:codebarMissing', controlMissing)
+route.get('/findUser/:emailpharmacyOne', findOneMissing)
+route.post("/createProduct", create)
+route.patch("/updateProduct/:id", update)
+route.patch("/updateProductQuantity/:id", updateQ)
+route.delete("/deleteProduct/:id", deleteOne)
+
 module.exports = route;

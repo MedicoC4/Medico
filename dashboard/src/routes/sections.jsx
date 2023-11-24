@@ -14,6 +14,7 @@ export const MissingProd = lazy(() => import('src/pages/missing'));
 export const ProductsOverview = lazy(() => import('src/pages/productsOverview'));
 export const ProductDetails = lazy(() => import('src/pages/productDetails'))
 export const AddProduct = lazy(() => import('src/pages/addProduct'));
+export const UpdataProd = lazy(() => import('src/pages/updateProduct'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
@@ -23,7 +24,7 @@ export default function Router() {
     {
       element: (
         <DashboardLayout>
-          <Suspense>
+          <Suspense fallback={<div style={{width:"100%", height:'100%'}}><div className="loader" /></div>}>
             <Outlet />
           </Suspense>
         </DashboardLayout>
@@ -50,11 +51,13 @@ export default function Router() {
             { index: true, element: <ProductsOverview /> }, // Display OrdersView for /orders
             { path: 'add-product', element: <AddProduct /> }, // Display OrdersDetails for /orders/orders-detail/:id
             { path: 'product-details/:id', element: <ProductDetails /> }, // Display OrdersDetails for /orders/orders-detail/:id
+            { path: 'updateProd/:productId', element: <UpdataProd /> },
           ],
         },
         { path: 'missing-product', element: <MissingProd /> },
         // { path: 'product-overview', element: <ProductsOverview /> },
         { path: 'product-details/:id', element: <ProductsOverview /> },
+
         // { path: 'add-product', element: <AddProduct /> }
       ],
     },

@@ -12,6 +12,7 @@ const AppointementRouter = require('./routes/appointement.route.js')
 const AppointementListRouter = require('./routes/appointementList.route.js')
 const ReviewRouter = require('./routes/reviews.route.js')
 const NodemailerRoute = require('./routes/nodemailer.route.js')
+const Categories = require('./routes/categories.route.js')
 require('colors');
 const RecordsRouter = require('./routes/records.route.js')
 const morgan = require('morgan')
@@ -67,6 +68,7 @@ app.use('/api/appointement',AppointementListRouter)
 app.use('/api/records',RecordsRouter)
 app.use('/api/payment', PaymentRouter)
 app.use('/api/reviews', ReviewRouter)
+app.use('/api/category',Categories)
 app.use('/api/email', NodemailerRoute)
 
 app.listen(port, () => {

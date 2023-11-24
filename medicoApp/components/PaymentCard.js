@@ -5,15 +5,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const { width, height } = Dimensions.get('window');
 
 const PaymentCard = ({ order }) => {
-  return (
-    <View style={styles.card}>
-      <Text style={styles.text}>Payment ID: {order.Product.Pharmacy.Payment.paymentIntentId}</Text>
-      <Text style={styles.text}>Amount: {order.Product.Pharmacy.Payment.amount} TND</Text>
-      <Text style={styles.text}>Date: {new Date(order.Product.Pharmacy.Payment.createdAt).toLocaleDateString()}</Text>
-      <View style={styles.iconContainer}>
-        <Icon name="file-text-o" size={24} color="black" />
+    const paymentId = order?.Product?.Pharmacy?.Payment?.paymentIntentId;
+    const amount = order?.Product?.Pharmacy?.Payment?.amount;
+    const createdAt = order?.Product?.Pharmacy?.Payment?.createdAt;
+  
+    return (
+      <View style={styles.card}>
+        <Text style={styles.text}>Payment ID: {paymentId}</Text>
+        <Text style={styles.text}>Amount: {amount} TND</Text>
+        <Text style={styles.text}>Date: {createdAt ? new Date(createdAt).toLocaleDateString() : ''}</Text>
+        <View style={styles.iconContainer}>
+          <Icon name="file-text-o" size={24} color="black" />
+        </View>
       </View>
-    </View>
   );
 };
 

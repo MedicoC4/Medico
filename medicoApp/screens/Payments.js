@@ -35,19 +35,6 @@ const Payments = () => {
       dispatch(fetchOrdersByUserId(email));
     }, [dispatch]);
   
-    useEffect(() => {
-      const fetchPayments = async () => {
-        try {
-          const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/payment/getAll`);
-          setPayment(response.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-  
-      fetchPayments();
-    }, []);
-  
   return (
     <View style={{ flex: 1 }}>
     <View style={{ flex: 1 }}>

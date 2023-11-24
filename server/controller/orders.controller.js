@@ -6,7 +6,7 @@ const {
   Pharmacy,
   Payment,
 } = require("../database/index.js");
-
+const { Op } = require('sequelize');
 module.exports = {
   getAll: async (req, res) => {
     try {
@@ -28,7 +28,7 @@ module.exports = {
   getOne: async (req, res) => {
     try {
       const getOne = await Order.findOne({
-        where: { order_id: req.params.id },
+        where: { id: req.params.id },
         include: [{ model: User }, { model: Products }],
       });
       res.json(getOne);
@@ -104,7 +104,7 @@ module.exports = {
   
       // Update each Missing record
       for (const missing of allMissing) {
-        await missing.update({order: missing.order + 1});
+        await missing.update({order: missing.order + req.body.quantityOrdered});
         missing.quota = missing.quantity / missing.order;
         await missing.save();
       }
@@ -114,15 +114,45 @@ module.exports = {
       throw error;
     }
   },
+    getAllDeclaredMissed: async (req, res) => {
+    try {
+      const getAllMissed = await Missing.findAll({
+        where: {
+          quota: {
+            [Op.lt]: 1,
+          },
+        },
+      });
+      const getMissingProd = await Promise.all(
+     getAllMissed.map(async (item) => {
+        try {
+          const getOne = await Products.findOne({
+            where: {
+              codebar: item.codebar,
+            },
+          });
+          return getOne;
+        } catch (error) {
+          console.log("Error fetching product by codebar:", err.message);
+          throw error;
+        }
+        })
+      )
+      res.send(getMissingProd);
+    } catch (err) {
+      console.log("Error al obtener todos los usuarios");
+      throw err;
+    }
+  },
   updateOrder: async (req, res) => {
-    const { order_id } = req.params; // get the order_id from the request parameters
+ // get the order_id from the request parameters
     const updatedData = req.body; // the new data for the order
-  
+    
+    console.log(updatedData)
     try {
       await Order.update(updatedData, {
-        where: { id: order_id },
+        where: { id: req.params.id },
       });
-  
       res.json({ message: 'Order updated successfully' });
     } catch (error) {
       console.log('Error while updating order');
@@ -134,7 +164,7 @@ module.exports = {
     let id = req.params.id;
     try {
       const deletedUser = await Order.destroy({
-        where: { order_id: id },
+        where: { id: id },
       });
       res.json(deletedUser);
     } catch (error) {

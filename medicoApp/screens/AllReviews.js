@@ -38,177 +38,19 @@ const AllReviews = ({navigation,route}) => {
     <View style={{
         backgroundColor:'white',
     }}>
-      <View style={{
-            width:width*1,
-            height:height*0.48
+        <View style={{
+            height:height*0.94,
+            gap:20
         }}>
-        <ImageBackground
-        source={require('../assets/doctoura.jpg')}
-        resizeMode="cover"
-        style={{width:width*1,
-            height:height*0.37,
-            flex: 1,
-            justifyContent: 'flex-start',
-            padding:30
-        
-        
-        
-        }}
-        >
-            <View style={{
-                display:"flex",
-                flexDirection:'row',
-                justifyContent:'space-between'
-            }}>
-            <TouchableOpacity
-            style={{
-                backgroundColor:COLORS.white,
-            width:width*0.1,
-            height:height*0.05,
-            borderRadius:200,
-            alignItems:'center',
-            justifyContent:'center'
-            }}>
-                <Image
-                source={require('../assets/arrowback.png')}
-                style={{
-                    width:width*0.07,
-                    height:height*0.02
-                }}
-                />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-            style={{
-                backgroundColor:COLORS.white,
-            width:width*0.1,
-            height:height*0.05,
-            borderRadius:200,
-            alignItems:'center',
-            justifyContent:'center'
-            }}>
-                <Image
-                source={require('../assets/menu.png')}
-                style={{
-                    width:width*0.08,
-                    height:height*0.03
-                }}
-                />
-            </TouchableOpacity>
-            </View>
-            <View
-            style={{
-                width:width*0.9,
-                height:height*0.15,
-                backgroundColor:COLORS.white,
-                position:'absolute',
-                top:230,
-                left:20,
-                borderRadius:20,
-                elevation: 10,
-                justifyContent:'space-between',
-    shadowColor: 'grey',
-    display:'flex',
-    flexDirection:'row'
-            }}
-            >
-                <View 
-                style={{
-                    display:'flex',
-                    flexDirection:'column',
-                    gap:20
-                }}
-                >
-                    <View style={{
-                        paddingTop:12,
-                        paddingLeft:27
-                    }}>
-                    <Text style={{
-                        fontSize:20,
-                        fontWeight:600
-                    }}>Dr. {data?.fullname}</Text>
-                    <Text style={{
-                        fontSize:15,
-                        fontWeight:400,
-                        color:COLORS.grey
-                    }}>Doctor Speciality</Text>
-                    </View>
-
-                    <View style={{
-                        display:'flex',
-                        flexDirection:'row'
-                    }}>
-                        <View style={{
-                            paddingLeft:20,
-                            display:"flex",
-                            flexDirection:'row',
-                            alignItems:'center',
-                            gap:10
-                        }}>
-                            <Image 
-                            source={require('../assets/approved.png')}
-                            style={{width:width*0.065,
-                            height:height*0.031}}
-                            />
-                            <Text style={{
-                                fontWeight:600
-                            }}>{data?.type}</Text>
-                        </View>
-                        <View style={{
-                            paddingLeft:20,
-                            display:"flex",
-                            flexDirection:'row',
-                            alignItems:'center',
-                            gap:10
-                        }}>
-                            <Image 
-                            source={require('../assets/gps.png')}
-                            style={{width:width*0.062,
-                            height:height*0.030}}
-                            />
-                            <Text style={{
-                                fontWeight:600
-                            }}>1.6 km</Text>
-                        </View>
-                    </View>
-                    
-                </View>
-                <View style={{
-                    display:'flex',
-                    flexDirection:'column',
-                    padding:20,
-                    alignItems:'center',
-                    gap:12
-                }}>
-                    <View style={{
-                        backgroundColor:COLORS.primary,
-                        width:width*0.15,
-                        alignItems:'center',
-                        justifyContent:'center',
-                        height:height*0.07,
-                        borderRadius:20
-                    }}>
-                        <Text style={{
-                            color:COLORS.white,
-                            fontSize:20,
-                            fontWeight:600
-                        }}>{calculateAverage()}</Text>
-                    </View>
-                    <Text style={{
-                        color:COLORS.grey,
-                        fontWeight:600
-                    }}>{reviews.length} Reviews</Text>
-                </View>
-
-
-            </View>
-
-
-
-
-        </ImageBackground>
-
-        </View>
+    <View style={{
+        paddingTop:50,
+        paddingLeft:20
+    }}>
+        <Text style={{
+            fontSize:35,
+            fontWeight:'bold'
+        }}>All Reviews</Text>
+    </View>
 
         
                 <View style={{
@@ -227,10 +69,12 @@ const AllReviews = ({navigation,route}) => {
             flexGrow:1
             
         }}>
-            {reviews.map((review, index) => (
+
+         {reviews.map((review, index) => (
           <ReviewCardDoctor key={review.id} review={review} />
-        ))}
+        ))}   
         </ScrollView>
+        </View>
         </View>
         <NavigationBar/>
     </View>

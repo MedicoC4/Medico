@@ -31,6 +31,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
   const reviews=useSelector((state)=>state.docRev.data)
 
 
+
   const dispatch=useDispatch()
 
 
@@ -57,12 +58,12 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
         const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
 
   
-        // console.log(loggedUser);
+
         const response = await axios.get(
           `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.Doctor.latitude},${data.Doctor.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
           );
   
-          console.log(data.Doctor.latitude,data.Doctor.longitude);
+  
           if (
             response.data.status === "OK" &&
           response.data.rows.length > 0 &&

@@ -4,9 +4,19 @@ const { Op } = require("sequelize");
 module.exports = {
     getAll: async (req, res) => {
         try{
+          const getUser= await User.findOne({
+            where:{
+              type:'doctor',
+              email:req.params.emailnotLike
+            }
+          })
+          console.log('getUser From the server',getUser);
             const getAll = await User.findAll({
                 where: {
-                  type: "doctor"
+                  type: "doctor",
+                  id:{
+                    [Op.notLike]: getUser.DoctorId
+                  }
                 },
                 include:Doctor
               })

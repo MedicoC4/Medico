@@ -35,7 +35,6 @@ const DocProfileNew = ({navigation}) => {
   const [client,setClient]=useState(0)
   const dispatch=useDispatch()
   const data = useSelector((state)=>state.doctor.oneDoc)
-  console.log('my data',data);
   const reviews=useSelector((state)=>state.docRev.data)
 
 
@@ -79,18 +78,12 @@ const fetchData = async()=>{
 }
 
 
-const calculateAverage=()=>{
-  const totalRating = reviews.reduce((acc, curr) => acc + curr.rating, 0)
-  const averageRating = totalRating / reviews.length | 0
 
-  return averageRating
-}
 
 
 
 useEffect(() => {
   fetchReviews()
-  calculateAverage()
   fetchData()
 }, []);
 
@@ -673,22 +666,7 @@ const renderDoctorProfile = () =>{
                               fontWeight:600
                           }}>{data.type}</Text>
                       </View>
-                      <View style={{
-                          paddingLeft:20,
-                          display:"flex",
-                          flexDirection:'row',
-                          alignItems:'center',
-                          gap:10
-                      }}>
-                          <Image 
-                          source={require('../assets/gps.png')}
-                          style={{width:width*0.062,
-                          height:height*0.030}}
-                          />
-                          <Text style={{
-                              fontWeight:600
-                          }}>1.6 km</Text>
-                      </View>
+                 
                   </View>
                   
               </View>
@@ -711,12 +689,12 @@ const renderDoctorProfile = () =>{
                           color:COLORS.white,
                           fontSize:20,
                           fontWeight:600
-                      }}>5.0</Text>
+                      }}>{(data.rating)?.toFixed(1)}</Text>
                   </View>
                   <Text style={{
                       color:COLORS.grey,
                       fontWeight:600
-                  }}>150 Reviews</Text>
+                  }}>{reviews.length} Reviews</Text>
               </View>
 
 

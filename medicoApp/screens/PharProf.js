@@ -29,17 +29,16 @@ const PharProf = ({route}) => {
   const [comment,setComment]=useState('')
   const [rating,setRating]=useState('')
   const [allReviews,setAllReviews]=useState([])
-  const [isDistance,setIsDistance]=useState(null)
+  const [isDistance,setIsDistance]=useState(0)
   const [loggedIn,setLoggedIn]=useState({})
 
 
-  console.log('this is the logged in user',loggedIn);
+  // console.log('this is the logged in user',loggedIn);
 
-  console.log(isDistance,'this is distance between you and pharmacy');
+  // console.log(isDistance,'this is distance between you and pharmacy');
 
 
-  console.log(data.latitude,data.longitude);
-  console.log(loggedIn.latitude,loggedIn.longitude);
+
 
 
 
@@ -72,28 +71,46 @@ const PharProf = ({route}) => {
   
   
   const calculateDistanceMap = async () => {
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longitude}&destinations=${loggedIn.latitude},${loggedIn.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
-        );
-        const data = await response.json();
+    
+
+    if(data.latitude && data.longitude){
+
+      
+      try {
+        const loggedMail=auth.currentUser.email
         
-        if (
-          data.status === "OK" &&
-        data.rows.length > 0 &&
-        data.rows[0].elements.length > 0 &&
-        data.rows[0].elements[0].distance
-        ) {
-          const distance = data.rows[0].elements[0].distance.text;
-          setIsDistance(distance);
-        } else if (data.status === "ZERO_RESULTS") {
-        console.warn("No distance information available between the specified points.");
-      } else {
-        console.error("Error calculating distance: ", data.status);
+        const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
+
+  
+        console.log(loggedUser);
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+          );
+  
+          
+          if (
+            response.data.status === "OK" &&
+          response.data.rows.length > 0 &&
+          response.data.rows[0].elements.length > 0 &&
+          response.data.rows[0].elements[0].distance
+          ) {
+            const distance = response.data.rows[0].elements[0].distance.text;
+            setIsDistance(distance);
+          } else if (response.data.status === "ZERO_RESULTS") {
+          console.warn("No distance information available between the specified points.");
+        } else {
+          console.error("Error calculating distance: ", data.status);
+        }
+      } catch (error) {
+        console.error("Error fetching distance data: ", error);
       }
-    } catch (error) {
-      console.error("Error fetching distance data: ", error);
+      
+
+
+    }else {
+      console.log('latitude is not coming');
     }
+
   };
   
   
@@ -144,9 +161,9 @@ const PharProf = ({route}) => {
 }
 
   useEffect(()=>{
-    fetchReviewsForPhar()
-    getLoggedIn()
     calculateDistanceMap()
+    // getLoggedIn()
+    fetchReviewsForPhar()
   },[])
 
   const medicines = [

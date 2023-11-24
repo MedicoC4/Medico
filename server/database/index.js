@@ -21,97 +21,110 @@ connection
     throw error;
   });
 
+const User = require("./models/user.js")(connection, DataTypes);
+const Review = require("./models/reviews.js")(connection, DataTypes);
+const Record = require("./models/records.js")(connection, DataTypes);
+const Products = require("./models/products.js")(connection, DataTypes);
+const Pharmacy = require("./models/pharmacy.js")(connection, DataTypes);
+const Doctor = require("./models/doctor.js")(connection, DataTypes);
+const Order = require("./models/orders.js")(connection, DataTypes);
+const Categories = require("./models/categories.js")(connection, DataTypes);
+const Day = require("./models/day.js")(connection, DataTypes);
+const Speciality = require("./models/speciality.js")(connection, DataTypes);
+const Availability = require("./models/availabilty.js")(connection, DataTypes);
+const AppointementList = require("./models/appointementList.js")(
+  connection,
+  DataTypes
+);
+const Missing = require("./models/missing.js")(connection, DataTypes);
+const Payment = require("./models/payment.js")(connection, DataTypes);
 
-const User = require('./models/user.js')(connection, DataTypes)
-const Review = require('./models/reviews.js')(connection, DataTypes)
-const Record = require('./models/records.js')(connection, DataTypes)
-const Products = require('./models/products.js')(connection, DataTypes)
-const Pharmacy = require('./models/pharmacy.js')(connection, DataTypes)
-const Doctor = require('./models/doctor.js')(connection, DataTypes)
-const Order = require('./models/orders.js')(connection, DataTypes)
-const Categories = require('./models/categories.js')(connection, DataTypes)
-const Day = require('./models/day.js')(connection, DataTypes)
-const Speciality = require('./models/speciality.js')(connection, DataTypes)
-const Availability = require('./models/availabilty.js')(connection, DataTypes)
-const AppointementList = require('./models/appointementList.js')(connection, DataTypes)
-const Missing = require('./models/missing.js')(connection, DataTypes)
-const Payment = require('./models/payment.js')(connection, DataTypes)
+Pharmacy.hasOne(User);
+User.belongsTo(Pharmacy);
 
+Doctor.hasOne(User);
+User.belongsTo(Doctor);
 
+User.hasMany(Review);
+Review.belongsTo(User);
 
-Pharmacy.hasOne(User)
-User.belongsTo(Pharmacy)
+Doctor.hasMany(Review);
+Review.belongsTo(Doctor);
 
-Doctor.hasOne(User)
-User.belongsTo(Doctor)
+Pharmacy.hasMany(Review);
+Review.belongsTo(Pharmacy);
 
-User.hasMany(Review)
-Review.belongsTo(User)
+Categories.hasMany(Products);
+Products.belongsTo(Categories);
 
-Doctor.hasMany(Review)
-Review.belongsTo(Doctor)
+Doctor.hasMany(Record);
+Record.belongsTo(Doctor);
 
-Pharmacy.hasMany(Review)
-Review.belongsTo(Pharmacy)
+Pharmacy.hasMany(Record);
+Record.belongsTo(Pharmacy);
 
-Categories.hasMany(Products)
-Products.belongsTo(Categories)
+Products.hasMany(Record);
+Record.belongsTo(Products);
 
-Doctor.hasMany(Record)
-Record.belongsTo(Doctor)
+Pharmacy.hasMany(Products);
+Products.belongsTo(Pharmacy);
 
-Pharmacy.hasMany(Record)
-Record.belongsTo(Pharmacy)
+Products.hasMany(Order);
+Order.belongsTo(Products);
 
-Products.hasMany(Record)
-Record.belongsTo(Products)
+User.hasMany(Order);
+Order.belongsTo(User);
 
-Pharmacy.hasMany(Products)
-Products.belongsTo(Pharmacy)
+Doctor.hasMany(Day);
+Day.belongsTo(Doctor);
 
-Products.hasMany(Order)
-Order.belongsTo(Products)
+Speciality.hasMany(Doctor);
+Doctor.belongsTo(Speciality);
 
-User.hasMany(Order)
-Order.belongsTo(User)
+Day.hasMany(Availability);
+Availability.belongsTo(Day);
 
-Doctor.hasMany(Day)
-Day.belongsTo(Doctor)
-
-
-Speciality.hasMany(Doctor)
-Doctor.belongsTo(Speciality)
-
-Day.hasMany(Availability)
-Availability.belongsTo(Day)
-
-Doctor.hasMany(AppointementList)
-AppointementList.belongsTo(Doctor)
+Doctor.hasMany(AppointementList);
+AppointementList.belongsTo(Doctor);
 // User.belongsToMany(Review, { through: 'UserReview' })
 // Review.belongsToMany(User, { through: 'UserReview' })
 
-Products.belongsToMany(Review, { through: 'ProductReview' })
-Review.belongsToMany(Products, { through: 'ProductReview' })
+Products.belongsToMany(Review, { through: "ProductReview" });
+Review.belongsToMany(Products, { through: "ProductReview" });
 
 // Doctor.belongsToMany(Review, { through: 'DoctorReview' })
 // Review.belongsToMany(Doctor, { through: 'DoctorReview' })
 
+User.hasMany(AppointementList);
+AppointementList.belongsTo(User);
 
-User.hasMany(AppointementList)
-AppointementList.belongsTo(User)
+Availability.hasMany(AppointementList);
+AppointementList.belongsTo(Availability);
 
-Availability.hasMany(AppointementList)
-AppointementList.belongsTo(Availability)
+Day.hasMany(AppointementList);
+AppointementList.belongsTo(Day);
 
-Day.hasMany(AppointementList)
-AppointementList.belongsTo(Day)
-
-Order.hasOne(Payment)
-Payment.belongsTo(Order)
+Order.hasOne(Payment);
+Payment.belongsTo(Order);
 
 // connection
-//   .sync({force: true })
+//   .sync({alter: true })
 //   .then(() => console.log("tables created"))
 //   .catch((error) => {throw error;});
 
-module.exports = {Payment,User, Products, Review, Record, Doctor, Order, Pharmacy, Categories,Day,Availability,AppointementList,Speciality, Missing};
+module.exports = {
+  Payment,
+  User,
+  Products,
+  Review,
+  Record,
+  Doctor,
+  Order,
+  Pharmacy,
+  Categories,
+  Day,
+  Availability,
+  AppointementList,
+  Speciality,
+  Missing,
+};

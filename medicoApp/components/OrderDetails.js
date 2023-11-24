@@ -9,7 +9,7 @@ const { width, height } = Dimensions.get('window');
 const OrderDetails = ({ pharmacy, userId, order }) => {
   const navigation = useNavigation();
   if (!order) {
-    return null; // or return a loading spinner, or some fallback UI
+    return null; 
   }
   const getStatusColors = (status) => {
     switch (status) {
@@ -26,6 +26,7 @@ const OrderDetails = ({ pharmacy, userId, order }) => {
   const colors = getStatusColors(order.orderStatus);
 
   return (
+    <View style={styles.container}>
     <View style={styles.card}>
       <View style={styles.statusContainer}>
         <View style={[styles.processingContainer, { backgroundColor: colors.container }]}>
@@ -38,9 +39,12 @@ const OrderDetails = ({ pharmacy, userId, order }) => {
     </TouchableOpacity>
   ) : order.isPayed === true ? (
     <View style={[styles.processingContainer, { backgroundColor: getStatusColors(order.livraisonStatus).container }]}>
-      <Text style={[styles.processingText, { color: getStatusColors(order.livraisonStatus).text }]}>
-        Shipping Status: {order.livraisonStatus}
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <FontAwesome5 name="truck" size={20} color={getStatusColors(order.livraisonStatus).text} />
+        <Text style={[styles.processingText, { color: getStatusColors(order.livraisonStatus).text, marginLeft: 5 }]}>
+          {order.livraisonStatus}
+        </Text>
+      </View>
     </View>
   ) : null
 )}
@@ -59,18 +63,24 @@ const OrderDetails = ({ pharmacy, userId, order }) => {
         </View>
       </View>
     </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   card: {
     borderRadius: 30,
     padding: 19,
     backgroundColor: "#f8f8f8",
     marginTop: 30,
-    marginHorizontal: 10,
-    width: width * 0.9, // 90% of the window's width
-    height: height * 0.2, // 30% of the window's height
+    // marginHorizontal: 10,
+    width: width * 0.9, 
+    height: height * 0.2, 
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -85,24 +95,24 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 5,
     alignSelf: "flex-start",
-    width: width * 0.35, // 80% of the window's width
-    height: height * 0.04, // 20% of the window's height
+    width: width * 0.35, 
+    height: height * 0.04, 
     justifyContent: "center",
     alignItems: "center",
   },
   processingText: {
     color: "#FFA500",
-    fontSize: width * 0.03, // 3% of the window's width
+    fontSize: width * 0.03, 
   },
   fromText: {
-    fontSize: width * 0.04, // 4% of the window's width
+    fontSize: width * 0.04, 
     marginTop: 10,
     fontWeight: "bold"
   },
   separator: {
     height: 1,
     backgroundColor: "#000",
-    marginVertical: height * 0.02, // 2% of the window's height
+    marginVertical: height * 0.02, 
   },
   orderDetails: {
     flexDirection: "row",
@@ -112,11 +122,11 @@ const styles = StyleSheet.create({
   orderDetailItem: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: width * 0.08, // 8% of the window's width
-    marginLeft: width * 0.08, // 8% of the window's width
+    marginRight: width * 0.08,
+    marginLeft: width * 0.08, 
   },
   drugsText: {
-    marginLeft: width * 0.02, // 2% of the window's width
+    marginLeft: width * 0.02,
     fontWeight: "bold"
   },
   separatorVertical: {
@@ -125,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   totalText: {
-    marginLeft: width * 0.02, // 2% of the window's width
+    marginLeft: width * 0.02,
     fontWeight: "bold"
   },
   statusContainer: {
@@ -135,8 +145,8 @@ const styles = StyleSheet.create({
   },
   checkoutButton: {
     borderRadius: 20,
-    padding: width * 0.01, // 1% of the window's width
-    marginLeft: width * 0.4, // 40% of the window's width
+    padding: width * 0.01, 
+    marginLeft: width * 0.4, 
   },
 });
 

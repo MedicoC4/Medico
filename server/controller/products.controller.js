@@ -1,6 +1,4 @@
-const { result } = require("lodash");
 const { Products, Missing, User, Pharmacy } = require("../database/index");
-const missing = require("../database/models/missing");
 const { Op,Sequelize } = require("sequelize");
 
 

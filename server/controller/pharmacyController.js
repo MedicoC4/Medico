@@ -70,6 +70,20 @@ module.exports = {
       throw new Error(error);
     }
   },
+  getAivablePharmaDayNight: async (req, res) => {
+    try {
+      const getPharma = await Pharmacy.findAll({
+        where: {
+        isBlocked: { [Op.like]: req.params.isBlockPharma },
+        isverified: { [Op.like]: req.params.isVerefPharma },
+        type:{[Op.like]: req.params.typeDN}
+        },
+      });
+      res.status(200).send(getPharma)
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   updataLongLat:async (req, res) => {
     try {
       const longLat = await Pharmacy.update(req.body,{where:{id:req.params.idPharmcy}})
@@ -106,4 +120,15 @@ recordsDoc : async(req , res)=>{
       res.json(error)
   }
 },
+verficationPharm : async (req, res) => {
+  try {
+      const onePharm = await User.findOne({where: {email : req.body.email}});
+      const docc = await Pharmacy.findOne({where: {id : onePharm.PharmacyId}})
+      console.log('========>',docc.isverified);
+      const doc = await Pharmacy.update({isverified:!docc.isverified},{where: {id : onePharm.PharmacyId}});
+      res.json(doc)
+  } catch (error) {
+      throw error
+  }
+}
   };

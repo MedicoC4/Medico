@@ -175,6 +175,7 @@ const ProductsOverview = () => {
       <DataGrid
         rows={data}
         columns={columns}
+        rowSelection={false}
         checkboxSelection
         disableRowSelectionOnClick
         style={{
@@ -191,7 +192,7 @@ const ProductsOverview = () => {
           },
           height: 560,
           border: 'none',
-          '[class^=MuiDataGrid-cellContent]': { borderRadius: '0' },
+          '[class^=MuiDataGrid-cellContent]': {border: 'none', borderRadius: '0' },
         }}
         getRowClassName={(params) => (params.row.image ? 'image-row' : '')}
         getRowHeight={() => 60}

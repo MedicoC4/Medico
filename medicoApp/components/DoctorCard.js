@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View,Image,TouchableOpacity,Dimensions } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../constants/colors'
-
 const {width,height}= Dimensions.get('window')
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,11 +10,17 @@ import { save } from '../redux/doctorSlicer';
 
 
 const DoctorCard = ({doctor}) => {
-    console.log('this is the doctor for the card',doctor);
+
+
+    console.log('this is doctor in the card',doctor);
+
+
   const navigation = useNavigation();
 const dispatch = useDispatch()
-const handleID=(id)=>{
-    dispatch(save(id))
+
+
+const handleID=()=>{
+    dispatch(save(doctor.DoctorId))
   }
 
   return (
@@ -46,7 +51,7 @@ const handleID=(id)=>{
 
             }}>
             <Image
-            source={require('../assets/hero3.jpg')}
+            source={{ uri: doctor.Doctor.imageUrl }}
             style={{width: width*0.2,
                 height: height*0.09,
                 justifyContent: "center",
@@ -65,7 +70,7 @@ const handleID=(id)=>{
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>Dr. {doctor.fullname}</Text>
+            }}>Dr. {doctor.Doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,
@@ -77,7 +82,10 @@ const handleID=(id)=>{
         gap:10,
         alignItems:'center'}}>
         <Icon name="star" size={15} color="#FFD700" />
-        <Text>3.5</Text>
+        <Text>{(doctor.Doctor.rating).toFixed(1)}</Text>
+
+
+        
       </View>
             </View>
             <TouchableOpacity
@@ -119,7 +127,7 @@ const handleID=(id)=>{
                     alignItems:'center',
                     borderBottomLeftRadius:20,
                 }}
-                onPress={()=>navigation.navigate('DocProfileNew',{data:doctor})}>
+                onPress={()=>navigation.navigate('ProfileDocStatic',{data:doctor})}>
                     <Text
                     style={{
                         color:COLORS.white,
@@ -139,7 +147,7 @@ const handleID=(id)=>{
                     borderBottomRightRadius:20
                 }}
                 
-                    onPress={()=>{handleID(doctor.Doctor.id);navigation.navigate('appointmentClient')}}
+                    onPress={()=>{handleID();navigation.navigate('appointmentClient')}}
                 >
                 <Image
                 source={require('../assets/book.png')}

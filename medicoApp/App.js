@@ -28,6 +28,9 @@ import {
   DocProfileNew,
   AppointementDoctor,
   appointementUserList,
+  UserMap,
+  ProfileDocStatic,
+  SendingDoc
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -43,7 +46,6 @@ import UpgradeToPharm from "./screens/UpgradeToPharm";
 import AllMedicines from "./screens/AllMedecines";
 import MedicineDetails from "./screens/MedecineDetails";
 import OrderDet from "./screens/OrderDet";
-import UserMap from "./screens/UserMap";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
@@ -76,82 +78,96 @@ export default function App() {
   return (
     <StripeProvider publishableKey="pk_test_51ODoKPCkrKQqUqCAjYKGnbLVZjf9PG0yXfHILgFPQgirdXJHl4tSnJxmuZtNF1esZOoqcVE6qiHDnC0QfaKRTN4J00qMvLzssR">
       <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator
-            // initialRouteName={initialRoute}
-            initialRouteName="Login"
-          >
-            <Stack.Screen
-              name="Welcome"
-              component={Welcome}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="AddRatings"
-              component={AddRatings}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="docProfile"
-              component={DocProfile}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="DocProfileNew"
-              component={DocProfileNew}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="AllMissingProducts"
-              component={AllMissingProducts}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="AllDoctors"
-              component={AllDoctors}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="AllReviews"
-              component={AllReviews}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="Promotions"
-              component={Promotions}
-              options={{
-                headerShown: false,
-              }}
-            />
+    <NavigationContainer>
+      <Stack.Navigator
+        // initialRouteName={initialRoute}
+        initialRouteName="Login"
+      >
+        <Stack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SendingDoc"
+          component={SendingDoc}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="AddRatings"
+          component={AddRatings}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="docProfile"
+          component={DocProfile}
+          options={{
+            headerShown: false,
+          }}
+        />
+          <Stack.Screen
+            name="DocProfileNew"
+            component={DocProfileNew}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllMissingProducts"
+            component={AllMissingProducts}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllDoctors"
+            component={AllDoctors}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AllReviews"
+            component={AllReviews}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Promotions"
+            component={Promotions}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-            <Stack.Screen
-              name="PharProf"
-              component={PharProf}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="BestSellers"
-              component={BestSellers}
-              options={{
-                headerShown: false,
-              }}
-            />
+        <Stack.Screen
+          name="PharProf"
+          component={PharProf}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileDocStatic"
+          component={ProfileDocStatic}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="BestSellers"
+          component={BestSellers}
+          options={{
+            headerShown: false,
+          }}
+        />
 
             <Stack.Screen
               name="PharmacyProfile"
@@ -358,6 +374,20 @@ export default function App() {
                 headerShown: false,
               }}
             />
+             <Stack.Screen
+            name="userMap"
+            component={UserMap}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="mapDirection"
+            component={UserMapView}
+            options={{
+              headerShown: false,
+            }}
+          />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

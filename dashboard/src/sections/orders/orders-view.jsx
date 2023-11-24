@@ -12,6 +12,7 @@ const { TabPane } = Tabs;
 const OrdersView = () => {
   const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState('1');
+  const [disable, setDisable] = useState(false)
   console.log(data);
 
   const onChange = (key) => {
@@ -50,8 +51,8 @@ const OrdersView = () => {
       const getOrderQ = await axios.get(
         `http://127.0.0.1:1128/api/orders/oneOrder/${orderId}`
       );
-      console.log(getOrderQ.data.ProductId);
-      const pID = getOrderQ.data.ProductId;
+      console.log(getOrderQ?.data.ProductId);
+      const pID = getOrderQ?.data.ProductId;
       const getProductQ = await axios.get(
         `http://127.0.0.1:1128/api/Product/getOne/${pID}`
       );
@@ -63,6 +64,9 @@ const OrdersView = () => {
           `http://127.0.0.1:1128/api/product/updateProductQuantity/${pID}`,
           { stock: prodQ }
         );
+        setDisable(true)
+      } else {
+        setDisable(true)
       }
       fetchOrders();
     } catch (error) {
@@ -148,6 +152,7 @@ const OrdersView = () => {
               borderRadius: '1rem',
               cursor: 'pointer',
             }}
+            disabled={disable}
           >
             Accept
           </button>
@@ -162,6 +167,7 @@ const OrdersView = () => {
               borderRadius: '1rem',
               cursor: 'pointer',
             }}
+            disabled={disable}
           >
             Reject
           </button>

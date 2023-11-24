@@ -11,4 +11,4 @@ route.patch("/updateProduct/:id", update)
 route.patch("/updateProductQuantity/:id", updateQ)
 route.delete("/deleteProduct/:id", deleteOne)
 
-module.exports = route
+module.exports = route;

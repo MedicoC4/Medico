@@ -76,7 +76,7 @@ function Tables() {
         <CardHeader p="6px 0px 22px 0px">
           <Flex direction="column">
             <Text fontSize="lg" color={textColor} fontWeight="bold" pb=".5rem">
-              Projects Table
+              Pharmacies Table
             </Text>
           </Flex>
         </CardHeader>
@@ -85,11 +85,12 @@ function Tables() {
             <Thead>
               <Tr my=".8rem" pl="0px">
                 <Th pl="0px" color="gray.400" borderColor={borderColor}>
-                  Companies
+                  pharmacy
                 </Th>
-                <Th color="gray.400" borderColor={borderColor}>Budget</Th>
-                <Th color="gray.400" borderColor={borderColor}>Status</Th>
-                <Th color="gray.400" borderColor={borderColor}>Completion</Th>
+                <Th borderColor={borderColor} color="gray.400" >Status</Th>
+                <Th borderColor={borderColor} color="gray.400" >Function</Th>
+                <Th borderColor={borderColor} color="gray.400" >Employed</Th>
+                <Th borderColor={borderColor}></Th>
                 <Th></Th>
               </Tr>
 

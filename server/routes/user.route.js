@@ -3,6 +3,8 @@ const {getAll, create,checkUserCredit, update, deleteOne,SignIn,updataLongLat,ge
 
 route.put("/updateLongLat/:idUse", updataLongLat)
 route.get("/getAll", getAll)
+route.get("/getOneById/:getById", getUserByid)
+route.get('/getOne/:email',getOne)
 route.get('/getUser/:id',getUserNameById );
 route.get('/checkMail/:userMail', checkUserCredit)
 route.post("/createUser", create)

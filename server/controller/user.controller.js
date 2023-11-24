@@ -3,6 +3,7 @@ const { User ,Doctor, Pharmacy} = require("../database/index");
 const { get } = require("dottie");
 
 module.exports = {
+
   getAll: async (req, res) => {
     try {
       const getAll = await User.findAll({});
@@ -12,6 +13,17 @@ module.exports = {
       throw err;
     }
   },
+  getOne:async(req,res)=>{
+    try {
+      const getOne=await User.findOne({
+        where:{email:req.params.email}
+      })
+      res.json(getOne)
+    } catch (error) {
+      throw error
+    }
+  },
+      
   checkUserCredit: async (req, res) => {
     try {
       const getOne = await User.findOne({
@@ -93,7 +105,7 @@ module.exports = {
     }
   },
   getUserNameById:async(req,res)=>{
-    const userId = req.params.id; // Assuming the user ID is part of the route params
+    const userId = req.params.id; 
 
     try {
       const user = await User.findOne({
@@ -110,5 +122,15 @@ module.exports = {
       console.error('Error fetching username:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
+  },
+  getUserByid:async(req,res)=>{
+try {
+  const user = await User.findOne({where: { id: req.params.getById}})
+  res.json(user)
+} catch (error) {
+  throw new Error(error)
+}
   }
 };
+
+

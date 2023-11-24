@@ -1,14 +1,22 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet,TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from "@react-navigation/native";
 
 const PharmacyCard = ({ pharmacy }) => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+    activeOpacity={1}
+    onPress={()=>navigation.navigate('PharProf',{pharmacy:pharmacy})}
+    >
+    <View style={styles.card}
+    >
       <Image source={{ uri: pharmacy.imageUrl }} style={styles.image} />
       <View style={styles.infoContainer}>
         <View style={styles.nameRatingContainer}>
-          <Text style={styles.name}>{pharmacy.PHname}</Text>
+          <Text style={styles.name}>{pharmacy.PHname}'s Pharmacy</Text>
           <View style={styles.ratingContainer}>
             <Icon name="star" size={15} color="#FFD700" />
             <Text style={styles.rating}>4.5</Text>
@@ -20,6 +28,7 @@ const PharmacyCard = ({ pharmacy }) => {
         </View>
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 

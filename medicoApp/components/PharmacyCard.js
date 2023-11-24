@@ -13,13 +13,13 @@ const PharmacyCard = ({ pharmacy }) => {
     >
     <View style={styles.card}
     >
-      <Image source={{ uri: pharmacy.imageUrl }} style={styles.image} />
+      <Image source={{ uri: pharmacy?.imageUrl }} style={styles.image} />
       <View style={styles.infoContainer}>
         <View style={styles.nameRatingContainer}>
-          <Text style={styles.name}>{pharmacy.PHname}'s Pharmacy</Text>
+          <Text style={styles.name}>{pharmacy?.PHname}'s Pharmacy</Text>
           <View style={styles.ratingContainer}>
             <Icon name="star" size={15} color="#FFD700" />
-            <Text style={styles.rating}>4.5</Text>
+            <Text style={styles.rating}>{pharmacy?.rating}</Text>
           </View>
         </View>
         <View style={styles.distanceContainer}>

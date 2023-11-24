@@ -10,8 +10,6 @@ module.exports = {
                 },
                 include:Doctor
               })
-              
-
             res.json(getAll)
         }catch(err){
             console.log("Error al obtener todos los usuarios")
@@ -32,7 +30,7 @@ module.exports = {
             await Doctor.destroy({where:{ id: req.params.id}})
             res.json('Deleted')
         } catch (error) {
-            throw err;
+            throw error;
         }
       },
       change : async(req,res)=>{
@@ -79,7 +77,7 @@ module.exports = {
         try {
             console.log(req.body);
              const oneDoc = await User.findOne({where: {email : req.body.email}});
-             const doc = await Doctor.update({specialityId :req.body.specialityId,},{where: {id : oneDoc.DoctorId}});
+             const doc = await Doctor.update({specialityId :req.body},{where: {id : oneDoc.DoctorId}});
             res.send(doc);
         } catch (error) {
             throw error
@@ -206,4 +204,21 @@ module.exports = {
             throw new Error(err)
         }
       },
+      verficationDoc: async (req, res) => {
+        try {
+          const oneDoc = await User.findOne({ where: { email: req.body.email } });
+          const docc = await Doctor.findOne({ where: { id: oneDoc.DoctorId } });
+          console.log('========>', docc.isverified);
+          const doc = await Doctor.update(
+            { isverified: !docc.isverified },
+            { where: { id: oneDoc.DoctorId } }
+          );
+      
+
+          const updatedDoc = await Doctor.findOne({ where: { id: oneDoc.DoctorId } });
+          res.json(updatedDoc);
+        } catch (error) {
+          throw error;
+        }
+      }
 }

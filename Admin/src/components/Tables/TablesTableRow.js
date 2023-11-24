@@ -7,10 +7,19 @@ import {
   Text,
   Tr,
   useColorModeValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDoctors } from "../../redux/doctorSlicer";
+import { fetchDoctors, verificationDoc , docIdd} from "../../redux/doctorSlicer";
+import axios from "axios";
+
 
 function TablesTableRow(props) {
   const { isLast } = props;
@@ -18,128 +27,201 @@ function TablesTableRow(props) {
   const titleColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-
-  const doctors = useSelector((state) => state.doctor.data);
+  const [docId , setDocId] = useState(0)
 
   const dispatch = useDispatch();
+  const [refresh, setRefresh] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [rejectedDoctorEmail, setRejectedDoctorEmail] = useState(null);
+  // const [data, setData] = useState([])
+  
+  const doctors = useSelector((state) => state.doctor.data);
 
-  const fetch = () => {
-    dispatch(fetchDoctors());
+  // console.log(data.data);
+// console.log(doctors);
+
+  const fetch = async() => {
+    await dispatch(fetchDoctors());
+    
   };
+
+  // const feching = async() => {
+  //   try {
+  //     const res = await axios.get('http://localhost:1128/api/doctor/getAll')
+  //     setData(res)
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+  // useEffect(() => {
+  //   feching()
+  // }, [])
+
+  const verific =async (email) => {
+  const data =  await dispatch(verificationDoc({ email }));
+  // console.log("this is data", data);
+   
+    setRefresh((prevRefresh) => !prevRefresh); 
+  };
+  const handleRejectClick = (email) => {
+    setRejectedDoctorEmail(email);
+    setShowConfirmationModal(true);
+  };
+
+  const handleConfirmReject = () => {
+   
+    verific(rejectedDoctorEmail);
+    setShowConfirmationModal(false);
+  };
+
+  const handleCancelReject = () => {
+    setShowConfirmationModal(false);
+  };
+  const setWithClick = (doctor) => {
+    setDocId(doctor);
+  };
+
+  const takeId = (id)=>{
+    dispatch(docIdd(id))
+  }
+
+  const idd = useSelector((state)=>state.doctor.docId)
+  console.log('=======================>' , idd);
 
   useEffect(() => {
     fetch();
-  }, []);
-
+  }, [refresh]);
   return (
     <Tr>
-      {doctors.map((doctor) => {
-        console.log(doctor);
-        return (
-          <Tr>
-            <Td
-              minWidth={{ sm: "250px" }}
-              pl="0px"
-              borderColor={borderColor}
-              borderBottom={isLast ? "none" : null}
-            >
-              <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-                <Avatar
-                  src={doctor.Doctor.imageUrl}
-                  w="50px"
-                  borderRadius="12px"
-                  me="18px"
-                />
-                <Flex direction="column">
-                  <Text
-                    fontSize="md"
-                    color={titleColor}
-                    fontWeight="bold"
-                    minWidth="100%"
-                  >
-                    {doctor.Doctor.fullname}
-                  </Text>
-                  <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                    {doctor.email}
-                  </Text>
-                </Flex>
-              </Flex>
-            </Td>
-
-            <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+      {Array.isArray(doctors) && doctors.map((doctor) => (
+        <Tr key={doctor.email}>
+          <Td
+            minWidth={{ sm: "250px" }}
+            pl="0px"
+            borderColor={borderColor}
+            borderBottom={isLast ? "none" : null}
+          >
+            <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
+              <Avatar
+                src={doctor?.Doctor?.imageUrl}
+                w="50px"
+                borderRadius="12px"
+                me="18px"
+                
+                onClick={()=>{takeId(doctor.DoctorId) ; }}
+              />
               <Flex direction="column">
-                <Text fontSize="md" color={textColor} fontWeight="bold">
-                  {doctor.type}
+                <Text
+                  fontSize="md"
+                  color={titleColor}
+                  fontWeight="bold"
+                  minWidth="100%"
+                >
+                  {doctor?.Doctor?.fullname}
                 </Text>
                 <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                  {"subdomain"}
+                  {doctor.email}
                 </Text>
               </Flex>
-            </Td>
-            <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
-              <Badge
-                bg={doctor.Doctor.isverified === true ? "green.400" : bgStatus}
-                color={doctor.Doctor.isverified === true ? "white" : "white"}
-                fontSize="16px"
-                p="3px 10px"
-                borderRadius="8px"
-              >
-                {"Not Verified"}
-              </Badge>
-            </Td>
+            </Flex>
+          </Td>
 
-            <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
-              <Text
-                fontSize="md"
-                color={textColor}
-                fontWeight="bold"
-                pb=".5rem"
-              >
-                {doctor.createdAt}
+          <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+            <Flex direction="column">
+              <Text fontSize="md" color={textColor} fontWeight="bold">
+                {doctor.type}
               </Text>
-            </Td>
-            <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
-              <Button p="0px" bg="transparent" variant="no-effects">
-                <Td
+              <Text fontSize="sm" color="gray.400" fontWeight="normal">
+                {"subdomain"}
+              </Text>
+            </Flex>
+          </Td>
+
+          <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+            <Badge
+              bg={
+                doctor?.Doctor?.isverified === true
+                  ? "green.400"
+                  : bgStatus
+              }
+              color={doctor?.Doctor?.isverified === true ? "white" : "white"}
+              fontSize="16px"
+              p="3px 10px"
+              borderRadius="8px"
+            >
+              {doctor?.Doctor?.isverified === true
+                ? "Verified"
+                : "Not Verified"}
+            </Badge>
+          </Td>
+
+          <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+            <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+              {doctor.createdAt}
+            </Text>
+          </Td>
+
+          <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
+            <Button p="0px" bg="transparent" variant="no-effects">
+              <Td
+                style={{
+                  display: "flex",
+                  gap: "2rem",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={(e) => {verific(doctor.email)}}
                   style={{
-                    display: "flex",
-                    gap: "2rem",
+                    backgroundColor: "#22C55E",
+                    color: "white",
+                    border: "none",
+                    padding: "0.5rem 2rem",
+                    borderRadius: "1rem",
+                    cursor: "pointer",
                   }}
                 >
-                  <button
-                    type="button"
-                    // onClick={() => rejected function}
-                    style={{
-                      backgroundColor: "#22C55E",
-                      color: "white",
-                      border: "none",
-                      padding: "0.5rem 2rem",
-                      borderRadius: "1rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Accept
-                  </button>
-                  <button
-                    type="button"
-                    // onClick={() => rejected function}
-                    style={{
-                      backgroundColor: "#FF5630",
-                      color: "white",
-                      border: "none",
-                      padding: "0.5rem 2rem",
-                      borderRadius: "1rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Reject
-                  </button>
-                </Td>
+                  Accept
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => handleRejectClick(doctor.email)}
+                  className="reject-button"
+                  style={{
+                    backgroundColor: "#FF5630",
+                    color: "white",
+                    border: "none",
+                    padding: "0.5rem 2rem",
+                    borderRadius: "1rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  Reject
+                </button>
+              </Td>
+            </Button>
+          </Td>
+        </Tr>
+      ))}
+       {showConfirmationModal && (
+        <Modal isOpen={showConfirmationModal} onClose={handleCancelReject}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Confirmation</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              Are you sure you want to reject this doctor?
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={handleConfirmReject}>
+                Reject
               </Button>
-            </Td>
-          </Tr>
-        );
-      })}
+              <Button onClick={handleCancelReject}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+        )}
     </Tr>
   );
 }

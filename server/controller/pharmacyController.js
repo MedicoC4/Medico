@@ -173,4 +173,34 @@ getAivablePharmaMapped: async (req, res) => {
     throw new Error(error);
   }
 },
+verficationPharm: async (req, res) => {
+  try {
+    const onePharm = await User.findOne({ where: { email: req.body.email } });
+    const pharmm = await Pharmacy.findOne({ where: { id: onePharm.PharmacyId } });
+    console.log('========>', pharmm.isverified);
+    const doc = await Pharmacy.update(
+      { isverified: !pharmm.isverified },
+      { where: { id: onePharm.PharmacyId } }
+    );
+
+
+    const updatedDoc = await Pharmacy.findOne({ where: { id: onePharm.PharmacyId } });
+    res.json(updatedDoc);
+  } catch (error) {
+    throw error;
+  }
+},
+fetchAll: async (req, res) => {
+  try{
+      const getAll = await User.findAll({
+          where: {
+            type: "pharmacy"
+          },
+          include:Pharmacy
+        })
+      res.json(getAll)
+  }catch(err){
+      throw err;
+  }
+}
   };

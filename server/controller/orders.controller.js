@@ -27,7 +27,7 @@ module.exports = {
   getOne: async (req, res) => {
     try {
       const getOne = await Order.findOne({
-        where: { order_id: req.params.id },
+        where: { id: req.params.id },
         include: [{ model: User }, { model: Products }],
       });
       res.json(getOne);
@@ -140,14 +140,14 @@ module.exports = {
     }
   },
   updateOrder: async (req, res) => {
-    const { order_id } = req.params; // get the order_id from the request parameters
+ // get the order_id from the request parameters
     const updatedData = req.body; // the new data for the order
-  
+    
+    console.log(updatedData)
     try {
       await Order.update(updatedData, {
-        where: { id: order_id },
+        where: { id: req.params.id },
       });
-  
       res.json({ message: 'Order updated successfully' });
     } catch (error) {
       console.log('Error while updating order');
@@ -159,7 +159,7 @@ module.exports = {
     let id = req.params.id;
     try {
       const deletedUser = await Order.destroy({
-        where: { order_id: id },
+        where: { id: id },
       });
       res.json(deletedUser);
     } catch (error) {

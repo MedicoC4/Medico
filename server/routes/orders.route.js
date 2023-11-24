@@ -5,7 +5,7 @@ route.get("/getAll",getAll)
 route.get("/oneOrder/:id",getOne)
 route.get("/getById/:userId",getByUserId)
 route.get("/getMissed",getAllDeclaredMissed)
-route.patch("/update/:order_id",updateOrder)
+route.patch("/update/:id",updateOrder)
 route.post("/createOrder",create)
 route.delete("/deleteOrder/:id",deleteOne)
 

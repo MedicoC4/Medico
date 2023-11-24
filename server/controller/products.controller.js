@@ -1,6 +1,6 @@
 const { Products, Missing, User, Pharmacy } = require("../database/index");
-const missing = require("../database/models/missing");
-const {Op, where} = require("sequelize")
+// const missing = require("../database/models/missing");
+const {Op} = require("sequelize")
 
 module.exports = {
   getAll: async (req, res) => {
@@ -13,20 +13,54 @@ module.exports = {
       res.status(500).json({ error: "Error al obtener todos los productos" });
     }
   },
-  getProductByCodebar: async (req, res) => {
-    let codebar = req.params.codebar;
+  getOne: async (req, res) => {
     try {
-      const product = await Products.findOne({
-        where: { codebar: Number(codebar) },
+      const getOne = await Products.findOne({
+        where: { id: req.params.id },
       });
-      if (product) {
-        res.json(product);
-      } else {
-        res.status(404).json({ error: "Product not found" });
-      }
+      res.json(getOne);
     } catch (error) {
-      console.log("Error in server", error);
-      res.status(500).json({ error: "Error in server" });
+      throw error;
+    }
+  },
+  // getProductByCodebar: async (req, res) => {
+  //   let codebar = req.params.codebar;
+  //   try {
+  //     const product = await Products.findOne({
+  //       where: { codebar: Number(codebar) },
+  //     });
+  //     if (product) {
+  //       res.json(product);
+  //     } else {
+  //       res.status(404).json({ error: "Product not found" });
+  //     }
+  //   } catch (error) {
+  //     console.log("Error in server", error);
+  //     res.status(500).json({ error: "Error in server" });
+  //   }
+  // },
+  pharmacyProduct: async (req, res) => {
+    try {
+      const users = await User.findAll({
+        where: { email: req.params.email },
+      });
+
+      if (users.length === 0) {
+        return res.status(404).json({ error: "User not found." });
+      }
+
+      const pharmacyId = users[0].PharmacyId; 
+
+      const products = await Products.findAll({
+        where: {
+          PharmacyId: pharmacyId,
+        },
+      });
+
+      res.json(products);
+    } catch (error) {
+      console.error("Error fetching pharmacy products:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
   create: async (req, res) => {

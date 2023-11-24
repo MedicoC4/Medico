@@ -4,6 +4,7 @@ const {
   Products,
   User,
   Pharmacy,
+  Payment,
 } = require("../database/index.js");
 const { Op } = require('sequelize');
 module.exports = {
@@ -69,21 +70,25 @@ module.exports = {
         where: {
           UserId: userExist.id,
         },
-        include: {
-          model: Products,
-          include: {
-            model: Pharmacy,
+        include: [
+          {
+            model: Products,
+            include: {
+              model: Pharmacy,
+            },
           },
-        },
+          {
+            model: Payment,
+          },
+        ],
       });
-
+  
       res.json(userOrders);
     } catch (err) {
       console.log("Error while fetching orders for user");
       throw err;
     }
   },
-
 
   create: async (req, res) => {
     let userData = req.body; 

@@ -36,6 +36,7 @@ const Checkout = ({ route }) => {
     }
   
     console.log('response: ', response);
+    
   
     const initResponse = await initPaymentSheet({
       merchantDisplayName: orders.Product.Pharmacy.PHname,

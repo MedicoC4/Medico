@@ -31,7 +31,7 @@ import {
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { doctorDetails } from "redux/doctorSlicer";
-import { pharmacyDetails } from "redux/pharmacySlicer";
+
 
 function Profile() {
   const { colorMode } = useColorMode();
@@ -49,20 +49,14 @@ function Profile() {
   const dispatch = useDispatch()
 
   const oneDocc =  useSelector((state)=>state.doctor.oneDoc)
-  const onePharmacy =  useSelector((state)=>state.pharmacy.onePharm)
-  
-
-    const idd = useSelector((state)=>state.doctor.docId)
-    const phEmail = useSelector((state)=>state.pharmacy.pharmaEmail)
+  const idd = useSelector((state)=>state.doctor.docId)
+    
 
   console.log('>>>>>>>>>>>' , idd);
-  console.log('>>>>>>>>>>>' , phEmail);
+  
 useEffect(()=>{ 
   dispatch(doctorDetails(idd))
-  dispatch(pharmacyDetails(phEmail))
   console.log('obj========>',oneDocc);
-  console.log('obj========>',onePharmacy);
-
   },[])
      
 

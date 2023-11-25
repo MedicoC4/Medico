@@ -50,6 +50,7 @@ import { pageVisits, socialTraffic } from "variables/general";
 import { fetchUsers } from "../../redux/userSlicer";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchOrders} from "../../redux/orderSlicer"
+import { fetchPharmacies } from "redux/pharmacySlicer";
 
 
 export default function Dashboard() {
@@ -62,18 +63,25 @@ export default function Dashboard() {
   const textTableColor = useColorModeValue("gray.500", "white");
   const { colorMode } = useColorMode();
   const dispatch = useDispatch();
-  
-  const users = useSelector((state) => state.user.data);
-  
-  console.log('Users:', users);
+  const [showAllPharmacies, setShowAllPharmacies] = useState(false);
+  const maxPharmaciesToShow = 2;
 
+
+
+  const users = useSelector((state) => state.user.data);
+  const orders = useSelector((state) =>state.orders.data)
+  const pharmacies = useSelector((state) =>state.pharmacy.data)
+
+  console.log('========Orders=======>>' , orders);
+  console.log('========Pharmacies=======>>' , pharmacies);
   useEffect(() => {
     dispatch(fetchUsers());
+    dispatch(fetchOrders());
+    dispatch(fetchPharmacies())
   }, [dispatch]);
 
 
 const userRegistrationData = users.reduce((acc, user) => {
-  console.log('this is the user ' , user);
   if (user.createdAt) {
     const registrationcreatedAt = user.createdAt.split('T')[0];
     acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
@@ -104,6 +112,18 @@ const normalUserRegistrationData = users.reduce((acc, user) => {
   }
   return acc;
 }, {});
+
+const highestRatedPharmacyy = pharmacies.reduce((maxPharmacy, pharmacy) => {
+  console.log('the pharm =========>' , pharmacy.Pharmacy.rating);
+  return !maxPharmacy || pharmacy.Pharmacy.rating > maxPharmacy.Pharmacy.rating ? pharmacy : maxPharmacy;
+  console.log(maxPharmacy.Pharmacy.rating);
+}, null);
+const highestRatedPharmacies = [...pharmacies].sort((a, b) => {
+  return b.Pharmacy.rating - a.Pharmacy.rating;
+});
+
+const highestRatedPharmacy = highestRatedPharmacies[0];
+
 
     const registrationDates = Object.keys(userRegistrationData);
     const registrationCounts = Object.values(userRegistrationData);
@@ -299,74 +319,57 @@ const normalUserRegistrationData = users.reduce((acc, user) => {
           </Box>
         </Card>
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction='column'>
-            <Flex align='center' justify='space-between' p='22px'>
-              <Text fontSize='lg' color={textColor} fontWeight='bold'>
-                Page visits
-              </Text>
-              <Button variant='primary' maxH='30px'>
-                SEE ALL
-              </Button>
-            </Flex>
-            <Box overflow={{ sm: "scroll", lg: "hidden" }}>
-              <Table>
-                <Thead>
-                  <Tr bg={tableRowColor}>
-                    <Th color='gray.400' borderColor={borderColor}>
-                      Page name
-                    </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
-                      Visitors
-                    </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
-                      Unique users
-                    </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
-                      Bounce rate
-                    </Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {pageVisits.map((el, index, arr) => {
-                    return (
-                      <Tr key={index}>
-                        <Td
-                          color={textTableColor}
-                          fontSize='sm'
-                          fontWeight='bold'
-                          borderColor={borderColor}
-                          border={index === arr.length - 1 ? "none" : null}>
-                          {el.pageName}
-                        </Td>
-                        <Td
-                          color={textTableColor}
-                          fontSize='sm'
-                          border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
-                          {el.visitors}
-                        </Td>
-                        <Td
-                          color={textTableColor}
-                          fontSize='sm'
-                          border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
-                          {el.uniqueUsers}
-                        </Td>
-                        <Td
-                          color={textTableColor}
-                          fontSize='sm'
-                          border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
-                          {el.bounceRate}
-                        </Td>
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
-            </Box>
+        <Flex direction='column'>
+          <Flex align='center' justify='space-between' p='22px'>
+            <Text fontSize='lg' color={textColor} fontWeight='bold'>
+              Highest-Rated Pharmacy
+            </Text>
+            <Button
+              variant='primary'
+              maxH='30px'
+              onClick={() => setShowAllPharmacies(!showAllPharmacies)}
+            >
+              {showAllPharmacies ? "Show Less" : "See All"}
+            </Button>
           </Flex>
-        </Card>
+        </Flex>
+        <Box overflow={{ sm: "scroll", lg: "hidden" }}>
+          <Table>
+            <Thead>
+              <Tr bg={tableRowColor}>
+                <Th color='gray.400' borderColor={borderColor}>
+                  Pharmacy Name
+                </Th>
+                <Th color='gray.400' borderColor={borderColor}>
+                  Rating
+                </Th>
+                {/* Add more columns if needed */}
+              </Tr>
+            </Thead>
+            <Tbody>
+              {highestRatedPharmacies.slice(0, showAllPharmacies ? undefined : maxPharmaciesToShow).map((pharmacy, index) => (
+                <Tr key={index}>
+                  <Td
+                    color={textTableColor}
+                    fontSize='sm'
+                    fontWeight='bold'
+                    borderColor={borderColor}
+                  >
+                    {pharmacy.Pharmacy.PHname}
+                  </Td>
+                  <Td
+                    color={textTableColor}
+                    fontSize='sm'
+                    borderColor={borderColor}
+                  >
+                    {pharmacy.Pharmacy.rating}
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
+      </Card>
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction='column'>
             <Flex align='center' justify='space-between' p='22px'>

@@ -124,7 +124,7 @@ const Landing = ({ route }) => {
         >
           <FlatList
             data={topRatedPharmacies}
-            renderItem={({ item }) => <PharmacyCard />}
+            renderItem={({ item }) => <PharmacyCard pharmacy={item}/>}
             keyExtractor={(item, index) => index.toString()}
             horizontal={true}
           />

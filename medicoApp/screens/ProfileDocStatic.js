@@ -10,6 +10,7 @@ import NavigationBar from '../components/NavigationBar'
 import { auth } from '../firebase-config'
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import haversine from 'haversine';
 
 
 
@@ -45,50 +46,34 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
   };
 
 
-
-  const calculateDistanceMap = async () => {
-    
-
-    if(data.latitude && data.longitude){
-
-      
-      try {
-        const loggedMail=auth.currentUser.email
+  const calculateDistanceMap=async()=>{
+    try {
+      const loggedMail=auth.currentUser.email
         
-        const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
-
-  
-
-        const response = await axios.get(
-          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.Doctor.latitude},${data.Doctor.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
-          );
-  
-  
-          if (
-            response.data.status === "OK" &&
-          response.data.rows.length > 0 &&
-          response.data.rows[0].elements.length > 0 &&
-          response.data.rows[0].elements[0].distance
-          ) {
-            const distance = response.data.rows[0].elements[0].distance.text;
-            setIsDistance(distance);
-          } else if (response.data.status === "ZERO_RESULTS") {
-          console.warn("No distance information available between the specified points.");
-        } else {
-          console.error("Error calculating distance: ", data.status);
+       const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
+       
+       const start = {
+         latitude: loggedUser.data.latitude,
+         longitude: loggedUser.data.longitude
         }
-      } catch (error) {
-        console.error("Error fetching distance data: ", error);
-      }
+        
+        const end = {
+          latitude: data.Doctor.latitude,
+          longitude: data.Doctor.longitude
+        }
+        console.log(start,end,'this is distance between pharmacy');
+
+      setIsDistance((haversine(start, end)).toFixed(1))
+
       
-
-
-    }else {
-      console.log('latitude is not coming');
+    } catch (error) {
+      
     }
+  }
 
-  };
 
+
+ 
 
   const handleReviewAdding = () => {
     console.log("this is the review",comment);
@@ -359,7 +344,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                             />
                             <Text style={{
                                 fontWeight:600
-                            }}>{isDistance}</Text>
+                            }}>{isDistance} Km</Text>
                         </View>
                     </View>
                     
@@ -476,18 +461,26 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
         </View>
         </ScrollView>
         
-      <View style={{
+        <View style={{
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-around',
         alignItems:'center',
-        gap:15
+        gap:15,
+        width:width*0.15,
+            height:height*0.07,
+        backgroundColor:COLORS.white,
+        position:'absolute',
+        bottom:95,
+        right:20,
+        borderRadius:200,
+       
       }}>
         <TouchableOpacity
             style={{
                 backgroundColor:COLORS.primary,
-            width:width*0.1,
-            height:height*0.05,
+            width:width*0.15,
+            height:height*0.07,
             borderRadius:200,
             alignItems:'center',
             justifyContent:'center'
@@ -495,13 +488,14 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
             onPress={toggleModal}
             >
                 <Image
-                source={require('../assets/plus.png')}
+                source={require('../assets/star.png')}
                 style={{
-                    width:width*0.05,
-                    height:height*0.025
+                    width:width*0.07,
+                    height:height*0.03
                 }}
                 />
             </TouchableOpacity>
+
               </View>
          
         

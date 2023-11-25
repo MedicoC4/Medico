@@ -1,11 +1,11 @@
 const route = require('express').Router()
-const {getAll, getOne, findOneMissing,pharmacyProduct, controlMissing,create, update, deleteOne, updateQ} = require("../controller/products.controller")
+const {getAll, getOne, findOneMissing,pharmacyProduct, controlMissing,create, update, deleteOne, updateQ,pharmacyProductWithId} = require("../controller/products.controller")
 
 route.get("/getAll", getAll)
 
 route.get("/getOne/:id", getOne)
 route.get("/phProduct/:email", pharmacyProduct)
-
+route.get("/getById/:id",pharmacyProductWithId)
 route.get('/checkOne/:emailpharmacy/:codebarMissing', controlMissing)
 route.get('/findUser/:emailpharmacyOne', findOneMissing)
 route.post("/createProduct", create)

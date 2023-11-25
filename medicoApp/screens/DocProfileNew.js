@@ -570,25 +570,9 @@ const renderDoctorProfile = () =>{
           <View style={{
               display:"flex",
               flexDirection:'row',
-              justifyContent:'space-between'
+              justifyContent:'flex-end'
           }}>
-          <TouchableOpacity
-          style={{
-              backgroundColor:COLORS.white,
-          width:width*0.1,
-          height:height*0.05,
-          borderRadius:200,
-          alignItems:'center',
-          justifyContent:'center'
-          }}>
-              <Image
-              source={require('../assets/arrowback.png')}
-              style={{
-                  width:width*0.07,
-                  height:height*0.02
-              }}
-              />
-          </TouchableOpacity>
+        
 
           <TouchableOpacity
           style={{

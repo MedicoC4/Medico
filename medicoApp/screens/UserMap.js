@@ -145,55 +145,10 @@ const dataPharmacies = (e)=>{
       latitudeDelta: 0.0922, // Initial values
       longitudeDelta: 0.0421,
     });
-    // setMapRegion({
-    //   latitude: currentLocation.coords.latitude,
-    //   longitude: currentLocation.coords.longitude,
-    //   latitudeDelta: 0.0922, // Initial values
-    //   longitudeDelta: 0.0421,
-    // });
+  
   };
 
-  // const doctor = [
-  //   {
-  //     latitude: 36.875446,
-  //     longitude: 10.202043,
-  //     name: "Doctor 1",
-  //     specialty: "Specialty 1",
-  //   },
-  //   {
-  //     latitude: 36.851164,
-  //     longitude: 10.193179,
-  //     name: "Doctor 2",
-  //     specialty: "Specialty 2",
-  //   },
-  //   {
-  //     latitude: 36.812638,
-  //     longitude: 10.143401,
-  //     name: "Doctor 3",
-  //     specialty: "Specialty 3",
-  //   },
-  //   {
-  //     latitude: 36.743396,
-  //     longitude: 10.256431,
-  //     name: "Doctor 4",
-  //     specialty: "Specialty 4",
-  //     // Add more details
-  //   },
-  // ];
-  // const structureData = () => {
-  //   let data = [];
-  //   mapData.forEach((e) => {
-  //     data.push({
-  //       latitude: e.latitude,
-  //       longitude: e.longitude,
-  //       type: e.type,
-  //       name: e.fullname || e.PHname,
-  //       id: e.id,
-  //       // imageUrl: e.imageUrl,
-  //     });
-  //   });
-  //   setCoordnatesData(data);
-  // };
+
 
   const getTime = async (desLat, desLong) => {
     if (location && destination) {
@@ -248,18 +203,7 @@ const dataPharmacies = (e)=>{
     setModalVisible(true);
   };
 
-  // const toggleDropdown = () => {
-  //   if (isDropdownVisible) {
-  //     dropdownRefFilter.current.fadeOutLeftBig(900).then(() => {
-  //       setDropdownVisible(false);
-  //     });
-  //   } else {
-  //     setDropdownVisible(true);
-  //     dropdownRefFilter.current.slideInLeft(900).then(() => {
-  //       setDropdownVisible(true);
-  //     });
-  //   }
-  // };
+
   const showDropdownMode = () => {
     setDropdownVisible(true);
     dropdownRefFilter.current.slideInLeft(900);
@@ -323,7 +267,7 @@ const hideDropdownMode = () => {
   const CustomMarkerFlag = () => {
     return (
       <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
-      <Image source={require('../assets/flagMarker.png')} style={{ width: 70, height: 70 }} />
+      <Image source={require('../assets/palestine.png')} style={{ width: 70, height: 70 }} />
     </View>
     );
   };
@@ -348,6 +292,7 @@ const hideDropdownMode = () => {
         showsTraffic={true}
         addressForCoordinate={true}
         initialRegion={mapRegion}
+        
       >
         {doctorsWithinRadius.map((doct, i) => (
           
@@ -355,20 +300,8 @@ const hideDropdownMode = () => {
             key={i}
             title={doct.name}
             opacity={0.9}
-            tooltip={true}
             coordinate={doct}
-            // image={
-            //   doct.type === 'doctor'
-            //   ? <CustomMarkerDoctor  />
-            //     : doct.type === 'nurse'
-            //     ? <CustomMarkerNurse  />
-            //     : doct.type === 'Pharmacy'
-            //     ? <CustomMarkerPharma  />
-            //     : doct.type === 'Product'
-            //     ?  <CustomMarkerProduct imageUrl={doct.imageUrl} />
-                
-            //     : require('../assets/markMe1.png')
-            //   }              
+                     
               onPress={() => {
               handleMarkerPress(doct);
               setDestination({
@@ -396,7 +329,9 @@ const hideDropdownMode = () => {
               }  
           </Marker>
           ))}
-        <Marker coordinate={location} tooltip={true} ><CustomMarkerFlag/></Marker>
+        <Marker coordinate={location}  
+
+        ><CustomMarkerFlag/></Marker>
       </MapView>
       {isNavigation && location && (
         <MapViewDirections

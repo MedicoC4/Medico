@@ -49,6 +49,7 @@ module.exports = {
                       model: Day,
                     },
                   ],
+                  order: [['createdAt', 'DESC']]
               });
             res.json(getAppointement)
         } catch (error) {
@@ -77,6 +78,7 @@ module.exports = {
                       model: Day,
                     },
                   ],
+                  order: [['createdAt', 'DESC']]
               });
             res.json(getAppointement)
         } catch (error) {
@@ -106,6 +108,7 @@ module.exports = {
                       model: Day,
                     },
                   ],
+                  order: [['createdAt', 'DESC']]
               });
             res.json(getAppointement)
         } catch (error) {
@@ -137,6 +140,39 @@ module.exports = {
                       model: Day,
                     },
                   ],
+                  order: [['createdAt', 'DESC']]
+              });
+              // const speciality = await Speciality.findAll({where:{id:getAppointement.Doctor.specialityId}})
+            res.json(getAppointement)
+        } catch (error) {
+            throw new Error(error)
+        }
+      },
+    getAppointementAllUser: async (req,res)=>{
+        try {
+          const getUser = await User.findOne({where: {email:req.params.userIDAll}})
+
+            const getAppointement = await AppointementList.findAll({
+                where: {
+                    UserId: { [Op.like]: getUser.id },
+                  },
+                  include: [
+                    {
+                      model: Doctor,
+                      include:{model:Speciality}
+                
+                    },
+                    {
+                      model: User,
+                    },
+                    {
+                      model: Availability,
+                    },
+                    {
+                      model: Day,
+                    },
+                  ],
+                  order: [['createdAt', 'DESC']]
               });
               // const speciality = await Speciality.findAll({where:{id:getAppointement.Doctor.specialityId}})
             res.json(getAppointement)
@@ -159,5 +195,6 @@ module.exports = {
         } catch (error) {
             throw new Error(error)
         }
-    }
+    },
+    
 }

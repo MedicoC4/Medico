@@ -10,6 +10,7 @@ import COLORS from "../constants/colors";
 
 const UserMapView = () => {
   const appointCoords = useSelector((state) => state.doctor?.userInfo);
+  console.log("appointCords",appointCoords);
   const [destination, setDestination] = useState({
     latitude: appointCoords.latitude,
     longitude: appointCoords.longitude,

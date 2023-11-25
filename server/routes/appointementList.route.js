@@ -1,7 +1,8 @@
 const route = require('express').Router()
-const {updateStatus,postAppointement,getAppointement,deleteAppoint,getAppointementUser,deleteUserAppoint,getAppointementAll,getAppointementAllFilter} = require("../controller/appointementList.controller")
+const {updateStatus,postAppointement,getAppointement,deleteAppoint,getAppointementUser,deleteUserAppoint,getAppointementAll,getAppointementAllFilter,getAppointementAllUser} = require("../controller/appointementList.controller")
 
 route.get("/getAppointementUserr/:Statu/:userID", getAppointementUser)
+route.get("/getAppointementAllUserr/:userIDAll", getAppointementAllUser)
 route.put("/updateAppoint/:idAppoint", updateStatus)
 route.post("/add/:userPost", postAppointement)
 route.get("/getAppointement/:status/:Docid", getAppointement)

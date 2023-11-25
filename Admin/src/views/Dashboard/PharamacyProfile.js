@@ -114,7 +114,7 @@ import {
             <CardBody px='5px'>
               <Flex direction='column'>
                 <Text fontSize='md' color='gray.400' fontWeight='400' mb='30px'>
-                Hello, I'm ${onePharmacy.PHname}, and my approach to healthcare is guided by a philosophy rooted in decisive action. 
+                Hello, I'm {onePharmacy.PHname}, and my approach to healthcare is guided by a philosophy rooted in decisive action. 
   In the realm of pharmaceutical care, my principle is clear: when faced with uncertainty, 
   choosing not to proceed is a valid decision. It's a belief that underscores the importance of making definitive 
   choices in the best interest of patient well-being. 

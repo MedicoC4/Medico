@@ -11,7 +11,7 @@ const initialState = {
 export const fetchOrders = createAsyncThunk("orders/fetchOrders", async () => {
   try {
     const response = await axios.get(
-      `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/orders/getAll`
+      `http://localhost:1128/api/orders/getAll`
     );
     return response.data;
   } catch (error) {

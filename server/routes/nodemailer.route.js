@@ -1,7 +1,7 @@
 const route = require('express').Router()
 
-const{getbill,sendOfficialEmail}=require("../controller/nodemailer.controller")
+const{getbill,sendE}=require("../controller/nodemailer.controller")
 
 route.post("/send",getbill)
-route.post("/sendAccept",sendOfficialEmail)
+route.post("/sendEmail",sendE)
 module.exports = route

@@ -22,6 +22,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { updateUser,setSelectedImage } from "../redux/userSlicer";
+import {docImage} from '../redux/doctorSlicer'
 
 
 
@@ -52,7 +53,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
       aspect: [4, 3],
       quality: 1,
     });
-  
+
     if (!result.canceled) {
       let formData = new FormData();
       formData.append('file', {
@@ -71,7 +72,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
       setSelectedImage(data.secure_url);
       dispatch(setSelectedImage(data.secure_url));
 
-      dispatch(updateUser(uid));
+      dispatch(docImage(uid));
       console.log(uid);
     })
     .catch(error => {

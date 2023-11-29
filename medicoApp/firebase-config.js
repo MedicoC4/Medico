@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, doc, setDoc, getDoc } from "@firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import {getDatabase,ref,set,get,child} from "firebase/database"
 
 const firebaseConfig = {
   apiKey: "AIzaSyCX4jPxFJQC5T1zDPzrKz3HRYQdeps2St4",
@@ -17,6 +18,14 @@ const app = initializeApp(firebaseConfig);
 export const DB = getFirestore(app);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+const database = getDatabase()
+const dbRef = ref(database)
+
+export const saveToken = async (userId ,token)=>{
+  const values = (await get(child(dbRef,`userTokens/${userId}`))).val() ?? {}
+  const payload = {...values,token}
+  set(ref(db,`userTokens/${userId}/`),payload)
+}
 
 export const createUserDocument = async (user, additionalData) => {
   if (!user) return;

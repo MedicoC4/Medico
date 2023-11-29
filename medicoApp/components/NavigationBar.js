@@ -5,6 +5,7 @@ import home from '../assets/home.png'
 import lense from '../assets/lense.png'
 import store from '../assets/store.png'
 import account from '../assets/account.png'
+import mapNav from '../assets/mapNav.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Storage } from 'expo-storage'
 import { Dimensions } from "react-native";
@@ -57,7 +58,7 @@ const NavigationBar = () => {
         <Text style={selectedTab === "home" ? styles.selectedText : styles.text}>Home</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.item} onPress={() => handlePress("userMap", "discover")}>
-        {renderIcon(lense, "discover")}
+        {renderIcon(mapNav, "discover")}
         <Text style={selectedTab === "discover" ? styles.selectedText : styles.text}  >Discover</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.item} onPress={() => handlePress("AllPharmacies", "stores")}>

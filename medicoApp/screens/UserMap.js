@@ -9,11 +9,17 @@ import {
   Modal,
   ScrollView
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from "react-redux";
+import { idMap,idMapPharma } from '../redux/doctorSlicer';
+
 import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
 import Slider from "@react-native-community/slider";
 import haversine from "haversine";
 import MapViewDirections from "react-native-maps-directions";
+import COLORS from "../constants/colors";
+import MarkerProd from "../components/MarkerProd.js";
 import SwipeableModal from "../components/SwipeableModal";
 // import Config from 'react-native-config'
 import { Ionicons } from "@expo/vector-icons";
@@ -29,9 +35,18 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import DoctorMap from "../components/DoctorMap.js"
 import ProductMap from "../components/ProductMap.js"
 import PharmacyMap from "../components/PharmacyMap.js"
+import markDoctor from "../assets/markDoctor.png"
+import markMe from "../assets/markMe.png"
+import markMe1 from "../assets/markMe1.png"
+import markNurse from "../assets/markNurse.png"
+import markPharma from "../assets/markPharma.png"
+import markProduct from "../assets/markProduct.png"
 
 
 const UserMap = () => {
+  const navigation = useNavigation()
+  const dispatch = useDispatch();
+
   const [radiusInMeters, setRadiusInMeters] = useState(20000);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -72,6 +87,12 @@ console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",coordinatesData);
 const dataPharmacies = (e)=>{
   setCoordnatesData(e)
 }
+const saveidDoc = (e)=>{
+  dispatch(idMap(e))
+}
+const saveidPharma = (e)=>{
+  dispatch(idMapPharma(e))
+}
 
   const getData = async () => {
     if (mapFilterData === "all") {
@@ -108,16 +129,16 @@ const dataPharmacies = (e)=>{
       }
     }
   };
-  const updataLongLat = async (id, body) => {
-    try {
-      const response = await axios.put(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateLongLat/${id}`,
-        body
-      );
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
+  // const updataLongLat = async (id, body) => {
+  //   try {
+  //     const response = await axios.put(
+  //       `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateLongLat/${id}`,
+  //       body
+  //     );
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // };
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -126,10 +147,10 @@ const dataPharmacies = (e)=>{
     }
 
     let currentLocation = await Location.getCurrentPositionAsync({});
-    updataLongLat(1, {
-      lat: currentLocation.coords.latitude,
-      lang: currentLocation.coords.longitude,
-    });
+    // updataLongLat(1, {
+    //   lat: currentLocation.coords.latitude,
+    //   lang: currentLocation.coords.longitude,
+    // });
     setMapLocation(currentLocation);
     setLocation({
       latitude: currentLocation.coords.latitude, // You can replace these with your default values
@@ -137,55 +158,10 @@ const dataPharmacies = (e)=>{
       latitudeDelta: 0.0922, // Initial values
       longitudeDelta: 0.0421,
     });
-    // setMapRegion({
-    //   latitude: currentLocation.coords.latitude,
-    //   longitude: currentLocation.coords.longitude,
-    //   latitudeDelta: 0.0922, // Initial values
-    //   longitudeDelta: 0.0421,
-    // });
+  
   };
 
-  // const doctor = [
-  //   {
-  //     latitude: 36.875446,
-  //     longitude: 10.202043,
-  //     name: "Doctor 1",
-  //     specialty: "Specialty 1",
-  //   },
-  //   {
-  //     latitude: 36.851164,
-  //     longitude: 10.193179,
-  //     name: "Doctor 2",
-  //     specialty: "Specialty 2",
-  //   },
-  //   {
-  //     latitude: 36.812638,
-  //     longitude: 10.143401,
-  //     name: "Doctor 3",
-  //     specialty: "Specialty 3",
-  //   },
-  //   {
-  //     latitude: 36.743396,
-  //     longitude: 10.256431,
-  //     name: "Doctor 4",
-  //     specialty: "Specialty 4",
-  //     // Add more details
-  //   },
-  // ];
-  // const structureData = () => {
-  //   let data = [];
-  //   mapData.forEach((e) => {
-  //     data.push({
-  //       latitude: e.latitude,
-  //       longitude: e.longitude,
-  //       type: e.type,
-  //       name: e.fullname || e.PHname,
-  //       id: e.id,
-  //       // imageUrl: e.imageUrl,
-  //     });
-  //   });
-  //   setCoordnatesData(data);
-  // };
+
 
   const getTime = async (desLat, desLong) => {
     if (location && destination) {
@@ -240,18 +216,7 @@ const dataPharmacies = (e)=>{
     setModalVisible(true);
   };
 
-  // const toggleDropdown = () => {
-  //   if (isDropdownVisible) {
-  //     dropdownRefFilter.current.fadeOutLeftBig(900).then(() => {
-  //       setDropdownVisible(false);
-  //     });
-  //   } else {
-  //     setDropdownVisible(true);
-  //     dropdownRefFilter.current.slideInLeft(900).then(() => {
-  //       setDropdownVisible(true);
-  //     });
-  //   }
-  // };
+
   const showDropdownMode = () => {
     setDropdownVisible(true);
     dropdownRefFilter.current.slideInLeft(900);
@@ -283,7 +248,42 @@ const hideDropdownMode = () => {
 
   console.log("doctorsWithinRadius:", doctorsWithinRadius);
 
-  
+  const CustomMarkerProduct = ({ imageUrl }) => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/markProduct.png')} style={{ width: 60, height: 60 ,position:"relative"}} />
+      <Image source={{ uri: imageUrl }} style={{ width: 30, height: 30, position: "absolute", top: 11, left: 14 }} />
+    </View>
+    );
+  };
+  const CustomMarkerDoctor = () => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/markDoctor.png')} style={{ width: 50, height: 50 }} />
+    </View>
+    );
+  };
+  const CustomMarkerNurse = () => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/markNurse.png')} style={{ width: 50, height: 50 }} />
+    </View>
+    );
+  };
+  const CustomMarkerPharma = () => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/markPharma.png')} style={{ width: 50, height: 50 }} />
+    </View>
+    );
+  };
+  const CustomMarkerFlag = () => {
+    return (
+      <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Image source={require('../assets/palestineFlag.png')} style={{ width: 140, height: 70 }} />
+    </View>
+    );
+  };
   useEffect(() => {
     getLocation();
     // getData();
@@ -305,13 +305,17 @@ const hideDropdownMode = () => {
         showsTraffic={true}
         addressForCoordinate={true}
         initialRegion={mapRegion}
+        
       >
         {doctorsWithinRadius.map((doct, i) => (
           
           <Marker
             key={i}
+            title={doct.name}
+            opacity={0.9}
             coordinate={doct}
-            onPress={() => {
+                     
+              onPress={() => {
               handleMarkerPress(doct);
               setDestination({
                 latitude: doct.latitude,
@@ -322,24 +326,25 @@ const hideDropdownMode = () => {
               getTime(doct.latitude, doct.longitude);
               calculateDistanceMap(doct.latitude, doct.longitude);
             }}
-            // pinColor="blue"
-          //   pinColor={
-          //     doct.type === "Pharmacy"
-          //       ? "red"
-          //       : doct.type === "doctor"
-          //       ? "blue"
-          //       :doct.type === "nurse"?"yellow":null
-          //   }
-          // />
-          pinColor={
-            doct.type === "Pharmacy" ? "red" :
-            doct.type === "doctor" ? "blue" :
-            doct.type === "nurse" ? "yellow" : 
-            doct.type === "Product"?"black":null
-          }
-        />
-        ))}
-        <Marker coordinate={location} pinColor="green" />
+         
+          >
+            {
+              doct?.type === 'doctor'
+              ? <CustomMarkerDoctor  />
+                : doct?.type === 'nurse'
+                ? <CustomMarkerNurse  />
+                : doct?.type === 'Pharmacy'
+                ? <CustomMarkerPharma  />
+                : doct?.type === 'Product'
+                ?  <CustomMarkerProduct imageUrl={doct.speciality} />
+                
+                : require('../assets/markMe1.png')
+              }  
+          </Marker>
+          ))}
+        <Marker coordinate={location}  
+
+        ><CustomMarkerFlag/></Marker>
       </MapView>
       {isNavigation && location && (
         <MapViewDirections
@@ -427,12 +432,13 @@ const hideDropdownMode = () => {
             >
               <View
                 style={{
-                  backgroundColor: "yellow",
                   height: 150,
                   width: 150,
                   borderRadius: 200,
                 }}
-              ></View>
+              >
+                <Image  style={{height:150,width:150,borderRadius:200}} source={{uri:selectedMarker?.type==="Product"?selectedMarker?.speciality:selectedMarker?.imageUrl}} />
+              </View>
               <View
                 style={{
                   height: "25%",
@@ -445,12 +451,12 @@ const hideDropdownMode = () => {
                 <View
                   style={{  height: "50%", width: "100%",justifyContent:"center",alignItems:"center" }}
                 >
-                  <Text style={{textAlign:"center",fontSize:27,fontWeight:"bold"}}>Anna Williams</Text>
+                  <Text style={{textAlign:"center",fontSize:27,fontWeight:"bold"}}>{selectedMarker?.type==="Product"?selectedMarker?.imageUrl:selectedMarker?.name}</Text>
                   </View>
                   <View
                     style={{  height: "50%", width: "100%",justifyContent:"center",alignItems:"center" }}
                   >
-                    <Text style={{textAlign:"center",fontSize:22}}>anna.williams@com</Text>
+                    <Text style={{textAlign:"center",fontSize:22}}>{selectedMarker?.adress}</Text>
                   </View>
               </View>
             </View>
@@ -459,20 +465,52 @@ const hideDropdownMode = () => {
                     <View style={{height:"40%",paddingLeft:30,alignItems:"center",flexDirection:"row"}}>
                       <View style={{paddingRight:13}}><MaterialCommunityIcons name="map-marker-distance"size={27}color="#0bc991"/></View>
                       <Text style={{paddingRight:5,fontSize:14}} >Distance:</Text>
-                      <Text fontSize={{fontSize:14}}>50 Km</Text>
+                      <Text fontSize={{fontSize:14}}>{distance}</Text>
                     </View>
                     <View style={{height:"40%",paddingLeft:30,alignItems:"center",flexDirection:"row"}}>
                     <View style={{paddingRight:13}}><MaterialIcons name="timer" size={27} color="#0bc991" /></View>
                       <Text style={{paddingRight:28,fontSize:14}}>Time:</Text>
-                      <Text fontSize={{fontSize:14}} >26 min</Text>
+                      <Text fontSize={{fontSize:14}} >{duration}</Text>
                     </View>
                   </View>
                   <View style={{height:"100%",width:"45%",justifyContent:"center",alignItems:"center"}}>
-                    <TouchableOpacity style={{height:"70%",width:"90%",backgroundColor:"pink",borderRadius:70,justifyContent:"center",alignItems:"center"}}><Text>Go Profile</Text></TouchableOpacity>
+                    {selectedMarker?.type==="Product" || selectedMarker?.type==="Pharmacy"?<TouchableOpacity onPress={() => {navigation.navigate('PharProfMap');saveidPharma(selectedMarker?.id)}} style={{    width: "40%",
+                  height: "65%",
+                  width:"80%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 80,
+                  backgroundColor: COLORS.primary}}><Text   style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  }} >Go Profile</Text></TouchableOpacity>:<TouchableOpacity onPress={() => {navigation.navigate('ProfileDocStaticMap');saveidDoc(selectedMarker?.id)}} style={{    width: "40%",
+                  height: "65%",
+                  width:"80%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 80,
+                  backgroundColor: COLORS.primary}}><Text   style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  }} >Go Profile</Text></TouchableOpacity>}
                   </View>
                 </View>
                 <View style={{height:"15%",alignItems:"center",justifyContent:"center"}}>
-                  <TouchableOpacity style={{backgroundColor:"green",height:"90%",width:"45%",borderRadius:70,justifyContent:"center",alignItems:"center"}}><Text>Close</Text></TouchableOpacity>
+                  <TouchableOpacity  onPress={() => setModalVisible(false)} style={{width: "45%",
+                          backgroundColor: "white",
+                          height: 50,
+                          borderRadius: 50,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderWidth: 2,
+                          borderColor: "#f20404",
+                          borderStyle: "solid",}}><Text  style={{
+                            color: "#f20404",
+                            fontWeight: "bold",
+                            fontSize: 20,
+                          }}>Close</Text></TouchableOpacity>
                 </View>
            
           </View>
@@ -617,12 +655,12 @@ const styling = StyleSheet.create({
   modal: {
     height: "60%",
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: "#e5f6df",
     padding: 20,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     flexDirection:"column",
-    backgroundColor:"rgba(0,140,0)"
+    // backgroundColor:"rgba(0,140,0)"
 
     // position: "relative",
   },

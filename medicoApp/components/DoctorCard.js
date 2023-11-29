@@ -54,7 +54,7 @@ const handleID=()=>{
 
             }}>
             <Image
-            source={{ uri: doctor?.Doctor.imageUrl }}
+            source={{ uri: doctor?.Doctor?.imageUrl }}
             style={{width: width*0.2,
                 height: height*0.09,
                 justifyContent: "center",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   Image,
 } from "react-native";
 import axios from "axios";
+import * as Animatable from 'react-native-animatable';
 
 import { auth } from "../firebase-config";
 import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
@@ -34,15 +35,47 @@ export default function AppointementUserList() {
     createdHour: "",
   });
   const [idOfAppoint, setIdOfAppoint] = useState(0);
+  const dropdownRef = useRef(null);
+  const [mapModalVisible, setMapModalVisible] = useState(false);
+  const [btnFilterModal, setBtnFilterModal] = useState(false);
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const toggleDropdown = () => {
+    if (isDropdownVisible) {
+      dropdownRef.current.fadeOutLeftBig(900).then(() => {
+        setDropdownVisible(false);
+      });
+    } else {
+      setDropdownVisible(true);
+      dropdownRef.current.slideInLeft(900).then(() => {
+        setDropdownVisible(true);
+      });
+    }
+  };
 
-  const fetchData = async () => {
+
+  const fetchData = async (status) => {
     try {
       const email = auth.currentUser.email
 
       const response = await axios.get(
         `http://${
           process.env.EXPO_PUBLIC_SERVER_IP
-        }:1128/api/appointement/getAppointementUserr/pending/${email}`
+        }:1128/api/appointement/getAppointementUserr/${status}/${email}`
+      );
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+      throw new Error(error);
+    }
+  };
+  const fetchDataAll = async () => {
+    try {
+      const email = auth.currentUser.email
+
+      const response = await axios.get(
+        `http://${
+          process.env.EXPO_PUBLIC_SERVER_IP
+        }:1128/api/appointement/getAppointementAllUserr/${email}`
       );
       setData(response.data);
     } catch (error) {
@@ -87,13 +120,49 @@ export default function AppointementUserList() {
 
 
   useEffect(() => {
-    fetchData();
-  }, [refresh]);
+    fetchDataAll()
+    }, [refresh]);
 
   
 
   return (
     <View style={styles.container}>
+            <Text style={{ paddingBottom: 40, fontSize: 35, fontWeight: "bold",alignItems:"center" }}>
+        Appointment List
+      </Text>
+      <View style={{paddingLeft:280,paddingBottom:40}}>
+       {!isDropdownVisible?<TouchableOpacity onPress={toggleDropdown}>
+        <Image style={{height:45,width:45}} source={require("../assets/filtreOff.png")}/>
+        </TouchableOpacity>:<TouchableOpacity onPress={toggleDropdown}>
+        <Image style={{height:45,width:45}} source={require("../assets/filtreOn.png")}/>
+        </TouchableOpacity>}
+        </View>    
+        <Animatable.View
+      ref={dropdownRef}
+      style={{
+        position: 'absolute',
+        top: 123,
+        left: isDropdownVisible ? 0 : -290,
+        width: 290,
+        height: 70,
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 5,
+        elevation: 5,
+        justifyContent: 'center',
+        borderTopRightRadius: 50,
+        borderBottomRightRadius: 50,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 10,
+      }}
+    >
+      <TouchableOpacity onPress={() => fetchDataAll()}><Text>All</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => fetchData("pending")}><Text>Pending</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => fetchData("Accepted")}><Text>Accepted</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => fetchData("Rejected")}><Text>Rejected</Text></TouchableOpacity>
+    </Animatable.View>
   <FlatList
         data={data} 
         keyExtractor={(appointment) => String(appointment.id)}
@@ -350,10 +419,11 @@ export default function AppointementUserList() {
               <View
                 style={{
                   width: "45%",
-                  height: "100%",
-                  flexDirection: "column",
+                  height: 40,
+                  flexDirection: "row",
                   justifyContent: "center",
-                  gap: 2,
+                  alignItems:"center",
+                  gap: 40,
                 }}
               >
                 <Text style={{ fontWeight: "bold", fontSize: 18 }}>
@@ -364,7 +434,7 @@ export default function AppointementUserList() {
                   {new Date(appointment.updatedAt).toLocaleTimeString()}
                 </Text>
               </View>
-              <View
+              {/* <View
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
@@ -391,7 +461,7 @@ export default function AppointementUserList() {
                     source={require("../assets/multiple.png")}
                   />
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>:appointment.status==="Rejected"?
             <View
             style={{
@@ -405,10 +475,11 @@ export default function AppointementUserList() {
             <View
               style={{
                 width: "45%",
-                height: "100%",
-                flexDirection: "column",
+                height: 40,
+                flexDirection: "row",
                 justifyContent: "center",
-                gap: 2,
+                alignItems:"center",
+                gap: 40,
               }}
             >
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
@@ -419,7 +490,7 @@ export default function AppointementUserList() {
                 {new Date(appointment.updatedAt).toLocaleTimeString()}
               </Text>
             </View>
-            <View
+            {/* <View
               style={{
                 justifyContent: "center",
                 alignItems: "center",
@@ -440,7 +511,7 @@ export default function AppointementUserList() {
                   source={require("../assets/email.png")}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>:null
               }
             </View>
@@ -569,7 +640,7 @@ export default function AppointementUserList() {
                         textAlign: "center",
                       }}
                     >
-                      You deleted an appointement with {saveData.userName}, on{" "}
+                      You Rejected an appointement with {saveData.userName}, on{" "}
                       {saveData.day}, at {saveData.hour}
                     </Text>
 
@@ -621,6 +692,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f0f0f0",
     paddingTop: 50,
+    justifyContent:"center",
+    alignItems: "center",
     // paddingHorizontal: 20,
   },
   titleContainer: {
@@ -734,6 +807,7 @@ const stylesModalSec = StyleSheet.create({
       borderColor: 'rgba(0, 0, 0, 0.1)',
       height: 50,
       width: 90,
+      
     },
     modalContent: {
       backgroundColor: "white",
@@ -745,6 +819,9 @@ const stylesModalSec = StyleSheet.create({
       justifyContent: "space-between",
       alignItems: "center",
       flexDirection: "column",
+      position:"absolute",
+      top:150,
+      left:50
     },
   });
   

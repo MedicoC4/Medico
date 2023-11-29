@@ -277,7 +277,7 @@ module.exports = {
         return{
             id: e.Pharmacy.id,
             name:e.productName,
-            imageUrl: e.Pharmacy.imageUrl,
+            imageUrl: e.Pharmacy.PHname,
             type: "Product",
             availability: true,
             latitude: e.Pharmacy.latitude,
@@ -354,7 +354,7 @@ module.exports = {
         return{
             id: e.Pharmacy.id,
             name:e.productName,
-            imageUrl: e.Pharmacy.imageUrl,
+            imageUrl: e.Pharmacy.PHname,
             type: "Product",
             availability: true,
             latitude: e.Pharmacy.latitude,

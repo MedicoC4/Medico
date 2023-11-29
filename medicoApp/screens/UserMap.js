@@ -129,16 +129,16 @@ const saveidPharma = (e)=>{
       }
     }
   };
-  const updataLongLat = async (id, body) => {
-    try {
-      const response = await axios.put(
-        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateLongLat/${id}`,
-        body
-      );
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
+  // const updataLongLat = async (id, body) => {
+  //   try {
+  //     const response = await axios.put(
+  //       `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateLongLat/${id}`,
+  //       body
+  //     );
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // };
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -147,10 +147,10 @@ const saveidPharma = (e)=>{
     }
 
     let currentLocation = await Location.getCurrentPositionAsync({});
-    updataLongLat(1, {
-      lat: currentLocation.coords.latitude,
-      lang: currentLocation.coords.longitude,
-    });
+    // updataLongLat(1, {
+    //   lat: currentLocation.coords.latitude,
+    //   lang: currentLocation.coords.longitude,
+    // });
     setMapLocation(currentLocation);
     setLocation({
       latitude: currentLocation.coords.latitude, // You can replace these with your default values

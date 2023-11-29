@@ -26,6 +26,8 @@ import { fetchOrdersByUserId } from "../redux/orderSlicer";
 import { auth } from "../firebase-config";
 import { useFocusEffect } from "@react-navigation/native";
 import { Dimensions } from "react-native";
+import * as Location from "expo-location";
+import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
 
@@ -49,10 +51,38 @@ const Landing = ({ route }) => {
     dispatch(fetchDoctors());
   };
 
+  const updataLongLat = async (lat,long) => {
+    try {
+      const email = auth.currentUser.email;
+      const response = await axios.put(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/updateLongLat/${email}`,
+        {
+          latitude:lat,
+          longitude:long
+        }
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.error("Permission to access location was denied");
+      return;
+    }
+    let currentLocation = await Location.getCurrentPositionAsync({});
+    updataLongLat(currentLocation.coords.latitude,currentLocation.coords.longitude);  
+    console.log("==========================================",currentLocation.coords.latitude,currentLocation.coords.longitude);
+  };
+
+
   useEffect(() => {
     fetch1();
     fetch2();
     fetch3();
+    getLocation()
   }, []);
 
   let topRatedPharmacies = [];

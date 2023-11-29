@@ -35,7 +35,7 @@ const Landing = ({ route }) => {
   const pharmacies = useSelector((state) => state.pharmacy?.data);
   const medicines = useSelector((state) => state.medecine?.data);
   const doctors = useSelector((state) => state.doctor?.data);
-  const verifiedDoctors = doctors.filter((doctor) => doctor.Doctor.isverified);
+  const verifiedDoctors = doctors.filter((doctor) => doctor.Doctor?.isverified);
   const [clients, setClients] = useState([]);
   console.log("first");
   const fetch1 = () => {

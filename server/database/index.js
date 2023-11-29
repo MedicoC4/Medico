@@ -107,10 +107,10 @@ AppointementList.belongsTo(Day);
 Order.hasOne(Payment);
 Payment.belongsTo(Order);
 
-// connection
-//   .sync({force: true })
-//   .then(() => console.log("tables created"))
-//   .catch((error) => {throw error;});
+connection
+  .sync({alter: true })
+  .then(() => console.log("tables created"))
+  .catch((error) => {throw error;});
 
 module.exports = {
   Payment,

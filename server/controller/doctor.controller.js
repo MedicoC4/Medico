@@ -3,17 +3,41 @@ const { Op } = require("sequelize");
 
 module.exports = {
     getAll: async (req, res) => {
+      
         try{
+          const getUser= await User.findOne({
+            where:{
+              type:'doctor',
+              email:req.params.emailnotLike
+            }
+          })
+          if(getUser){
+
+            console.log('getUser From the server',getUser);
             const getAll = await User.findAll({
                 where: {
-                  type: "doctor"
+                  type: "doctor",
+                  id:{
+                    [Op.notLike]: getUser.DoctorId 
+                  }
                 },
                 include:Doctor
               })
-            res.json(getAll)
+           return  res.json(getAll)
+          }
+          else {
+            const getAllDoc = await User.findAll({
+              where: {
+                type: "doctor",
+              },
+              include:Doctor
+            })
+            return res.json(getAllDoc)
+          }
+          
         }catch(err){
             console.log("Error al obtener todos los usuarios")
-            throw err;
+            throw err
         }
     },
     getOne: async (req, res) => {

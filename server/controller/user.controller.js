@@ -81,6 +81,9 @@ module.exports = {
         where: { email: userData.email },
         include: Doctor,
       });
+      // if(emailExist.DoctorId&&!emailExist?.Doctor.isverified){
+      //   return res.status(401).send({ message : "you are not verified yet!"})
+      // }
       if (!emailExist) {
         return res.status(400).send({ message: "email is not valid" });
       }

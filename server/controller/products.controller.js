@@ -65,6 +65,30 @@ module.exports = {
       res.status(500).json({ error: "Internal Server Error" });
     }
   },
+  pharmacyProductWithId: async (req, res) => {
+    try {
+      const pharmacy = await Pharmacy.findOne({
+        where: { id:req.params.id },
+      });
+  
+      if (!pharmacy) {
+        return res.status(404).json({ error: "Pharmacy not found." });
+      }
+  
+      const pharmacyId = pharmacy.id;
+  
+      const products = await Products.findAll({
+        where: {
+          PharmacyId: pharmacyId,
+        },
+      });
+  
+     res.json(products);
+    } catch (error) {
+      console.error("Error fetching pharmacy products:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
   create: async (req, res) => {
     let product = req.body;
     try {

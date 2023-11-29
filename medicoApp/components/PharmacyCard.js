@@ -1,14 +1,50 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, Image, StyleSheet,TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import { Dimensions } from 'react-native';
+import haversine from 'haversine';
+import { auth } from '../firebase-config';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
 
 const PharmacyCard = ({ pharmacy }) => {
+
+  const [isDistance,setIsDistance]=useState(0)
+
+  const calculateDistanceMap=async()=>{
+    try {
+      const loggedMail=auth.currentUser.email
+        
+       const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
+       
+       const start = {
+         latitude: loggedUser.data.latitude,
+         longitude: loggedUser.data.longitude
+        }
+        
+        const end = {
+          latitude: pharmacy.latitude,
+          longitude: pharmacy.longitude
+        }
+        console.log(start,end,'this is distance between pharmacy');
+
+      setIsDistance((haversine(start, end)).toFixed(1))
+
+      
+    } catch (error) {
+      
+    }
+  }
+
   const navigation = useNavigation();
   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee",pharmacy);
+
+
+  useEffect(()=>{
+    calculateDistanceMap()
+  },[])
 
   return (
     <TouchableOpacity
@@ -28,7 +64,7 @@ const PharmacyCard = ({ pharmacy }) => {
         </View>
         <View style={styles.distanceContainer}>
           <Icon name="map-marker" size={15} color="#2d958c" />
-          <Text >1.5 km</Text>
+          <Text >{isDistance} km</Text>
         </View>
       </View>
     </View>

@@ -571,14 +571,7 @@ console.log(localSelectedImage , 'bingo');
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
         </TouchableOpacity>
-        <View
-          style={{
-            width: "100%",
-            height: 2,
-            backgroundColor: "#dedede",
-            borderRadius: 2,
-          }}
-        ></View>
+       
         
       </View>
     </View>

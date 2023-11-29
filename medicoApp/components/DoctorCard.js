@@ -6,6 +6,7 @@ const {width,height}= Dimensions.get('window')
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { save } from '../redux/doctorSlicer';
+// import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -24,6 +25,7 @@ const handleID=()=>{
   }
 
   return (
+
     <View style={{
         // padding:11,
         display:'flex',
@@ -42,7 +44,8 @@ const handleID=()=>{
           elevation: 20,
         shadowColor: 'grey',
         }}>
-            <View style={{
+            {doctor.DoctorId&&
+                <View style={{
                 display:"flex",
                 flexDirection:'row',
                 alignItems:'flex-start',
@@ -70,19 +73,19 @@ const handleID=()=>{
             <Text style={{
                 fontSize:20,
                 fontWeight:600
-            }}>Dr. {doctor.Doctor.fullname}</Text>
+            }}>Dr. {doctor?.Doctor.fullname}</Text>
 
                 <Text style={{
                 fontSize:12,
                 fontWeight:400,
                 color:'#8A96BC'
-            }}>{doctor.type}</Text>
+            }}>{doctor?.type}</Text>
             <View style={{display:'flex',
         flexDirection:'row',
         gap:10,
         alignItems:'center'}}>
         <Icon name="star" size={15} color="#FFD700" />
-        <Text>{(doctor.Doctor.rating).toFixed(1)}</Text>
+        <Text>{(doctor?.Doctor.rating).toFixed(1)}</Text>
 
 
         
@@ -106,8 +109,10 @@ const handleID=()=>{
                 />
             </TouchableOpacity>
 
-            </View>
-            <View style={{display:'flex',
+            </View> }
+
+            {doctor.DoctorId&&
+                <View style={{display:'flex',
         flexDirection:'row',
         // alignItems:'center',
         width:width*1,
@@ -161,7 +166,8 @@ const handleID=()=>{
                     fontWeight:700
                 }}>Book Appointment</Text>
                 </TouchableOpacity>
-            </View>
+            </View>}
+           
         </View>
   )
 }

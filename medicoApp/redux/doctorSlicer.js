@@ -15,9 +15,9 @@ const initialState = {
 
 
 
-export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () => {
+export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async (email) => {
   const response = await axios.get(
-    `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll`
+    `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll/${email}`
   ); 
   return response.data;
 });

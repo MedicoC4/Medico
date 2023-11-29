@@ -9,7 +9,8 @@ import mapNav from '../assets/mapNav.png'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Storage } from 'expo-storage'
 import { Dimensions } from "react-native";
-
+import userSlicer from '../redux/userSlicer';
+import { useSelector } from 'react-redux';
 const { width, height } = Dimensions.get("window");
 
 
@@ -17,7 +18,9 @@ const NavigationBar = () => {
   const navigation = useNavigation()
   const [selectedTab, setSelectedTab] = useState('')
   const [userType, setUserType] = useState('');
+  const currentUser= useSelector(state=>state.getUser.data)
 
+  console.log('this is the current user in nav tb',currentUser);
 
 
   const handlePress = (route, tabName) => {
@@ -62,12 +65,16 @@ const NavigationBar = () => {
         {renderIcon(store, "stores")}
         <Text style={selectedTab === "stores" ? styles.selectedText : styles.text}>Stores</Text>
       </TouchableOpacity>
-      {userType==='doctor' &&<TouchableOpacity style={styles.item} onPress={() => handlePress("DocProfileNew", "account")}>
+      {(userType==='doctor' && currentUser?.Doctor?.isverified)&&<TouchableOpacity style={styles.item} onPress={() => handlePress("DocProfileNew", "account")}>
+        {renderIcon(account, "account")}
+        <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
+      </TouchableOpacity>}
+      {(userType==='doctor' && !currentUser?.Doctor?.isverified)&&<TouchableOpacity style={styles.item} onPress={() => handlePress("userProfilePage", "account")}>
         {renderIcon(account, "account")}
         <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
       </TouchableOpacity>}
       
-      {userType!=='doctor'  && userType&&<TouchableOpacity style={styles.item} onPress={() => handlePress("userProfilePage", "account")}>
+      {userType!=='doctor'  && userType&& <TouchableOpacity style={styles.item} onPress={() => handlePress("userProfilePage", "account")}>
         {renderIcon(account, "account")}
         <Text style={selectedTab === "account" ? styles.selectedText : styles.text}>Account</Text>
       </TouchableOpacity>}

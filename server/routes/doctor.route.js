@@ -1,5 +1,5 @@
 const route = require('express').Router()
-const {getAll , getOne , drop , change , add, migrateDoctor, updateLocation,getAivableDoc,recordsDoc, updateSpeciality,verficationDoc, docImage,getAivableDocMapeed,getAivableDocMapeedAll,getAllCategory} = require("../controller/doctor.controller")
+const {getAll , getOne , drop , change , add, migrateDoctor, updateLocation,getAivableDoc,recordsDoc, updateSpeciality,verficationDoc, docImage,getAivableDocMapeed,getAivableDocMapeedAll,getAllCategory,findDocWithId} = require("../controller/doctor.controller")
 
 
 
@@ -19,5 +19,7 @@ route.post('/updateRecords', recordsDoc)
 route.patch('/updateImage' , docImage)
 route.patch('/verficationDoc' , verficationDoc)
 route.delete('/deleteDoc/:id' , drop)
+route.get("/getOneWithId/:idDocMap",findDocWithId)
+
 
 module.exports = route

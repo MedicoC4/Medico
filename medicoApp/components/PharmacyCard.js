@@ -8,6 +8,7 @@ const { width, height } = Dimensions.get('window');
 
 const PharmacyCard = ({ pharmacy }) => {
   const navigation = useNavigation();
+  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee",pharmacy);
 
   return (
     <TouchableOpacity

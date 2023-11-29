@@ -86,7 +86,7 @@ module.exports = {
             body: {
               name: `Dear ${patient}`,
               intro: `I hope this message finds you well. This is Dr. ${doctorName}, and I am writing to provide you with important information regarding your upcoming appointment.`,
-              details: appointmentDetails,
+              outro: appointmentDetails,
               outro: textEmail
               // outro: "If you have any questions or concerns, please do not hesitate to contact our office. We look forward to seeing you soon.",
             },

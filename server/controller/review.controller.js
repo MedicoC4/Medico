@@ -136,4 +136,26 @@ module.exports = {
       }
     },
 
+    getAllForPharmacyProfile: async (req, res) => {
+
+      try {
+        const reviews = await Pharmacy.findOne({
+          where: { id: req.params.idPharma },
+          
+          include : [{model:Review,
+          include:User
+          
+          }],
+          order:[['createdAt','DESC']]
+        }
+      
+        );
+        res.json(reviews);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    
+    },
+
   };

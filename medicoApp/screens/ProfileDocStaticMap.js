@@ -10,6 +10,7 @@ import NavigationBar from '../components/NavigationBar'
 import { auth } from '../firebase-config'
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+// import { Doctor } from '../../server/database';
 
 
 
@@ -18,27 +19,37 @@ const ProfileDocStaticMap = ({route}) => {
     
     // const data =route.params.data
     // console.log('this is static profile data',data);
+    const navigation=useNavigation()
     const idDoc = useSelector((state) => state.doctor?.idDocMap);
 
+    const reviews=useSelector((state)=>state.docRev.data)
 
 console.log("this the user email", auth.currentUser.email,"this is the docotor id",idDoc);
 
-    const navigation=useNavigation()
   const [isModalVisible, setModalVisible] = useState(false);
   const [rating,setRating]=useState('')
   const [comment,setComment]=useState('')
   const [isDistance,setIsDistance]=useState(0)
+  const [data,setData] = useState({})
 
 //   const reviews=useSelector((state)=>state.docRev.data)
-
-
+console.log("=================Id",idDoc);
+console.log("=================",data);
+const fetchData = async ()=>{
+try {
+  const res = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getOneWithId/${idDoc}`)
+  setData(res.data)
+} catch (error) {
+  throw new Error (error)
+}
+}
   const dispatch=useDispatch()
 
 
   const fetchReviews= ()=>{
-    dispatch(fetchDocReviews(idDoc))
+    dispatch(fetchDocReviews(data.DoctorId))
 }
-
+console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -60,7 +71,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
   
         console.log(loggedUser);
         const response = await axios.get(
-          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.Doctor.latitude},${data.Doctor.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
+          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
           );
   
           
@@ -92,7 +103,8 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
 
   const handleReviewAdding = () => {
     console.log("this is the review",comment);
-    const doctorId =idDoc
+    const doctorId =data.DoctorId
+    console.log("ooooonnnneee",data.DoctorId);
     let email = auth.currentUser.email
   
     const newReview = {
@@ -113,6 +125,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
   };
 
   useEffect(() => {
+    fetchData()
     fetchReviews()
     calculateDistanceMap()
   }, []);
@@ -232,7 +245,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
             height:height*0.48
         }}>
         <ImageBackground
-        source={{ uri: data.Doctor.imageUrl }}
+        source={{ uri: data?.Doctor?.imageUrl }}
         resizeMode="cover"
         style={{width:width*1,
             height:height*0.37,
@@ -317,7 +330,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                     <Text style={{
                         fontSize:20,
                         fontWeight:600
-                    }}>Dr. {data.Doctor.fullname}</Text>
+                    }}>Dr. {data?.Doctor?.fullname}</Text>
                     <Text style={{
                         fontSize:15,
                         fontWeight:400,
@@ -343,7 +356,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                             />
                             <Text style={{
                                 fontWeight:600
-                            }}>{data.Doctor.type}</Text>
+                            }}>{data?.Doctor?.type}</Text>
                         </View>
                         <View style={{
                             paddingLeft:20,
@@ -383,7 +396,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                             color:COLORS.white,
                             fontSize:20,
                             fontWeight:600
-                        }}>{(data.Doctor.rating).toFixed(1)}</Text>
+                        }}>{data?.Doctor?.rating ? data.Doctor.rating.toFixed(1) : 'N/A'}</Text>
                     </View>
                     <Text style={{
                         color:COLORS.grey,
@@ -428,7 +441,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
                 color:COLORS.black,
                 fontSize:18,
                 // fontWeight:600
-            }}>Hello, My name is Dr. {data.Doctor.fullname}. I'm specialized In hello whatever it says we gonna kill it </Text>
+            }}>Hello, My name is Dr. {data?.Doctor?.fullname}. I'm specialized In hello whatever it says we gonna kill it </Text>
             </View>
             
             <Text style={{
@@ -454,7 +467,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
           paddingHorizontal: 13
         }}
         onPress={()=>navigation.navigate('AllReviews',{
-            data : data.Doctor
+            data : data
         })}
         >
             <Text style={{

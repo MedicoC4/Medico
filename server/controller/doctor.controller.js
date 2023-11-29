@@ -277,4 +277,16 @@ module.exports = {
             throw new Error(err)
         }
       },
+      findDocWithId: async (req,res)=>{
+        try {
+        getOne =await User.findOne({where:{id:req.params.idDocMap},
+        include:[
+          {model:Doctor}
+        ]
+        }) 
+        res.json(getOne) 
+        } catch (error) {
+          throw new Error (error)
+        }
+      }
 }

@@ -474,7 +474,7 @@ const hideDropdownMode = () => {
                     </View>
                   </View>
                   <View style={{height:"100%",width:"45%",justifyContent:"center",alignItems:"center"}}>
-                    {selectedMarker?.type==="Product" || selectedMarker?.type==="pharmacy"?<TouchableOpacity onPress={() => {navigation.navigate('PharProfMap');saveidPharma(selectedMarker?.id)}} style={{    width: "40%",
+                    {selectedMarker?.type==="Product" || selectedMarker?.type==="Pharmacy"?<TouchableOpacity onPress={() => {navigation.navigate('PharProfMap');saveidPharma(selectedMarker?.id)}} style={{    width: "40%",
                   height: "65%",
                   width:"80%",
                   justifyContent: "center",

@@ -123,7 +123,7 @@ const PharProfMap = ({route}) => {
   
   const fetchReviewsForPhar=async()=>{
     try {
-      const get= await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/getAllPh/${data.id}`)
+      const get= await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/reviews/pharmaProfile/${idPharma}`)
       const reviews=get.data
       setAllReviews(reviews)
     } catch (error) {
@@ -139,7 +139,7 @@ const PharProfMap = ({route}) => {
     e.preventDefault()
 
       try {
-        const pharmacyId =data.id
+        const pharmacyId =idPharma
         let email = auth.currentUser.email
       
         const newReview = {

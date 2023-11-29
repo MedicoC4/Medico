@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Animated } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Animated,Image } from 'react-native';
 import MapView, { Marker, AnimatedRegion } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
@@ -56,6 +56,14 @@ const showButton = () => {
   setTimeout(() => {
     setDisplayBtn(true);
   }, 900);
+};
+
+const CustomMarker = () => {
+  return (
+    <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
+    <Image source={require('../assets/hiddenMarker.png')} style={{ width: 1, height: 1 }} />
+  </View>
+  );
 };
 
  const getLocation = async () => {
@@ -228,11 +236,18 @@ const calculateDistanceMap = async () => {
        />
        {userLocation && (
          <Marker.Animated
-           ref={markerRef}
-           coordinate={userLocation}
-           title={appointCoords.dotorName}
-           // image={require('./path/to/navigate_marker.png')} // Replace with your navigate marker image
-         />
+         ref={markerRef}
+         coordinate={userLocation}
+         title={String(appointCoords.dotorName)} // Ensure that the title is a string
+       >
+         <CustomMarker />
+       </Marker.Animated>
+        //  <Marker.Animated
+        //    ref={markerRef}
+        //    coordinate={userLocation}
+        //    title={appointCoords.dotorName}
+        //    // image={require('./path/to/navigate_marker.png')} // Replace with your navigate marker image
+        //  /> 
        )}
        <Marker coordinate={destination} title={appointCoords.name} />
      </MapView>
@@ -293,10 +308,10 @@ const calculateDistanceMap = async () => {
      <Text>Km/h</Text>
      </View>
      <View>
-      <Text>{isDistance}</Text>
+      <Text>{isDistance  ??  '0 Km'}</Text>
      </View>
      <View>
-      <Text>{estimatedDuration}</Text>
+      <Text>{estimatedDuration  ?? '0 min'}</Text>
      </View>
 
 </Animatable.View>

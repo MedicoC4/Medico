@@ -5,6 +5,8 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
+  ScrollView
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { auth } from "../firebase-config";
@@ -18,6 +20,9 @@ import { setSelectedImage, updateUser} from "../redux/userSlicer";
 import { useDispatch , useSelector} from "react-redux";
 import { imageDoc } from "../redux/doctorSlicer";
 import { logOut } from "../redux/userSlicer";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+const {width,height}= Dimensions.get('window')
+import { Feather } from '@expo/vector-icons'; 
 
 const UserProfilePage = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -303,6 +308,7 @@ console.log(localSelectedImage , 'bingo');
         </View>
       </View>
       <View style={{ height: "46%" }}>
+        <ScrollView style={{height:"100%"}}>
         <TouchableOpacity
           style={{
             flexDirection: "row",
@@ -367,6 +373,137 @@ console.log(localSelectedImage , 'bingo');
    
         
     
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: height*0.1,
+            alignItems: "center",
+          }}
+          onPress={() =>navigation.navigate('appointement')}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Feather name="calendar" size={28} color="#1a998e" />
+
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Availability
+            </Text>
+          </View>
+          <View
+            style={{}}
+          >
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: height*0.1,
+            alignItems: "center",
+          }}
+          onPress={() =>navigation.navigate('appointmentDoctor')}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <MaterialCommunityIcons name="calendar-multiple-check" size={27} color="#1a998e" />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Appointements
+            </Text>
+          </View>
+          <View
+            style={{}}
+          >
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
         <View
           style={{
             width: "100%",
@@ -572,7 +709,7 @@ console.log(localSelectedImage , 'bingo');
           </View>
         </TouchableOpacity>
        
-        
+        </ScrollView>
       </View>
     </View>
   );

@@ -9,6 +9,10 @@ import {
   Modal,
   ScrollView
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from "react-redux";
+import { idMap,idMapPharma } from '../redux/doctorSlicer';
+
 import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
 import Slider from "@react-native-community/slider";
@@ -40,6 +44,9 @@ import markProduct from "../assets/markProduct.png"
 
 
 const UserMap = () => {
+  const navigation = useNavigation()
+  const dispatch = useDispatch();
+
   const [radiusInMeters, setRadiusInMeters] = useState(20000);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -79,6 +86,12 @@ console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",coordinatesData);
   /////////////////////////////////////////////////////////////////////////
 const dataPharmacies = (e)=>{
   setCoordnatesData(e)
+}
+const saveidDoc = (e)=>{
+  dispatch(idMap(e))
+}
+const saveidPharma = (e)=>{
+  dispatch(idMapPharma(e))
 }
 
   const getData = async () => {
@@ -267,7 +280,7 @@ const hideDropdownMode = () => {
   const CustomMarkerFlag = () => {
     return (
       <View style={{height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}}>
-      <Image source={require('../assets/palestine.png')} style={{ width: 70, height: 70 }} />
+      <Image source={require('../assets/palestineFlag.png')} style={{ width: 140, height: 70 }} />
     </View>
     );
   };
@@ -461,7 +474,7 @@ const hideDropdownMode = () => {
                     </View>
                   </View>
                   <View style={{height:"100%",width:"45%",justifyContent:"center",alignItems:"center"}}>
-                    <TouchableOpacity style={{    width: "40%",
+                    {selectedMarker?.type==="Product" || selectedMarker?.type==="pharmacy"?<TouchableOpacity onPress={() => {navigation.navigate('PharProfMap');saveidPharma(selectedMarker?.id)}} style={{    width: "40%",
                   height: "65%",
                   width:"80%",
                   justifyContent: "center",
@@ -471,7 +484,17 @@ const hideDropdownMode = () => {
                     color: "white",
                     fontWeight: "bold",
                     fontSize: 22,
-                  }} >Go Profile</Text></TouchableOpacity>
+                  }} >Go Profile</Text></TouchableOpacity>:<TouchableOpacity onPress={() => {navigation.navigate('ProfileDocStaticMap');saveidDoc(selectedMarker?.id)}} style={{    width: "40%",
+                  height: "65%",
+                  width:"80%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 80,
+                  backgroundColor: COLORS.primary}}><Text   style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: 22,
+                  }} >Go Profile</Text></TouchableOpacity>}
                   </View>
                 </View>
                 <View style={{height:"15%",alignItems:"center",justifyContent:"center"}}>

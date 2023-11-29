@@ -61,7 +61,7 @@ module.exports = {
             });
     },
     sendE: async (req, res) => {
-      const { userEmail,doctorName,appointmentDetails,textEmail } = req.body;
+      const { userEmail,doctorName,appointmentDetails,textEmail,patient } = req.body;
 
         let transporter = nodemailer.createTransport({
             service: "gmail",
@@ -84,7 +84,7 @@ module.exports = {
 
         let response = {
             body: {
-              name: `Dear Patient,`,
+              name: `Dear ${patient}`,
               intro: `I hope this message finds you well. This is Dr. ${doctorName}, and I am writing to provide you with important information regarding your upcoming appointment.`,
               details: appointmentDetails,
               outro: textEmail
@@ -96,7 +96,7 @@ module.exports = {
         let message = {
             from: "c4ces.rbk@gmail.com",
             to: userEmail,
-            subject: "Place Order",
+            subject: `Your Scheduled Appointment with Dr. ${doctorName} .`,
             html: mail,
         };
 

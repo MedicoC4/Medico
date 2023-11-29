@@ -30,7 +30,9 @@ import {
   appointementUserList,
   UserMap,
   ProfileDocStatic,
-  SendingDoc
+  SendingDoc,
+  PharProfMap,
+  ProfileDocStaticMap
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -157,8 +159,22 @@ export default function App() {
           }}
         />
         <Stack.Screen
+          name="PharProfMap"
+          component={PharProfMap}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="ProfileDocStatic"
           component={ProfileDocStatic}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileDocStaticMap"
+          component={ProfileDocStaticMap}
           options={{
             headerShown: false,
           }}

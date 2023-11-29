@@ -44,7 +44,7 @@ const AppointementList = () => {
   const [estimatedDuration, setEstimatedDuration] = useState(null);
   const [isDistance, setIsDistance] = useState(null);
   const [text, setText] = useState('');
-
+  const[emailData,setEmailData] = useState({})
   const navigation = useNavigation()
   
   const [oneUser,setOneUser]=useState({
@@ -63,7 +63,6 @@ const AppointementList = () => {
     createdHour: "",
   });
 
-  console.log("==================>");
   const dispatch = useDispatch();
 
   const handleTextChange = (inputText) => {
@@ -81,9 +80,15 @@ const AppointementList = () => {
     dispatch(saveMap({longitude:long,latitude:lat,id:idUser,name:userName,dotorName:docName}))
   }
 
- const sendMail =()=>{
+ const sendMail = async ()=>{
   try {
-    const send = (`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/email/sendAccept`,{})
+    const send = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/email/sendEmail`,{
+      userEmail: emailData.userEmail,
+                    doctorName: emailData.doctorName,
+                    appointmentDetails: emailData.appointmentDetails,
+                    patient:emailData.patient,
+                    textEmail:text
+    })
   } catch (error) {
     throw new Error(error)
   }
@@ -590,7 +595,14 @@ const AppointementList = () => {
                     source={require("../assets/chat.png")}
                   />
                 </TouchableOpacity> */}
-                <TouchableOpacity onPress={() => setSendEmail(true)}>
+                <TouchableOpacity onPress={() => {setSendEmail(true);
+                  setEmailData({
+                    userEmail: appointment.User.email,
+                    doctorName: appointment.Doctor.fullname,
+                    appointmentDetails: `On ${appointment.Day.day}, at ${appointment.Availability.hour}.`,
+                    patient:appointment.User.username
+                  })
+                  }}>
                   <Image
                     style={{ width: 48, height: 48 }}
                     source={require("../assets/email.png")}
@@ -1002,14 +1014,23 @@ const AppointementList = () => {
         onChangeText={handleTextChange}
         value={text}
       />
-                    <View>
+                    <View style={{flexDirection:"row",gap:20}}>
                       <TouchableOpacity
-                        onPress={() => setSendEmail(false)}
+                        onPress={() => {setSendEmail(false);setText("");sendMail()}}
                         style={styles.modalButton}
                       >
                         <Image
                           style={{ height: 45, width: 45 }}
                           source={require("../assets/envoyer.png")}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {setSendEmail(false);setText("")}}
+                        style={styles.modalButton}
+                      >
+                        <Image
+                          style={{ height: 45, width: 45 }}
+                          source={require("../assets/bouton-x.png")}
                         />
                       </TouchableOpacity>
                     </View>

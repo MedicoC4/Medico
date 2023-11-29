@@ -21,7 +21,7 @@ const AllDoctors = () => {
 
 
   const doctors = useSelector((state) => state.doctor?.data);
-  console.log(doctors,"=====");
+  console.log("==========================",doctors,"=====");
 
  
   

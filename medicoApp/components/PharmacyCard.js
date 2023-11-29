@@ -39,6 +39,7 @@ const PharmacyCard = ({ pharmacy }) => {
   }
 
   const navigation = useNavigation();
+  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee",pharmacy);
 
 
   useEffect(()=>{

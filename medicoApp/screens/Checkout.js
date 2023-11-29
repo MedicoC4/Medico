@@ -15,6 +15,7 @@ import { fetchOrdersByUserId, createPaymentIntent } from "../redux/orderSlicer";
 import { auth } from "../firebase-config";
 import NavigationBar from "../components/NavigationBar";
 import { useStripe } from "@stripe/stripe-react-native";
+import axios from 'axios'
 
 
 const Checkout = ({ route }) => {
@@ -51,9 +52,34 @@ const Checkout = ({ route }) => {
       return;
     }
   
-    await presentPaymentSheet();
+    const { error } = await presentPaymentSheet();
 
-    navigation.navigate("Landing")
+    if (error) {
+      console.log(`Error code: ${error.code}, Error message: ${error.message}`);
+    } else {
+      console.log('Success, the payment is confirmed!');
+      // Send the email here
+      await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/email/send`, {
+  userEmail: email,
+  mymedecine: orders.Product.productName,
+  mydescription: orders.Product.description,
+  myprice: `${orders.total} TND`,
+  myname: orders.User.username,
+}, {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+.then((response) => {
+  console.log(`Email sent with status code: ${response.status}`);
+  console.log(response.data);
+})
+.catch((error) => {
+  console.error(error);
+});
+    }
+    
+    navigation.navigate("Landing");
   }
   
 

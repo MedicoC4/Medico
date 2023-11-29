@@ -19,7 +19,14 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Custom components
+
+
+
+
+
+
+
+
 import Card from "components/Card/Card.js";
 import BarChart from "components/Charts/BarChart";
 import LineChart from "components/Charts/LineChart";
@@ -31,7 +38,7 @@ import {
   GlobeIcon,
   WalletIcon,
 } from "components/Icons/Icons.js";
-import React from "react";
+import React, { useEffect, useState } from "react";
 // Variables
 import {
   barChartData,
@@ -40,6 +47,11 @@ import {
   lineChartOptions,
 } from "variables/charts";
 import { pageVisits, socialTraffic } from "variables/general";
+import { fetchUsers } from "../../redux/userSlicer";
+import { useDispatch, useSelector } from "react-redux";
+import {fetchOrders} from "../../redux/orderSlicer"
+import { fetchPharmacies } from "redux/pharmacySlicer";
+
 
 export default function Dashboard() {
   // Chakra Color Mode
@@ -49,168 +61,219 @@ export default function Dashboard() {
   const tableRowColor = useColorModeValue("#F7FAFC", "navy.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const textTableColor = useColorModeValue("gray.500", "white");
-
   const { colorMode } = useColorMode();
+  const dispatch = useDispatch();
+  const [showAllPharmacies, setShowAllPharmacies] = useState(false);
+  const maxPharmaciesToShow = 2;
 
+
+
+  const users = useSelector((state) => state.user.data);
+  const orders = useSelector((state) =>state.orders.data)
+  const pharmacies = useSelector((state) =>state.pharmacy.data)
+
+  console.log('========Orders=======>>' , orders);
+  console.log('========Pharmacies=======>>' , pharmacies);
+  useEffect(() => {
+    dispatch(fetchUsers());
+    dispatch(fetchOrders());
+    dispatch(fetchPharmacies())
+  }, [dispatch]);
+
+
+const userRegistrationData = users.reduce((acc, user) => {
+  if (user.createdAt) {
+    const registrationcreatedAt = user.createdAt.split('T')[0];
+    acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
+  }
+  return acc;
+}, {});
+
+const doctorRegistrationData = users.reduce((acc, user) => {
+  if (user.type === "doctor" && user.createdAt) {
+    const registrationcreatedAt = user.createdAt.split('T')[0];
+    acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
+  }
+  return acc;
+}, {});
+
+const pharmacyRegistrationData = users.reduce((acc, user) => {
+  if (user.type === "pharmacy" && user.createdAt) {
+    const registrationcreatedAt = user.createdAt.split('T')[0];
+    acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
+  }
+  return acc;
+}, {});
+
+const normalUserRegistrationData = users.reduce((acc, user) => {
+  if (user.type === "user" && user.createdAt) {
+    const registrationcreatedAt = user.createdAt.split('T')[0];
+    acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
+  }
+  return acc;
+}, {});
+
+const highestRatedPharmacyy = pharmacies.reduce((maxPharmacy, pharmacy) => {
+  console.log('the pharm =========>' , pharmacy.Pharmacy.rating);
+  return !maxPharmacy || pharmacy.Pharmacy.rating > maxPharmacy.Pharmacy.rating ? pharmacy : maxPharmacy;
+  console.log(maxPharmacy.Pharmacy.rating);
+}, null);
+const highestRatedPharmacies = [...pharmacies].sort((a, b) => {
+  return b.Pharmacy.rating - a.Pharmacy.rating;
+});
+
+const highestRatedPharmacy = highestRatedPharmacies[0];
+
+
+    const registrationDates = Object.keys(userRegistrationData);
+    const registrationCounts = Object.values(userRegistrationData);
   return (
     <Flex flexDirection='column' pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px' mb='20px'>
-        <Card minH='125px'>
+      <Card minH='125px'>
           <Flex direction='column'>
-            <Flex
-              flexDirection='row'
-              align='center'
-              justify='center'
-              w='100%'
-              mb='25px'>
+            <Flex flexDirection='row' align='center' justify='center' w='100%' mb='25px'>
               <Stat me='auto'>
-                <StatLabel
-                  fontSize='xs'
-                  color='gray.400'
-                  fontWeight='bold'
-                  textTransform='uppercase'>
-                  Today's Money
+                <StatLabel fontSize='xs' color='gray.400' fontWeight='bold' textTransform='uppercase'>
+                  ALL User's Registrations
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
-                    $53,897
+                    {registrationCounts.reduce((sum, count) => sum + count, 0)}
                   </StatNumber>
                 </Flex>
               </Stat>
-              <IconBox
-                borderRadius='50%'
-                as='box'
-                h={"45px"}
-                w={"45px"}
-                bg={iconBlue}>
-                <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color='gray.400' fontSize='sm'>
-              <Text as='span' color='green.400' fontWeight='bold'>
-                +3.48%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
-        <Card minH='125px'>
-          <Flex direction='column'>
-            <Flex
-              flexDirection='row'
-              align='center'
-              justify='center'
-              w='100%'
-              mb='25px'>
-              <Stat me='auto'>
-                <StatLabel
-                  fontSize='xs'
-                  color='gray.400'
-                  fontWeight='bold'
-                  textTransform='uppercase'>
-                  Today's Users
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
-                    $3,200
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox
-                borderRadius='50%'
-                as='box'
-                h={"45px"}
-                w={"45px"}
-                bg={iconBlue}>
+              <IconBox borderRadius='50%' as='box' h={"45px"} w={"45px"} bg={iconBlue}>
                 <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
             <Text color='gray.400' fontSize='sm'>
-              <Text as='span' color='green.400' fontWeight='bold'>
-                +5.2%{" "}
-              </Text>
-              Since last month
+              {registrationDates.length > 0 && (
+                <>
+                  <Text as='span' color='green.400' fontWeight='bold'>
+                    +{registrationCounts[registrationCounts.length - 1] || 0}{" "}
+                  </Text>
+                  Since yesterday
+                </>
+              )}
             </Text>
           </Flex>
         </Card>
         <Card minH='125px'>
-          <Flex direction='column'>
-            <Flex
-              flexDirection='row'
-              align='center'
-              justify='center'
-              w='100%'
-              mb='25px'>
-              <Stat me='auto'>
-                <StatLabel
-                  fontSize='xs'
-                  color='gray.400'
-                  fontWeight='bold'
-                  textTransform='uppercase'>
-                  New Clients
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
-                    +2,503
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox
-                borderRadius='50%'
-                as='box'
-                h={"45px"}
-                w={"45px"}
-                bg={iconBlue}>
-                <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color='gray.400' fontSize='sm'>
-              <Text as='span' color='red.500' fontWeight='bold'>
-                -2.82%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
-        <Card minH='125px'>
-          <Flex direction='column'>
-            <Flex
-              flexDirection='row'
-              align='center'
-              justify='center'
-              w='100%'
-              mb='25px'>
-              <Stat me='auto'>
-                <StatLabel
-                  fontSize='xs'
-                  color='gray.400'
-                  fontWeight='bold'
-                  textTransform='uppercase'>
-                  Total Sales
-                </StatLabel>
-                <Flex>
-                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
-                    $173,000
-                  </StatNumber>
-                </Flex>
-              </Stat>
-              <IconBox
-                borderRadius='50%'
-                as='box'
-                h={"45px"}
-                w={"45px"}
-                bg={iconBlue}>
-                <CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />
-              </IconBox>
-            </Flex>
-            <Text color='gray.400' fontSize='sm'>
-              <Text as='span' color='green.400' fontWeight='bold'>
-                +8.12%{" "}
-              </Text>
-              Since last month
-            </Text>
-          </Flex>
-        </Card>
+  <Flex direction='column'>
+    <Flex
+      flexDirection='row'
+      align='center'
+      justify='center'
+      w='100%'
+      mb='25px'>
+      <Stat me='auto'>
+        <StatLabel
+          fontSize='xs'
+          color='gray.400'
+          fontWeight='bold'
+          textTransform='uppercase'>
+          Doctors Registered Today
+        </StatLabel>
+        <Flex>
+          <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
+            {doctorRegistrationData[registrationDates[registrationDates.length - 1]] || 0}
+          </StatNumber>
+        </Flex>
+      </Stat>
+      <IconBox borderRadius='50%' as='box' h={"45px"} w={"45px"} bg={iconBlue}>
+  <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
+</IconBox>
+
+    </Flex>
+    <Text color='gray.400' fontSize='sm'>
+      {registrationDates.length > 0 && (
+        <>
+          <Text as='span' color='green.400' fontWeight='bold'>
+            +{doctorRegistrationData[registrationDates[registrationDates.length - 1]] || 0}{" "}
+          </Text>
+          Since yesterday
+        </>
+      )}
+    </Text>
+  </Flex>
+</Card>
+<Card minH='125px'>
+  <Flex direction='column'>
+    <Flex
+      flexDirection='row'
+      align='center'
+      justify='center'
+      w='100%'
+      mb='25px'>
+      <Stat me='auto'>
+        <StatLabel
+          fontSize='xs'
+          color='gray.400'
+          fontWeight='bold'
+          textTransform='uppercase'>
+          Pharmacies Registered Today
+        </StatLabel>
+        <Flex>
+          <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
+            {pharmacyRegistrationData[registrationDates[registrationDates.length - 1]] || 0}
+          </StatNumber>
+        </Flex>
+      </Stat>
+      <IconBox borderRadius='50%' as='box' h={"45px"} w={"45px"} bg={iconBlue}>
+  <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
+</IconBox>
+    </Flex>
+    <Text color='gray.400' fontSize='sm'>
+      {registrationDates.length > 0 && (
+        <>
+          <Text as='span' color='green.400' fontWeight='bold'>
+            +{pharmacyRegistrationData[registrationDates[registrationDates.length - 1]] || 0}{" "}
+          </Text>
+          Since yesterday
+        </>
+      )}
+    </Text>
+  </Flex>
+</Card>
+<Card minH='125px'>
+  <Flex direction='column'>
+    <Flex
+      flexDirection='row'
+      align='center'
+      justify='center'
+      w='100%'
+      mb='25px'>
+      <Stat me='auto'>
+        <StatLabel
+          fontSize='xs'
+          color='gray.400'
+          fontWeight='bold'
+          textTransform='uppercase'>
+          Normal Users Registered Today
+        </StatLabel>
+        <Flex>
+          <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
+            {normalUserRegistrationData[registrationDates[registrationDates.length - 1]] || 0}
+          </StatNumber>
+        </Flex>
+      </Stat>
+      <IconBox borderRadius='50%' as='box' h={"45px"} w={"45px"} bg={iconBlue}>
+  <CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />
+</IconBox>
+    </Flex>
+    <Text color='gray.400' fontSize='sm'>
+      {registrationDates.length > 0 && (
+        <>
+          <Text as='span' color='green.400' fontWeight='bold'>
+            +{normalUserRegistrationData[registrationDates[registrationDates.length - 1]] || 0}{" "}
+          </Text>
+          Since yesterday
+        </>
+      )}
+    </Text>
+  </Flex>
+</Card>
       </SimpleGrid>
       <Grid
         templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
@@ -256,74 +319,57 @@ export default function Dashboard() {
           </Box>
         </Card>
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction='column'>
-            <Flex align='center' justify='space-between' p='22px'>
-              <Text fontSize='lg' color={textColor} fontWeight='bold'>
-                Page visits
-              </Text>
-              <Button variant='primary' maxH='30px'>
-                SEE ALL
-              </Button>
-            </Flex>
-            <Box overflow={{ sm: "scroll", lg: "hidden" }}>
-              <Table>
-                <Thead>
-                  <Tr bg={tableRowColor}>
-                    <Th color='gray.400' borderColor={borderColor}>
-                      Page name
-                    </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
-                      Visitors
-                    </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
-                      Unique users
-                    </Th>
-                    <Th color='gray.400' borderColor={borderColor}>
-                      Bounce rate
-                    </Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {pageVisits.map((el, index, arr) => {
-                    return (
-                      <Tr key={index}>
-                        <Td
-                          color={textTableColor}
-                          fontSize='sm'
-                          fontWeight='bold'
-                          borderColor={borderColor}
-                          border={index === arr.length - 1 ? "none" : null}>
-                          {el.pageName}
-                        </Td>
-                        <Td
-                          color={textTableColor}
-                          fontSize='sm'
-                          border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
-                          {el.visitors}
-                        </Td>
-                        <Td
-                          color={textTableColor}
-                          fontSize='sm'
-                          border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
-                          {el.uniqueUsers}
-                        </Td>
-                        <Td
-                          color={textTableColor}
-                          fontSize='sm'
-                          border={index === arr.length - 1 ? "none" : null}
-                          borderColor={borderColor}>
-                          {el.bounceRate}
-                        </Td>
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
-            </Box>
+        <Flex direction='column'>
+          <Flex align='center' justify='space-between' p='22px'>
+            <Text fontSize='lg' color={textColor} fontWeight='bold'>
+              Highest-Rated Pharmacy
+            </Text>
+            <Button
+              variant='primary'
+              maxH='30px'
+              onClick={() => setShowAllPharmacies(!showAllPharmacies)}
+            >
+              {showAllPharmacies ? "Show Less" : "See All"}
+            </Button>
           </Flex>
-        </Card>
+        </Flex>
+        <Box overflow={{ sm: "scroll", lg: "hidden" }}>
+          <Table>
+            <Thead>
+              <Tr bg={tableRowColor}>
+                <Th color='gray.400' borderColor={borderColor}>
+                  Pharmacy Name
+                </Th>
+                <Th color='gray.400' borderColor={borderColor}>
+                  Rating
+                </Th>
+                {/* Add more columns if needed */}
+              </Tr>
+            </Thead>
+            <Tbody>
+              {highestRatedPharmacies.slice(0, showAllPharmacies ? undefined : maxPharmaciesToShow).map((pharmacy, index) => (
+                <Tr key={index}>
+                  <Td
+                    color={textTableColor}
+                    fontSize='sm'
+                    fontWeight='bold'
+                    borderColor={borderColor}
+                  >
+                    {pharmacy.Pharmacy.PHname}
+                  </Td>
+                  <Td
+                    color={textTableColor}
+                    fontSize='sm'
+                    borderColor={borderColor}
+                  >
+                    {pharmacy.Pharmacy.rating}
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
+      </Card>
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
           <Flex direction='column'>
             <Flex align='center' justify='space-between' p='22px'>

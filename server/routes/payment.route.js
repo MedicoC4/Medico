@@ -27,6 +27,15 @@ route.post("/intents", async (req, res) => {
       where: { id: req.body.orderId },
     });
 
+    // await getbill({
+    //   body: {
+    //     userEmail: req.body.userEmail,
+    //     mymedecine: req.body.mymedecine,
+    //     mydescription: req.body.mydescription,
+    //     myprice: req.body.myprice,
+    //   },
+    // }, res);
+
     res.json({ paymentIntent: paymentIntent.client_secret });
   } catch (error) {
     res.status(500).send(error);

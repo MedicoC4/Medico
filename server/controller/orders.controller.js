@@ -83,6 +83,9 @@ module.exports = {
           {
             model: Payment,
           },
+          {
+           model: User,
+          },
         ],
       });
   

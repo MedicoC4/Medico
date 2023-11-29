@@ -12,7 +12,7 @@ const {
   getUserByid,
 } = require("../controller/user.controller");
 
-route.put("/updateLongLat/:idUse", updataLongLat);
+route.put("/updateLongLat/:emailLatLongit", updataLongLat);
 route.get("/getAll", getAll);
 route.get("/getOneById/:getById", getUserByid);
 route.get("/getOne/:email", getOne);

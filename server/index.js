@@ -1,3 +1,4 @@
+
 const express = require('express');
 require('dotenv').config()
 const PaymentRouter = require('./routes/payment.route.js')
@@ -62,7 +63,7 @@ app.use('/api/Product', ProductRouter)
 app.use('/api/orders', OrdersRouter)
 app.use('/api/day', DayRouter)
 app.use('/api/pharmacy',PharmacyRouter)
-app.use('/api/product',ProductRouter)
+// app.use('/api/product',ProductRouter)
 app.use('/api/aivability',AppointementRouter)
 app.use('/api/appointement',AppointementListRouter)
 app.use('/api/records',RecordsRouter)

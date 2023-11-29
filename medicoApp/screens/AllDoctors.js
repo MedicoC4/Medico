@@ -10,6 +10,7 @@ import NavigationBar from '../components/NavigationBar';
 import { fetchDoctors } from "../redux/doctorSlicer"; // Import fetchDoctors
 import { useDispatch, useSelector } from "react-redux";
 import { save } from '../redux/doctorSlicer';
+import {auth} from '../firebase-config'
 
 
 
@@ -20,7 +21,7 @@ const AllDoctors = () => {
 
 
   const doctors = useSelector((state) => state.doctor?.data);
-  console.log(doctors,"=====");
+  console.log("==========================",doctors,"=====");
 
  
   
@@ -37,7 +38,8 @@ const AllDoctors = () => {
     dispatch(save(id))
   }
   const fetch3 = () => {
-    dispatch(fetchDoctors()); // Fetch doctors data
+    const userEmail = auth.currentUser.email
+    dispatch(fetchDoctors(userEmail)); // Fetch doctors data
   };
 
   useEffect(() => {
@@ -85,11 +87,6 @@ const AllDoctors = () => {
         }}
         >
            
-            {/* <DoctorCard/>
-            <DoctorCard/>
-            <DoctorCard/>
-            <DoctorCard/>
-            <DoctorCard/> */}
             {doctors && doctors.map((doctor) => (
         <DoctorCard key={doctor.id} doctor={doctor} />
       ))}

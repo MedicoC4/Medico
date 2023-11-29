@@ -5,6 +5,8 @@ const initialState = {
   data: [],
   oneDoc:{},
   idDoc:0,
+  idDocMap:0,
+  idPharmaMap:0,
   userInfo:{},
   error: null,
   loading: false,
@@ -13,9 +15,9 @@ const initialState = {
 
 
 
-export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () => {
+export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async (email) => {
   const response = await axios.get(
-    `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll`
+    `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/getAll/${email}`
   ); 
   return response.data;
 });
@@ -129,6 +131,12 @@ const DoctorSlice = createSlice({
     saveMap:(state,action)=>{
       state.userInfo=action.payload
     },
+    idMap:(state,action)=>{
+      state.idDocMap=action.payload
+    },
+    idMapPharma:(state,action)=>{
+      state.idPharmaMap=action.payload
+    },
     logOut:(state)=>{
        state.oneDoc={} 
     }
@@ -164,6 +172,6 @@ const DoctorSlice = createSlice({
     // });
   },
 });
-export const {save}= DoctorSlice.actions;
+export const {save,idMap,idMapPharma}= DoctorSlice.actions;
 export const {saveMap}= DoctorSlice.actions;
 export default DoctorSlice.reducer;

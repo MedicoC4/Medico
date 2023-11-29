@@ -3,17 +3,41 @@ const { Op } = require("sequelize");
 
 module.exports = {
     getAll: async (req, res) => {
+      
         try{
+          const getUser= await User.findOne({
+            where:{
+              type:'doctor',
+              email:req.params.emailnotLike
+            }
+          })
+          if(getUser){
+
+            console.log('getUser From the server',getUser);
             const getAll = await User.findAll({
                 where: {
-                  type: "doctor"
+                  type: "doctor",
+                  id:{
+                    [Op.notLike]: getUser.DoctorId 
+                  }
                 },
                 include:Doctor
               })
-            res.json(getAll)
+           return  res.json(getAll)
+          }
+          else {
+            const getAllDoc = await User.findAll({
+              where: {
+                type: "doctor",
+              },
+              include:Doctor
+            })
+            return res.json(getAllDoc)
+          }
+          
         }catch(err){
             console.log("Error al obtener todos los usuarios")
-            throw err;
+            throw err
         }
     },
     getOne: async (req, res) => {
@@ -234,6 +258,59 @@ module.exports = {
           res.json(updatedDoc);
         } catch (error) {
           throw error;
+        }
+      },
+      getAllCategory: async (req, res) => {
+        try {
+          const getAll = await User.findAll({
+            where: {
+              type: "doctor",
+            },
+            include: [
+              {
+                model: Doctor,
+                where: {
+                  isVerified: {[Op.like]:req.params.verifyDoctorrAllCategory},
+                  isBlocked: {[Op.like]:req.params.blockDoctorrAllCategory},
+                  specialityId : {[Op.like]:req.params.specialDocAll}
+                },
+                include: [
+                  {
+                    model: Speciality,
+                  },
+                ],
+              },
+            ],
+          });
+          const structeredData = getAll.map((e)=>{
+            return{
+                id: e.id,
+                name:e.Doctor.fullname,
+                imageUrl: e.Doctor.imageUrl,
+                type: e.Doctor.type,
+                availability: true,
+                latitude: e.Doctor.latitude,
+                longitude: e.Doctor.longitude,
+                adress: e.email,
+                speciality:e.Doctor.speciality.name
+            }
+          })
+      
+          res.json(structeredData);
+        } catch (err) {
+            throw new Error(err)
+        }
+      },
+      findDocWithId: async (req,res)=>{
+        try {
+        getOne =await User.findOne({where:{id:req.params.idDocMap},
+        include:[
+          {model:Doctor}
+        ]
+        }) 
+        res.json(getOne) 
+        } catch (error) {
+          throw new Error (error)
         }
       }
 }

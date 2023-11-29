@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   Dimensions,
+  Image
 } from "react-native";
 import Button from "../components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -18,6 +19,11 @@ import { migrateDoctor, updateSpeciality } from "../redux/doctorSlicer";
 import { fetchSpeciality } from "../redux/speciality";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DropDownPicker from "react-native-dropdown-picker";
+import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
+import { updateUser,setSelectedImage } from "../redux/userSlicer";
+import {docImage} from '../redux/doctorSlicer'
+
 
 
 
@@ -25,11 +31,13 @@ export default function UpgradeDocFirstForm({ navigation }) {
   const [fullName, setFullName] = useState("");
   const [age, setAge] = useState("");
   const [yoex, setYoex] = useState(0);
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenType, setIsOpenType] = useState(false);
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(null);
+  const [localSelectedImage , setSelectedImage] = useState("");
+  
+
   
 
   // const mapping = useSelector((state) => state.speciality.data );
@@ -37,6 +45,41 @@ export default function UpgradeDocFirstForm({ navigation }) {
   const typeOptions = ["Nurse", "Doctor"];
 
   const dispatch = useDispatch();
+
+  const selectImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      let formData = new FormData();
+      formData.append('file', {
+        uri: result.uri,
+        type: "image/jpeg",
+        name: 'profilePic'
+      });
+      formData.append("upload_preset", "ntdxso9x");
+  
+      fetch("https://api.cloudinary.com/v1_1/ddsp5aq1k/image/upload", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      setSelectedImage(data.secure_url);
+      dispatch(setSelectedImage(data.secure_url));
+
+      dispatch(docImage(uid));
+      console.log(uid);
+    })
+    .catch(error => {
+      console.error("Error uploading image: ", error);
+    });
+  }
+};
 
   useEffect(() => {
     dispatch(fetchSpeciality());
@@ -76,10 +119,68 @@ export default function UpgradeDocFirstForm({ navigation }) {
         </View>
 
         <KeyboardAwareScrollView>
+        
           <View style={styles.form}>
             <View style={{
               alignItems:'center'
             }}>
+              <View
+          style={{
+            width: 150,
+            height: 150,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 100,
+            shadowColor: "rgba(3, 3, 3, 0.1)",
+            shadowOffset: { width: 0, height: 2 },
+            shadowRadius: 4,
+            backgroundColor: "#EAEAEA",
+            position: "relative",
+          }}
+        >
+          {localSelectedImage ? (
+  <Image 
+    source={{uri: localSelectedImage}}
+    style={{
+      width: 150,
+      height: 150,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 100,
+      shadowColor: "rgba(3, 3, 3, 0.1)",
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 4,
+      backgroundColor: "#EAEAEA",
+    }}
+  />
+) : null}
+          <TouchableOpacity 
+          onPress={selectImage}
+            style={{
+              position: "absolute",
+              width: 150,
+              top: 15,
+              left: 110,
+              width: 35,
+              height: 35,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 100,
+              shadowColor: "rgba(3, 3, 3, 0.1)",
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 4,
+              backgroundColor: "#1a998e",
+              borderWidth: 3.5,
+              borderColor: "white",
+              borderStyle: "solid",
+            }}
+          >
+            <Image
+              style={{ width: 20, height: 20 }}
+              source={require("../assets/editPen.png")}
+            />
+          </TouchableOpacity>
+        </View>
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Full Name</Text>
 

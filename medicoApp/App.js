@@ -30,7 +30,9 @@ import {
   appointementUserList,
   UserMap,
   ProfileDocStatic,
-  SendingDoc
+  SendingDoc,
+  PharProfMap,
+  ProfileDocStaticMap
 } from "./screens";
 import Landing from "./screens/Landing";
 import UserProfile from "./screens/UserProfile";
@@ -49,6 +51,7 @@ import MedicineDetails from "./screens/MedecineDetails";
 import OrderDet from "./screens/OrderDet";
 import DocProfile from "./screens/DocProfile";
 import { UserProvider } from "./constants/userProvier";
+import MarkerProd from "./components/MarkerProd.js";
 import PharmSecoundForm from "./screens/PharmSecoundForm";
 import PharmFirstForm from "./screens/PharmFirstForm";
 import { Provider } from "react-redux";
@@ -156,8 +159,22 @@ export default function App() {
           }}
         />
         <Stack.Screen
+          name="PharProfMap"
+          component={PharProfMap}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="ProfileDocStatic"
           component={ProfileDocStatic}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ProfileDocStaticMap"
+          component={ProfileDocStaticMap}
           options={{
             headerShown: false,
           }}
@@ -392,6 +409,13 @@ export default function App() {
           <Stack.Screen
             name="pay"
             component={Payments}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="mark"
+            component={MarkerProd}
             options={{
               headerShown: false,
             }}

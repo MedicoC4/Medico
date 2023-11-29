@@ -10,7 +10,7 @@ const initialState = {
 
 
 export const fetchUsers = createAsyncThunk('api/fetchUsers', async () => {
-  const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getAll`); // Replace with your API endpoint
+  const response = await axios.get(`http://localhost:1128/api/user/getAll`); // Replace with your API endpoint
   return response.data;
 });
 

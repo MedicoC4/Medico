@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     width: width * 0.7, 
     height: height * 0.2, 
     borderRadius: width * 0.05,
+    resizeMode: 'contain',
   },
   infoContainer: {
     width: '100%', 

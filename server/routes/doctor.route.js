@@ -4,7 +4,7 @@ const {getAll , getOne , drop , change , add, migrateDoctor, updateLocation,getA
 
 
 
-route.get("/getAll", getAll)
+route.get("/getAll/:emailnotLike", getAll)
 route.get("/getOneDoc/:email", getOne)
 route.post("/addDoc", add)
 route.put("/updateDoc/:id" , change)

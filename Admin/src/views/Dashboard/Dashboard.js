@@ -1,60 +1,19 @@
-// Chakra imports
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Progress,
-  SimpleGrid,
-  Stat,
-  StatLabel,
-  StatNumber,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
-
-
-
-
-
-
-
-
+import { Box, Button, Flex, Grid, Progress, SimpleGrid, Stat, StatLabel, StatNumber, Table, Tbody, Td, Text, Th, Thead, Tr, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import Card from "components/Card/Card.js";
 import BarChart from "components/Charts/BarChart";
 import LineChart from "components/Charts/LineChart";
 import IconBox from "components/Icons/IconBox";
-// Custom icons
-import {
-  CartIcon,
-  DocumentIcon,
-  GlobeIcon,
-  WalletIcon,
-} from "components/Icons/Icons.js";
+import { CartIcon, DocumentIcon, GlobeIcon, WalletIcon } from "components/Icons/Icons.js";
 import React, { useEffect, useState } from "react";
-// Variables
-import {
-  barChartData,
-  barChartOptions,
-  lineChartData,
-  lineChartOptions,
-} from "variables/charts";
+import { lineChartData, lineChartOptions, barChartData, barChartOptions } from "variables/charts";
 import { pageVisits, socialTraffic } from "variables/general";
 import { fetchUsers } from "../../redux/userSlicer";
 import { useDispatch, useSelector } from "react-redux";
-import {fetchOrders} from "../../redux/orderSlicer"
+import { fetchOrders } from "../../redux/orderSlicer";
 import { fetchPharmacies } from "redux/pharmacySlicer";
-
+import { Line } from "react-chartjs-2";
 
 export default function Dashboard() {
-  // Chakra Color Mode
   const iconBlue = useColorModeValue("blue.500", "blue.500");
   const iconBoxInside = useColorModeValue("white", "white");
   const textColor = useColorModeValue("gray.700", "white");
@@ -66,67 +25,76 @@ export default function Dashboard() {
   const [showAllPharmacies, setShowAllPharmacies] = useState(false);
   const maxPharmaciesToShow = 2;
 
-
-
   const users = useSelector((state) => state.user.data);
-  const orders = useSelector((state) =>state.orders.data)
-  const pharmacies = useSelector((state) =>state.pharmacy.data)
+  const orders = useSelector((state) => state.orders.data);
+  const pharmacies = useSelector((state) => state.pharmacy.data);
 
-  console.log('========Orders=======>>' , orders);
-  console.log('========Pharmacies=======>>' , pharmacies);
   useEffect(() => {
     dispatch(fetchUsers());
     dispatch(fetchOrders());
-    dispatch(fetchPharmacies())
+    dispatch(fetchPharmacies());
   }, [dispatch]);
 
+  const userRegistrationData = users.reduce((acc, user) => {
+    if (user.createdAt) {
+      const registrationcreatedAt = user.createdAt.split('T')[0];
+      acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
+    }
+    return acc;
+  }, {});
 
-const userRegistrationData = users.reduce((acc, user) => {
-  if (user.createdAt) {
-    const registrationcreatedAt = user.createdAt.split('T')[0];
-    acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
-  }
-  return acc;
-}, {});
+  const doctorRegistrationData = users.reduce((acc, user) => {
+    if (user.type === "doctor" && user.createdAt) {
+      const registrationcreatedAt = user.createdAt.split('T')[0];
+      acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
+    }
+    return acc;
+  }, {});
 
-const doctorRegistrationData = users.reduce((acc, user) => {
-  if (user.type === "doctor" && user.createdAt) {
-    const registrationcreatedAt = user.createdAt.split('T')[0];
-    acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
-  }
-  return acc;
-}, {});
+  const pharmacyRegistrationData = users.reduce((acc, user) => {
+    if (user.type === "pharmacy" && user.createdAt) {
+      const registrationcreatedAt = user.createdAt.split('T')[0];
+      acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
+    }
+    return acc;
+  }, {});
 
-const pharmacyRegistrationData = users.reduce((acc, user) => {
-  if (user.type === "pharmacy" && user.createdAt) {
-    const registrationcreatedAt = user.createdAt.split('T')[0];
-    acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
-  }
-  return acc;
-}, {});
+  const normalUserRegistrationData = users.reduce((acc, user) => {
+    if (user.type === "user" && user.createdAt) {
+      const registrationcreatedAt = user.createdAt.split('T')[0];
+      acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
+    }
+    return acc;
+  }, {});
 
-const normalUserRegistrationData = users.reduce((acc, user) => {
-  if (user.type === "user" && user.createdAt) {
-    const registrationcreatedAt = user.createdAt.split('T')[0];
-    acc[registrationcreatedAt] = (acc[registrationcreatedAt] || 0) + 1;
-  }
-  return acc;
-}, {});
+  const highestRatedPharmacyy = pharmacies.reduce((maxPharmacy, pharmacy) => {
+    return !maxPharmacy || pharmacy.Pharmacy.rating > maxPharmacy.Pharmacy.rating ? pharmacy : maxPharmacy;
+  }, null);
 
-const highestRatedPharmacyy = pharmacies.reduce((maxPharmacy, pharmacy) => {
-  console.log('the pharm =========>' , pharmacy.Pharmacy.rating);
-  return !maxPharmacy || pharmacy.Pharmacy.rating > maxPharmacy.Pharmacy.rating ? pharmacy : maxPharmacy;
-  console.log(maxPharmacy.Pharmacy.rating);
-}, null);
-const highestRatedPharmacies = [...pharmacies].sort((a, b) => {
-  return b.Pharmacy.rating - a.Pharmacy.rating;
-});
+  const highestRatedPharmacies = [...pharmacies].sort((a, b) => {
+    return b.Pharmacy.rating - a.Pharmacy.rating;
+  });
 
-const highestRatedPharmacy = highestRatedPharmacies[0];
+  const highestRatedPharmacy = highestRatedPharmacies[0];
+
+  const registrationDates = Object.keys(userRegistrationData);
+  const registrationCounts = Object.values(userRegistrationData);
+
+  const orderData = orders.reduce((acc, order) => {
+    if (order.createdAt) {
+      const orderDate = order.createdAt.split('T')[0];
+      acc[orderDate] = (acc[orderDate] || 0) + 1;
+    }
+    return acc;
+  }, {});
+
+  const dailyOrderDates = Object.keys(orderData);
+  const dailyOrderCounts = Object.values(orderData);
 
 
-    const registrationDates = Object.keys(userRegistrationData);
-    const registrationCounts = Object.values(userRegistrationData);
+
+ 
+
   return (
     <Flex flexDirection='column' pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px' mb='20px'>
@@ -306,18 +274,19 @@ const highestRatedPharmacy = highestRatedPharmacies[0];
           </Box>
         </Card>
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
-            <Text color='gray.400' fontSize='sm' fontWeight='bold' mb='6px'>
-              PERFORMANCE
-            </Text>
-            <Text color={textColor} fontSize='lg' fontWeight='bold'>
-              Total orders
-            </Text>
-          </Flex>
-          <Box minH='300px'>
-            <BarChart chartData={barChartData} chartOptions={barChartOptions} />
-          </Box>
-        </Card>
+  <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+    <Text color='gray.400' fontSize='sm' fontWeight='bold' mb='6px'>
+      PERFORMANCE
+    </Text>
+    <Text color={textColor} fontSize='lg' fontWeight='bold'>
+      Daily Orders
+    </Text>
+  </Flex>
+  <Box minH='300px'>
+    {/* Use the LineChart component with your data and options */}
+    <LineChart chartData={lineChartData} chartOptions={lineChartOptions} />
+  </Box>
+</Card>
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
         <Flex direction='column'>
           <Flex align='center' justify='space-between' p='22px'>

@@ -267,7 +267,7 @@ console.log(idDocRedux);
 
       <Modal
         visible={appointmentModalVisible}
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         onRequestClose={() => setAppointmentModalVisible(false)}
       >

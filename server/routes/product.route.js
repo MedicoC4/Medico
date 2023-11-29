@@ -1,5 +1,5 @@
 const route = require('express').Router()
-const {getAll, getOne, findOneMissing,pharmacyProduct, controlMissing,create, update, deleteOne, updateQ,pharmacyProductWithId} = require("../controller/products.controller")
+const {getAll, getOne, findOneMissing,pharmacyProduct, controlMissing,create, update, deleteOne, updateQ,getProductByCodebar,searchByName,searchNameLike,searchByBarcodeNoDup,searchAllByBarcodeNoDup,pharmacyProductWithId} = require("../controller/products.controller")
 
 route.get("/getAll", getAll)
 
@@ -12,5 +12,11 @@ route.post("/createProduct", create)
 route.patch("/updateProduct/:id", update)
 route.patch("/updateProductQuantity/:id", updateQ)
 route.delete("/deleteProduct/:id", deleteOne)
+// route.get("/getProductByCodebar/:codebar", getProductByCodebar);
+route.get("/getProductByName/:searchByProdName", searchByName);
+route.get("/getProductLike/:searchLike", searchNameLike);
+route.get("/getCodeBarNoDup/:codeBarNoDup",searchByBarcodeNoDup)
+route.get("/getAllCodeBarNoDup/:codeBarAllNoDup",searchAllByBarcodeNoDup)
+
 
 module.exports = route;

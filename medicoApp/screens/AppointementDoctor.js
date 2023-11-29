@@ -9,6 +9,7 @@ import {
   Modal,
   Button,
   Dimensions,
+  TextInput
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -21,6 +22,7 @@ import * as Animatable from 'react-native-animatable';
 import { useDispatch, useSelector } from "react-redux";
 import { saveMap } from '../redux/doctorSlicer';
 import { useNavigation } from '@react-navigation/native';
+import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
 
 
 import axios from "axios";
@@ -41,9 +43,10 @@ const AppointementList = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [estimatedDuration, setEstimatedDuration] = useState(null);
   const [isDistance, setIsDistance] = useState(null);
-  
+  const [text, setText] = useState('');
+  const[emailData,setEmailData] = useState({})
   const navigation = useNavigation()
- 
+  
   const [oneUser,setOneUser]=useState({
     longitude:0,
     latitude:0,
@@ -51,7 +54,7 @@ const AppointementList = () => {
   })
   const dropdownRef = useRef(null);
   const [mapModalVisible, setMapModalVisible] = useState(false);
-
+  
   const [saveData, setSaveData] = useState({
     userName: "",
     day: "",
@@ -59,7 +62,12 @@ const AppointementList = () => {
     createdDate: "",
     createdHour: "",
   });
+
   const dispatch = useDispatch();
+
+  const handleTextChange = (inputText) => {
+    setText(inputText);
+  };
 
   const showMapModal = () => {
     setMapModalVisible(true);
@@ -72,15 +80,19 @@ const AppointementList = () => {
     dispatch(saveMap({longitude:long,latitude:lat,id:idUser,name:userName,dotorName:docName}))
   }
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/getAppointement/pending/${1}`);
-  //       setData(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching appointments:", error);
-  //       throw new Error(error);
-  //     }
-  //   };
+ const sendMail = async ()=>{
+  try {
+    const send = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/email/sendEmail`,{
+      userEmail: emailData.userEmail,
+                    doctorName: emailData.doctorName,
+                    appointmentDetails: emailData.appointmentDetails,
+                    patient:emailData.patient,
+                    textEmail:text
+    })
+  } catch (error) {
+    throw new Error(error)
+  }
+ }
 
   const toggleDropdown = () => {
     if (isDropdownVisible) {
@@ -227,7 +239,7 @@ const AppointementList = () => {
       <Text style={{ paddingBottom: 40, fontSize: 35, fontWeight: "bold" }}>
         Appointment List
       </Text>
-      <View style={{paddingLeft:280,paddingBottom:5}}>
+      <View style={{paddingLeft:280,paddingBottom:30}}>
        {!isDropdownVisible?<TouchableOpacity onPress={toggleDropdown}>
         <Image style={{height:45,width:45}} source={require("../assets/filtreOff.png")}/>
         </TouchableOpacity>:<TouchableOpacity onPress={toggleDropdown}>
@@ -255,7 +267,7 @@ const AppointementList = () => {
         gap: 10,
       }}
     >
-      <TouchableOpacity onPress={() => fetchAllData()}><Text>All</Text></TouchableOpacity>
+      {<TouchableOpacity onPress={() => fetchAllData()}><Text>All</Text></TouchableOpacity>}
       <TouchableOpacity onPress={() => filterAppoint("pending")}><Text>Pending</Text></TouchableOpacity>
       <TouchableOpacity onPress={() => filterAppoint("Accepted")}><Text>Accepted</Text></TouchableOpacity>
       <TouchableOpacity onPress={() => filterAppoint("Rejected")}><Text>Rejected</Text></TouchableOpacity>
@@ -325,7 +337,7 @@ const AppointementList = () => {
                     }}
                   >
                     <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-                      Dr meg grace
+                      {appointment.User.username}
                     </Text>
                     <Text
                       style={{
@@ -334,7 +346,7 @@ const AppointementList = () => {
                         fontWeight: "bold",
                       }}
                     >
-                      Therapist
+                      {appointment.User.email}
                     </Text>
                   </View>
                   <View
@@ -344,7 +356,8 @@ const AppointementList = () => {
                       justifyContent: "center",
                     }}
                   >
-                    <Text
+                    
+                    {/* <Text
                       style={{
                         color: "#afb2c7",
                         fontSize: 18,
@@ -352,7 +365,7 @@ const AppointementList = () => {
                       }}
                     >
                       Test test
-                    </Text>
+                    </Text> */}
                   </View>
                 </View>
                 <View
@@ -365,13 +378,13 @@ const AppointementList = () => {
                 >
                   <View
                     style={{
-                      backgroundColor: "blue",
+                      // backgroundColor: "blue",
                       height: 89,
                       width: 89,
                       borderRadius: 15,
                     }}
                   >
-                    <Image />
+                    <Image style={{height:89,width:89,borderRadius:15}} source={{uri:appointment.User.imgUrl}}/>
                   </View>
                 </View>
               </View>
@@ -440,7 +453,11 @@ const AppointementList = () => {
                   flexDirection: "row",
                 }}
               >
-              
+                <Badge
+                  badgeStyle={{ height: 22, width: 85 }}
+                  value={<Text style={{ color: "white" }}>{appointment.status==="pending"?"Pending":appointment.status==="Accepted"?"Accepted":appointment.status==="Rejected"?"Rejected":null}</Text>}
+                  status={ appointment.status==="pending"?"warning":appointment.status==="Accepted"?"success":appointment.status==="Rejected"?"error":null}
+                />
               </View>
             </View>
             <View
@@ -548,12 +565,13 @@ const AppointementList = () => {
               <View
                 style={{
                   width: "45%",
-                  height: "100%",
+                  height: 50,
                   flexDirection: "column",
                   justifyContent: "center",
                   gap: 2,
                 }}
               >
+                 
                 <Text style={{ fontWeight: "bold", fontSize: 18 }}>
                   Accepted At :
                 </Text>
@@ -571,20 +589,27 @@ const AppointementList = () => {
                   gap: 5,
                 }}
               >
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                   <Image
                     style={{ width: 48, height: 48 }}
                     source={require("../assets/chat.png")}
                   />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setSendEmail(true)}>
+                </TouchableOpacity> */}
+                <TouchableOpacity onPress={() => {setSendEmail(true);
+                  setEmailData({
+                    userEmail: appointment.User.email,
+                    doctorName: appointment.Doctor.fullname,
+                    appointmentDetails: `On ${appointment.Day.day}, at ${appointment.Availability.hour}.`,
+                    patient:appointment.User.username
+                  })
+                  }}>
                   <Image
                     style={{ width: 48, height: 48 }}
                     source={require("../assets/email.png")}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                onPress={()=>{setOneUser({longitude:appointment.User.longitude,latitude:appointment.User.latitude,id:appointment.User.id,name:appointment.User.username});userToMap(appointment.User.latitude,appointment.User.longitude,appointment.User.id,appointment.User.username,appointment.Doctor.fullname);getTime(appointment.Doctor.latitude,appointment.Doctor.longitude,appointment.User.latitude,appointment.User.longitude);calculateDistanceMap(appointment.Doctor.latitude,appointment.Doctor.longitude,appointment.User.latitude,appointment.User.longitude);showMapModal();console.log(appointment.Doctor.latitude,appointment.Doctor.longitude,appointment.User.latitude,appointment.User.longitude,"thisssssssssss");}}
+                onPress={()=>{setOneUser({longitude:appointment.User.longitude,latitude:appointment.User.latitude,id:appointment.User.id,name:appointment.User.username});userToMap(appointment.User.latitude,appointment.User.longitude,appointment.User.id,appointment.User.username,appointment.Doctor.fullname);getTime(appointment.Doctor.latitude,appointment.Doctor.longitude,appointment.User.latitude,appointment.User.longitude);calculateDistanceMap(appointment.Doctor.latitude,appointment.Doctor.longitude,appointment.User.latitude,appointment.User.longitude);showMapModal();console.log("==>===>AAAAAAA===>===>====>===>",appointment.Doctor.latitude,appointment.Doctor.longitude,appointment.User.latitude,appointment.User.longitude,"thisssssssssss");}}
                 >
                   <Image
                     style={{ width: 48, height: 48 }}
@@ -605,7 +630,7 @@ const AppointementList = () => {
             <View
               style={{
                 width: "45%",
-                height: "100%",
+                height: 50,
                 flexDirection: "column",
                 justifyContent: "center",
                 gap: 2,
@@ -628,12 +653,12 @@ const AppointementList = () => {
                 gap: 15,
               }}
             >
-              <TouchableOpacity>
+              {/* <TouchableOpacity>
                 <Image
                   style={{ width: 48, height: 48 }}
                   source={require("../assets/chat.png")}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity>
                 <Image
                   style={{ width: 48, height: 48 }}
@@ -982,17 +1007,30 @@ const AppointementList = () => {
               >
                 <View style={styles.modalContainer}>
                   <View style={styles.modalContent}>
-                    <Text style={styles.modalText}>
-                      Your Email Content Goes Here
-                    </Text>
-                    <View>
+    
+                    <TextInput
+        style={{ height: 100, borderColor: 'gray', borderWidth: 1,width:"100%",height:300, marginBottom: 10, padding: 10 }}
+        placeholder="Type here..."
+        onChangeText={handleTextChange}
+        value={text}
+      />
+                    <View style={{flexDirection:"row",gap:20}}>
                       <TouchableOpacity
-                        onPress={() => setSendEmail(false)}
+                        onPress={() => {setSendEmail(false);setText("");sendMail()}}
                         style={styles.modalButton}
                       >
                         <Image
                           style={{ height: 45, width: 45 }}
                           source={require("../assets/envoyer.png")}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {setSendEmail(false);setText("")}}
+                        style={styles.modalButton}
+                      >
+                        <Image
+                          style={{ height: 45, width: 45 }}
+                          source={require("../assets/bouton-x.png")}
                         />
                       </TouchableOpacity>
                     </View>
@@ -1029,7 +1067,7 @@ const AppointementList = () => {
         style={{ width: 220, height: 220 }}
       />
     </View>
-         <View>
+         <View style={{justifyContent:"center",alignItems:"center"}}>
             <Text style={{
                         color: "#677294",
                         fontSize: 17,
@@ -1041,7 +1079,27 @@ const AppointementList = () => {
                         fontSize: 17,
                         fontWeight: "bold",
                         textAlign: "center",
-                      }}>The distance is approximately {isDistance} with an estimated travel time of {estimatedDuration}.</Text>
+                      }}>The distance is approximately </Text>
+                      <Text style={{
+                        color: "#09d3a2",
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        textAlign: "center",
+                      }}>
+                      {isDistance} 
+                      </Text>
+                      <Text style={{
+                        color: "#677294",
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        textAlign: "center",
+                      }}> an estimated travel time of </Text>
+                       <Text style={{
+                        color: "#09d3a2",
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        textAlign: "center",
+                      }}> {estimatedDuration}.</Text>
          </View>
             <View style={{flexDirection:"row",gap:20,alignItems:"center"}}>
             {/* <TouchableOpacity onPress={hideMapModal}>
@@ -1136,6 +1194,7 @@ const stylesModalSec = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  
   },
   modalContainer: {
     backgroundColor: 'white',
@@ -1146,6 +1205,9 @@ const stylesModalSec = StyleSheet.create({
     borderColor: 'rgba(0, 0, 0, 0.1)',
     height: 50,
     width: 90,
+    position:"absolute",
+    top:350,
+    left:150
   },
   modalContent: {
     backgroundColor: "white",
@@ -1177,7 +1239,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 5,
     width: 300,
-    height: 200,
+    height: 400,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "column",

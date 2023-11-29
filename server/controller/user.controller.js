@@ -94,8 +94,9 @@ module.exports = {
   },
   updataLongLat: async (req, res) => {
     try {
+      const oneUser = await User.findOne({where:{email:req.params.emailLatLongit}}); 
       const longLat = await User.update(req.body, {
-        where: { id: req.params.idUse },
+        where: { id: oneUser.id }
       });
       res.json(longLat);
     } catch (error) {

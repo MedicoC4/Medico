@@ -46,7 +46,8 @@ const Landing = ({ route }) => {
   };
 
   const fetch3 = () => {
-    dispatch(fetchDoctors());
+    landingEmail=auth.currentUser.email
+    dispatch(fetchDoctors(landingEmail));
   };
 
   useEffect(() => {
@@ -123,7 +124,7 @@ const Landing = ({ route }) => {
         >
           <FlatList
             data={topRatedPharmacies}
-            renderItem={({ item }) => <PharmacyCard />}
+            renderItem={({ item }) => <PharmacyCard pharmacy={item}/>}
             keyExtractor={(item, index) => index.toString()}
             horizontal={true}
           />

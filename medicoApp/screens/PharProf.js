@@ -12,6 +12,7 @@ import axios from 'axios'
 import {auth} from '../firebase-config'
 import { useNavigation } from '@react-navigation/native';
 import ReviewCardPhar from '../components/ReviewCardPhar'
+import haversine from 'haversine'
 
 
 
@@ -31,6 +32,7 @@ const PharProf = ({route}) => {
   const [allReviews,setAllReviews]=useState([])
   const [isDistance,setIsDistance]=useState(0)
   const [loggedIn,setLoggedIn]=useState({})
+  const [productData,setProductData]=useState([])
 
 
   // console.log('this is the logged in user',loggedIn);
@@ -53,65 +55,46 @@ const PharProf = ({route}) => {
     }
   }
 
-
-  // useEffect(() => {
-  //   const fetchProduct = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://127.0.0.1:1128/api/Product/phProduct/${usersaa.data.email}`
-  //       );
-  //       setData(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error.message);
-  //     }
-  //   };
-  //   fetchProduct();
-  // }, [usersaa.data.email]);
-
-  
-  
-  const calculateDistanceMap = async () => {
-    
-
-    if(data.Doctor.latitude && data.Doctor.longitude){
-
-      
-      try {
-        const loggedMail=auth.currentUser.email
-        
-        const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
-
-  
-        console.log('doctor prof',loggedUser);
-        const response = await axios.get(
-          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
-          );
-  
-          
-          if (
-            response.data.status === "OK" &&
-          response.data.rows.length > 0 &&
-          response.data.rows[0].elements.length > 0 &&
-          response.data.rows[0].elements[0].distance
-          ) {
-            const distance = response.data.rows[0].elements[0].distance.text;
-            setIsDistance(distance);
-          } else if (response.data.status === "ZERO_RESULTS") {
-          console.warn("No distance information available between the specified points.");
-        } else {
-          console.error("Error calculating distance: ", data.status);
-        }
-      } catch (error) {
-        console.error("Error fetching distance data: ", error);
-      }
-      
-
-
-    }else {
-      console.log('latitude is not coming');
+  const fetchProduct = async () => {
+    const pharmacyId=data.id
+    try {
+      const response = await axios.get(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/Product/getById/${pharmacyId}`
+      );
+      setProductData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
     }
-
   };
+
+
+
+
+  const calculateDistanceMap=async()=>{
+    try {
+      const loggedMail=auth.currentUser.email
+        
+       const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
+       
+       const start = {
+         latitude: loggedUser.data.latitude,
+         longitude: loggedUser.data.longitude
+        }
+        
+        const end = {
+          latitude: data.latitude,
+          longitude: data.longitude
+        }
+        console.log(start,end,'this is distance between pharmacy');
+
+      setIsDistance((haversine(start, end)).toFixed(1))
+
+      
+    } catch (error) {
+      
+    }
+  }
+  
   
   
   
@@ -164,6 +147,8 @@ const PharProf = ({route}) => {
     calculateDistanceMap()
     // getLoggedIn()
     fetchReviewsForPhar()
+    fetchProduct()
+
   },[])
 
 
@@ -173,7 +158,7 @@ const PharProf = ({route}) => {
     setModalVisible(!isModalVisible);
   };
   return (
-    <KeyboardAwareScrollView>
+    
     <View style={{
       display:'flex',
       flexDirection:'column',
@@ -187,6 +172,7 @@ const PharProf = ({route}) => {
               transparent={true}
               visible={isModalVisible}
             >
+              
               <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
                   <Text style={{
@@ -198,7 +184,7 @@ const PharProf = ({route}) => {
                   <AirbnbRating
           size={15}
           reviewSize={25}
-          onFinishRating={(value)=>{
+          onFinishRating={(value)=>{   
             setRating(value)
           }}
           // Additional props like selectedColor and reviewColor can be added here
@@ -275,6 +261,7 @@ const PharProf = ({route}) => {
                   </View>
                 </View>
               </View>
+          
             </Modal>
             <View style={{
               height:height*0.94
@@ -424,7 +411,7 @@ const PharProf = ({route}) => {
                           />
                           <Text style={{
                               fontWeight:600
-                          }}>{isDistance}</Text>
+                          }}>{isDistance} Km</Text>
                       </View>
                       </TouchableOpacity>
                       
@@ -433,7 +420,7 @@ const PharProf = ({route}) => {
             
           </View>
           <ScrollView style={{
-                height:height*0.6}}>
+                height:height*1}}>
                     
         <View style={styles.secondOrdersContainer}>
         <Text style={styles.ordersText}>Recent Ratings</Text>
@@ -448,6 +435,25 @@ const PharProf = ({route}) => {
         keyExtractor={(item, index) => index.toString()}
         horizontal={true} // Make the list horizontal
         />
+        <View style={styles.secondOrdersContainer}>
+        <Text style={styles.ordersText}>Products List</Text>
+      </View>
+        <View style={{
+          flexDirection: 'row', // Arrange items in a row
+          flexWrap: 'wrap', // Allow items to wrap to the next line if needed
+          justifyContent: 'flex-start', // Add space around the items
+          alignItems: 'flex-start', // Align items to the start of the cross-axis (top)
+          rowGap:10,
+          columnGap:-10
+        }}>
+         {productData.map((product) => (
+        <PharmacyCardProfile
+          key={product.id} 
+          product={product}
+          
+        />
+      ))}
+      </View>
 
       
 
@@ -459,14 +465,21 @@ const PharProf = ({route}) => {
         justifyContent:'space-around',
         alignItems:'center',
         gap:15,
-        height:height*0.06,
+        width:width*0.15,
+        height:height*0.07,
+        backgroundColor:COLORS.white,
+        position:'absolute',
+        bottom:12,
+        right:20,
+        borderRadius:200,
+
        
       }}>
         <TouchableOpacity
             style={{
                 backgroundColor:COLORS.primary,
-            width:width*0.1,
-            height:height*0.05,
+            width:width*0.15,
+            height:height*0.07,
             borderRadius:200,
             alignItems:'center',
             justifyContent:'center'
@@ -474,10 +487,10 @@ const PharProf = ({route}) => {
             onPress={toggleModal}
             >
                 <Image
-                source={require('../assets/plus.png')}
+                source={require('../assets/star.png')}
                 style={{
-                    width:width*0.05,
-                    height:height*0.025
+                    width:width*0.07,
+                    height:height*0.03
                 }}
                 />
             </TouchableOpacity>
@@ -487,7 +500,7 @@ const PharProf = ({route}) => {
       
    <NavigationBar/>
     </View>
-    </KeyboardAwareScrollView>
+    
   )
 }
 

@@ -15,7 +15,7 @@ const initialState = {
 
 export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () => {
   const response = await axios.get(
-    `http://localhost:1128/api/doctor/getAll`
+    `http://localhost:1128/api/doctor/fetchDoc`
   ); 
   return response.data;
 });

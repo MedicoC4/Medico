@@ -163,6 +163,7 @@ function SignUp() {
             mb='22px'>
             or
           </Text>
+          
           <FormControl>
             <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
               Name

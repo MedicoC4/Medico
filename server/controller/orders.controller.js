@@ -6,11 +6,7 @@ const {
   Pharmacy,
   Payment,
 } = require("../database/index.js");
-const { Op } = require('sequelize');
-const { use } = require("../routes/orders.route.js");
-const pharmacy = require("../database/models/pharmacy.js");
-const { includes } = require("lodash");
-const { get } = require("dottie");
+const { Op, Sequelize } = require('sequelize');
 module.exports = {
   getAll: async (req, res) => {
     try {
@@ -94,6 +90,28 @@ module.exports = {
     } catch (err) {
       console.log("Error while fetching orders for user");
       throw err;
+    }
+  },
+
+  getOrderPerMonth: async (req, res) => {
+    try {
+      const currentMonth = new Date().getMonth() + 1;
+      const currentYear = new Date().getFullYear();
+      const monthStart = new Date(currentYear, currentMonth - 1, 1);
+      const monthEnd = new Date(currentYear, currentMonth, 0, 23, 59, 59);
+  
+      const orderData = await Order.findAll({
+        where: {
+          createdAt: {
+            [Op.between]: [monthStart, monthEnd],
+          },
+        },
+      });
+  
+      res.json(orderData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   },
 

@@ -20,7 +20,7 @@ route.get("/getUser/:id", getUserNameById);
 route.get("/checkMail/:userMail", checkUserCredit);
 route.post("/createUser", create);
 route.post("/signIn", SignIn);
-route.put("/updateUser/:id", update);
+route.patch("/updateUser/:id", update);
 route.delete("/deleteUser/:id", deleteOne);
 
 module.exports = route;

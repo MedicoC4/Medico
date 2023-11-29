@@ -35,32 +35,28 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
-        // { path: 'orders', element: <OrdersView /> },
-        // { path: 'orders-detail/:id', element: <OrdersView /> },
         {
           path: 'orders',
           element: <Outlet />,
           children: [
-            { index: true, element: <OrdersView /> }, // Display OrdersView for /orders
-            { path: 'orders-detail/:id', element: <OrdersDetails /> }, // Display OrdersDetails for /orders/orders-detail/:id
+            { index: true, element: <OrdersView /> }, 
+            { path: 'orders-detail/:id', element: <OrdersDetails /> }, 
           ],
         },
         {
           path: 'product-overview',
           element: <Outlet />,
           children: [
-            { index: true, element: <ProductsOverview /> }, // Display OrdersView for /orders
-            { path: 'add-product', element: <AddProduct /> }, // Display OrdersDetails for /orders/orders-detail/:id
-            { path: 'product-details/:id', element: <ProductDetails /> }, // Display OrdersDetails for /orders/orders-detail/:id
+            { index: true, element: <ProductsOverview /> }, 
+            { path: 'add-product', element: <AddProduct /> },
+            { path: 'product-details/:id', element: <ProductDetails /> }, 
             { path: 'updateProd/:productId', element: <UpdataProd /> },
           ],
         },
         { path: 'missing-product', element: <MissingProd /> },
-        // { path: 'product-overview', element: <ProductsOverview /> },
         { path: 'product-details/:id', element: <ProductsOverview /> },
-        { path: '/profile', element: <Profile /> }
-
-        // { path: 'add-product', element: <AddProduct /> }
+        { path: '/profile', element: <Profile /> },
+        { path: 'updateProduct/:productId', element: <UpdataProd /> },
       ],
     },
     {

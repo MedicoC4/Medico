@@ -29,6 +29,7 @@ const Payments = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.orders?.userOrders);
+    const paidOrders = orders?.filter(order => order.isPayed === true);
   
     useEffect(() => {
       const email = auth.currentUser.email;
@@ -67,7 +68,7 @@ const Payments = () => {
           <View style={styles.ordersContainer}>
             <Text style={styles.ordersText}>Payments History </Text>
             <FlatList
-          data={orders}
+          data={paidOrders}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <PaymentCard order={item} />}
         />

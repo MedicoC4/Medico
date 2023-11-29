@@ -83,7 +83,7 @@ function TablesTableRow(props) {
               borderBottom={isLast ? "none" : null}
             >
               <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-              <NavLink to='/admin/profile'>
+              <NavLink to='/admin/profilePharmacy'>
               <Avatar
                   src={pharmacy?.Pharmacy?.imageUrl}
                   w="50px"

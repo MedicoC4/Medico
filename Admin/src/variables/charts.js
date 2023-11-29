@@ -1,115 +1,23 @@
-export const barChartData = [
-  {
-    name: "Sales",
-    data: [15, 25, 28, 10, 25, 20],
-  },
-];
+// variables/charts.js
+import { fetchOrders } from "../redux/orderSlicer";
 
-export const barChartOptions = {
-  chart: {
-    toolbar: {
-      show: false,
-    },
-  },
-  tooltip: {
-    theme: "dark",
-  },
-  xaxis: {
-    categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    labels: {
-      style: {
-        colors: "#A0AEC0",
-        fontSize: "12px",
-      },
-    },
-    show: true,
-    axisBorder: {
-      show: false,
-    },
-    
-  },
-  yaxis: {
-    show: true,
-    color: "#A0AEC0",
-    labels: {
-      show: true,
-      style: {
-        colors: "#A0AEC0",
-        fontSize: "14px",
-      },
-    },
-  },
-  fill: {
-    colors: "#ED8936",
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  grid: {
-    strokeDashArray: 5,
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 15,
-      columnWidth: "15px",
-    },
-  },
-  responsive: [
-    {
-      breakpoint: 768,
-      options: {
-        plotOptions: {
-          bar: {
-            borderRadius: 0,
-          },
-        },
-      },
-    },
-  ],
-};
+// ... other imports
 
-export const lineChartData = [
-  {
-    name: "Mobile apps",
-    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-  },
-  {
-    name: "Websites",
-    data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-  },
-];
+// Assuming you have these variables defined
+const orders = []; // Your array of orders
+const dailyOrderDates = orders.map(order => order.createdAt);
+
+// Line chart data and options
+export const lineChartData = orders.map(order => ({
+  name: `Order ${order.id}`,
+  data: [order.total],
+}));
 
 export const lineChartOptions = {
-  chart: {
-    toolbar: {
-      show: false,
-    },
-  },
-  tooltip: {
-    theme: "dark",
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  stroke: {
-    curve: "smooth",
-  },
+  // ... your existing line chart options
   xaxis: {
     type: "datetime",
-    categories: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+    categories: dailyOrderDates,
     axisTicks: {
       show: false
     },
@@ -123,32 +31,29 @@ export const lineChartOptions = {
       },
     },
   },
-  yaxis: {
+  // ... other options
+};
+
+// Bar chart data and options
+export const barChartData = orders.map(order => ({
+  name: `Order ${order.id}`,
+  data: [order.total],
+}));
+
+export const barChartOptions = {
+  // ... your existing bar chart options
+  xaxis: {
+    categories: dailyOrderDates,
     labels: {
       style: {
-        colors: "#fff",
+        colors: "#A0AEC0",
         fontSize: "12px",
       },
     },
-  },
-  legend: {
-    show: false,
-  },
-  grid: {
-    strokeDashArray: 5,
-  },
-  fill: {
-    type: "gradient",
-    gradient: {
-      shade: "light",
-      type: "vertical",
-      shadeIntensity: 0.5,
-      inverseColors: true,
-      opacityFrom: 0.8,
-      opacityTo: 0,
-      stops: [],
+    show: true,
+    axisBorder: {
+      show: false,
     },
-    colors: ["#fff", "#3182CE"],
   },
-  colors: ["#fff", "#3182CE"],
+  // ... other options
 };

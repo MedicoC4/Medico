@@ -113,7 +113,7 @@ const dummyOrders = [
       strength: "500 mg",
       packaging: "Bottle",
       expiryDate: new Date("2023-12-31"),
-      imageURL: "https://banner2.cleanpng.com/20180705/bfa/kisspng-aspirin-skin-face-pharmaceutical-drug-acne-garrapata-5b3e5155d77c20.6523674615308107098826.jpg",
+      imageURL: "https://www.aspirin.ch/sites/g/files/vrxlpx41536/files/2022-08/MicrosoftTeams-image%20%282%29_0.png?imwidth=5000",
       codebar: 123456789,
     },
     {

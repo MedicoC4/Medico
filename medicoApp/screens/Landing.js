@@ -39,6 +39,7 @@ const Landing = ({ route }) => {
   const doctors = useSelector((state) => state.doctor?.data);
   const verifiedDoctors = doctors.filter((doctor) => doctor?.Doctor?.isverified);
   const [clients, setClients] = useState([]);
+  const [fetch,setFetch]=useState([]);
   console.log("first");
   const fetch1 = () => {
     dispatch(fetchPharmacies());
@@ -67,6 +68,8 @@ const Landing = ({ route }) => {
     }
   };
 
+
+
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -79,7 +82,22 @@ const Landing = ({ route }) => {
   };
 
 
+  const getData = async () => {
+    try {
+      const email = auth.currentUser.email;
+      const response = await axios.get(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/fetchLanding/${email}`
+      );
+      setFetch(response.data);
+    } catch (error) {
+      console.error("Error fetching data", error);
+      throw new Error(error);
+    }
+  };
+
+
   useEffect(() => {
+    getData(),
     fetch1();
     fetch2();
     fetch3();
@@ -100,7 +118,7 @@ const Landing = ({ route }) => {
         <View style={styles.header}>
           <View style={styles.greeting}>
             <Text style={styles.helloText}>Hello,</Text>
-            <Text style={styles.userName}>Ahmed</Text>
+            <Text style={styles.userName}>{fetch.username || fetch.fullname || fetch.PHname}</Text>
           </View>
           <View style={styles.icons}>
             <TouchableOpacity>

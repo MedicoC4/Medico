@@ -10,6 +10,7 @@ const {
   updataLongLat,
   getUserNameById,
   getUserByid,
+  updateImaeUser
 } = require("../controller/user.controller");
 
 route.put("/updateLongLat/:emailLatLongit", updataLongLat);
@@ -22,5 +23,6 @@ route.post("/createUser", create);
 route.post("/signIn", SignIn);
 route.put("/updateUser/:id", update);
 route.delete("/deleteUser/:id", deleteOne);
+route.put("/updateCloud/:emailUpImg",updateImaeUser)
 
 module.exports = route;

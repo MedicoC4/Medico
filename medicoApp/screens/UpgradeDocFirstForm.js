@@ -36,9 +36,19 @@ export default function UpgradeDocFirstForm({ navigation }) {
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(null);
   const [localSelectedImage , setSelectedImage] = useState("");
-  
-
-  
+  const [mapping,setMapping] = useState([]);
+console.log("=======",category);
+  const getSpecialicty = async (idDay) => {
+    try {
+      const response = await axios.get(
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/specialities/getAll`
+      );
+      setMapping(response.data);
+    } catch (error) {
+      console.error("Error getting speciality", error);
+      throw new Error(error);
+    }
+  };
 
   // const mapping = useSelector((state) => state.speciality.data );
   // console.log('this is the category',mapping);
@@ -82,11 +92,9 @@ export default function UpgradeDocFirstForm({ navigation }) {
 };
 
   useEffect(() => {
-    dispatch(fetchSpeciality());
-    dispatch(updateSpeciality({
-     email : auth.currentUser.email,
-     specialityId: category
-    }));
+    getSpecialicty()
+
+
    
   }, []);
   
@@ -100,6 +108,8 @@ export default function UpgradeDocFirstForm({ navigation }) {
       age: age,
       email: email,
       yx: yoex,
+      specialityId: category
+
     };
    
 
@@ -222,7 +232,7 @@ export default function UpgradeDocFirstForm({ navigation }) {
             </View>
             <View style={{ width: width * 0.9, gap: 10, zIndex: 2, paddingBottom: 20 }}>
               <Text>Enter Your speciality :</Text>
-              {/* <DropDownPicker
+              <DropDownPicker
                 items={mapping.map((category) => ({
                   label: category.name,
                   value: category.id,
@@ -234,8 +244,8 @@ export default function UpgradeDocFirstForm({ navigation }) {
                 onSubmit={(e) => {
                   e.preventDefault();
                 }}
-                onPress={() => updateSpeciality(category)}
-              /> */}
+                // onPress={() => updateSpeciality(category)}
+              />
             </View>
 
             <View style={styles.input}>

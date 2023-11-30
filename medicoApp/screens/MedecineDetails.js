@@ -342,7 +342,7 @@ const MedicineDetails = ({ route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.placeOrderButton}
-              onPress={placeOrder}
+              onPress={()=>{placeOrder();navigation.navigate("Landing")}}
             >
               <Text style={styles.placeOrderText}>Place Order</Text>
             </TouchableOpacity>

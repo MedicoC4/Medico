@@ -130,4 +130,14 @@ module.exports = {
       throw new Error(error);
     }
   },
+  updateImaeUser : async (req, res) => {
+    try {
+      const {imgURL} = req.body
+      // const user = await User.findOne({where:{email:req.params.emailUpImg}})
+      const updt = await User.update({imgUrl:imgURL},{where:{email:req.params.emailUpImg}})
+      res.json(updt);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 };

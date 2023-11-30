@@ -33,8 +33,9 @@ const UserProfilePage = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [user, setUser] = useState([]);
   const [localSelectedImage , setLocalSelectedImage] = useState("")
-  
-  
+  const[dataUser,setDataUser]=useState(null);
+  const[refresh,setRefresh]=useState(false)
+  console.log("=======================",localSelectedImage);
 
 
   
@@ -47,16 +48,30 @@ const UserProfilePage = ({ navigation }) => {
 
 
   //   }
-useEffect(() => {
-  async function fetchData() {
-    const userData = await getUser();
-    if (userData) {
-      setUser(userData);
-    }
-  }
 
-  fetchData();
-}, []);
+const updateImg = async(cloudImg)=>{
+  try {
+    const email = auth.currentUser.email;
+    const response = await axios.put( `http://${
+      process.env.EXPO_PUBLIC_SERVER_IP
+    }:1128/api/user/updateCloud/${email}`,{imgURL:cloudImg})
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const getOne = async()=>{
+  try {
+    const email = auth.currentUser.email;
+    const response = await axios.get( `http://${
+      process.env.EXPO_PUBLIC_SERVER_IP
+    }:1128/api/user/getOne/${email}`)
+    setDataUser(response.data)
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+console.log("DDDDDDDDDDDDDDDDDAAAAAAAAAA",dataUser);
 
 
 const clearToken = async () => {
@@ -70,19 +85,12 @@ const clearToken = async () => {
   }
 }
 const onDoc = useSelector((state)=> state.doctor.data)
+// console.log("==================Doc",dataUser.imgUrl);
+
 // const oldImg = onDoc[0].localSelectedImage
 
 // console.log('this is the img' , oldImg);
-  useEffect(() => {
-    async function fetchData() {
-      const userData = await getUser();
-      if (userData) {
-        setUser(userData);
-      }
-    }
-    // currDoc()
-    fetchData();
-  }, [localSelectedImage]);
+
 
 
 
@@ -121,8 +129,10 @@ const onDoc = useSelector((state)=> state.doctor.data)
       setLocalSelectedImage(data.secure_url);
       dispatch(setSelectedImage(data.secure_url));
 
-      dispatch(updateUser(uid));
-      console.log(uid);
+      // dispatch(updateUser(localSelectedImage));
+      // updateImg(localSelectedImage)
+      setRefresh(!refresh)
+
     })
     .catch(error => {
       console.error("Error uploading image: ", error);
@@ -131,6 +141,34 @@ const onDoc = useSelector((state)=> state.doctor.data)
 };
   
 console.log(localSelectedImage , 'bingo');
+useEffect(()=>{
+  getOne()
+
+},[])
+useEffect(() => {
+  // async function fetchData() {
+  //   const userData = await getUser();
+  //   if (userData) {
+  //     setUser(userData);
+  //   }
+  // }
+
+  // fetchData();
+  updateImg(localSelectedImage)
+
+}, [refresh]);
+
+
+// useEffect(() => {
+//   async function fetchData() {
+//     const userData = await getUser();
+//     if (userData) {
+//       setUser(userData);
+//     }
+//   }
+//   // currDoc()
+//   fetchData();
+// }, [localSelectedImage,refresh]);
  
   return (
     <View
@@ -248,9 +286,10 @@ console.log(localSelectedImage , 'bingo');
             position: "relative",
           }}
         >
-          {localSelectedImage ? (
+          {/* {dataUser.imgUrl ? ( */}
   <Image 
-    source={{uri: localSelectedImage}}
+    // source={{uri: localSelectedImage}}
+    source={dataUser?.imgUrl}
     style={{
       width: 150,
       height: 150,
@@ -263,7 +302,7 @@ console.log(localSelectedImage , 'bingo');
       backgroundColor: "#EAEAEA",
     }}
   />
-) : null}
+{/* ) : null} */}
           <TouchableOpacity onPress={selectImage}
             style={{
               position: "absolute",
@@ -308,7 +347,7 @@ console.log(localSelectedImage , 'bingo');
         </View>
       </View>
       <View style={{ height: "46%" }}>
-        <ScrollView style={{height:"100%"}}>
+        {/* <ScrollView style={{height:"100%"}}> */}
         <TouchableOpacity
           style={{
             flexDirection: "row",
@@ -373,15 +412,8 @@ console.log(localSelectedImage , 'bingo');
    
         
     
-        <View
-          style={{
-            width: "100%",
-            height: 2,
-            backgroundColor: "#dedede",
-            borderRadius: 2,
-          }}
-        ></View>
-        <TouchableOpacity
+      
+        {/* <TouchableOpacity
           style={{
             flexDirection: "row",
             width: "100%",
@@ -503,7 +535,7 @@ console.log(localSelectedImage , 'bingo');
           >
             <AntDesign name="right" size={24} color="#1a998e" />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View
           style={{
             width: "100%",
@@ -709,7 +741,7 @@ console.log(localSelectedImage , 'bingo');
           </View>
         </TouchableOpacity>
        
-        </ScrollView>
+        {/* </ScrollView> */}
       </View>
     </View>
   );

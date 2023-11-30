@@ -16,7 +16,7 @@ const DoctorMap = ({dataPharmacies}) => {
   const[categorys,setCategorys] = useState([])
   const allDocs = async ()=>{
       try {
-        const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocationMappedAll/0/1`)
+        const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocationMappedAll/1/0`)
         setData(response.data)
           dataPharmacies(response.data)
         } catch (error) {
@@ -26,7 +26,7 @@ const DoctorMap = ({dataPharmacies}) => {
 
         const filtredDocs = async (type)=>{
           try {
-            const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocationMapped/0/1/${type}`)
+            const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocationMapped/1/0/${type}`)
             setData(response.data)
               dataPharmacies(response.data)
             } catch (error) {
@@ -44,7 +44,7 @@ const DoctorMap = ({dataPharmacies}) => {
           }
           const getByCategory = async (id)=>{
             try {
-              const res = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocationMappedAllCategory/0/1/${id}`)
+              const res = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/doctor/docLocationMappedAllCategory/1/0/${id}`)
               dataPharmacies(res.data)
             } catch (error) {
               throw new Error(error)

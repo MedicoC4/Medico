@@ -15,7 +15,7 @@ const PharmacyMap = ({dataPharmacies}) => {
     const[data,setData] = useState([])
     const getPharmacys = async ()=>{
       try {
-        const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/pharmaLocationMapped/1/0`)
+        const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/pharmaLocationMapped/0/1`)
         setData(dataPharma.data)
           dataPharmacies(dataPharma.data)
         } catch (error) {
@@ -25,7 +25,7 @@ const PharmacyMap = ({dataPharmacies}) => {
     
     const getPharmacysDN = async (type)=>{
         try {
-          const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/getAllDNMapped/1/0/${type}`)
+          const dataPharma = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/pharmacy/getAllDNMapped/0/1/${type}`)
           setData(dataPharma.data)
       
           dataPharmacies(dataPharma.data)

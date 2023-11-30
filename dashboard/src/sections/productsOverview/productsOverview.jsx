@@ -124,6 +124,7 @@ const ProductsOverview = () => {
       headerClassName: 'custom-header-class',
       renderCell: ({ row }) => (
         <button
+        className='update'
           type="button"
           onClick={() => {
             handleUpdate(row.id);
@@ -140,6 +141,7 @@ const ProductsOverview = () => {
       editable: false,
       renderCell: ({ row }) => (
         <button
+        className='delete'
           type="button"
           onClick={() => {
             handleDelete(row.id);

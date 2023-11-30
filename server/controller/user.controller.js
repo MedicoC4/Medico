@@ -14,6 +14,7 @@ module.exports = {
     try {
       const getOne = await User.findOne({
         where: { email: req.params.email },
+        include: {model: Pharmacy}
       });
       res.json(getOne);
     } catch (error) {
@@ -124,7 +125,7 @@ module.exports = {
   },
   getUserByid: async (req, res) => {
     try {
-      const user = await User.findOne({ where: { id: req.params.getById } });
+      const user = await User.findOne({ where: { id: req.params.getById }, include:{model: Pharmacy} });
       res.json(user);
     } catch (error) {
       throw new Error(error);

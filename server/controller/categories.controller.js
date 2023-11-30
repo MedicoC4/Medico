@@ -10,6 +10,16 @@ module.exports = {
       throw err;
     }
   },
+  getOne: async (req, res) => {
+    try {
+      const getOneCategories = await Categories.findOne({
+        where: {id: req.params.id}
+      })
+      res.json(getOneCategories)
+    } catch (error) {
+      throw error
+    }
+  },
   create: async (req, res) => {
     try {
       let category = req.body;

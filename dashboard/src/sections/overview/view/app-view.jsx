@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { faker } from '@faker-js/faker';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -16,16 +16,26 @@ import AppWidgetSummary from '../app-widget-summary';
 
 export default function AppView() {
   const [orderData, setOrderData] = useState([]);
-  console.log(orderData)
+  const [reviews, setReviews] = useState({});
+  const [totalOrders, setTotalOrders] = useState();
+  const [totalUser, setTotalUsers] = useState()
+  const [totalProd, setTotalProd] = useState()
+  const [dailyOrder, setDailyOrder] = useState(0)
+  const [acceptedOrder, setAcceptedOrder] = useState([]);
+  const [pendingOrder, setPendingOrder] = useState([]);
+  const [rejectedOrder, setRejectedOrder] = useState([]);
+  console.log(totalUser);
 
-  const orderQuantities = orderData.map((order) => order.quantityOrdered);
-  console.log(orderQuantities)
+  const orderQuantities = orderData.map((order) => order?.quantityOrdered);
+  console.log(orderQuantities);
+
+  console.log(faker);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:1128/api/orders/getPerMonth');
-        setOrderData(response.data);
+        setOrderData(response?.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -34,37 +44,73 @@ export default function AppView() {
     fetchData();
   }, []);
 
-  function calculateOrderPerMonth(data) {
-    const ordersPerMonth = data.reduce((acc, order) => {
-      const monthYear = `${(new Date(order.createdAt).getMonth() + 1).toString().padStart(2, '0')}/
-                        ${new Date(order.createdAt).getFullYear().toString().substring(2)}`;
-      acc[monthYear] = (acc[monthYear] || 0) + order.quantityOrdered;
-      return acc;
-    }, {});
+  const pharmacyId = JSON.parse(localStorage.getItem('userData'));
+  console.log(pharmacyId?.data?.id);
+
+  const fetchReviews = useCallback(async () => {
+    const review = await axios.get(
+      `http://127.0.0.1:1128/api/reviews/getAllPh/${pharmacyId?.data?.id}`
+    );
+    setReviews(review?.data);
+  }, [pharmacyId?.data?.id]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
+
+  const totalOrder = useCallback(async () => {
+    const total = await axios.get(`http://127.0.0.1:1128/api/orders/totalOrder`);
+    setTotalOrders(total?.data?.totalAmount);
+  }, []);
+
+  useEffect(() => {
+    totalOrder();
+  }, [totalOrder]);
+
+  const totalUsers = useCallback(async () => {
+    try {
+      const total = await axios.get(`http://127.0.0.1:1128/api/orders/getAll/${pharmacyId?.data?.email}`);
+      setTotalUsers(total?.data);
+      
+      // Filter the data here and set it to a new state variable
+      const acceptedOrders = total?.data?.filter((order) => order?.orderStatus === "Accepted") || [];
+      const pendingOrders = total?.data?.filter((order) => order?.orderStatus === "Pending") || [];
+      const rejectedOrders = total?.data?.filter((order) => order?.orderStatus === "Rejected") || [];
   
-    // Get all months between the first and last date in the data
-    const startDate = new Date(data[0]?.createdAt);
-    const endDate = new Date(data[data.length - 1]?.createdAt);
-    const months = [];
-    const currentDate = startDate;
-    while (currentDate <= endDate) {
-      const monthYear = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/
-                        ${currentDate.getFullYear().toString().substring(2)}`;
-      months.push(monthYear);
-      currentDate.setMonth(currentDate.getMonth() + 1);
+      // Set the filtered data to state
+      setAcceptedOrder(acceptedOrders);
+      setPendingOrder(pendingOrders);
+      setRejectedOrder(rejectedOrders);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
+  }, [pharmacyId?.data?.email]);
   
-    // Convert the ordersPerMonth object to an array
-    const result = months.map((monthYear) => ({
-      x: monthYear,
-      y: ordersPerMonth[monthYear] || 0,
-    }));
-  
-    return result;
-  }
-  
-  console.log(calculateOrderPerMonth(orderData));
-  const ordersPerMonth = calculateOrderPerMonth(orderData);
+  useEffect(() => {
+    totalUsers();
+  }, [totalUsers]);
+
+  const totalProducts = useCallback(async () => {
+    const total = await axios.get(`http://127.0.0.1:1128/api/product/phProduct/${pharmacyId?.data?.email}`);
+    setTotalProd(total?.data);
+  }, [pharmacyId?.data?.email]);
+
+  useEffect(() => {
+    totalProducts();
+  }, [totalProducts]);
+
+  const dailyOrders = useCallback(async () => {
+    const total = await axios.get(`http://127.0.0.1:1128/api/orders/dailyTotalOrder/${pharmacyId?.data?.email}`);
+    setDailyOrder(total?.data?.dailyOrderCount);
+  }, [pharmacyId?.data?.email]);
+
+  useEffect(() => {
+    dailyOrders();
+  }, [dailyOrders]);
+
+  // const acceptedOrder = totalUser?.filter((order) => order?.orderStatus === "Accepted") || []
+  // const pendingOrder = totalUser?.filter((order) => order?.orderStatus === "Pending") || []
+  // const rejectedOrder = totalUser?.filter((order) => order?.orderStatus === "Rejected") || []
 
   return (
     <Container maxWidth="xl">
@@ -75,8 +121,8 @@ export default function AppView() {
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Weekly Sales"
-            total={714000}
+            title="Total Sales"
+            total={totalOrders}
             color="success"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -84,8 +130,8 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="New Users"
-            total={1352831}
+            title="Total Users"
+            total={totalUser?.length}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
           />
@@ -93,8 +139,8 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Item Orders"
-            total={1723315}
+            title="Total Products"
+            total={totalProd?.length}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
@@ -102,15 +148,14 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
-            total={234}
+            title="Daily Orders"
+            total={dailyOrder}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          
           <AppWebsiteVisits
             title="Orders Per Month"
             subheader="(+43%) than last year"
@@ -135,8 +180,8 @@ export default function AppView() {
                   name: 'Order per month',
                   type: 'column',
                   fill: 'solid',
-                  data: ordersPerMonth.map((order) => order.y),
-                }
+                  data: [1,1,1,1,1,1,1,1,1,1],
+                },
               ],
             }}
           />
@@ -144,69 +189,32 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
-            title="Current Visits"
+            title="Orders Statistics"
             chart={{
               series: [
-                { label: 'America', value: 1 },
-                { label: 'Asia', value:  2},
-                { label: 'Europe', value:  3},
-                { label: 'Africa', value:  4},
+                { label: 'Accepted', value: acceptedOrder?.length },
+                { label: 'Rejected', value: rejectedOrder?.length },
+                { label: 'Pending', value: pendingOrder?.length },
               ],
             }}
           />
         </Grid>
-
-        {/* <Grid xs={12} md={6} lg={7}>
-          <AppConversionRates
-            title="Conversion Rates"
-            subheader="(+43%) than last year"
-            chart={{
-              series: [
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1500 },
-              ],
-            }}
-          />
-        </Grid> */}
 
         <Grid xs={12} md={6} lg={15}>
           <AppNewsUpdate
-            title="News Update"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: faker.person.jobTitle(),
-              description: faker.commerce.productDescription(),
-              image: `/assets/images/covers/cover_${index + 1}.jpg`,
-              postedAt: faker.date.recent(),
-            }))}
+            title="Reviews"
+            list={
+              reviews?.Reviews?.map((review) => ({
+                id: review?.id,
+                title: review?.User?.username,
+                description: review?.review,
+                image: review?.User?.imgUrl,
+                postedAt: review?.createdAt,
+              })) || []
+            }
           />
         </Grid>
-{/* 
-        <Grid xs={12} md={6} lg={4}>
-          <AppOrderTimeline
-            title="Order Timeline"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: [
-                '1983, orders, $4220',
-                '12 Invoices have been paid',
-                'Order #37745 from September',
-                'New order placed #XF-2356',
-                'New order placed #XF-2346',
-              ][index],
-              type: `order${index + 1}`,
-              time: faker.date.past(),
-            }))}
-          />
-        </Grid> */}
+      
       </Grid>
     </Container>
   );

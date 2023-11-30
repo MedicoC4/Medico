@@ -1,75 +1,57 @@
 import axios from 'axios'; // Move 'axios' above '@ant-design/icons'
-import { Tabs } from 'antd';
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { DataGrid } from '@mui/x-data-grid';
 
-import './OrdersView.css'
-
-const { TabPane } = Tabs;
+import './OrdersView.css';
 
 const OrdersView = () => {
   const [data, setData] = useState([]);
-  const [activeTab, setActiveTab] = useState('1');
-  const [disable, setDisable] = useState(false)
+  const [disable, setDisable] = useState(false);
 
-  const onChange = (key) => {
-    console.log(key);
-    setActiveTab(key);
-  };
-
-  const userId = JSON.parse(localStorage.getItem('userData'))
+  const userId = JSON.parse(localStorage.getItem('userData'));
 
   const fetchOrders = useCallback(async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:1128/api/orders/getAll/${userId.data.email}`);
+      const response = await axios.get(
+        `http://127.0.0.1:1128/api/orders/getAll/${userId.data.email}`
+      );
       setData(response.data);
     } catch (error) {
       console.error('Error fetching data:', error.message);
     }
   }, [userId.data.email]);
-  
+
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
 
-  
-
-
   const updateOrderStatus = async (orderId, newStatus) => {
-    console.log(orderId, newStatus)
+    console.log(orderId, newStatus);
     try {
-      await axios.patch(
-        `http://127.0.0.1:1128/api/orders/update/${orderId}`,
-        {
-          orderStatus: newStatus,
-        }
-      );
+      await axios.patch(`http://127.0.0.1:1128/api/orders/update/${orderId}`, {
+        orderStatus: newStatus,
+      });
 
-      const getOrderQ = await axios.get(
-        `http://127.0.0.1:1128/api/orders/oneOrder/${orderId}`
-      );
+      const getOrderQ = await axios.get(`http://127.0.0.1:1128/api/orders/oneOrder/${orderId}`);
       console.log(getOrderQ?.data.ProductId);
       const pID = getOrderQ?.data.ProductId;
-      const getProductQ = await axios.get(
-        `http://127.0.0.1:1128/api/Product/getOne/${pID}`
-      );
+      const getProductQ = await axios.get(`http://127.0.0.1:1128/api/Product/getOne/${pID}`);
       const orderQ = getOrderQ?.data.quantityOrdered;
       const prodQ = getProductQ.data.stock - orderQ;
 
-      if (getOrderQ?.data?.orderStatus === "Accepted") {
-        await axios.patch(
-          `http://127.0.0.1:1128/api/product/updateProductQuantity/${pID}`,
-          { stock: prodQ }
-        );
-        setDisable(true)
+      if (getOrderQ?.data?.orderStatus === 'Accepted') {
+        await axios.patch(`http://127.0.0.1:1128/api/product/updateProductQuantity/${pID}`, {
+          stock: prodQ,
+        });
+        setDisable(true);
       } else {
-        setDisable(true)
+        setDisable(true);
       }
       fetchOrders();
     } catch (error) {
-      console.error("Error updating order status:", error.message);
+      console.error('Error updating order status:', error.message);
     }
   };
 
@@ -85,7 +67,7 @@ const OrdersView = () => {
       width: 150,
       editable: false,
       renderCell: ({ row }) => (
-        <Link to={`/orders/orders-detail/${row.id}`} className='prod_details'>
+        <Link to={`/orders/orders-detail/${row.id}`} className="prod_details">
           {row.tracking_number}
         </Link>
       ),
@@ -139,10 +121,12 @@ const OrdersView = () => {
       width: 170,
       editable: false,
       renderCell: ({ row }) => (
-        <div style={{display:'flex', justifyContent:'center', alignItems:'center', gap:'1rem'}}>
+        <div
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}
+        >
           <button
             type="button"
-            onClick={() => updateOrderStatus(row.id, "Accepted")}
+            onClick={() => updateOrderStatus(row.id, 'Accepted')}
             style={{
               backgroundColor: '#22C55E',
               color: 'white',
@@ -157,7 +141,7 @@ const OrdersView = () => {
           </button>
           <button
             type="button"
-            onClick={() => updateOrderStatus(row.id, "Rejected")}
+            onClick={() => updateOrderStatus(row.id, 'Rejected')}
             style={{
               backgroundColor: '#FF5630',
               color: 'white',
@@ -175,104 +159,6 @@ const OrdersView = () => {
     },
   ];
 
-  const getTabContent = (key) => {
-    switch (key) {
-      case '1':
-        return (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          />
-        );
-      case '2':
-        return (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          />
-        );
-      case '3':
-        return (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
-  const items = [
-    {
-      key: '1',
-      label: 'All',
-      icon: (
-        <div>
-          <p
-            style={{
-              margin: '0',
-              backgroundColor: 'rgb(33, 43, 54)',
-              color: 'white',
-              height: '24px',
-              minWidth: '24px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: '6px',
-              whiteSpace: 'nowrap',
-              textTransform: 'capitalize',
-              padding: '0px 8px',
-              fontWeight: '700',
-              fontSize: '0.75rem',
-            }}
-          >
-            20
-          </p>
-        </div>
-      ),
-    },
-    {
-      key: '2',
-      label: 'Pending',
-      icon: (
-        <div>
-          <p style={{ margin: '0' }}>20</p>
-        </div>
-      ),
-    },
-    {
-      key: '3',
-      label: 'Completed',
-      icon: (
-        <div>
-          <p style={{ margin: '0' }}>20</p>
-        </div>
-      ),
-    },
-    {
-      key: '4',
-      label: 'Cancelled',
-      icon: (
-        <div>
-          <p style={{ margin: '0' }}>20</p>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div style={{ width: '100%', maxWidth: '100%', paddingLeft: '1rem', paddingRight: '1rem' }}>
@@ -284,36 +170,10 @@ const OrdersView = () => {
             height: '85vh',
             padding: '1rem',
             borderRadius: '2rem',
-            boxShadow:'box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;'
+            boxShadow:
+              'box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;',
           }}
         >
-          <div className="order_table_header_container">
-            <Tabs
-              style={{ width: '100%',backgroundColor:'transparent' }}
-              defaultActiveKey="1"
-              activeKey={activeTab}
-              onChange={onChange}
-              tabBarStyle={{
-                paddingLeft: '2rem', // Normal border-bottom style
-              }}
-            >
-              {items.map((item) => (
-                <TabPane
-                  key={item.key}
-                  tab={
-                    <span style={{ display: 'flex', alignItems: 'center' }}>
-                      <p style={{ margin: '0', fontSize: '0.875rem', fontWeight: '600' }}>
-                        {item.label}
-                      </p>
-                      {item.icon && <span style={{ marginLeft: '12px' }}>{item.icon}</span>}
-                    </span>
-                  }
-                >
-                  {getTabContent(item.key)}
-                </TabPane>
-              ))}
-            </Tabs>
-          </div>
           <DataGrid
             rows={data}
             columns={columns}

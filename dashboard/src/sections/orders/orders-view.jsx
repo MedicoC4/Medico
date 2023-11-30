@@ -21,7 +21,7 @@ const OrdersView = () => {
     } catch (error) {
       console.error('Error fetching data:', error.message);
     }
-  }, [userId.data.email]);
+  }, [userId?.data?.email]);
 
   useEffect(() => {
     fetchOrders();
@@ -67,7 +67,7 @@ const OrdersView = () => {
       width: 150,
       editable: false,
       renderCell: ({ row }) => (
-        <Link to={`/orders/orders-detail/${row.id}`} className="prod_details">
+        <Link to={`/orders/orders-detail/${row?.id}`} className="prod_details">
           {row.tracking_number}
         </Link>
       ),

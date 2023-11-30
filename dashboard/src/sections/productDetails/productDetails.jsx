@@ -1,29 +1,36 @@
-import React, { useState } from 'react';
-import { Image, Space, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import axios from 'axios';
+import { Image } from 'antd';
+import { useParams } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import './productDetails.css';
 
-const items = [
-  {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
-    key: '0',
-  },
-  {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    key: '1',
-  },
-  {
-    type: 'divider',
-  },
-  {
-    label: '3rd menu item',
-    key: '3',
-  },
-];
-
 function ProductDetails() {
-  const [inc, setInc] = useState(0);
+  const [inc, setInc] = useState(1);
+  const [product, setProduct] = useState({});
+  const { id } = useParams();
+  const [stock, setStock] = useState(0);
+  const [check, setCheck] = useState(true);
+
+  useEffect(() => {
+    if (stock < 1 || stock === 0) {
+      setCheck(false);
+    } else {
+      setCheck(true);
+    }
+  }, [stock]);
+
+  const products = useCallback(async () => {
+    const response = await axios.get(`http://127.0.0.1:1128/api/product/getOne/${id}`);
+    setProduct(response?.data);
+    setStock(response?.data?.stock);
+  }, [id, setProduct, setStock]);
+
+  console.log(product);
+
+  useEffect(() => {
+    products();
+  }, [products]);
 
   const increment = () => {
     setInc((prevInc) => prevInc + 1);
@@ -43,63 +50,48 @@ function ProductDetails() {
         alignItems: 'flex-start',
         justifyContent: 'center',
         padding: '2rem',
-        gap:'2rem',
-        width:'100%'
+        gap: '2rem',
+        width: '100%',
       }}
     >
       <div className="productDetail_header">
-        <div style={{ zIndex: '0', width: '80%' }}>
-          <Image
-            style={{ borderRadius: '18px' }}
-            src="https://swiperjs.com/demos/images/nature-1.jpg"
-          />
+        <div style={{ zIndex: '0', width: '50%' }}>
+          <Image style={{ borderRadius: '18px' }} src={product?.imageURL} />
         </div>
-        <div style={{display:"flex", flexDirection:'column', gap:'2rem'}}>
-          <div style={{display:"flex", flexDirection:'column', gap:'1.1rem', justifyContent:'flex-start'}}>
-            <p className="new_tag">NEW</p>
-            <p className="stocksss">IN STOCK</p>
-            <h5 className="foundations">Foundations Matte Flip Flop</h5>
-            <div>starts(aeereaaon)</div>
-            <p>$97.14</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.1rem',
+              justifyContent: 'flex-start',
+            }}
+          >
+            {/* <p className="new_tag">NEW</p> */}
+            <p className="stocksss">{check ? 'IN STOCK' : 'OUT OF STOCK'}</p>
+            
+            <h5 className="foundations">{product?.productName}</h5>
+            {/* <div>starts(aeereaaon)</div> */}
+            <p>${product?.price}</p>
             <p className="descss">
-              Featuring the original ripple design inspired by Japanese bullet trains, the Nike Air
-              Max 97 lets you push your style full-speed ahead.
+              {product?.description}
             </p>
           </div>
-          <div style={{display:"flex", flexDirection:'column', gap:'1rem'}}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div className="dosage">
               <p>Dosage Form</p>
-              <Dropdown
-                menu={{
-                  items,
-                }}
-                trigger={['click']}
-              >
-                <a
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <Space>
-                    Click me
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
+              <p>{product?.dosageForm}</p>
             </div>
             <div className="quantity">
               <p>Quantity</p>
               <div>
-                <button type="button" onClick={decrement}>-</button>
+                <button type="button" onClick={decrement}>
+                  -
+                </button>
                 <p>{inc}</p>
-                <button type="button" onClick={increment}>+</button>
+                <button type="button" onClick={increment}>
+                  +
+                </button>
               </div>
             </div>
             <div className="butttonss">
@@ -113,33 +105,28 @@ function ProductDetails() {
           </div>
         </div>
       </div>
-      <div style={{width:'100%'}}>
+      <div style={{ width: '100%' }}>
         <h1>Product Description</h1>
-        <div className='specc_container'>
+        <div className="specc_container">
           <h2>Specifications</h2>
-          <div className='specificationss'>
+          <div className="specificationss">
             <p>Category</p>
-            <p>Shoes</p>
+            <p>{product?.Category?.name}</p>
             <p>Manufacturer</p>
-            <p>Nike</p>
-            <p>Serial Number</p>
-            <p>358607726380311</p>
-            <p>Ships From</p>
-            <p>United States</p>
+            <p>{product?.manufacturer}</p>
+
+            <p>Strength</p>
+            <p>{product?.strength}</p>
+
+            <p>packaging</p>
+            <p>{product?.packaging}</p>
+
+            <p>Expiry Date</p>
+            <p>{product?.expiryDate}</p>
           </div>
-          <h2>Product Details</h2>
+          <h2>Side Effect</h2>
           <ul>
-            <li>Product Details</li>
-            <li>Product Details</li>
-            <li>Product Details</li>
-            <li>Product Details</li>
-            <li>Product Details</li>
-          </ul>
-          <h2>Benefits</h2>
-          <ul>
-            <li>Benefits</li>
-            <li>Benefits</li>
-            <li>Benefits</li>
+            <li>{product.sideEffect}</li>
           </ul>
         </div>
       </div>

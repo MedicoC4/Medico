@@ -137,10 +137,10 @@ module.exports = {
   },
   updataLongLat:async (req, res) => {
     try {
-      const longLat = await Pharmacy.update(req.body,{where:{id:req.params.idPharmcy}})
-      res.json(longLat)
+      const longLat = await Pharmacy.update(req.body,{where:{id:req.params.id}})
+      res.send(longLat)
     } catch (error) {
-      throw new Error(error)
+      throw error
     }
   },
   updateLocation : async(req , res)=>{

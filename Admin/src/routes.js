@@ -21,6 +21,14 @@ import {
 
 var dashRoutes = [
   {
+    path: "/signin",
+    name: "Sign In",
+    rtlName: "لوحة القيادة",
+    icon: <DocumentIcon color='inherit' />,
+    component: SignIn,
+    layout: "/auth",
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
@@ -35,22 +43,6 @@ var dashRoutes = [
     icon: <StatsIcon color='inherit' />,
     component: Tables,
     layout: "/admin",
-  },
-  {
-    path: "/billing",
-    name: "Billing",
-    rtlName: "لوحة القيادة",
-    icon: <CreditIcon color='inherit' />,
-    component: Billing,
-    layout: "/admin",
-  },
-  {
-    path: "/rtl-support-page",
-    name: "RTL",
-    rtlName: "آرتيإل",
-    icon: <SupportIcon color='inherit' />,
-    component: RTLPage,
-    layout: "/rtl",
   },
   {
     name: "ACCOUNT PAGES",
@@ -74,22 +66,6 @@ var dashRoutes = [
         secondaryNavbar: true,
         component: ProfilePharmacy,
         layout: "/admin",
-      },
-      {
-        path: "/signin",
-        name: "Sign In",
-        rtlName: "لوحة القيادة",
-        icon: <DocumentIcon color='inherit' />,
-        component: SignIn,
-        layout: "/auth",
-      },
-      {
-        path: "/signup",
-        name: "Sign Up",
-        rtlName: "لوحة القيادة",
-        icon: <RocketIcon color='inherit' />,
-        component: SignUp,
-        layout: "/auth",
       },
     ],
   },

@@ -122,7 +122,7 @@ module.exports = {
     let userData = req.body;
     try {
       const userExist = await User.findOne({
-        where: { email: req.body.email },
+        where: { email: req.params.email },
       });
       const newOrder = await Order.create({
         ...userData,

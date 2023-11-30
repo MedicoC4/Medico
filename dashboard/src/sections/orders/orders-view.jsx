@@ -15,9 +15,9 @@ const OrdersView = () => {
   const fetchOrders = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:1128/api/orders/getAll/${userId.data.email}`
+        `http://127.0.0.1:1128/api/orders/getAll/${userId?.data?.email}`
       );
-      setData(response.data);
+      setData(response?.data);
     } catch (error) {
       console.error('Error fetching data:', error.message);
     }
@@ -35,10 +35,10 @@ const OrdersView = () => {
       });
 
       const getOrderQ = await axios.get(`http://127.0.0.1:1128/api/orders/oneOrder/${orderId}`);
-      console.log(getOrderQ?.data.ProductId);
-      const pID = getOrderQ?.data.ProductId;
+      // console.log(getOrderQ?.data.ProductId);
+      const pID = getOrderQ?.data?.ProductId;
       const getProductQ = await axios.get(`http://127.0.0.1:1128/api/Product/getOne/${pID}`);
-      const orderQ = getOrderQ?.data.quantityOrdered;
+      const orderQ = getOrderQ?.data?.quantityOrdered;
       const prodQ = getProductQ.data.stock - orderQ;
 
       if (getOrderQ?.data?.orderStatus === 'Accepted') {
@@ -99,7 +99,7 @@ const OrdersView = () => {
       width: 175,
       editable: false,
       headerClassName: 'custom-header-class',
-      valueGetter: (params) => timestampToDate(params.row.createdAt),
+      valueGetter: (params) => timestampToDate(params?.row?.createdAt),
     },
     {
       field: 'livraisonStatus',
@@ -126,7 +126,7 @@ const OrdersView = () => {
         >
           <button
             type="button"
-            onClick={() => updateOrderStatus(row.id, 'Accepted')}
+            onClick={() => updateOrderStatus(row?.id, 'Accepted')}
             style={{
               backgroundColor: '#22C55E',
               color: 'white',
@@ -141,7 +141,7 @@ const OrdersView = () => {
           </button>
           <button
             type="button"
-            onClick={() => updateOrderStatus(row.id, 'Rejected')}
+            onClick={() => updateOrderStatus(row?.id, 'Rejected')}
             style={{
               backgroundColor: '#FF5630',
               color: 'white',
@@ -189,7 +189,7 @@ const OrdersView = () => {
               border: 'none',
               '[class^=MuiDataGrid-cellContent]': { borderRadius: '0' },
             }}
-            getRowClassName={(params) => (params.row.image ? 'image-row' : '')}
+            getRowClassName={(params) => (params?.row?.image ? 'image-row' : '')}
             getRowHeight={() => 60}
           />
         </div>

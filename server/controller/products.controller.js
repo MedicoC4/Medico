@@ -1,6 +1,4 @@
-const { result } = require("lodash");
-const { Products, Missing, User, Pharmacy } = require("../database/index");
-const missing = require("../database/models/missing");
+const { Products, Missing, User, Pharmacy, Categories } = require("../database/index");
 const { Op,Sequelize } = require("sequelize");
 
 
@@ -19,6 +17,9 @@ module.exports = {
     try {
       const getOne = await Products.findOne({
         where: { id: req.params.id },
+        include: [
+          {model: Categories}
+        ]
       });
       res.json(getOne);
     } catch (error) {
@@ -216,12 +217,12 @@ module.exports = {
       //   const create = await Products.create({productName:productName, price:price, description:description; manufacturer:manufacturer, activeIngredients:activeIngredients, dosageForm:dosageForm, strength:strength, packaging:packaging,expiryDate:expiryDate,  imageURL:imageURL,sideEffect:sideEffect, codebar:codebar, CategoryId:CategoryId, PharmacyId:pharmacy.PharmacyId})
       //   res.json(create)
       // }
-      // if (checkProduct) {
-      //   res.json(true)
-      // } else {
-      //   res.json(false)
-      // }
-      res.json(checkProduct)
+      if (checkProduct) {
+        res.json(true)
+      } else {
+        res.json(false)
+      }
+      // res.json(checkProduct)
     } catch (error) {
       throw error
     }

@@ -85,7 +85,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         // initialRouteName={initialRoute}
-        initialRouteName="Login"
+        initialRouteName="FirstStep"
       >
         <Stack.Screen
           name="Welcome"

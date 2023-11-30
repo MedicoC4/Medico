@@ -59,7 +59,7 @@ const PharmacyCard = ({ pharmacy }) => {
           <Text style={styles.name}>{pharmacy?.PHname}</Text>
           <View style={styles.ratingContainer}>
             <Icon name="star" size={15} color="#FFD700" />
-            <Text style={styles.rating}>{pharmacy?.rating}</Text>
+            <Text style={styles.rating}>{(pharmacy?.rating).toFixed(1)}</Text>
           </View>
         </View>
         <View style={styles.distanceContainer}>

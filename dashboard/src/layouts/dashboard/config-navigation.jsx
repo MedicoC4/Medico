@@ -28,11 +28,6 @@ const navConfig = [
     path: '/missing-product',
     icon: icon('missing'),
   },
-  {
-    title: 'Statistics',
-    path: '/blog',
-    icon: icon('ic_blog'),
-  },
 ];
 
 export default navConfig;

@@ -49,6 +49,7 @@ const AddProduct = () => {
   console.log(inputs);
 
   const [file, setFile] = useState(null);
+  // const [cloud, setCloud] = useState('')
   console.log(file);
 
   const handleInputChange = (e) => {
@@ -69,6 +70,7 @@ const AddProduct = () => {
     const response = await axios.post('https://api.cloudinary.com/v1_1/dp42uyqn5/upload', formData);
     console.log(response?.data?.secure_url);
     setFile(response?.data?.secure_url);
+    // setCloud(response?.data?.secure_url)
   };
 
   console.log(auth?.currentUser?.email, 'usersssssssssssssssss');
@@ -115,11 +117,11 @@ const AddProduct = () => {
         gap: '2rem',
       }}
     >
-      <h1 style={{ paddingBottom: '1rem' }}>Create a new product</h1>
+      <h2 style={{ paddingBottom: '1rem' }}>Create a new product</h2>
       <div style={{ display: 'flex', height: 'auto' }}>
         <div
           style={{
-            width: '70%',
+            width: '55%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
@@ -155,7 +157,7 @@ const AddProduct = () => {
       <div style={{ display: 'flex', height: 'auto' }}>
         <div
           style={{
-            width: '70%',
+            width: '55%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
@@ -253,7 +255,7 @@ const AddProduct = () => {
       <div style={{ display: 'flex', height: 'auto' }}>
         <div
           style={{
-            width: '70%',
+            width: '55%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',

@@ -4,14 +4,12 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 
 import { fToNow } from 'src/utils/format-time';
 
-import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 // ----------------------------------------------------------------------
@@ -22,7 +20,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
       <CardHeader title={title} subheader={subheader} />
 
       <Scrollbar>
-        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+        <Stack spacing={4} sx={{ p: 3, pr: 0 }}>
           {list.map((news) => (
             <NewsItem key={news.id} news={news} />
           ))}
@@ -30,16 +28,6 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
       </Scrollbar>
 
       <Divider sx={{ borderStyle: 'dashed' }} />
-
-      <Box sx={{ p: 2, textAlign: 'right' }}>
-        <Button
-          size="small"
-          color="inherit"
-          endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
-        >
-          View all
-        </Button>
-      </Box>
     </Card>
   );
 }

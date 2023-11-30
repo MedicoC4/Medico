@@ -53,3 +53,21 @@
 .product_container_header > p {
     margin: 0;
 }
+
+.update {
+    background-color: #22C55E;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem 1rem;
+    border-radius: 1rem;
+    color: white;
+}
+
+.delete {
+    background-color: #FF5630;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem 1rem;
+    border-radius: 1rem;
+    color: white;
+}

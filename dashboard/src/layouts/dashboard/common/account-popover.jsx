@@ -24,20 +24,18 @@ export default function AccountPopover() {
   const handleLogout = () => {
     localStorage.removeItem('userData');
     router.push('/');
-  }
+  };
 
   const MENU_OPTIONS = [
     {
       label: 'Home',
       icon: 'eva:home-fill',
+      route: '/dashboard',
     },
     {
       label: 'Profile',
       icon: 'eva:person-fill',
-    },
-    {
-      label: 'Settings',
-      icon: 'eva:settings-2-fill',
+      route: '/profile',
     },
   ];
 
@@ -103,7 +101,13 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
+          <MenuItem
+            key={option.label}
+            onClick={() => {
+              handleClose();
+              router.push(option.route); // Use router.push to navigate to the specified route
+            }}
+          >
             {option.label}
           </MenuItem>
         ))}

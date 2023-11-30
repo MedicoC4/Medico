@@ -64,7 +64,7 @@
 
 .productDetail_header {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 2.5rem;
 }
 

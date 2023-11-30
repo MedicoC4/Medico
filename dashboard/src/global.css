@@ -85,7 +85,7 @@
 
 .loader {
   display: block;
-  top: 30%;
+  top: 40%;
   left: 35%;
   --height-of-loader: 4px;
   --loader-color: #0071e2;

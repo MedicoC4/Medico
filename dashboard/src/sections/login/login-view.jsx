@@ -54,13 +54,13 @@ export default function LoginView() {
         email,
         password
       );
-      console.log(userCredential.user.email);
+      console.log(userCredential?.user?.email);
 
       const check = await axios.get(
-        `http://127.0.0.1:1128/api/user/checkMail/${userCredential.user.email}`
+        `http://127.0.0.1:1128/api/user/checkMail/${userCredential?.user?.email}`
       );
       // const userData = check.data
-      if (check.data.email === userCredential.user.email && check.data.type === "pharmacy" && check.data.Pharmacy.isverified) {
+      if (check?.data?.email === userCredential.user.email && check?.data?.type === "pharmacy" && check?.data?.Pharmacy.isverified) {
         // dispatch({ type: "LOGIN", payload: user });
         // updateUserData(check.data)
         localStorage.setItem("userData", JSON.stringify(check));

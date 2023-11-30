@@ -1,4 +1,4 @@
-const {Doctor, User ,Speciality, Record} = require('../database/index')
+const {Doctor, User ,Speciality, Record,Pharmacy} = require('../database/index')
 const { Op } = require("sequelize");
 
 module.exports = {
@@ -311,6 +311,37 @@ module.exports = {
         res.json(getOne) 
         } catch (error) {
           throw new Error (error)
+        }
+      },
+      docForLanding: async (req,res)=>{
+        try {
+          const user = await User.findOne({where:{email:req.params.emailLanding}})
+          if(user.type === "doctor"){
+            const doc = await Doctor.findOne({where:{id: user.DoctorId}})
+            res.json(doc)
+          }
+          if(user.type === "pharmacy"){
+            const pharma= await Pharmacy.findOne({where:{id:user.PharmacyId}})
+            res.json(pharma)
+          }
+          if(user.type === "user"){
+            res.json(user)
+          }
+          
+        } catch (error) {
+          throw new Error(error)
+        }},
+      fetchAll: async (req, res) => {
+        try{
+            const getAll = await User.findAll({
+                where: {
+                  type: "doctor"
+                },
+                include:Doctor
+              })
+            res.json(getAll)
+        }catch(err){
+            throw err;
         }
       }
 }

@@ -1,5 +1,5 @@
 const route = require('express').Router()
-const {getAll , getOne , drop , change , add, migrateDoctor, updateLocation,getAivableDoc,recordsDoc, updateSpeciality,verficationDoc, docImage,getAivableDocMapeed,getAivableDocMapeedAll,getAllCategory,findDocWithId} = require("../controller/doctor.controller")
+const {getAll , getOne , drop , change , add, migrateDoctor, updateLocation,getAivableDoc,recordsDoc, updateSpeciality,verficationDoc, docImage,getAivableDocMapeed,getAivableDocMapeedAll,getAllCategory,findDocWithId,docForLanding,fetchAll} = require("../controller/doctor.controller")
 
 
 
@@ -20,6 +20,8 @@ route.patch('/updateImage' , docImage)
 route.patch('/verficationDoc' , verficationDoc)
 route.delete('/deleteDoc/:id' , drop)
 route.get("/getOneWithId/:idDocMap",findDocWithId)
+route.get("/fetchLanding/:emailLanding",docForLanding)
 
+route.get("/fetchDoc",fetchAll)
 
 module.exports = route

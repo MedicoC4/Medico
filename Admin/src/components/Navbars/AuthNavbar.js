@@ -48,11 +48,11 @@ export default function AuthNavbar(props) {
       alignItems="center"
       color={mainText}
     >
-      <Stack direction="row" spacing="12px" align="center" justify="center">
+      {/* <Stack direction="row" spacing="12px" align="center" justify="center">
         <ArgonLogoLight w="74px" h="27px" />
         <Box w="1px" h="20px" bg={"white"} />
         <ChakraLogoBlue w="82px" h="21px" />
-      </Stack>
+      </Stack> */}
       <Text fontsize="sm" mt="3px">
         {logoText}
       </Text>

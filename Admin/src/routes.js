@@ -21,6 +21,14 @@ import {
 
 var dashRoutes = [
   {
+    path: "/signin",
+    name: "Sign In",
+    rtlName: "لوحة القيادة",
+    icon: <DocumentIcon color='inherit' />,
+    component: SignIn,
+    layout: "/auth",
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
@@ -74,14 +82,6 @@ var dashRoutes = [
         secondaryNavbar: true,
         component: ProfilePharmacy,
         layout: "/admin",
-      },
-      {
-        path: "/signin",
-        name: "Sign In",
-        rtlName: "لوحة القيادة",
-        icon: <DocumentIcon color='inherit' />,
-        component: SignIn,
-        layout: "/auth",
       },
       {
         path: "/signup",

@@ -312,5 +312,19 @@ module.exports = {
         } catch (error) {
           throw new Error (error)
         }
+      },
+      
+      fetchAll: async (req, res) => {
+        try{
+            const getAll = await User.findAll({
+                where: {
+                  type: "doctor"
+                },
+                include:Doctor
+              })
+            res.json(getAll)
+        }catch(err){
+            throw err;
+        }
       }
 }

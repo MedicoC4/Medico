@@ -11,7 +11,7 @@ const initialState = {
 
 
   export const fetchCategories = createAsyncThunk('category/fetchCategories', async () => {
-    console.log('this is the inv' , process.env.EXPO_PUBLIC_SERVER_IP);
+    
     const response = await axios.get(
       `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/Categories/getAll`
     );

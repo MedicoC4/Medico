@@ -6,7 +6,6 @@ const { width, height } = Dimensions.get('window');
 
 const PaymentCard = ({ order }) => {
     const paymentId = order?.Payment?.paymentIntentId;
-    console.log(order);
     const amount = order?.total;
     const product = order?.Product?.productName;
     const quantity = order?.quantityOrdered

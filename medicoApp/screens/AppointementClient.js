@@ -18,11 +18,9 @@ import { auth } from "../firebase-config";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
-
 export default function AppointementClient() {
-  const idDocRedux = useSelector((state) => state.doctor.idDoc)
-  console.log("this is the doctor id in appointment clinet ", idDocRedux);
-  
+  const idDocRedux = useSelector((state) => state.doctor.idDoc);
+
   const [selectedDate, setSelectedDate] = useState({
     dateString: "",
     dayId: "",
@@ -39,34 +37,28 @@ export default function AppointementClient() {
   const [userEditModalVisible, setUserEditModalVisible] = useState(false);
   const currentDate = new Date().toISOString().split("T")[0];
   const navigation = useNavigation();
-console.log(idDocRedux);
   const fetchData = async () => {
     try {
-      const email = auth.currentUser.email
+      const email = auth.currentUser.email;
 
       const response = await axios.get(
-        `http://${
-          process.env.EXPO_PUBLIC_SERVER_IP
-        }:1128/api/appointement/getAppointementUserr/pending/${email}`
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/getAppointementUserr/pending/${email}`
       );
       setData(response.data);
     } catch (error) {
-      console.error("Error fetching appointments:", error);
       throw new Error(error);
     }
   };
   const deleteAppoint = async (id) => {
     try {
       const response = await axios.delete(
-        `http://${
-          process.env.EXPO_PUBLIC_SERVER_IP
-        }:1128/api/appointement/deleteOfAppoi/${id}`
-      )
-      setRefresh(!refresh)
+        `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/deleteOfAppoi/${id}`
+      );
+      setRefresh(!refresh);
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
     }
-  }
+  };
 
   const getHours = async (idDay) => {
     try {
@@ -82,9 +74,6 @@ console.log(idDocRedux);
 
   const getAvailability = async () => {
     try {
-  console.log("this is the doctor id in appointment clinet ", idDocRedux);
-
-      console.log();
       const response = await axios.get(
         `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/get/${idDocRedux}`
       );
@@ -110,7 +99,7 @@ console.log(idDocRedux);
 
   const postAppointment = async () => {
     try {
-      const email = auth.currentUser.email
+      const email = auth.currentUser.email;
 
       await axios.post(
         `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/appointement/add/${email}`,
@@ -251,7 +240,10 @@ console.log(idDocRedux);
             alignItems: "center",
           }}
         >
-          <TouchableOpacity style={styles.confirmButtonEdit} onPress={() =>navigation.navigate('appointUserList')}>
+          <TouchableOpacity
+            style={styles.confirmButtonEdit}
+            onPress={() => navigation.navigate("appointUserList")}
+          >
             <View>
               <FontAwesome5 name="user-edit" size={30} color="#09d3a2" />
             </View>
@@ -273,7 +265,7 @@ console.log(idDocRedux);
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-          {/* <Image
+            {/* <Image
                 source={require("../assets/succesAppoint.png")}
               /> */}
             <Text style={styles.modalText}>{successMessage}</Text>
@@ -344,24 +336,27 @@ console.log(idDocRedux);
                         }}
                       />
                     </View>
-                    <Text style={{ paddingLeft: 10, width: 60 ,color:"white"}}>
+                    <Text
+                      style={{ paddingLeft: 10, width: 60, color: "white" }}
+                    >
                       {appointment.Doctor.fullname}
                     </Text>
-                    <Text style={{ paddingRight: 5 ,color:"white"}}>
+                    <Text style={{ paddingRight: 5, color: "white" }}>
                       {new Date(appointment.Day.day).toLocaleDateString()}
                     </Text>
-                    <Text style={{ paddingRight: 12 ,color:"white"}}>
+                    <Text style={{ paddingRight: 12, color: "white" }}>
                       {appointment.Availability.hour}
                     </Text>
-                   
 
                     <TouchableOpacity
                       //   style={{ width:20,height:20,paddingRight:5 }}
-                      onPress={() =>
-                        deleteAppoint(appointment.id)
-                      }
+                      onPress={() => deleteAppoint(appointment.id)}
                     >
-                      <FontAwesome name="window-close" size={28} color="#f0f0f0" />
+                      <FontAwesome
+                        name="window-close"
+                        size={28}
+                        color="#f0f0f0"
+                      />
                     </TouchableOpacity>
                   </View>
                   {/* <View
@@ -375,13 +370,13 @@ console.log(idDocRedux);
                 </View>
               )}
             />
-           <View style={{paddingTop:20,paddingBottom:40}}>
-            <TouchableOpacity
-              style={styles.closeModalButton}
-              onPress={() => setUserEditModalVisible(false)}
-            >
-              <Text style={styles.closeModalText}>Done</Text>
-            </TouchableOpacity>
+            <View style={{ paddingTop: 20, paddingBottom: 40 }}>
+              <TouchableOpacity
+                style={styles.closeModalButton}
+                onPress={() => setUserEditModalVisible(false)}
+              >
+                <Text style={styles.closeModalText}>Done</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -469,7 +464,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    paddingTop:40
+    paddingTop: 40,
   },
   modalContent: {
     backgroundColor: "#fff",

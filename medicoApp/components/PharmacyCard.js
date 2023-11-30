@@ -28,7 +28,6 @@ const PharmacyCard = ({ pharmacy }) => {
           latitude: pharmacy.latitude,
           longitude: pharmacy.longitude
         }
-        console.log(start,end,'this is distance between pharmacy');
 
       setIsDistance((haversine(start, end)).toFixed(1))
 
@@ -39,8 +38,6 @@ const PharmacyCard = ({ pharmacy }) => {
   }
 
   const navigation = useNavigation();
-  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee",pharmacy);
-
 
   useEffect(()=>{
     calculateDistanceMap()

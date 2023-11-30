@@ -38,9 +38,6 @@ function TablesTableRow(props) {
   
   const doctors = useSelector((state) => state.doctor.data);
 
-  // console.log(data.data);
-// console.log(doctors);
-
   const fetch = async() => {
     await dispatch(fetchDoctors());
     
@@ -60,7 +57,7 @@ function TablesTableRow(props) {
 
   const verific =async (email) => {
   const data =  await dispatch(verificationDoc({ email }));
-  // console.log("this is data", data);
+
    
     setRefresh((prevRefresh) => !prevRefresh); 
   };
@@ -87,7 +84,6 @@ function TablesTableRow(props) {
   }
 
   const idd = useSelector((state)=>state.doctor.docId)
-  console.log('=======================>' , idd);
 
   useEffect(() => {
     fetch();

@@ -13,7 +13,6 @@ export const getPharmacies = () => {
       id: doc.id,
     }));
     setPharmacies(newPharmacies);
-    console.log("this is pharmacies", newPharmacies);
   }, (error) => {
     console.error("Error fetching data:", error);
   });

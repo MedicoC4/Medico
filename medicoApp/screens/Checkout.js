@@ -28,7 +28,6 @@ const Checkout = ({ route }) => {
   const onCheckout = async () => {
     const email = auth.currentUser.email;
     const orderId = orders.id; // Assuming orders object has an id property
-    console.log(orders.id)
     const response = await dispatch(createPaymentIntent({amount: Math.floor(orders.total * 100), email, orderId}));
   
     if (response.error){

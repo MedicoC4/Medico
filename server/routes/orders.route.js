@@ -16,7 +16,7 @@ const {
 } = require("../controller/orders.controller");
 
 route.get("/getAll",getAll)
-route.get("/getById/:prodId", getOrderByUser);
+// route.get("/getById/:prodId", getOrderByUser);
 route.get("/oneOrder/:id",getOne)
 route.get("/getById/:userId",getByUserId)
 route.get("/getMissed",getAllDeclaredMissed)

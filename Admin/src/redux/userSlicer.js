@@ -43,7 +43,7 @@ export const signIn = createAsyncThunk(
   "getUserfunc",
   async (input, { dispatch }) => {
    const response = await axios.post(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/signIn`, input);
-   console.log(response.data.type,"this is from the store");
+   
 
   
 return response.data

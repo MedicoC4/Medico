@@ -50,10 +50,10 @@ import {
     const onePharmacy =  useSelector((state)=>state.pharmacy.onePharm)
     const phEmail = useSelector((state)=>state.pharmacy.pharmaEmail)
   
-    console.log('>>>>>>>>>>>' , phEmail);
+  
   useEffect(()=>{ 
     dispatch(pharmacyDetails(phEmail))
-    console.log('obj========>',onePharmacy);
+    
   
     },[])
        

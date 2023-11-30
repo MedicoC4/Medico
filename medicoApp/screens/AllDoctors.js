@@ -21,17 +21,6 @@ const AllDoctors = () => {
 
 
   const doctors = useSelector((state) => state.doctor?.data);
-  console.log("==========================",doctors,"=====");
-
- 
-  
-  
-
-  console.log(doctors);
-
-
-
-  console.log('this is doctor id hello man',doctors);
   const dispatch = useDispatch();
 
   const handleID=(id)=>{

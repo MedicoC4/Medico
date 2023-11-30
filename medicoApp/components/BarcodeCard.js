@@ -19,7 +19,6 @@ const [dataFetch,setDataFetch] = useState([])
         try {
           const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/product/getCodeBarNoDup/${inputValBarcode}`)
           setDataFetch(response.data)
-          console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",response.data);
         } catch (error) {
           throw new Error(error)
         }
@@ -29,7 +28,6 @@ const [dataFetch,setDataFetch] = useState([])
         try {
             const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/product/getAllCodeBarNoDup/${code}`)
             dataPharmacies(response.data)
-            console.log("=====>====>======>====>",response.data);
         } catch (error) {
             throw new Error(error)
         }

@@ -37,10 +37,8 @@ function SignIn() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       // If successful, you can redirect or perform other actions here
-      console.log("Login successful!");
       history.push("/dashboard");
     } catch (error) {
-      console.error("Error signing in:", error.message);
       // Display an alert or perform other actions for failed login
       alert("Invalid email or password. Please try again.");
     }

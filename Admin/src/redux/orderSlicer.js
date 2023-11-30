@@ -44,7 +44,7 @@ export const createOrder = createAsyncThunk(
         { email, ...rest }
       );
       dispatch(fetchOrdersByUserId(email));
-      console.log("this is the response",response.data)
+      
       return response.data;
     } catch (error) {
       throw error;

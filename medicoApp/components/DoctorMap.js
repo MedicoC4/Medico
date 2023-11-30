@@ -37,7 +37,6 @@ const DoctorMap = ({dataPharmacies}) => {
             try {
               const res = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/category/getAll`)
               setCategorys(res.data)
-              console.log("===<====>===<====>",res.data);
             } catch (error) {
               throw new Error(error)
             }
@@ -50,7 +49,6 @@ const DoctorMap = ({dataPharmacies}) => {
               throw new Error(error)
             }
           }
-          console.log("===========================>",categorys);
 useEffect(()=>{
   category()
 },[])

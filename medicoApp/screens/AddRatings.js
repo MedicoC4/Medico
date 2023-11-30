@@ -29,7 +29,6 @@ const {data}=route.params
 const retrieve = async ()=> {
   const retrieved = await AsyncStorage.getItem("type")
   setClient(JSON.parse(retrieved))
-  console.log("retrieved",JSON.parse(retrieved))
 }
 
 
@@ -48,10 +47,7 @@ useEffect(()=>{
     rating,
       comment:comment,
     };
-
-    console.log('rev',newReview);
     dispatch(createReview(newReview));
-
     setComment('');
     setRating('')
   };

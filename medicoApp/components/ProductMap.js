@@ -23,7 +23,6 @@ const ProductMap = ({dataPharmacies}) => {
   const [isScannerVisible, setIsScannerVisible] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [changeView, setChangeView] = useState("")
-console.log("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",typeof inputValBarcode);
  
 const changeV = (e)=>{
   setChangeView(e)
@@ -48,7 +47,6 @@ const search = async (val)=>{
     try {
       const response = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/product/getProductLike/${query}`)
       dataPharmacies(response.data)
-      console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",response.data);
     } catch (error) {
       throw new Error(error)
     }

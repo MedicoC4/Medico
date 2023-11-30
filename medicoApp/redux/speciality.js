@@ -10,7 +10,6 @@ const initialState = {
 
 
   export const fetchSpeciality = createAsyncThunk('category/fetchSpeciality', async () => {
-    console.log('this is the inv' , process.env.EXPO_PUBLIC_SERVER_IP);
     const response = await axios.get(
       `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/specialities/getAll`
     );

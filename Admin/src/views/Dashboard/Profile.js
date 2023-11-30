@@ -52,11 +52,11 @@ function Profile() {
   const idd = useSelector((state)=>state.doctor.docId)
     
 
-  console.log('>>>>>>>>>>>' , idd);
+  
   
 useEffect(()=>{ 
   dispatch(doctorDetails(idd))
-  console.log('obj========>',oneDocc);
+  
   },[])
      
 

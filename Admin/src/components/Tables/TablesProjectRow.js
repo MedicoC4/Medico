@@ -41,7 +41,6 @@ function TablesTableRow(props) {
 
   const verific = async (email) => {
     await dispatch(verificationPharm({ email }));
-    console.log("===============>Done");
     setRefresh((prevRefresh) => !prevRefresh);
   };
   const handleRejectClick = (email) => {

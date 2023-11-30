@@ -86,7 +86,6 @@ export default function DateSelection() {
           `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/aivability/${email}`
         );
         setDocDate(data.data.Days);
-        console.log(data.data.Days);
       } catch (error) {
         console.error("Error fetching appointments:", error);
         throw new Error(error);

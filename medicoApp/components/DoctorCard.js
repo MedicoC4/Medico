@@ -12,10 +12,6 @@ import { save } from '../redux/doctorSlicer';
 
 const DoctorCard = ({doctor}) => {
 
-
-    console.log('this is doctor in the card',doctor);
-
-
   const navigation = useNavigation();
 const dispatch = useDispatch()
 

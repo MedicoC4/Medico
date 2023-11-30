@@ -20,9 +20,6 @@ const NavigationBar = () => {
   const [userType, setUserType] = useState('');
   const currentUser= useSelector(state=>state.getUser.data)
 
-  console.log('this is the current user in nav tb',currentUser);
-
-
   const handlePress = (route, tabName) => {
     navigation.navigate(route)
     setSelectedTab(tabName)
@@ -34,7 +31,7 @@ const NavigationBar = () => {
       // const jsonValue = await Storage.getItem({ key: type });
 
     //  jsonValue != null ? JsonValue) : null;
-     console.log("see the type",jsonValue);
+    
 
       setUserType(jsonValue);
       

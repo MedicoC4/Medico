@@ -44,7 +44,6 @@ export const createOrder = createAsyncThunk(
         { email, ...rest }
       );
       dispatch(fetchOrdersByUserId(email));
-      console.log("this is the response",response.data)
       return response.data;
     } catch (error) {
       throw error;
@@ -58,14 +57,12 @@ export const createPaymentIntent = createAsyncThunk(
 
     
     const { email, orderId,...rest } = orderData
-    console.log({ email, orderId,...rest }); // Add this line
     try {
       const response = await axios.post(
         `http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/payment/intents`,
         { email, orderId,...rest }
       );
       dispatch(fetchOrdersByUserId(email));
-      console.log("this is the response",response.data)
       return response.data;
     } catch (error) {
       throw error;

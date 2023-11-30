@@ -17,15 +17,37 @@ import {
 // Assets
 import signInImage from "assets/img/signInImage.png";
 import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
+import { auth } from "../../fireBaseConfig"; 
+import { useState } from "react";
+import {signInWithEmailAndPassword} from 'firebase/auth';
+import { useHistory } from "react-router-dom";
 
 function SignIn() {
-  // Chakra color mode
+  const history = useHistory();
   const textColor = useColorModeValue("gray.700", "white");
   const bgForm = useColorModeValue("white", "navy.800");
   const titleColor = useColorModeValue("gray.700", "blue.500");
   const colorIcons = useColorModeValue("gray.700", "white");
   const bgIcons = useColorModeValue("trasnparent", "navy.700");
   const bgIconsHover = useColorModeValue("gray.50", "whiteAlpha.100");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // If successful, you can redirect or perform other actions here
+      console.log("Login successful!");
+      history.push("/dashboard");
+    } catch (error) {
+      console.error("Error signing in:", error.message);
+      // Display an alert or perform other actions for failed login
+      alert("Invalid email or password. Please try again.");
+    }
+  };
+
+
+
   return (
     <Flex position='relative' mb='40px'>
       <Flex
@@ -138,7 +160,7 @@ function SignIn() {
             </Text>
             <FormControl>
               <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
-                Name
+                Email
               </FormLabel>
               <Input
                 variant='auth'
@@ -148,6 +170,7 @@ function SignIn() {
                 placeholder='Your full name'
                 mb='24px'
                 size='lg'
+                onChange={(e) => setEmail(e.target.value)}
               />
               <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
                 Password
@@ -160,6 +183,7 @@ function SignIn() {
                 placeholder='Your password'
                 mb='24px'
                 size='lg'
+                onChange={(e) => setPassword(e.target.value)}
               />
               <FormControl display='flex' alignItems='center' mb='24px'>
                 <Switch id='remember-login' colorScheme='blue' me='10px' />
@@ -173,6 +197,7 @@ function SignIn() {
                 fontWeight='bold'
                 w='100%'
                 h='45'
+                onClick={handleLogin}
                 mb='24px'>
                 SIGN UP
               </Button>

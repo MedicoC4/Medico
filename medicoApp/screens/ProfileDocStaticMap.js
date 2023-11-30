@@ -10,7 +10,7 @@ import NavigationBar from '../components/NavigationBar'
 import { auth } from '../firebase-config'
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-// import { Doctor } from '../../server/database';
+import haversine from 'haversine';
 
 
 
@@ -19,20 +19,19 @@ const ProfileDocStaticMap = ({route}) => {
     
     // const data =route.params.data
     // console.log('this is static profile data',data);
-    const navigation=useNavigation()
     const idDoc = useSelector((state) => state.doctor?.idDocMap);
 
-    const reviews=useSelector((state)=>state.docRev.data)
 
-console.log("this the user email", auth.currentUser.email,"this is the docotor id",idDoc);
 
+console.log("this the user email", auth.currentUser.email,"this is the docotor id",data.Doctor.id);
+
+    const navigation=useNavigation()
   const [isModalVisible, setModalVisible] = useState(false);
   const [rating,setRating]=useState('')
   const [comment,setComment]=useState('')
   const [isDistance,setIsDistance]=useState(0)
   const [data,setData] = useState({})
 
-//   const reviews=useSelector((state)=>state.docRev.data)
 console.log("=================Id",idDoc);
 console.log("=================",data);
 const fetchData = async ()=>{
@@ -43,68 +42,57 @@ try {
   throw new Error (error)
 }
 }
+
+
+  const reviews=useSelector((state)=>state.docRev.data)
+
+
+
   const dispatch=useDispatch()
 
 
   const fetchReviews= ()=>{
     dispatch(fetchDocReviews(data.DoctorId))
 }
-console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
+
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
 
-
-  const calculateDistanceMap = async () => {
-    
-
-    if(data.latitude && data.longitude){
-
-      
-      try {
-        const loggedMail=auth.currentUser.email
+  const calculateDistanceMap=async()=>{
+    try {
+      const loggedMail=auth.currentUser.email
         
-        const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
-
-  
-        console.log(loggedUser);
-        const response = await axios.get(
-          `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${data.latitude},${data.longitude}&destinations=${loggedUser.data.latitude},${loggedUser.data.longitude}&key=AIzaSyA6k67mLz5qFbAOpq2zx1GBX9gXqNBeS-Y`
-          );
-  
-          
-          if (
-            response.data.status === "OK" &&
-          response.data.rows.length > 0 &&
-          response.data.rows[0].elements.length > 0 &&
-          response.data.rows[0].elements[0].distance
-          ) {
-            const distance = response.data.rows[0].elements[0].distance.text;
-            setIsDistance(distance);
-          } else if (response.data.status === "ZERO_RESULTS") {
-          console.warn("No distance information available between the specified points.");
-        } else {
-          console.error("Error calculating distance: ", data.status);
+       const loggedUser = await axios.get(`http://${process.env.EXPO_PUBLIC_SERVER_IP}:1128/api/user/getOne/${loggedMail}`)
+       
+       const start = {
+         latitude: loggedUser.data.latitude,
+         longitude: loggedUser.data.longitude
         }
-      } catch (error) {
-        console.error("Error fetching distance data: ", error);
-      }
+        
+        const end = {
+          latitude: data.Doctor.latitude,
+          longitude: data.Doctor.longitude
+        }
+        console.log(start,end,'this is distance between pharmacy');
+
+      setIsDistance((haversine(start, end)).toFixed(1))
+
       
-
-
-    }else {
-      console.log('latitude is not coming');
+    } catch (error) {
+      
     }
+  }
 
-  };
 
+
+ 
 
   const handleReviewAdding = () => {
     console.log("this is the review",comment);
     const doctorId =data.DoctorId
-    console.log("ooooonnnneee",data.DoctorId);
     let email = auth.currentUser.email
   
     const newReview = {
@@ -245,7 +233,7 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
             height:height*0.48
         }}>
         <ImageBackground
-        source={{ uri: data?.Doctor?.imageUrl }}
+        source={{ uri: data.Doctor.imageUrl }}
         resizeMode="cover"
         style={{width:width*1,
             height:height*0.37,
@@ -330,7 +318,7 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
                     <Text style={{
                         fontSize:20,
                         fontWeight:600
-                    }}>Dr. {data?.Doctor?.fullname}</Text>
+                    }}>Dr. {data.Doctor.fullname}</Text>
                     <Text style={{
                         fontSize:15,
                         fontWeight:400,
@@ -356,7 +344,7 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
                             />
                             <Text style={{
                                 fontWeight:600
-                            }}>{data?.Doctor?.type}</Text>
+                            }}>{data.Doctor.type}</Text>
                         </View>
                         <View style={{
                             paddingLeft:20,
@@ -372,7 +360,7 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
                             />
                             <Text style={{
                                 fontWeight:600
-                            }}>{isDistance}</Text>
+                            }}>{isDistance} Km</Text>
                         </View>
                     </View>
                     
@@ -396,7 +384,7 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
                             color:COLORS.white,
                             fontSize:20,
                             fontWeight:600
-                        }}>{data?.Doctor?.rating ? data.Doctor.rating.toFixed(1) : 'N/A'}</Text>
+                        }}>{(data.Doctor.rating).toFixed(1)}</Text>
                     </View>
                     <Text style={{
                         color:COLORS.grey,
@@ -441,7 +429,7 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
                 color:COLORS.black,
                 fontSize:18,
                 // fontWeight:600
-            }}>Hello, My name is Dr. {data?.Doctor?.fullname}. I'm specialized In hello whatever it says we gonna kill it </Text>
+            }}>Hello, My name is Dr. {data.Doctor.fullname}. I'm specialized In hello whatever it says we gonna kill it </Text>
             </View>
             
             <Text style={{
@@ -467,7 +455,7 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
           paddingHorizontal: 13
         }}
         onPress={()=>navigation.navigate('AllReviews',{
-            data : data
+            data : data.Doctor
         })}
         >
             <Text style={{
@@ -489,18 +477,26 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
         </View>
         </ScrollView>
         
-      <View style={{
+        <View style={{
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-around',
         alignItems:'center',
-        gap:15
+        gap:15,
+        width:width*0.15,
+            height:height*0.07,
+        backgroundColor:COLORS.white,
+        position:'absolute',
+        bottom:95,
+        right:20,
+        borderRadius:200,
+       
       }}>
         <TouchableOpacity
             style={{
                 backgroundColor:COLORS.primary,
-            width:width*0.1,
-            height:height*0.05,
+            width:width*0.15,
+            height:height*0.07,
             borderRadius:200,
             alignItems:'center',
             justifyContent:'center'
@@ -508,13 +504,14 @@ console.log("ttttttttttttttwwwwwwwwwwwwwwwooooo",data.DoctorId);
             onPress={toggleModal}
             >
                 <Image
-                source={require('../assets/plus.png')}
+                source={require('../assets/star.png')}
                 style={{
-                    width:width*0.05,
-                    height:height*0.025
+                    width:width*0.07,
+                    height:height*0.03
                 }}
                 />
             </TouchableOpacity>
+
               </View>
          
         

@@ -14,7 +14,7 @@ import * as Animatable from 'react-native-animatable';
 import { auth } from "../firebase-config";
 import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
 import COLORS from "../constants/colors";
-
+import NavigationBar from "../components/NavigationBar";
 
 export default function AppointementUserList() {
   const [selectedDate, setSelectedDate] = useState({
@@ -683,6 +683,7 @@ export default function AppointementUserList() {
         </View>
         )}
       />
+      <NavigationBar/>
     </View>
   );
 }

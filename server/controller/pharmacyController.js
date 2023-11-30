@@ -226,5 +226,13 @@ fetchAll: async (req, res) => {
   }catch(err){
       throw err;
   }
+},
+findOneProfile : async(req, res) => {
+try {
+  const resp = await Pharmacy.findOne({ where: { id: req.params.PharmaProfileId}})
+  res.json(resp)
+} catch (error) {
+throw new Error(error)
+}
 }
   };

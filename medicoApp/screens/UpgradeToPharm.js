@@ -3,7 +3,6 @@ import {
   StyleSheet,
   SafeAreaView,
   View,
-  TouchableOpacity,
   Text,
   TextInput,
   Dimensions

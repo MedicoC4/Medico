@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Modal
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { auth } from "../firebase-config";
@@ -23,6 +24,7 @@ import { logOut } from "../redux/userSlicer";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const {width,height}= Dimensions.get('window')
 import { Feather } from '@expo/vector-icons'; 
+import COLORS from '../constants/colors'
 
 const UserProfilePage = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -33,9 +35,10 @@ const UserProfilePage = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [user, setUser] = useState([]);
   const [localSelectedImage , setLocalSelectedImage] = useState("")
-  const[dataUser,setDataUser]=useState(null);
+  const[dataUser,setDataUser]=useState([]);
   const[refresh,setRefresh]=useState(false)
-  console.log("=======================",localSelectedImage);
+  const [isModalVisible, setModalVisible] = useState(false);
+  console.log("=======================Data",dataUser);
 
 
   
@@ -48,6 +51,9 @@ const UserProfilePage = ({ navigation }) => {
 
 
   //   }
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
 const updateImg = async(cloudImg)=>{
   try {
@@ -55,6 +61,7 @@ const updateImg = async(cloudImg)=>{
     const response = await axios.put( `http://${
       process.env.EXPO_PUBLIC_SERVER_IP
     }:1128/api/user/updateCloud/${email}`,{imgURL:cloudImg})
+    setRefresh(!refresh)
   } catch (error) {
     throw new Error(error)
   }
@@ -71,7 +78,6 @@ const getOne = async()=>{
     throw new Error(error)
   }
 }
-console.log("DDDDDDDDDDDDDDDDDAAAAAAAAAA",dataUser);
 
 
 const clearToken = async () => {
@@ -128,10 +134,10 @@ const onDoc = useSelector((state)=> state.doctor.data)
     .then(data => {
       setLocalSelectedImage(data.secure_url);
       dispatch(setSelectedImage(data.secure_url));
-
+      setModalVisible(true)
       // dispatch(updateUser(localSelectedImage));
       // updateImg(localSelectedImage)
-      setRefresh(!refresh)
+      // setRefresh(!refresh)
 
     })
     .catch(error => {
@@ -143,20 +149,19 @@ const onDoc = useSelector((state)=> state.doctor.data)
 console.log(localSelectedImage , 'bingo');
 useEffect(()=>{
   getOne()
+},[refresh])
+// useEffect(() => {
+//   // async function fetchData() {
+//   //   const userData = await getUser();
+//   //   if (userData) {
+//   //     setUser(userData);
+//   //   }
+//   // }
 
-},[])
-useEffect(() => {
-  // async function fetchData() {
-  //   const userData = await getUser();
-  //   if (userData) {
-  //     setUser(userData);
-  //   }
-  // }
+//   // fetchData();
+//   updateImg(localSelectedImage)
 
-  // fetchData();
-  updateImg(localSelectedImage)
-
-}, [refresh]);
+// }, [refresh]);
 
 
 // useEffect(() => {
@@ -289,7 +294,7 @@ useEffect(() => {
           {/* {dataUser.imgUrl ? ( */}
   <Image 
     // source={{uri: localSelectedImage}}
-    source={dataUser?.imgUrl}
+    source={{uri:dataUser?.imgUrl}}
     style={{
       width: 150,
       height: 150,
@@ -743,8 +748,77 @@ useEffect(() => {
        
         {/* </ScrollView> */}
       </View>
+      <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+            >
+<View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+<TouchableOpacity
+                    
+                    style={{
+                      backgroundColor:COLORS.primary,
+                      width:width*0.2,
+                      height:height*0.05,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderRadius:20
+                    }}
+                    onPress={()=>{toggleModal();  updateImg(localSelectedImage)
+                    }}
+                  >
+                    <Text style={{
+                      color:COLORS.white
+                    }}>Confirme</Text>
+                  </TouchableOpacity>
+<TouchableOpacity
+                    
+                    style={{
+                      backgroundColor:COLORS.primary,
+                      width:width*0.2,
+                      height:height*0.05,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderRadius:20
+                    }}
+                    onPress={toggleModal}
+                  >
+                    <Text style={{
+                      color:COLORS.white
+                    }}>Close</Text>
+                  </TouchableOpacity>
+                  </View>
+                </View>
+
+ </Modal>
     </View>
   );
 };
 
 export default UserProfilePage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    width: width*0.8,
+    height: height*0.35,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+});

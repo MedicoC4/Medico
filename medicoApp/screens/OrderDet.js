@@ -46,7 +46,8 @@ const OrderDet = () => {
     .sort((a, b) => {
       const statusOrder = ["Accepted", "Pending", "Rejected"];
       return (
-        statusOrder.indexOf(a.order.status) - statusOrder.indexOf(b.order.status)
+        statusOrder.indexOf(a.order.status) -
+        statusOrder.indexOf(b.order.status)
       );
     });
 
@@ -58,7 +59,7 @@ const OrderDet = () => {
     <View style={{ flex: 1 }}>
       <FlatList
         data={ordersData}
-        keyExtractor={(item) => item.order.order_id}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <OrderDetails
             pharmacy={item.pharmacies}
@@ -87,7 +88,9 @@ const OrderDet = () => {
                     />
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('orderDetails')}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("orderDetails")}
+                >
                   <View style={styles.iconContainer}>
                     <MaterialCommunityIcons
                       name="cart-outline"
@@ -103,133 +106,131 @@ const OrderDet = () => {
             </View>
           </>
         }
-        ListFooterComponent={
-          <View style={{ height: 40 }} />
-        }
+        ListFooterComponent={<View style={{ height: 40 }} />}
       />
       <NavigationBar />
     </View>
-  );;
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 10,
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  greeting: {
+    flexDirection: "column",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 50,
+  },
+  helloText: {
+    fontSize: 40,
+    fontWeight: "bold",
+    paddingLeft: 10,
+  },
+  userName: {
+    fontWeight: "bold",
+    fontSize: 35,
+  },
+  icons: {
+    flexDirection: "row",
+  },
+  iconContainer: {
+    borderWidth: 1,
+    borderRadius: 50,
+    padding: 7,
+    marginRight: 10,
+    backgroundColor: "#E8E8E8",
+    borderColor: "#D3D3D3", // Add this line
+  },
+  ordersContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 55,
+  },
+  secondOrdersContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 40, // Adjust this value as needed
+  },
+  ordersText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    padding: 10,
+  },
+  button: {
+    backgroundColor: "#ddf0ee",
+    borderRadius: 20,
+    paddingVertical: 3.5,
+    paddingHorizontal: 13,
+  },
+  buttonText: {
+    color: "#2d958c",
+    fontSize: 15,
+  },
+  card: {
+    borderRadius: 30,
+    padding: 19,
+    backgroundColor: "#f8f8f8",
+    marginTop: 30,
+    marginHorizontal: 10,
+    height: 150,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    greeting: {
-      flexDirection: "column",
-    },
-    header: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginTop: 50,
-    },
-    helloText: {
-      fontSize: 40,
-      fontWeight: "bold",
-      paddingLeft: 10,
-    },
-    userName: {
-      fontWeight: "bold",
-      fontSize: 35,
-    },
-    icons: {
-      flexDirection: "row",
-    },
-    iconContainer: {
-      borderWidth: 1,
-      borderRadius: 50,
-      padding: 7,
-      marginRight: 10,
-      backgroundColor: "#E8E8E8",
-      borderColor: "#D3D3D3", // Add this line
-    },
-    ordersContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginTop: 55,
-    },
-    secondOrdersContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginTop: 40, // Adjust this value as needed
-    },
-    ordersText: {
-      fontSize: 18,
-      fontWeight: "bold",
-      padding: 10,
-    },
-    button: {
-      backgroundColor: "#ddf0ee",
-      borderRadius: 20,
-      paddingVertical: 3.5,
-      paddingHorizontal: 13,
-    },
-    buttonText: {
-      color: "#2d958c",
-      fontSize: 15,
-    },
-    card: {
-      borderRadius: 30,
-      padding: 19,
-      backgroundColor: "#f8f8f8",
-      marginTop: 30,
-      marginHorizontal: 10,
-      height: 150,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    processingContainer: {
-      backgroundColor: "#FFD699",
-      borderRadius: 20,
-      padding: 5,
-      alignSelf: "flex-start",
-    },
-    processingText: {
-      color: "#FFA500",
-      fontSize: 13,
-    },
-    fromText: {
-      fontSize: 16,
-      marginTop: 10,
-    },
-    separator: {
-      height: 1,
-      backgroundColor: "#000",
-      marginVertical: 15,
-    },
-    orderDetails: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
-    orderDetailItem: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginRight: 30,
-      marginLeft: 30,
-    },
-    drugsText: {
-      marginLeft: 10,
-    },
-    separatorVertical: {
-      width: 1,
-      height: "100%",
-      backgroundColor: "#000",
-    },
-    totalText: {
-      marginLeft: 10,
-    },
-  });
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  processingContainer: {
+    backgroundColor: "#FFD699",
+    borderRadius: 20,
+    padding: 5,
+    alignSelf: "flex-start",
+  },
+  processingText: {
+    color: "#FFA500",
+    fontSize: 13,
+  },
+  fromText: {
+    fontSize: 16,
+    marginTop: 10,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: "#000",
+    marginVertical: 15,
+  },
+  orderDetails: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  orderDetailItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 30,
+    marginLeft: 30,
+  },
+  drugsText: {
+    marginLeft: 10,
+  },
+  separatorVertical: {
+    width: 1,
+    height: "100%",
+    backgroundColor: "#000",
+  },
+  totalText: {
+    marginLeft: 10,
+  },
+});
 
 export default OrderDet;

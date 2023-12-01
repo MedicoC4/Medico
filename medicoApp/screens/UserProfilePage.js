@@ -5,6 +5,9 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
+  ScrollView,
+  Modal
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { auth } from "../firebase-config";
@@ -18,6 +21,10 @@ import { setSelectedImage, updateUser} from "../redux/userSlicer";
 import { useDispatch , useSelector} from "react-redux";
 import { imageDoc } from "../redux/doctorSlicer";
 import { logOut } from "../redux/userSlicer";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+const {width,height}= Dimensions.get('window')
+import { Feather } from '@expo/vector-icons'; 
+import COLORS from '../constants/colors'
 
 const UserProfilePage = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -28,8 +35,10 @@ const UserProfilePage = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [user, setUser] = useState([]);
   const [localSelectedImage , setLocalSelectedImage] = useState("")
-  
-  
+  const[dataUser,setDataUser]=useState([]);
+  const[refresh,setRefresh]=useState(false)
+  const [isModalVisible, setModalVisible] = useState(false);
+  console.log("=======================Data",dataUser);
 
 
   
@@ -42,16 +51,33 @@ const UserProfilePage = ({ navigation }) => {
 
 
   //   }
-useEffect(() => {
-  async function fetchData() {
-    const userData = await getUser();
-    if (userData) {
-      setUser(userData);
-    }
-  }
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
-  fetchData();
-}, []);
+const updateImg = async(cloudImg)=>{
+  try {
+    const email = auth.currentUser.email;
+    const response = await axios.put( `http://${
+      process.env.EXPO_PUBLIC_SERVER_IP
+    }:1128/api/user/updateCloud/${email}`,{imgURL:cloudImg})
+    setRefresh(!refresh)
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const getOne = async()=>{
+  try {
+    const email = auth.currentUser.email;
+    const response = await axios.get( `http://${
+      process.env.EXPO_PUBLIC_SERVER_IP
+    }:1128/api/user/getOne/${email}`)
+    setDataUser(response.data)
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
 
 const clearToken = async () => {
@@ -65,19 +91,12 @@ const clearToken = async () => {
   }
 }
 const onDoc = useSelector((state)=> state.doctor.data)
+// console.log("==================Doc",dataUser.imgUrl);
+
 // const oldImg = onDoc[0].localSelectedImage
 
 // console.log('this is the img' , oldImg);
-  useEffect(() => {
-    async function fetchData() {
-      const userData = await getUser();
-      if (userData) {
-        setUser(userData);
-      }
-    }
-    // currDoc()
-    fetchData();
-  }, [localSelectedImage]);
+
 
 
 
@@ -115,9 +134,11 @@ const onDoc = useSelector((state)=> state.doctor.data)
     .then(data => {
       setLocalSelectedImage(data.secure_url);
       dispatch(setSelectedImage(data.secure_url));
+      setModalVisible(true)
+      // dispatch(updateUser(localSelectedImage));
+      // updateImg(localSelectedImage)
+      // setRefresh(!refresh)
 
-      dispatch(updateUser(uid));
-      console.log(uid);
     })
     .catch(error => {
       console.error("Error uploading image: ", error);
@@ -126,6 +147,33 @@ const onDoc = useSelector((state)=> state.doctor.data)
 };
   
 console.log(localSelectedImage , 'bingo');
+useEffect(()=>{
+  getOne()
+},[refresh])
+// useEffect(() => {
+//   // async function fetchData() {
+//   //   const userData = await getUser();
+//   //   if (userData) {
+//   //     setUser(userData);
+//   //   }
+//   // }
+
+//   // fetchData();
+//   updateImg(localSelectedImage)
+
+// }, [refresh]);
+
+
+// useEffect(() => {
+//   async function fetchData() {
+//     const userData = await getUser();
+//     if (userData) {
+//       setUser(userData);
+//     }
+//   }
+//   // currDoc()
+//   fetchData();
+// }, [localSelectedImage,refresh]);
  
   return (
     <View
@@ -243,9 +291,10 @@ console.log(localSelectedImage , 'bingo');
             position: "relative",
           }}
         >
-          {localSelectedImage ? (
+          {/* {dataUser.imgUrl ? ( */}
   <Image 
-    source={{uri: localSelectedImage}}
+    // source={{uri: localSelectedImage}}
+    source={{uri:dataUser?.imgUrl}}
     style={{
       width: 150,
       height: 150,
@@ -258,7 +307,7 @@ console.log(localSelectedImage , 'bingo');
       backgroundColor: "#EAEAEA",
     }}
   />
-) : null}
+{/* ) : null} */}
           <TouchableOpacity onPress={selectImage}
             style={{
               position: "absolute",
@@ -303,6 +352,7 @@ console.log(localSelectedImage , 'bingo');
         </View>
       </View>
       <View style={{ height: "46%" }}>
+        {/* <ScrollView style={{height:"100%"}}> */}
         <TouchableOpacity
           style={{
             flexDirection: "row",
@@ -367,6 +417,130 @@ console.log(localSelectedImage , 'bingo');
    
         
     
+      
+        {/* <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: height*0.1,
+            alignItems: "center",
+          }}
+          onPress={() =>navigation.navigate('appointement')}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <Feather name="calendar" size={28} color="#1a998e" />
+
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Availability
+            </Text>
+          </View>
+          <View
+            style={{}}
+          >
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            height: 2,
+            backgroundColor: "#dedede",
+            borderRadius: 2,
+          }}
+        ></View>
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+            height: height*0.1,
+            alignItems: "center",
+          }}
+          onPress={() =>navigation.navigate('appointmentDoctor')}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              width: "55%",
+              gap: 23,
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                width: 60,
+                height: 60,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 100,
+                shadowColor: "rgba(3, 3, 3, 0.1)",
+                shadowOffset: { width: 0, height: 2 },
+                shadowRadius: 4,
+                backgroundColor: "#ddf0ee",
+              }}
+            >
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 100,
+                  shadowColor: "rgba(3, 3, 3, 0.1)",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowRadius: 4,
+                  backgroundColor: "#ddf0ee",
+                }}
+              >
+                <MaterialCommunityIcons name="calendar-multiple-check" size={27} color="#1a998e" />
+              </View>
+            </View>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+            Appointements
+            </Text>
+          </View>
+          <View
+            style={{}}
+          >
+            <AntDesign name="right" size={24} color="#1a998e" />
+          </View>
+        </TouchableOpacity> */}
         <View
           style={{
             width: "100%",
@@ -572,10 +746,79 @@ console.log(localSelectedImage , 'bingo');
           </View>
         </TouchableOpacity>
        
-        
+        {/* </ScrollView> */}
       </View>
+      <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+            >
+<View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+<TouchableOpacity
+                    
+                    style={{
+                      backgroundColor:COLORS.primary,
+                      width:width*0.2,
+                      height:height*0.05,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderRadius:20
+                    }}
+                    onPress={()=>{toggleModal();  updateImg(localSelectedImage)
+                    }}
+                  >
+                    <Text style={{
+                      color:COLORS.white
+                    }}>Confirme</Text>
+                  </TouchableOpacity>
+<TouchableOpacity
+                    
+                    style={{
+                      backgroundColor:COLORS.primary,
+                      width:width*0.2,
+                      height:height*0.05,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      borderRadius:20
+                    }}
+                    onPress={toggleModal}
+                  >
+                    <Text style={{
+                      color:COLORS.white
+                    }}>Close</Text>
+                  </TouchableOpacity>
+                  </View>
+                </View>
+
+ </Modal>
     </View>
   );
 };
 
 export default UserProfilePage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    width: width*0.8,
+    height: height*0.35,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+});

@@ -31,10 +31,10 @@ const DoctorPdf = () => {
     let result = await DocumentPicker.getDocumentAsync({
       multiple: true,
     });
-
+  
     const totalSelectedDocuments =
-      result.assets.length + documents.assets.length;
-
+      result?.assets?.length + documents?.assets?.length || 0;
+  
     if (totalSelectedDocuments > 6) {
       Alert.alert(
         "Limit Exceeded",
@@ -42,48 +42,83 @@ const DoctorPdf = () => {
         [{ text: "OK", onPress: () => console.log("OK Pressed") }],
         { cancelable: false }
       );
-    } else {
+    } else if (result?.assets) {
       setDocuments((prevDocuments) => ({
         assets: [...prevDocuments.assets, ...result.assets],
       }));
     }
   };
-
-    const sendDocuments = async () => {
+  
+  const sendDocuments = async () => {
     const email = auth.currentUser.email;
-    const typeLOgger = await AsyncStorage.getItem("type");
+    const typeLogger = await AsyncStorage.getItem("type");
+  
+    try {
+      const promises = documents.assets.map(async (document) => {
+        try {
+          const formData = new FormData();
+          formData.append("file", {
+            uri: document.uri,
+            type: document.type || "application/octet-stream",
+            name: document.name || "file",
+          });
+          formData.append("upload_preset", "qyrzp0xv");
+  
+          const response = await fetch(
+            `https://api.cloudinary.com/v1_1/dp42uyqn5/upload`,
+            {
+              method: "POST",
+              body: formData,
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+  
+          if (!response.ok) {
+            throw new Error(`Failed to upload ${document.name}. Status: ${response.status}`);
+          }
+  
+          const responseData = await response.json();
+  
+          const obj = {
+            email,
+            type: responseData.format,
+            file: responseData.secure_url,
+            name: document.name,
+          };
+  
+          if (typeLogger === "pharmacy") {
+            dispatch(updateRecordsPharm(obj));
+            console.log("updatPharma",obj);
+          } else {
+            dispatch(updateRecords(obj));
+            console.log("updatDoc",obj);
 
-    documents.assets.map(async (document) => {
-      try {
-        const formData = new FormData();
-        formData.append("file", document);
-        formData.append("upload_preset", "qyrzp0xv");
-        const response = await axios.post(
-          `https://api.cloudinary.com/v1_1/dp42uyqn5/upload`,
-          formData
-        );
+          }
+          console.log("updated");
 
-        const obj = {
-          email,
-          type: response.data.format,
-          file: response.data.secure_url,
-          name: document.name,
-        };
-        console.log(typeLOgger);
-
-
-
-        if (typeLOgger === "pharmacy") {
-          dispatch(updateRecordsPharm(obj));
-        }else {
-          dispatch(updateRecords(obj));
+        } catch (uploadError) {
+          console.error(`Error uploading ${document.name} to Cloudinary:`, uploadError);
+          throw uploadError; // Re-throw the error to handle it in the outer catch block
         }
-      } catch (error) {
-        console.error("Error uploading to Cloudinary:");
-        throw error;
-      }
-    });
+      });
+  
+      // Wait for all promises to resolve before navigating or handling the result
+      await Promise.all(promises);
+  
+      // Clear selected documents after successfully sending them
+      setDocuments({ assets: [] });
+  
+      // Navigate to the desired screen
+      navigation.navigate("SendingDoc");
+    } catch (error) {
+      console.error("Error during document upload:", error.message);
+      // Handle error, show an alert, etc.
+    }
   };
+  
 
   const deleteDocument = (index) => {
     Alert.alert(

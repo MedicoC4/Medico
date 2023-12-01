@@ -23,11 +23,11 @@ const AddProduct = () => {
   const [catregories, setCategories] = useState([]);
   const [valuee, setValuee] = React.useState(dayjs());
   console.log(catregories);
-  
+
   const formattedExpiryDate = `${
     valuee.$d.getMonth() + 1
   }-${valuee.$d.getDate()}-${valuee.$d.getFullYear()}`;
-  
+
   console.log(formattedExpiryDate);
   const [inputs, setInputs] = useState({
     productName: '',
@@ -57,7 +57,6 @@ const AddProduct = () => {
     setInputs((prevInputs) => ({
       ...prevInputs,
       [name]: value,
-
     }));
   };
 
@@ -149,8 +148,13 @@ const AddProduct = () => {
             onChange={handleInputChange}
           />
           <div className="img_upload">
-            <input type="file" onChange={handleFileChange} />
+            <label htmlFor="fileInput" className="custom-file-upload">
+              Product Image
+              <input type="file" onChange={handleFileChange} />
+            </label>
+            {file && (
             <img src={file} alt="" />
+            )}
           </div>
         </div>
       </div>
@@ -187,8 +191,10 @@ const AddProduct = () => {
                 onChange={handleInputChange}
               >
                 {catregories.map((category) => (
-                  <MenuItem key={category?.id} value={category?.id}>{category?.name}</MenuItem>
-                  ))}
+                  <MenuItem key={category?.id} value={category?.id}>
+                    {category?.name}
+                  </MenuItem>
+                ))}
                 {/* <MenuItem value={10}>Ten</MenuItem>
                 <MenuItem value={20}>Twenty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem> */}
@@ -220,7 +226,7 @@ const AddProduct = () => {
                 <DatePicker
                   label="Expiry Date"
                   style={{ width: '100%' }}
-                  name='expiryDaate'
+                  name="expiryDaate"
                   slotProps={{
                     textField: {
                       helperText: 'MM/DD/YYYY',

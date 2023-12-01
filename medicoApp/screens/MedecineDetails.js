@@ -114,6 +114,17 @@ const MedicineDetails = ({ route }) => {
         });
         formData.append("upload_preset", "ntdxso9x");
         console.log("this is form data", formData);
+  
+    //     const response = await axios.post(
+    //       'https://api.cloudinary.com/v1_1/ddsp5aq1k/upload',
+    //       formData
+    //     );
+    //     console.log("cloudinary response", response);
+    //     setSelectedImage(response.data.secure_url);
+    //   }
+    // } catch (error) {
+    //   console.error("error uploading image", error);
+    // }
 
     fetch("https://api.cloudinary.com/v1_1/ddsp5aq1k/image/upload",{
             method:"post",
@@ -548,12 +559,10 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: "100%", 
     height: height * 0.25, 
-    resizeMode: 'contain',
   },
   image: {
     width: "100%", 
     height: "100%", 
-    resizeMode: 'contain',
   },
   input: {
     height: height * 0.06, 

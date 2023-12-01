@@ -168,29 +168,24 @@ module.exports = {
   },
 
   create: async (req, res) => {
-    let userData = req.body;
+    let userData = req.body; 
     try {
       const userExist = await User.findOne({
         where: { email: req.body.email },
       });
-      const newOrder = await Order.create({
-        ...userData,
-        UserId: userExist.id,
-      });
-      const newProduct = await Products.findOne({ id: newOrder.ProductId });
-
+      const newOrder= await Order.create({...userData,UserId:userExist.id});
+      const newProduct= await Products.findOne({id:newOrder.ProductId});
+  
       // Fetch all Missing records
       const allMissing = await Missing.findAll();
-
+  
       // Update each Missing record
       for (const missing of allMissing) {
-        await missing.update({
-          order: missing.order + req.body.quantityOrdered,
-        });
+        await missing.update({order: missing.order + req.body.quantityOrdered});
         missing.quota = missing.quantity / missing.order;
         await missing.save();
       }
-
+  
       res.json(newOrder);
     } catch (error) {
       throw error;
@@ -206,20 +201,20 @@ module.exports = {
         },
       });
       const getMissingProd = await Promise.all(
-        getAllMissed.map(async (item) => {
-          try {
-            const getOne = await Products.findOne({
-              where: {
-                codebar: item.codebar,
-              },
-            });
-            return getOne;
-          } catch (error) {
-            console.log("Error fetching product by codebar:", err.message);
-            throw error;
-          }
+     getAllMissed.map(async (item) => {
+        try {
+          const getOne = await Products.findOne({
+            where: {
+              codebar: item.codebar,
+            },
+          });
+          return getOne;
+        } catch (error) {
+          console.log("Error fetching product by codebar:", err.message);
+          throw error;
+        }
         })
-      );
+      )
       res.send(getMissingProd);
     } catch (err) {
       console.log("Error al obtener todos los usuarios");

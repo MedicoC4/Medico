@@ -4,6 +4,7 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/dashboard';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
+export const LandingPage = lazy(() => import('src/pages/landingPage'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
@@ -59,8 +60,9 @@ export default function Router() {
         { path: 'updateProduct/:productId', element: <UpdataProd /> },
       ],
     },
+    { path:'/', element: <LandingPage />},
     {
-      path: '/',
+      path: 'login',
       element: <LoginPage />,
     },
     {

@@ -11,7 +11,7 @@ const OrdersView = () => {
   const [disable, setDisable] = useState(false);
 
   const userId = JSON.parse(localStorage.getItem('userData'));
-
+  console.log('wsdfgchvbjn',userId.data.email)
   const fetchOrders = useCallback(async () => {
     try {
       const response = await axios.get(

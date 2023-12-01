@@ -233,7 +233,7 @@ try {
             height:height*0.48
         }}>
         <ImageBackground
-        source={{ uri: data?.Doctor?.imageUrl }}
+        source={{ uri: data.Doctor.imageUrl }}
         resizeMode="cover"
         style={{width:width*1,
             height:height*0.37,
@@ -318,7 +318,7 @@ try {
                     <Text style={{
                         fontSize:20,
                         fontWeight:600
-                    }}>Dr. {data?.Doctor?.fullname}</Text>
+                    }}>Dr. {data.Doctor.fullname}</Text>
                     <Text style={{
                         fontSize:15,
                         fontWeight:400,
@@ -344,7 +344,7 @@ try {
                             />
                             <Text style={{
                                 fontWeight:600
-                            }}>{data?.Doctor?.type}</Text>
+                            }}>{data.Doctor.type}</Text>
                         </View>
                         <View style={{
                             paddingLeft:20,

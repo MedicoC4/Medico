@@ -30,7 +30,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
   const [rating,setRating]=useState('')
   const [comment,setComment]=useState('')
   const [isDistance,setIsDistance]=useState(0)
-  const [data,setData] = useState({})
+  const [data,setData] = useState([])
 
 console.log("=================Id",idDoc);
 console.log("=================",data);
@@ -73,8 +73,8 @@ try {
         }
         
         const end = {
-          latitude: data.Doctor.latitude,
-          longitude: data.Doctor.longitude
+          latitude: data?.Doctor?.latitude,
+          longitude: data?.Doctor?.longitude
         }
         console.log(start,end,'this is distance between pharmacy');
 
@@ -384,7 +384,7 @@ try {
                             color:COLORS.white,
                             fontSize:20,
                             fontWeight:600
-                        }}>{(data.Doctor.rating).toFixed(1)}</Text>
+                        }}>{(data?.Doctor?.rating).toFixed(1)}</Text>
                     </View>
                     <Text style={{
                         color:COLORS.grey,

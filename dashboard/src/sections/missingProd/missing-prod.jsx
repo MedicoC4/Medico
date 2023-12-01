@@ -4,6 +4,8 @@ import Barcode from 'react-barcode';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
+import { Button } from '@mui/material';
+
 import './missingProd.css';
 
 const MissingProd = () => {
@@ -14,7 +16,7 @@ const MissingProd = () => {
 
   const fetchMissingProd = async () => {
     const response = await axios.get('http://127.0.0.1:1128/api/orders/getMissed');
-    setMissing(response.data);
+    setMissing(response?.data);
   };
 
   const checkMissing = async (codebar) => {
@@ -22,7 +24,7 @@ const MissingProd = () => {
       `http://127.0.0.1:1128/api/Product/checkOne/${parsing.data.email}/${codebar}`
     );
     console.log(res);
-    setIsButtonVisible(res.data);
+    setIsButtonVisible(res?.data);
   };
 
   const auth = localStorage.getItem('userData');
@@ -77,7 +79,11 @@ const MissingProd = () => {
                     }}
                   >
                     <div style={{ height: '50%', width: '100%' }}>
-                      <img src={item?.imageURL} alt="" style={{objectFit:'contain', height:'100%', width:'100%'}} />
+                      <img
+                        src={item?.imageURL}
+                        alt=""
+                        style={{ objectFit: 'contain', height: '100%', width: '100%' }}
+                      />
                     </div>
                     <div
                       style={{
@@ -107,22 +113,27 @@ const MissingProd = () => {
                       />
                       {selectedItem === item &&
                         (isButtonVisible ? (
-                          <button
-                            type="button"
+                          <Button
+                            style={{ width: '10rem', height: '2rem',   backgroundColor: '#212B36' }}
+                            size="large"
+                            variant="contained"
                             onClick={() => {
                               handleUpdate(item?.id);
                             }}
                           >
                             Update Product
-                          </button>
+                          </Button>
                         ) : (
-                          <button type="button"
+                          <Button
+                            style={{ width: '10rem', height: '2rem', backgroundColor: '#212B36' }}
+                            size="large"
+                            variant="contained"
                             onClick={() => {
-                              navigate('/product-overview/add-product')
+                              navigate('/product-overview/add-product');
                             }}
                           >
                             Add Product
-                          </button>
+                          </Button>
                         ))}
                     </div>
                   </div>

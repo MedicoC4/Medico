@@ -394,7 +394,7 @@ console.log("this the user email", auth.currentUser.email,"this is the docotor i
             paddingLeft:20,
             paddingRight:20,
             width:width*1,
-            height:height*0.5,
+            height:'auto',
             // alignItems:'center',
             
         }}>

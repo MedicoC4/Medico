@@ -279,7 +279,7 @@ console.log(idDocRedux);
             <Text style={styles.modalText}>{successMessage}</Text>
             <TouchableOpacity
               style={styles.closeModalButton}
-              onPress={() => setAppointmentModalVisible(false)}
+              onPress={() => {setAppointmentModalVisible(false);navigation.navigate("appointUserList")}}
             >
               <Text style={styles.closeModalText}>Done</Text>
             </TouchableOpacity>

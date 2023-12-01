@@ -1,4 +1,3 @@
-
 import {
   Avatar,
   Box,
@@ -13,9 +12,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-
 import ImageArchitect1 from "assets/img/ImageArchitect1.png";
-
 
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -30,35 +27,32 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { recordDoc } from "redux/doctorSlicer";
 import { doctorDetails } from "redux/doctorSlicer";
-
 
 function Profile() {
   const { colorMode } = useColorMode();
 
-
-  
-
-  
   const textColor = useColorModeValue("gray.700", "white");
   const iconColor = useColorModeValue("blue.500", "white");
   const bgProfile = useColorModeValue("hsla(0,0%,100%,.8)", "navy.800");
   const borderProfileColor = useColorModeValue("white", "transparent");
   const emailColor = useColorModeValue("gray.400", "gray.300");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const oneDocc =  useSelector((state)=>state.doctor.oneDoc)
-  const idd = useSelector((state)=>state.doctor.docId)
-    
+  const oneDocc = useSelector((state) => state.doctor.oneDoc);
+  const idd = useSelector((state) => state.doctor.docId);
+  const documents = useSelector((state) => state.doctor.records);
 
-  console.log('>>>>>>>>>>>' , idd);
-  
-useEffect(()=>{ 
-  dispatch(doctorDetails(idd))
-  console.log('obj========>',oneDocc);
-  },[])
-     
+  console.log('>>>>>email>>>>>>', idd);
+  console.log('>>>>>documents>>>>>>', documents);
+
+  useEffect(() => {
+    dispatch(doctorDetails(idd));
+    dispatch(recordDoc(idd));
+    console.log('obj========>', oneDocc);
+  }, []);
 
   return (
     <Flex direction='column' pt={{ base: "120px", md: "75px", lg: "100px" }}>
@@ -94,16 +88,13 @@ useEffect(()=>{
               color={textColor}
               fontWeight='bold'
               ms={{ sm: "8px", md: "0px" }}>
-             {oneDocc.fullname}
+              {oneDocc.fullname}
             </Text>
-            
           </Flex>
         </Flex>
         <Flex
           direction={{ sm: "column", lg: "row" }}
-          w={{ sm: "100%", md: "50%", lg: "auto" }}>
-
-        </Flex>
+          w={{ sm: "100%", md: "50%", lg: "auto" }}></Flex>
       </Flex>
 
       <Grid templateColumns={{ sm: "1fr", xl: "repeat(3, 1fr)" }} gap='22px'>
@@ -116,10 +107,12 @@ useEffect(()=>{
           <CardBody px='5px'>
             <Flex direction='column'>
               <Text fontSize='md' color='gray.400' fontWeight='400' mb='30px'>
-              Hello, I'm Dr.{oneDocc.fullname} and my approach to healthcare is guided by a philosophy rooted in decisive action. 
-              In the realm of medical decision-making, my principle is clear: when faced with uncertainty, 
-              choosing not to proceed is a valid decision. It's a belief that underscores the importance of making definitive 
-              choices in the best interest of patient well-being.
+                Hello, I'm Dr.{oneDocc.fullname} and my approach to healthcare
+                is guided by a philosophy rooted in decisive action. In the realm
+                of medical decision-making, my principle is clear: when faced
+                with uncertainty, choosing not to proceed is a valid decision.
+                It's a belief that underscores the importance of making
+                definitive choices in the best interest of patient well-being.
               </Text>
               <Flex align='center' mb='18px'>
                 <Text
@@ -224,9 +217,10 @@ useEffect(()=>{
             templateColumns={{ sm: "1fr", md: "1fr 1fr", xl: "repeat(4, 1fr)" }}
             templateRows={{ sm: "1fr 1fr 1fr auto", md: "1fr 1fr", xl: "1fr" }}
             gap='24px'>
-            <Flex direction='column'>
-              <Box mb='20px' position='relative' borderRadius='15px'>
-                <Image src={ImageArchitect1} borderRadius='15px' />
+            {documents.map((record, index) => (
+              <Flex direction='column' key={index}>
+                             <Box mb='20px' position='relative' borderRadius='15px'>
+                <Image src={record.file} borderRadius='15px' />
                 <Box
                   w='100%'
                   h='100%'
@@ -235,19 +229,18 @@ useEffect(()=>{
                   borderRadius='15px'
                   bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'></Box>
               </Box>
-              <Flex direction='column'>
-                <Text
-                  fontSize='xl'
-                  color={textColor}
-                  fontWeight='bold'
-                  mb='10px'>
-                  Record Name
-                </Text>
+                <Flex direction='column'>
+                  <Text
+                    fontSize='xl'
+                    color={textColor}
+                    fontWeight='bold'
+                    mb='10px'>
+                    {record.name}
+                  </Text>
+                  {/* Add additional details or actions related to each record as needed */}
+                </Flex>
               </Flex>
-            </Flex>
-            <Flex direction='column'>
-             
-            </Flex>
+            ))}
           </Grid>
         </CardBody>
       </Card>

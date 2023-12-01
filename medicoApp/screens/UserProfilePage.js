@@ -102,7 +102,7 @@ const onDoc = useSelector((state)=> state.doctor.data)
 
   const logOutUser = async () => {
     try {
-      await dispatch(logOut()); // Dispatch the logOut action
+      await dispatch(logOut()); 
       navigation.navigate('Login');
     } catch (error) {
       console.error("Logout error:", error);

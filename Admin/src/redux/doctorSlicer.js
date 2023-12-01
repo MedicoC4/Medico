@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   data: [],
+  records: [],
   oneDoc:{},
   idDoc:0,
   docId : '',
@@ -47,6 +48,15 @@ export const verificationDoc = createAsyncThunk(
       return response.data
     }
   );
+  export const recordDoc = createAsyncThunk(
+    "api/recordDoc",
+    async (email) => {
+      const response = await axios.get(
+        `http://localhost:1128/api/records/getOneRecDoc/${email}`
+      );
+      return response.data
+    }
+  );
 
 
 
@@ -78,6 +88,9 @@ const DoctorSlice = createSlice({
     });
     builder.addCase(doctorDetails.fulfilled, (state, action) => {
       state.oneDoc= action.payload;
+    });
+    builder.addCase(recordDoc.fulfilled, (state, action) => {
+      state.records= action.payload;
     });
   },
 });

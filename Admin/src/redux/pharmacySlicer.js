@@ -5,6 +5,7 @@ import axios from 'axios';
 const initialState = {
     data: [],
     onePharm: {},
+    records : [],
     pharmaEmail: '',
     error: null,
     loading: false,
@@ -36,7 +37,15 @@ export const verificationPharm = createAsyncThunk(
       return response.data
     }
   );
-
+  export const recordPharm = createAsyncThunk(
+    "api/recordDoc",
+    async (email) => {
+      const response = await axios.get(
+        `http://localhost:1128/api/records/getOneRecPharm/${email}`
+      );
+      return response.data
+    }
+  );
 
 const pharmaciesSlice = createSlice({
   name: 'pharmacies',
@@ -55,6 +64,9 @@ const pharmaciesSlice = createSlice({
     });
     builder.addCase(pharmacyDetails.fulfilled, (state, action) => {
         state.onePharm = action.payload;
+    });
+    builder.addCase(recordPharm.fulfilled, (state, action) => {
+        state.records = action.payload;
     });
   },
 

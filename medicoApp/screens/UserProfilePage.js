@@ -149,7 +149,6 @@ const onDoc = useSelector((state)=> state.doctor.data)
 console.log(localSelectedImage , 'bingo');
 useEffect(()=>{
   getOne()
-
 },[refresh])
 // useEffect(() => {
 //   // async function fetchData() {

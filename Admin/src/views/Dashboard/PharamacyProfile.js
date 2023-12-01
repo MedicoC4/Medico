@@ -30,6 +30,7 @@ import {
     FaTwitter,
   } from "react-icons/fa";
   import { useDispatch, useSelector } from "react-redux";
+import { recordPharm } from "redux/pharmacySlicer";
   import { pharmacyDetails } from "redux/pharmacySlicer";
   
   function PharmacyProfile() {
@@ -49,10 +50,14 @@ import {
   
     const onePharmacy =  useSelector((state)=>state.pharmacy.onePharm)
     const phEmail = useSelector((state)=>state.pharmacy.pharmaEmail)
+    const records = useSelector((state)=>state.pharmacy.records)
   
     console.log('>>>>>>>>>>>' , phEmail);
+    console.log('========records=========' , records);
   useEffect(()=>{ 
     dispatch(pharmacyDetails(phEmail))
+    dispatch(recordPharm(phEmail))
+
     console.log('obj========>',onePharmacy);
   
     },[])
@@ -209,48 +214,48 @@ import {
           </Card>
         </Grid>
         <Card p='16px' my='24px'>
-          <CardHeader p='12px 5px' mb='12px'>
-            <Flex direction='column'>
-              <Text fontSize='lg' color={textColor} fontWeight='bold'>
-                Records
-              </Text>
-              <Text fontSize='sm' color='gray.400' fontWeight='400'>
-                All Records
-              </Text>
-            </Flex>
-          </CardHeader>
-          <CardBody px='5px'>
-            <Grid
-              templateColumns={{ sm: "1fr", md: "1fr 1fr", xl: "repeat(4, 1fr)" }}
-              templateRows={{ sm: "1fr 1fr 1fr auto", md: "1fr 1fr", xl: "1fr" }}
-              gap='24px'>
-              <Flex direction='column'>
-                <Box mb='20px' position='relative' borderRadius='15px'>
-                  <Image src={ImageArchitect1} borderRadius='15px' />
-                  <Box
-                    w='100%'
-                    h='100%'
-                    position='absolute'
-                    top='0'
-                    borderRadius='15px'
-                    bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'></Box>
-                </Box>
+        <CardHeader p='12px 5px' mb='12px'>
+          <Flex direction='column'>
+            <Text fontSize='lg' color={textColor} fontWeight='bold'>
+              Records
+            </Text>
+            <Text fontSize='sm' color='gray.400' fontWeight='400'>
+              All Records
+            </Text>
+          </Flex>
+        </CardHeader>
+        <CardBody px='5px'>
+          <Grid
+            templateColumns={{ sm: "1fr", md: "1fr 1fr", xl: "repeat(4, 1fr)" }}
+            templateRows={{ sm: "1fr 1fr 1fr auto", md: "1fr 1fr", xl: "1fr" }}
+            gap='24px'>
+            {records.map((record, index) => (
+              <Flex direction='column' key={index}>
+                             <Box mb='20px' position='relative' borderRadius='15px'>
+                <Image src={record.file} borderRadius='15px' />
+                <Box
+                  w='100%'
+                  h='100%'
+                  position='absolute'
+                  top='0'
+                  borderRadius='15px'
+                  bg='linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)'></Box>
+              </Box>
                 <Flex direction='column'>
                   <Text
                     fontSize='xl'
                     color={textColor}
                     fontWeight='bold'
                     mb='10px'>
-                    Record Name
+                    {record.name}
                   </Text>
+                  {/* Add additional details or actions related to each record as needed */}
                 </Flex>
               </Flex>
-              <Flex direction='column'>
-               
-              </Flex>
-            </Grid>
-          </CardBody>
-        </Card>
+            ))}
+          </Grid>
+        </CardBody>
+      </Card>
       </Flex>
     );
   }

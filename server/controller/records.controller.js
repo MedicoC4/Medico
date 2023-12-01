@@ -1,5 +1,6 @@
-const {Record} = require('../database/index')
-const { Sequelize } = require("sequelize");
+const {Record, Doctor, User, Pharmacy} = require('../database/index')
+const { Sequelize, where } = require("sequelize");
+const records = require('../database/models/records');
 
 module.exports = {
     getAll : async (req , res)=>{
@@ -25,5 +26,25 @@ module.exports = {
         } catch (error) {
             throw error
         }
-    }
+    },
+    getOneRecDoc : async (req , res)=>{
+        try {
+            const getUser = await User.findOne({ where: { email: req.params.email } });
+            const doc = await Doctor.findOne({where: {id : getUser.DoctorId}});
+            const getRec = await Record.findAll({where : { DoctorId: doc.id}})
+            res.json(getRec);
+        } catch (error) {
+            throw error
+        }
+    },
+    getOneRecPharm : async (req , res)=>{
+        try {
+            const getUser = await User.findOne({ where: { email: req.params.email } });
+            const pharm = await Pharmacy.findOne({where: {id : getUser.PharmacyId}});
+            const getRec = await Record.findAll({where : { PharmacyId: pharm.id}})
+            res.json(getRec);
+        } catch (error) {
+            throw error
+        }
+    },
 }
